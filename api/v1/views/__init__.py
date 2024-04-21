@@ -21,3 +21,6 @@ from api.v1.views.places_reviews import *
 from api.v1.views.places import *
 """ Importing places module for the API"""
 
+from api.v1.views.states import *
+""" Importing states module for the API"""
+
