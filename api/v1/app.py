@@ -11,6 +11,10 @@ app.register_blueprint(app_views)
 def teardown(close):
     storage.close()
 
+@app.errorhandler(404)
+def not_found_error(error):
+    return jsonify({"error": "Not found"}), 404
+
 if __name__ == "__main__":
     host = environ.get('HBNB_API_HOST', '0.0.0.0')
     port = int(environ.get('HBNB_API_PORT', 5000))
