@@ -9,12 +9,12 @@ def api_status():
 
 @app_views.route('/api/v1/stats', methods=['GET'], strict_slashes=False)
 def object_count():
-    stats = {
-        'amenities': storage.count('Amenity'),
-        'cities': storage.count('City'),
-        'places': storage.count('Place'),
-        'reviews': storage.count('Review'),
-        'states': storage.count('State'),
-        'users': storage.count('User')
-    }
-    return jsonify(stats)
+    classes = ['Amenity', 'City', 'Place', 'Review', 'State', 'User']
+    key_names = ["amenities", "cities", "places", "reviews", "states", "users"]
+    data = {}
+    index = 0
+    for type in classes:
+        count = storage.count(type)
+        data[key_names[index]] = count
+        index += 1
+    return (jsonify(data))
