@@ -155,7 +155,7 @@ No known bugs at this time.
 
 ## Authors
 Sakina Mammadzade - [Github](https://github.com/Sakhinamammadzade) 
-Tunzale Imanova - [Github]([https://github.com/jhuang10123](https://github.com/tunzale1)) 
+Tunzale Imanova - [Github](https://github.com/tunzale1)
 
 Second part of Airbnb: Joann Vuong
 ## License
