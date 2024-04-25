@@ -4,7 +4,7 @@ initialize the models package
 """
 
 from os import getenv
-
+import sqlalchemy
 
 storage_t = getenv("HBNB_TYPE_STORAGE")
 
