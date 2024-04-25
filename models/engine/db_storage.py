@@ -74,3 +74,17 @@ class DBStorage:
     def close(self):
         """call remove() method on the private session attribute"""
         self.__session.remove()
+
+    # airbnb 3
+    def get(self, cls, id):
+        """ retrive objects"""
+        if cls is not None and id is not None:
+            return self.session.query(cls).get(id)
+        return None
+
+    def count(self, cls=None):
+        """count number of objs in the storage"""
+        if cls is None:
+            return self.session.query(self.all(cls=None)).count()
+        else:
+            return self.session.query(cls).count()
