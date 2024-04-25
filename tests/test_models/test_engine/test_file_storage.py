@@ -7,6 +7,7 @@ from datetime import datetime
 import inspect
 import models
 from models.engine import file_storage
+from models.engine.db_storage import DBStorage
 from models.amenity import Amenity
 from models.base_model import BaseModel
 from models.city import City
@@ -113,3 +114,121 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+        
+class TestStorageGet(unittest.TestCase):
+    """
+    Testing `get()` method in DBStorage
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        """
+        setup tests for class
+        """
+        print('\n\n.................................')
+        print('...... Testing Get() Method ......')
+        print('.......... Place  Class ..........')
+        print('.................................\n\n')
+
+    def setUp(self):
+        """
+        setup method
+        """
+        #initializing the dbstorage
+        self.storage = DBStorage()
+        self.storage.reload()
+        self.state = models.state.State(name="Florida")
+        self.state.save()
+
+    def test_get_method_obj(self):
+        """
+        testing get() method
+        :return: True if pass, False if not pass
+        """
+
+        print(self.state.id)
+        result = self.storage.get(cls="State", id=self.state.id)
+
+        self.assertIsInstance(result, models.state.State)
+
+    def test_get_method_return(self):
+        """
+        testing get() method for id match
+        :return: True if pass, false if not pass
+        """
+        result = self.storage.get(cls="State", id=str(self.state.id))
+
+        self.assertEqual(self.state.id, result.id)
+
+    def test_get_method_none(self):
+        """
+        testing get() method for None return
+        :return: True if pass, false if not pass
+        """
+        result = self.storage.get(cls="State", id="doesnotexist")
+
+        self.assertIsNone(result)
+
+
+#@unittest.skipIf(storage_type == 'db', 'skip if environ is not db')
+class TestStorageCount(unittest.TestCase):
+    """
+    tests count() method in DBStorage
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        """
+        setup tests for class
+        """
+        print('\n\n.................................')
+        print('...... Testing Get() Method ......')
+        print('.......... Place  Class ..........')
+        print('.................................\n\n')
+
+    def setup(self):
+        """
+        setup method
+        """
+        self.storage = DBStorage
+        self.storage.reload()
+        models.state.State()
+        models.state.State()
+        models.state.State()
+        models.state.State()
+        models.state.State()
+        models.state.State()
+        models.state.State()
+
+    def test_count_all(self):
+        """
+        testing counting all instances
+        :return: True if pass, false if not pass
+        """
+        result = self.storage.count()
+
+        self.assertEqual(len(self.storage.all()), result)
+
+    def test_count_state(self):
+        """
+        testing counting state instances
+        :return: True if pass, false if not pass
+        """
+        result = self.storage.count(cls="State")
+
+        self.assertEqual(len(self.storage.all("State")), result)
+
+    def test_count_city(self):
+        """
+        testing counting non existent
+        :return: True if pass, false if not pass
+        """
+        result = self.storage.count(cls="City")
+
+        self.assertEqual(
+            int(0 if len(self.storage.all("City")) is None else
+                len(self.storage.all("City"))), result)
+
+
+if __name__ == '__main__':
+    unittest.main
