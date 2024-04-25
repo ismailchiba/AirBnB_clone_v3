@@ -9,17 +9,17 @@ from flask_cors import CORS
 
 
 app = Flask(__name__)
-app.register_blueprint(app_view)
+app.register_blueprint(app_views)
 
 cors = CORS(app, resources={r"/api/v1/*": {"origins": "0.0.0.0"}})
 
-@app.teardown_app_context
+@app.teardown_appcontext
 def teardown(exception):
     """A method that closes the storage"""
     storage.close()
 
 
-@app.errorhaldler(404)
+@app.errorhandler(404)
 def error_404(error):
     """Handles the error"""
     return jsonify({'error': 'Not found'}), 404
