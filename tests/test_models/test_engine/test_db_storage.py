@@ -23,6 +23,58 @@ classes = {"Amenity": Amenity, "City": City, "Place": Place,
            "Review": Review, "State": State, "User": User}
 
 
+class TestDBStorage(unittest.TestCase):
+    """Test the DBStorage class functionality with MySQL"""
+
+    @classmethod
+    def setUpClass(cls):
+        """Setup test objects to be used by the test methods"""
+        models.storage.reload()
+        cls.state = State(name="California")
+        cls.city = City(state_id=cls.state.id, name="San Francisco")
+        models.storage.new(cls.state)
+        models.storage.new(cls.city)
+        models.storage.save()
+
+    @classmethod
+    def tearDownClass(cls):
+        """Clean up resources after tests are done"""
+        models.storage.delete(cls.city)
+        models.storage.delete(cls.state)
+        models.storage.save()
+
+    def test_get(self):
+        """Test the `get` method returns specific object by class and id"""
+        state = models.storage.get(State, self.state.id)
+        self.assertEqual(state.id, self.state.id)
+
+    def test_get_none(self):
+        """Test the `get` method returns None
+        when no matching object is found"""
+        self.assertIsNone(models.storage.get(State, "fake-id"))
+
+    def test_count(self):
+        """Test the `count` method counts all objects in storage"""
+        initial_count = models.storage.count()
+        new_state = State(name="Nevada")
+        models.storage.new(new_state)
+        models.storage.save()
+        self.assertEqual(models.storage.count(), initial_count + 1)
+        models.storage.delete(new_state)
+        models.storage.save()
+
+    def test_count_specific_class(self):
+        """Test the `count` method with a class name argument"""
+        state_count_before = models.storage.count(State)
+        new_state = State(name="Arizona")
+        models.storage.new(new_state)
+        models.storage.save()
+        state_count_after = models.storage.count(State)
+        self.assertEqual(state_count_after, state_count_before + 1)
+        models.storage.delete(new_state)
+        models.storage.save()
+
+
 class TestDBStorageDocs(unittest.TestCase):
     """Tests to check the documentation and style of DBStorage class"""
     @classmethod
