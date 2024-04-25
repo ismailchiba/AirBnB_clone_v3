@@ -3,7 +3,7 @@ Airbnb rest api
 
 This repository contains the initial stage of students project to build a clone of the AirBnB website. This stage implements a REST API and HTTP methods to manage resources.
 
----
+-----
 
 <center><h3>Repository Contents by Project Task</h3> </center>
 
