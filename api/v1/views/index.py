@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-
+"""Index module for the API"""
 from api.v1.views import app_views
 from flask import jsonify
 from models import storage
@@ -24,16 +24,15 @@ def status():
 def count_stats():
     """Return a JSON-formatted stats response."""
     stats = {
-        "amenities": storage.count(Amenity),
-        "cities": storage.count(City),
-        "places": storage.count(Place),
-        "reviews": storage.count(Review),
-        "states": storage.count(State),
-        "users": storage.count(User)
+        "amenities": Amenity,
+        "cities": City,
+        "places": Place,
+        "reviews": Review,
+        "states": State,
+        "users": User
     }
 
-
-count_stats = {
-    key: storage.count(value) for key, value in stats.items()
-}
-return jsonify(count_stats)
+    count_stats = {
+        key: storage.count(value) for key, value in stats.items()
+    }
+    return jsonify(count_stats)
