@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 """Index module for the API"""
-from api.v1.views import app_views
 from flask import jsonify
 from models import storage
 from models.state import State
@@ -10,7 +9,7 @@ from models.place import Place
 from models.user import User
 from models.review import Review
 
-
+from api.v1.views import app_views
 app_views.url_map.strict_slashes = False
 
 
