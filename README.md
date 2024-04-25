@@ -154,7 +154,7 @@ EOF  all  create  destroy  help  quit  show  update
 No known bugs at this time. 
 
 ## Authors
-Godwin Bruce - [Github](https://github.com/BNgeniuz) / [Twitter](https://twitter.com/godwin bruce)  
+Godwin Bruce - [Github](https://github.com/BNgeniuz) / [Twitter](https://twitter.com/godwinbruce)  
 Michael Issahaku - [Github](https://github.com/mwunnam) /
 
 Second part of Airbnb: Godwin Bruce
