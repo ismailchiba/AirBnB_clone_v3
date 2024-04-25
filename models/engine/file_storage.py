@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Module for serializing and deserializing data
+Module for Serializing and deserializing data
 """
 import json
 import os
