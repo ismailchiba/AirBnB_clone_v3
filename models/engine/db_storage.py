@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" Database engine """
+""" Database Engine """
 
 import os
 from sqlalchemy import create_engine, MetaData
