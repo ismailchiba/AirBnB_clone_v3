@@ -163,4 +163,5 @@ Blessng - Github (https://github.com/Blessingngo)
 
 Second part of Airbnb: Joann Vuong
 ## License
+The previous authors have done a wonderful job with this project, and my partner and i, will add our contributions to make it more excellent.
 Public Domain. No copy write protection. 
