@@ -3,12 +3,13 @@
 
 from api.v1.views import app_views
 from models import storage
+from flask import jsonify
 
 
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
 def status():
     """ Returns a JSON """
-    return {"status": "OK"}
+    return jsonify({"status": "OK"})
 
 @app_views.route('/stats', methods=['GET'], strict_slashes=False)
 def stats():
@@ -21,4 +22,4 @@ def stats():
         "states": storage.count("State"),
         "users": storage.count("User")
     }
-    return stats
+    return jsonify(stats)
