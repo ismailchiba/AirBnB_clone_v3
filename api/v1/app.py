@@ -7,6 +7,8 @@ from os import getenv
 
 app = Flask(__name__)
 
+app.register_blueprint(app_views, url_prefix='/api/v1')
+
 
 @app.teardown_appcontext
 def teardown(exception):
@@ -14,11 +16,6 @@ def teardown(exception):
     Handle close session
     """
     storage.close()
-
-
-@app.route("/", strict_slashes=False)
-def hello_world():
-    return "Hello HBNB!"
 
 
 if __name__ == '__main__':
