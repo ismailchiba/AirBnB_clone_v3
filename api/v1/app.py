@@ -3,7 +3,7 @@
     Api module
 """
 import os
-from flask import Flask
+from flask import Flask, make_response, jsonify
 from models import storage
 from api.v1.views import app_views
 
@@ -20,6 +20,12 @@ app_port = int(os.getenv("HBNB_API_PORT", "5000"))
 def end_session(exception):
     """end session of a conn"""
     storage.close()
+
+
+@app.errorhandler(404)
+def not_found(err):
+    """custom 404- not found error"""
+    return make_response(jsonify({'error': 'Not Found'}), 404)
 
 
 if __name__ == '__main__':
