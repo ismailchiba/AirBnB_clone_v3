@@ -36,10 +36,10 @@ class FileStorage:
     
     def get(self, cls, id):
         """retrieve one object"""
-        if cls is not None and id is not None:
-            key = f'{cls.__name__}.{id}'
-            if key in self.__objects:
-                return self.__objects[key]
+        c = classes.get(cls)
+        key = f'{c.__name__}.{id}'
+        if key in self.__objects:
+            return self.__objects[key]
         return None
 
     def new(self, obj):
