@@ -113,3 +113,35 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_get(self):
+        """test that the get function returns the correct object"""
+        id = '945639a3-6ecf-4f65-b526-e81527feddfb'
+        obj = models.storage.get('City', id)
+        self.assertIs(type(obj), City)
+        self.assertEqual(obj.id,
+                         id,
+                         "Not getting correct objec")
+        non_exist_obj = models.storage.get('User', id)
+        self.assertEqual(non_exist_obj,
+                         None,
+                         "Non existent object is not returning None")
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_count_without_class(self):
+        """test that count function returns correct integer
+        without class input
+        """
+        count = models.storage.count()
+        expected_count = len((models.storage.all()).keys())
+        self.assertIs(type(count), int)
+        self.assertEqual(count, expected_count)
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_count_with_class(self):
+        """test that count function returns correct integer with input"""
+        count = models.storage.count()
+        expected_count = len((models.storage.all()).keys())
+        self.assertIs(type(count), int)
+        self.assertEqual(count, expected_count)

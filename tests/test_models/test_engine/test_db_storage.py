@@ -68,7 +68,7 @@ test_db_storage.py'])
                             "{:s} method needs a docstring".format(func[0]))
 
 
-class TestFileStorage(unittest.TestCase):
+class TestDBStorage(unittest.TestCase):
     """Test the FileStorage class"""
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_all_returns_dict(self):
@@ -86,3 +86,31 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get(self):
+        """test that get function returns a single object"""
+        id = '821a55f4-7d82-47d9-b54c-a76916479551'
+        amenity_inst = models.storage.get('Amenity', id)
+        self.assertIs(type(amenity_inst), Amenity)
+        self.assertEqual(amenity_inst.id, id, "Not getting correct object")
+        non_exist_obj = models.storage.get('User', id)
+        self.assertEqual(non_exist_obj,
+                         None,
+                         "Non existent object is not returning None")
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_count_without_class(self):
+        """test that get function returns the correct integer"""
+        count = models.storage.count()
+        expected_count = len((models.storage.all()).keys())
+        self.assertIs(type(count), int, "Not returning a number")
+        self.assertEqual(count, expected_count, "Not getting right count")
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_count_with_class(self):
+        """test that get function returns correct integer with class"""
+        count = models.storage.count('City')
+        expected_count = len((models.storage.all('City')).keys())
+        self.assertIs(type(count), int, "Not returning a number")
+        self.assertEqual(count, expected_count, "Not getting right count")
