@@ -7,6 +7,7 @@ from models.base_model import BaseModel
 from flask import jsonify, abort, request, make_response
 from models.amenity import Amenity
 
+
 @app_views.route('/amenities', methods=['GET'], strict_slashes=False)
 def all_amenities():
     """Retuen all amenities objects"""
@@ -25,6 +26,7 @@ def one_amenity(amenity_id):
     if not amenity:
         abort(404)
     return jsonify(amenity.to_dict())
+
 
 @app_views.route('/amenities/<amenity_id>',
                  methods=['DELETE'], strict_slashes=False)

@@ -74,7 +74,7 @@ class FileStorage:
 
         if cls and id:
             objs = self.all(cls)
-            key = '{}.{}'.format(cls, __name__, id)
+            key = '{}.{}'.format(cls, id)
             return objs.get(key)
         return None
 
