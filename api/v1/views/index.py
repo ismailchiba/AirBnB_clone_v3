@@ -18,6 +18,7 @@ def status():
     """send a 200 reponse to cliet with format 'status': 'ok'"""
     return jsonify(status="OK")
 
+
 @app_views.route("/stats", methods=['GET'], strict_slashes=False)
 def stats():
     """return the current count in the db"""
