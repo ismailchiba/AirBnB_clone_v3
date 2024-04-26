@@ -10,7 +10,7 @@ from models.user import User
 from models.review import Review
 
 from api.v1.views import app_views
-#app_views.url_map.strict_slashes = False
+# app_views.url_map.strict_slashes = False
 
 
 @app_views.route('/status')
