@@ -78,11 +78,28 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_all_no_class(self):
         """Test that all returns all rows when no class is passed"""
+        user = User(name="Test User")
+        models.storage.new(user)
+        models.storage.save()
+        all_objects = models.storage.all()
+        self.assertTrue(len(all_objects) > 0)
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_new(self):
         """test that new adds an object to the database"""
+        user = User(name="Test User")
+        models.storage.new(user)
+        models.storage.save()
+        retrieved_user = models.storage.get(User, user.id)
+        self.assertIsNotNone(retrieved_user)
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
+        user = User(name="Test User")
+        models.storage.new(user)
+        models.storage.save()
+
+        with open("file.json", "r") as file:
+            data = json.load(file)
+            self.assertIn("User.{}".format(user.id), data)
