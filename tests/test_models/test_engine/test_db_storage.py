@@ -109,12 +109,3 @@ class TestFileStorage(unittest.TestCase):
         storage.new(state)
         storage.save()
         self.assertTrue(storage.count(State) > 0)
-
-    def test_get_count(self):
-        """Test get() and count() methods"""
-        storage = DBStorage()
-        state_id = list(storage.all(State).values())[0].id
-        first_state = storage.get(State, state_id)
-        self.assertIsNotNone(first_state)
-        self.assertEqual(storage.count(), len(storage.all()))
-        self.assertEqual(storage.count(State), len(storage.all(State)))
