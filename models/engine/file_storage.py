@@ -70,6 +70,7 @@ class FileStorage:
         self.reload()
 
     def get(self, cls, id):
+        """gets class by id"""
         all_objs = self.all(cls).values()
         obj_id = [obj for obj in all_objs if obj.id == id]
         if not obj_id:
@@ -77,5 +78,6 @@ class FileStorage:
         return obj_id[0]
 
     def count(self, cls=None):
+        """counts a class"""
         all_objs = self.all(cls)
         return len(all_objs)
