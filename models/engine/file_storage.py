@@ -55,7 +55,7 @@ class FileStorage:
                 jo = json.load(f)
             for key in jo:
                 self.__objects[key] = classes[jo[key]["__class__"]](**jo[key])
-        except:
+        except Exception as e:
             pass
 
     def delete(self, obj=None):
@@ -68,3 +68,20 @@ class FileStorage:
     def close(self):
         """call reload() method for deserializing the JSON file to objects"""
         self.reload()
+
+    # airbnb 3
+    def get(self, cls, id):
+        """ this method retrives the object created under a class"""
+
+        if cls is not None:
+            obj = self.__session.query(cls).get(id)
+            return obj
+        return None
+
+    def count(self, cls=None):
+        """counts the total number of objr=ects in the storage"""
+        count = self.all(cls)  # return total classes
+        if cls in classes.values(): # find out a specific class we want to count exists values
+            count = self.all(cls)
+        return len(count)
+

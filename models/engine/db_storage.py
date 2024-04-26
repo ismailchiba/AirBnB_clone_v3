@@ -74,3 +74,20 @@ class DBStorage:
     def close(self):
         """call remove() method on the private session attribute"""
         self.__session.remove()
+
+    # airbnb 3d
+    def get(self, cls, id):
+        """ this method retrives the object created under a class"""
+
+        if cls is not None:
+            obj = self.__session.query(cls).get(id)
+            return obj
+        return None
+
+    def count(self, cls=None):
+        """counts the total number of objr=ects in the storage"""
+        count = self.all(cls)  # return total classes
+        if cls in classes.values(): # find out a specific class we want to count exists values
+            count = self.all(cls)
+        return len(count)
+
