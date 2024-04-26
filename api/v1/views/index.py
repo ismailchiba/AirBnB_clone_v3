@@ -11,13 +11,13 @@ from models.place import Place
 from models.review import Review
 from models.user import User
 
+
 @app_views.route("/status", strict_slashes=False, methods=["GET"])
 def api_status():
     """Return status."""
-    """
-    """
-    response =  {'status' : "OK"}
+    response = {'status': "OK"}
     return jsonify(response)
+
 
 @app_views.route("/stats", strict_slashes=False, methods=["GET"])
 def stats():
