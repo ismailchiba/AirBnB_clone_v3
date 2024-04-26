@@ -154,9 +154,9 @@ EOF  all  create  destroy  help  quit  show  update
 No known bugs at this time. 
 
 ## Authors
-Magdalene Njeri - [Github](https://github.com/alexaorrico) / [Twitter](https://twitter.com/alexa_orrico)  
-Khalfan Athman(AbuArwa001) - [Github](https://github.com/AbuArwa001) / [Twitter](https://twitter.com/khalfan_athman)
+Magdalene Njeri - [Github](https://github.com/magdalene_njeri) / [Twitter](https://twitter.com/magdalene_njeri)  
+Khalfan Athman(AbuArwa001) - [Github](https://github.com/AbuArwa001) / [Twitter](https://twitter.com/athman_khalfan)
 
-Second part of Airbnb: Joann Vuong
+Third Part of Airbnb: Joann Vuong
 ## License
 Public Domain. No copy write protection. 
