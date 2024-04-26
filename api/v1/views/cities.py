@@ -8,7 +8,7 @@ from models.state import State
 from flask import abort, make_response, request, jsonify
 
 
-@app_views.route("/cities/<state_id>", strict_slashes=False, methods=["GET"])
+@app_views.route("/states/<state_id>/cities", strict_slashes=False, methods=["GET"])
 def get_cities_by_state_id(state_id=None):
     """ Find cities by state id"""
     cities = []
