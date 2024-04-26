@@ -71,23 +71,11 @@ class FileStorage:
 
     def get(self, cls, id):
         """return class based on <id> value"""
-        records = self.all(cls)
-        for record in records:
-            if record.id == id:
-                return record
-            else:
-                return None
+        obj = None
+        if cls is not None and issubclass(cls, BaseModel):
+            obj = self.__session.query(cls).filter(cls.id == id).first()
+        return obj
 
     def count(self, cls=None):
         """retunr the count of total storage or count of class"""
-        count = 0
-        if cls is None:
-            records = self.all()
-            for i in records:
-                count += 1
-            return count
-        else:
-            records = self.all(cls)
-            for i in records:
-                count += 1
-            return count
+        return len(self.all(cls))
