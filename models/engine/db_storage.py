@@ -52,12 +52,14 @@ class DBStorage:
         return (new_dict)
 
     def get(self, cls, id):
+        """Gets an object with a given id"""
         objects = self.all(cls)
         c_n = cls.__name__
         obj = objects.get(f"{c_n}.{id}")
         return obj
     
     def count(self, cls=None):
+        """Counts instances of a class"""
         if cls is None:
             return len(self.all())
         else:

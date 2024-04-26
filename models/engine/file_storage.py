@@ -35,11 +35,13 @@ class FileStorage:
         return self.__objects
     
     def get(self, cls, id):
+        """Gets an object with a given id"""
         c_n = cls.__name__
         obj = self.__objects.get(f"{c_n}.{id}")
         return obj
     
     def count(self, cls=None):
+        """Counts instances of a class"""
         if cls is None:
             return len(self.__objects)
         else:
