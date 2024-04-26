@@ -22,7 +22,7 @@ def status():
 def stats():
     """return the current count in the db"""
     stat = {
-            'amentities': storage.count(Amenity),
+            'amenities': storage.count(Amenity),
             'cities': storage.count(City),
             'places': storage.count(Place),
             'reviews': storage.count(Review),
