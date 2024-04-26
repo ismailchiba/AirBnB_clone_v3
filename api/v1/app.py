@@ -21,10 +21,11 @@ def page_not_found(e):
     """404 page not found"""
     return {"error": "Not found"}, 404
 
+
 if __name__ == "__main__":
     # set defaults if env variables are not set
     host = getenv('HBNB_API_HOST', '0.0.0.0')
     port = int(getenv('HBNB_API_PORT', 5000))
-    
-    #run the app         
+
+    # run the app
     app.run(host=host, port=port, debug=1)
