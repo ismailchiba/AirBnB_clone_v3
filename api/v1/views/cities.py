@@ -2,7 +2,7 @@
 """Cities api"""
 
 from api.v1.views import app_views
-from flask import jsonify, abort, request
+from flask import jsonify, abort, request, make_response
 from models import storage
 from models.city import City
 from models.state import State
@@ -41,7 +41,7 @@ def delete_city(city_id):
         abort(404)
     storage.delete(city)
     storage.save()
-    return jsonify({}), 200
+    return make_response(jsonify({}), 200)
 
 
 @app_views.route('/states/<state_id>/cities',
@@ -60,7 +60,7 @@ def post_city(state_id):
     data['state_id'] = state_id
     city = City(**data)
     city.save()
-    return jsonify(city.to_dict()), 201
+    return make_response(jsonify(city.to_dict()), 201)
 
 
 @app_views.route('/cities/<city_id>',
@@ -78,4 +78,4 @@ def put_city(city_id):
         if key not in ['id', 'state_id', 'created_at', 'updated_at']:
             setattr(city, key, value)
     city.save()
-    return jsonify(city.to_dict()), 200
+    return make_response(jsonify(city.to_dict()), 200)

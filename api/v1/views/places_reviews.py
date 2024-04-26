@@ -2,7 +2,7 @@
 """Reviews api"""
 
 from api.v1.views import app_views
-from flask import jsonify, abort, request
+from flask import jsonify, abort, request, make_response
 from models import storage
 from models.review import Review
 from models.place import Place
@@ -41,7 +41,7 @@ def delete_review(review_id):
         abort(404)
     storage.delete(review)
     storage.save()
-    return jsonify({})
+    return make_response(jsonify({}), 200)
 
 
 @app_views.route('/places/<place_id>/reviews',
@@ -65,7 +65,7 @@ def post_review(place_id):
     data['place_id'] = place_id
     review = Review(**data)
     review.save()
-    return jsonify(review.to_dict()), 201
+    return make_response(jsonify(review.to_dict()), 201)
 
 
 @app_views.route('/reviews/<review_id>',
@@ -84,4 +84,4 @@ def put_review(review_id):
                        'place_id', 'created_at', 'updated_at']:
             setattr(review, key, value)
     review.save()
-    return jsonify(review.to_dict())
+    return make_response(jsonify(review.to_dict()), 200)
