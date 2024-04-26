@@ -57,11 +57,9 @@ def create_city(state_id=None):
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
     if 'name' not in data:
         return make_response(jsonify({'error': 'Missing name'}), 400)
-    cities = storage.all(City).values()
-    city = City(name=data['name'], state_id=state_id)
-    storage.new(city)
-    cities.append(city.to_dict())
-    storage.save()
+    data['state_id'] = state_id
+    city = City(**data)
+    city.save()
     return make_response(jsonify(city.to_dict()), 201)
 
 
