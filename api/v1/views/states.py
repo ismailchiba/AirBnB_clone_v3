@@ -22,7 +22,7 @@ def get_state(state_id):
     return jsonify(state.to_dict())
 
 
-@app_views.route('states/<state_id>', method=[DELETE])
+@app_views.route('/states/<state_id>', method=[DELETE])
 def del_state(state_id):
     state = storage.get(State, state_id)
     if state is None:
