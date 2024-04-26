@@ -159,9 +159,10 @@ class TestBaseModel(unittest.TestCase):
         self.assertTrue(mock_storage.new.called)
         self.assertTrue(mock_storage.save.called)
 
-    def test_equality_of_class_and_hashing(self):
-        """Test equality and hashing behavior of BaseModel instances"""
-        real_inst1 = BaseModel()
-        real_inst2 = BaseModel()
-        self.assertEqual(real_inst1, real_nst2)
-        self.assertEqual(hash(real_inst1), hash(real_inst2))
+    def test_deletion(self):
+        first_inst = BaseModel()
+        first_inst.save()
+        object_not_id = first_inst.id
+        first_inst.delete()
+
+        self.assertIsNone(BaseModel.get(object_not_id))
