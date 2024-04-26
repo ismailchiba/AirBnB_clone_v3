@@ -113,3 +113,21 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_get_existing_object(self):
+        """Test retrieving an existing object"""
+        user = User(name="Test User")
+        models.storage.new(user)
+        models.storage.save()
+        retrieved_user = models.storage.get(User, user.id)
+        self.assertEqual(user, retrieved_user)
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_get_nonexistent_object(self):
+        """Test retrieving a non-existing object"""
+        retrieved_user = models.storage.get(User, "nonexistent_id")
+        self.assertIsNone(retrieved_user)
+
+if __name__ == '__main__':
+    unittest.main()
