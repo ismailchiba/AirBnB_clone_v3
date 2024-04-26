@@ -41,9 +41,8 @@ class FileStorage:
             # Iterate through the keys of objects
             for key, value in self.__objects.items():
                 # Retrives object with a specified class and ID
-                if cls == value.__class__ or cls == value.__class__.__name__ and value.id == id:
-                    new_dict[key] = value
-            return None
+                if (cls == value.__class__ or cls == value.__class__.__name__) and value.id == id:
+                    return value
         return None
         
     def count(self, cls=None):
