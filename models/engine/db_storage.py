@@ -37,6 +37,11 @@ class DBStorage:
                                              HBNB_MYSQL_PWD,
                                              HBNB_MYSQL_HOST,
                                              HBNB_MYSQL_DB))
+        self.__models_available = {"User": User,
+                                   "Amenity": Amenity, "City": City,
+                                   "Place": Place, "Review": Review,
+                                   "State": State}
+
         if HBNB_ENV == "test":
             Base.metadata.drop_all(self.__engine)
 
@@ -74,3 +79,34 @@ class DBStorage:
     def close(self):
         """call remove() method on the private session attribute"""
         self.__session.remove()
+
+    def get(self, cls, id_):
+        """
+        Retrieves one object.
+        @cls: Class name
+        @id_: Object id.
+
+        Returns: Object based on classs and it's id or None.
+        """
+        if (cls not in self.__models_available) or (id_ is None):
+            return None
+        return self.__session.query(
+                self.__models_available[cls]).get(id_)
+
+
+    def count(self, cls=None):
+        """
+        Number of objects in storage
+        @cls: Class name(optional)
+
+        Returns: Number of objects in storage or count of all
+        storage objects if no class name parameter.
+        """
+        if cls is None:
+            obj_count = 0
+            for val in self.__models_available.values():
+                obj_count += self.__session.query(val).count()
+            return obj_count
+        if cls in self.__models_available.keys():
+            return self.__session.query(self.__models_available[cls]).count()
+        return -1

@@ -24,6 +24,14 @@ class FileStorage:
     # dictionary - empty but will store all objects by <class name>.id
     __objects = {}
 
+    def __init__(self):
+        """Instantiate the class"""
+        self.__models_available = {"User": User, "BaseModel": BaseModel,
+                                   "Amenity": Amenity, "City": City,
+                                   "Place": Place, "Review": Review,
+                                   "State": State}
+        self.reload()
+
     def all(self, cls=None):
         """returns the dictionary __objects"""
         if cls is not None:
@@ -68,3 +76,33 @@ class FileStorage:
     def close(self):
         """call reload() method for deserializing the JSON file to objects"""
         self.reload()
+
+    def get(self, cls, id_):
+        """
+        Retrieves one object
+        @cls: Class name
+        @id_: Object id.
+
+        Returns: Object based on classs and it's id or None.
+        """
+        if (cls not in self.__models_available.keys()) or (id_ is None):
+            return None
+        obj_count = self.all(cls)
+        for key in all_objs.keys():
+            if key == id_:
+                return obj_count[key]
+        return None
+
+    def count(self, cls=None):
+        """
+        Number of objects in storage
+        @cls: Class name(optional)
+
+        Returns: Number of objects in storage or count of all
+        storage objects if no class name parameter.
+        """
+        if cls is None:
+            return len(self.__objects)
+        if cls in self.__models_available:
+            return len(self.all(cls))
+        return -1
