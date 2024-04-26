@@ -53,10 +53,10 @@ class DBStorage:
     
     def get(self, cls, id):
         key = cls.__name__ + '.' + id
-        objects = len(self.all(cls))
+        objects = self.all(cls)
 
         try:
-            return self.objects[key]
+            return objects[key]
         except KeyError:
             return None
         
