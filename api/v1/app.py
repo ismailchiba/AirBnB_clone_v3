@@ -14,10 +14,12 @@ app.register_blueprint(app_views)
 
 @app.teardown_appcontext
 def app_tear(error):
+     """ calls methods close() """
     storage.close()
 
 @app.errorhandler(404)
 def handle_404_error(error):
+    """ Loads a custom 404 page not found """
     error_response = {"error": "Not found"}
     return jsonify(error_response), 404
 

@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+
 """ New view for Amenity objects that handles all default RESTFul API action"""
 
 from flask import jsonify, request, abort
@@ -9,6 +10,7 @@ from models import storage
 
 @app_views.route('/amenities', methods=['GET'])
 def list_amenities():
+    """ get amenities by id """
     amenities = storage.all(Amenity).values()
     amenities_json = [amenity.to_dict() for amenity in amenities]
     return jsonify(amenities_json), 200
@@ -16,6 +18,7 @@ def list_amenities():
 
 @app_views.route('/amenities/<amenity_id>', methods=['GET'])
 def get_amenity(amenity_id):
+    """ get amenity by id"""
     amenity = storage.get(Amenity, amenity_id)
     if not amenity:
         abort(404)
@@ -25,6 +28,7 @@ def get_amenity(amenity_id):
 
 @app_views.route('/amenities/<amenity_id>', methods=['DELETE'])
 def delete_amenity(amenity_id):
+    """ delete amenity by id"""
     amenity = storage.get(Amenity, amenity_id)
     if not amenity:
         abort(404)
@@ -35,6 +39,7 @@ def delete_amenity(amenity_id):
 
 @app_views.route('/amenities', methods=['POST'])
 def create_amenity():
+     """ create new instance """
     data = request.get_json()
     if not data:
         abort(400, 'Not a JSON')
@@ -48,6 +53,7 @@ def create_amenity():
 
 @app_views.route('/amenities/<amenity_id>', methods=['PUT'])
 def update_amenity(amenity_id):
+     """update amenity """
     amenity = storage.get(Amenity, amenity_id)
     if not amenity:
         abort(404)
