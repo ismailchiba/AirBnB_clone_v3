@@ -92,7 +92,7 @@ class TestFileStorageDocs(unittest.TestCase):
         new_id = new.id
         storage.save()
         storage.reload()
-        _id = f'BaseModel.{new_id}'
+        _id = 'BaseModel.{}'.format(new_id)
         # Directly fetch the object by its unique ID after reloading
         reloaded_obj = storage.all()
         ob_id = f'{new.__class__.__name__}' + '.' + new.id
