@@ -16,7 +16,7 @@ app.register_blueprint(app_views, url_prefix="/api/v1")
 
 
 @app.errorhandler(404)
-def page_not_found(e):
+def page_not_found():
     return {"error": "Not found"}, 404
 
 
