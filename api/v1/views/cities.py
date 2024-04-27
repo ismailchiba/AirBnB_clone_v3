@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 '''Handles City objects for RESTful API actions'''
 
+import re
 from models import storage
 from models.city import City
 from models.state import State
@@ -34,7 +35,7 @@ def all_cities(state_id):
         return jsonify(city.to_dict()), 201
 
 
-@app_views.route('/cities/<city_id>', methods=['GET', 'DELETE'],
+@app_views.route('/cities/<city_id>', methods=['GET', 'DELETE', 'PUT'],
                  strict_slashes=False)
 def one_city(city_id):
     '''gets one City object'''
@@ -50,3 +51,15 @@ def one_city(city_id):
         storage.delete(city)
         storage.save()
         return jsonify({}), 200
+    if request.method == 'PUT':
+        city = storage.get(City, city_id)
+        if not city:
+            abort(404)
+        body = request.get_json()
+        if not body:
+            abort(400, 'Not a JSON')
+        for key, value in body.items():
+            if key not in ['id', 'state_id', 'created_at', 'updated_at']:
+                city.__setattr__(key, value)
+        storage.save()
+        return jsonify(city.to_dict()), 200
