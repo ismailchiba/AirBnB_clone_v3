@@ -118,12 +118,15 @@ class TestDBStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_count(self):
         """  test case for storage.count """
+        state = State(name="Gana")
+        models.storage.new(state)
+        models.storage.save()
         session = models.storage._DBStorage__session
-        count_state = session.query(State).all()
+        count_state = len(session.query(State).all())
         # count returns all instances of a class if class is provided
         self.assertEqual(count_state, models.storage.count(State))
         # count returns all if class is not provided
-        count_all = models.storage.all()
+        count_all = len(models.storage.all())
         self.assertEqual(count_all, models.storage.count())
         # check if the returned count is a number
         self.assertTrue(type(models.storage.count()), int)
