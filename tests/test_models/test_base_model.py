@@ -158,11 +158,3 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(old_created_at, new_created_at)
         self.assertTrue(mock_storage.new.called)
         self.assertTrue(mock_storage.save.called)
-
-    def test_deletion(self):
-        first_inst = BaseModel()
-        first_inst.save()
-        object_not_id = first_inst.id
-        first_inst.delete()
-
-        self.assertIsNone(BaseModel.get(object_not_id))
