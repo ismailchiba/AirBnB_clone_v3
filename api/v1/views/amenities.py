@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+
 """amenities module"""
 from api.v1.views import app_views
 from flask import jsonify, request, abort
@@ -19,8 +20,9 @@ def get_amenities():
 @app_views.route('/amenities', methods=['POST'], strict_slashes=False)
 def post_amenity():
     """create an amenity"""
-    data = request.get_json()
-    if data is None:
+    try:
+        data = request.get_json()
+    except Exception as e:
         abort(400, 'Not a JSON')
     if 'name' not in data:
         abort(400, 'Missing name')
@@ -59,8 +61,9 @@ def put_amenity(amenity_id):
     amenity = storage.get(Amenity, amenity_id)
     if amenity is None:
         abort(404)
-    data = request.get_json()
-    if data is None:
+    try:
+        data = request.get_json()
+    except Exception as e:
         abort(400, 'Not a JSON')
     for key, value in data.items():
         if key not in ['id', 'created_at', 'updated_at']:
