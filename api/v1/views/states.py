@@ -22,11 +22,11 @@ def get_state(state_id):
     obj = storage.get(State, state_id)
     if not obj:
         abort(404)
-    return(jsonify(obj.to_dict()))
+    return jsonify(obj.to_dict())
 
 
 @app_views.route("/states/<state_id>", methods=['DELETE'],
-                 strict_slashe=False)
+                 strict_slashes=False)
 def delete_state(state_id):
     """get a state by id and delete the state"""
     obj = storage.get(State, state_id)
@@ -34,7 +34,7 @@ def delete_state(state_id):
         abort(404)
     obj.delete()
     storage.save()
-    return make_response(jsonify({}) 200)
+    return make_response(jsonify({}), 200)
 
 
 @app_views.route("/states", methods=['POST'], strict_slashes=False)
