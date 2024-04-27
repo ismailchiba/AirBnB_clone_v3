@@ -22,7 +22,7 @@ def get_all_states():
     return jsonify(states_obj)
 
 
-@app_views.route("/states/<state_id>")
+@app_views.route("/states/<state_id>", strict_slashes=False)
 def one_state(state_id):
     """
     this method returns a specific state depending on the
