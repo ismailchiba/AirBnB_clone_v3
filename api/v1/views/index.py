@@ -7,15 +7,6 @@ from api.v1.views import app_views
 from flask import jsonify
 from models import storage
 
-classes_values = {
-    "amenities": "Amenity",
-    "cities": "City",
-    "places": "Place",
-    "reviews": "Review",
-    "states": "State",
-    "users": "User"
-}
-
 
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
 def api_status():
@@ -30,7 +21,12 @@ def api_stats():
     """
     Retrieves the number of each object type and returns as a JSON response.
     """
-    obj_num = {}
-    for key, value in classes_values.items():
-        obj_num[key] = storage.count(value)
-    return jsonify(obj_num)
+    stats = {
+        "amenities": storage.count("Amenity"),
+        "cities": storage.count("City"),
+        "places": storage.count("Place"),
+        "reviews": storage.count("Review"),
+        "states": storage.count("State"),
+        "users": storage.count("User")
+    }
+    return jsonify(stats)
