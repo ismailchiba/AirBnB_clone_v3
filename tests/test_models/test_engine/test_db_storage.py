@@ -102,3 +102,16 @@ class TestDBStorage(unittest.TestCase):
         models.storage.new(state)
         models.storage.save()
         self.assertTrue(models.storage.count() > len(all_objs))
+
+     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+     def test_get(self):
+         """ test that it returns an obj if id is provided """
+         session = models.storage._DBStorage__session
+         state = State(name="Gana")
+         models.storage.new(state)
+         models.storage.save()
+         retrived_obj = models.storage.get(State, state.id)
+         self.assertEqual(state.id, retrived_obj.id)
+     
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+     def test_count(self):
