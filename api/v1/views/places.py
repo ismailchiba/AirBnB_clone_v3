@@ -97,9 +97,6 @@ def put_place(place_id):
 @app_views.route('/places_search', methods=['POST'], strict_slashes=False)
 def places_search():
     """Search for places based on JSON request"""
-    @app_views.route('/places_search', methods=['POST'])
-def places_search():
-    """Search for places based on JSON request"""
     if not request.is_json:
         abort(400, description="Not a JSON")
 
