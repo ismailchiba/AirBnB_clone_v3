@@ -76,7 +76,7 @@ class DBStorage:
         new_dict = {}
 
         # Check if the class is valid
-        if cls is not None and cls is classes.value():
+        if cls is not None and cls is classes.values():
             objs = self.__session.query(cls).filter_by(id=id).all()
 
             # Firstly check if the obj is found
