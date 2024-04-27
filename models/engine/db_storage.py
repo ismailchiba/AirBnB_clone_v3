@@ -78,11 +78,11 @@ class DBStorage:
     def get(self, cls, id):
         '''method to retrieve one object'''
         if cls and id:
-            if cls in classes.value() and isinstance(id, str):
+            if cls in classes.values() and isinstance(id, str):
                 found_objects = self.all(cls)
                 desired_object = cls, __name__ + "." + id
-                for key in  found_objects
-                    if key = desired_object:
+                for key in  found_objects:
+                    if key == desired_object:
                         return found_object[id]
                 else:
                     return None
@@ -90,11 +90,11 @@ class DBStorage:
 
     def count(self, cls=None):
         '''method to count the instances of all classes'''
-        if not class:
+        if not cls:
             count_of_all_classes = len(self.all())
             return count_of_all_classes
-        if cls in classes.value():
+        if cls in classes.values():
             count_of_instances = self.all(cls)
-            return len(count_of_classes)
-        if cls not in classes.value():
+            return len(self.all())
+        if cls not in classes.values():
             return None
