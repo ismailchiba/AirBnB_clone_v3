@@ -53,7 +53,6 @@ class TestDBStorageDocs(unittest.TestCase):
         if hasattr(cls, 'db') and cls.db:
             cls.db.close()
 
-
     def test_obj_list_empty(self):
         """ __objects is initially empty """
         self.assertEqual(len(storage.all()), 0)
