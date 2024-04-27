@@ -3,7 +3,7 @@
 This module contains the State view for the AirBnB clone API.
 """
 
-from flask import jsonify, request, abort
+from flask import jsonify, request, abort, make_response
 from api.v1.views import app_views
 from models import storage
 from models.state import State
@@ -14,11 +14,14 @@ def get_states():
     """
     Retrieves the list of all State objects.
     """
-    states = storage.all(State).values()
-    return jsonify([state.to_dict() for state in states])
+    states = []
+    for state in storage.all("State").values():
+        states.append(state.to_dict())
+    return jsonify(states)
 
 
-@app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
+@app_views.route('/states/<string:state_id>', methods=['GET'],
+                 strict_slashes=False)
 def get_state_id(state_id):
     """
     Retrieves a State object based on its ID.
@@ -29,7 +32,8 @@ def get_state_id(state_id):
     return jsonify(state.to_dict())
 
 
-@app_views.route('/states/<state_id>', methods=['DELETE'], strict_slashes=False)
+@app_views.route('/states/<string:state_id>', methods=['DELETE'],
+                 strict_slashes=False)
 def delete_state(state_id):
     """
     Deletes a State object based on its ID.
@@ -59,7 +63,8 @@ def create_state():
     return jsonify(new_state.to_dict()), 201
 
 
-@app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
+@app_views.route('/states/<string:state_id>', methods=['PUT'],
+                 strict_slashes=False)
 def update_state(state_id):
     """
     Updates a State object based on its ID.
