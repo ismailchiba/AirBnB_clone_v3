@@ -1,5 +1,8 @@
 #!/usr/bin/python3
-
+"""
+This file defines the routes to perform operations
+on the States class
+"""
 from flask import jsonify
 from models import storage
 from api.v1.views import app_views

@@ -40,5 +40,19 @@
         "created_at": "2024-04-25T13:09:59.402707",
         "updated_at": "2024-04-25T13:09:59.402707",
         "__class__": "User"
+    },
+    "State.6daaac4f-af5f-4958-ac81-156598f3d883": {
+        "name": "Arizona",
+        "created_at": "2024-04-27T08:57:34.003974",
+        "updated_at": "2024-04-27T08:57:34.004142",
+        "id": "6daaac4f-af5f-4958-ac81-156598f3d883",
+        "__class__": "State"
+    },
+    "User.3a1d8427-7cc1-46ad-a703-c4becf31c895": {
+        "name": "Jack",
+        "created_at": "2024-04-27T08:57:54.954760",
+        "updated_at": "2024-04-27T08:57:54.954843",
+        "id": "3a1d8427-7cc1-46ad-a703-c4becf31c895",
+        "__class__": "User"
     }
 }

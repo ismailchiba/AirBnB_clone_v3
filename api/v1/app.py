@@ -1,4 +1,10 @@
 #!/usr/bin/python3
+
+"""
+This file is the entry point of the api it registers
+a Blueprint which will be used to define routes
+"""
+
 from os import getenv
 from flask import Flask, jsonify, make_response
 
