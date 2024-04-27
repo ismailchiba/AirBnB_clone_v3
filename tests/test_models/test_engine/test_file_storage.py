@@ -113,3 +113,52 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+
+    # New tests
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_get(self):
+        """Test the get method"""
+        storage = FileStorage()
+
+        # Creating some objects and adding them to the storage
+        obj1 = BaseModel()
+        obj2 = BaseModel()
+        storage.new(obj1)
+        storage.new(obj2)
+
+        # Save the objects to the file
+        storage.save()
+
+        # Test retrieving an existing object
+        retrieved_obj = storage.get(BaseModel, obj1.id)
+        self.assertEqual(retrieved_obj, obj1)
+
+        # Test retrivieng an non-existent object
+        non_existent_obj = storage.get(BaseModel, "non_existent_id")
+        self.assertIsNone(non_existent-obj)
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_count(self):
+        """test the count method"""
+        storage = FileStorage()
+
+        # Create some objects and add them to the storage
+        obj1 = BaseModel()
+        obj2 = BaseModel()
+        storage.new(obj1)
+        storage.new(obj2)
+
+        # Save the objects to the file
+        storage.save()
+
+        # Test counting all objects
+        total_count = storage.count()
+        self.assertEqual(total_count, 2)
+
+        # Test counting objects of a specific class
+        count_of_base_models = storage.count(BaseModel)
+        self.assertEqual(count_of_base_models, 2)
+
+        # Test counting objects of a non-existent class
+        count_of_non_existent_class = storage.count(NonExistentClass)
+        self.assertEqual(count_of_non_existent_class, 0)
