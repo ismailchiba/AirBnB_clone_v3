@@ -6,22 +6,21 @@ from models.state import State
 
 
 @app_views.route('/states', strict_slashes=False)
-def retrive_stat():
+def retrieve_state():
     """Retrieves the list of all State objects"""
-    states = storage.all(State).values()
-    states_list = []
-    for state in states:
-        states_list.append(state.to_dict())
-    return jsonify(states_list)
+    all_states = [x.to_dict() for x in storage.all("State").values()]
+    if not all_states:
+        return jsonify({})
+    return jsonify(all_states)
 
 
 @app_views.route('/states/<state_id>', strict_slashes=False, methods=['GET'])
 def get_state(state_id):
     """Retrieves a State object"""
     state = storage.get(State, state_id)
-    if state is None:
-        abort(404)
-    return jsonify(state.to_dict())
+    if state:
+        return jsonify(state.to_dict())
+    abort(404)
 
 
 @app_views.route('/states/<state_id>',
@@ -29,18 +28,18 @@ def get_state(state_id):
 def delete_state(state_id):
     """Deletes a State object"""
     state = storage.get(State, state_id)
-    if state is None:
-        abort(404)
-    storage.delete(state)
-    storage.save()
-    return jsonify({})
+    if state:
+        state.delete()
+        storage.save()
+        return jsonify({})
+    abort(404)
 
 
 @app_views.route('/states', strict_slashes=False, methods=['POST'])
-def creat_stat():
+def create_state():
     """create new state"""
     response = request.get_json(silent=True)
-    if response is None:
+    if not response:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
     if 'name' not in response:
         return make_response(jsonify({"error": "Missing name"}), 400)
@@ -49,16 +48,17 @@ def creat_stat():
     return make_response(jsonify(new_state.to_dict()), 201)
 
 
-@app_views.route('/states/<state_id>', strict_slashes=False, methods=['PUT'])
-def update_stat(state_id):
+@app_views.route('/states/<state_id>',
+                 strict_slashes=False, methods=['PUT'])
+def update_state(state_id):
     """update states"""
-    if state_id is None:
+    if not state_id:
         abort(404)
     state = storage.get(State, state_id)
-    if state is None:
+    if not state:
         abort(404)
     response = request.get_json(silent=True)
-    if response is None:
+    if not response:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
     for key, value in dict(response).items():
         if key == "id" or key == "created_at" or key == "updated_at":
