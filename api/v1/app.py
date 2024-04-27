@@ -3,7 +3,7 @@
 """ This module sets blue print for app"""
 
 
-from flask import Flask
+from flask import Flask, make_response, jsonify
 from models import storage
 from api.v1.views import app_views
 import os
@@ -17,6 +17,13 @@ app.register_blueprint(app_views)
 def tear_down(error=None):
     """ Tears down or close the db session"""
     storage.close()
+
+
+@app.errorhandler(404)
+def not_found(error):
+    """JSON-formatted 404 status code response"""
+    error_msg = {"error": "Not found"}
+    return make_response(jsonify(error_msg), 404)
 
 
 if __name__ == "__main__":
