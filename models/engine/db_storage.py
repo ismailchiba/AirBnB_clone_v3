@@ -81,7 +81,7 @@ class DBStorage:
             if cls in classes.values() and isinstance(id, str):
                 found_objects = self.all(cls)
                 desired_object = cls, __name__ + "." + id
-                for key in  found_objects:
+                for key in found_objects:
                     if key == desired_object:
                         return found_object[id]
                 else:
