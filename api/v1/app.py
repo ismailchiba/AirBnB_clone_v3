@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """Flask app module"""
 from api.v1.views import app_views
-from flask import Flask
+from flask import Flask, redirect, request, jsonify
 import os
 from models import storage
 
@@ -13,6 +13,14 @@ app.register_blueprint(app_views)
 def teardown(exception):
     """Close any connections with storage"""
     storage.close()
+
+
+@app.errorhandler(404)
+def not_found(error):
+    """Shows not found page"""
+    if 'curl' in request.headers.get('User-Agent', ''):
+        return jsonify({"error": "Not found"})
+    return redirect('https://www.lego.com/en-gb/404')
 
 
 if __name__ == "__main__":
