@@ -3,10 +3,9 @@
 This file contains the configuration and setup
 for the AirBnB clone API application.
 """
-import os
 
 from models import storage
-from flask import Flask
+from flask import Flask, jsonify, make_response
 from api.v1.views import app_views
 import os
 
@@ -21,6 +20,14 @@ def teardown_app_context(exception):
     Closes the storage connection after each request.
     """
     storage.close()
+
+
+@app.errorhandler(404)
+def not_found():
+    """
+    Handler for 404 errors, returns a JSON-formatted 404 response.
+    """
+    return make_response(jsonify({"error": "Not found"}), 404)
 
 
 if __name__ == "__main__":
