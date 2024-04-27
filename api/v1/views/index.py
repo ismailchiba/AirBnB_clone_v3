@@ -5,6 +5,7 @@ app = Flask(__name__)
 
 @app_views.route('/status')
 def status():
+    """ Get the status of the code"""
     """ get status"""
     stats = {"status":"OK"}
     return jsonify(stats)
