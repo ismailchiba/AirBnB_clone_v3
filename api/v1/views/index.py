@@ -1,4 +1,4 @@
-#!/usr/bin/python3xx
+#!/usr/bin/python3
 import models
 from models import storage
 from models.base_model import BaseModel
@@ -8,7 +8,7 @@ from flask import jsonify
 
 @app_views.route('/api/v1/stats', methods=['GET'])
 def get_status():
-    """Get the number of each object by it's type"""
+    """Get the number of each object by its type"""
     stats = {
             "amenities": storage.count("Amenity"),
             "cities": storage.count("City"),
