@@ -50,7 +50,7 @@ class TestConsoleDocs(unittest.TestCase):
         # mock_stdout.truncate()
 
         # Show the object
-        self.console.do_show(f'State {_id}')
+        self.console.do_show('State {}'.format(_id))
         _id1 = mock_stdout.getvalue().strip()
 
         # Assert that the object is shown successfully
