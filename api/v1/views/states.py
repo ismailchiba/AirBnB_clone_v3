@@ -44,7 +44,7 @@ def delete_state(state_id):
     else:
         storage.delete(state_obj)
         storage.save()
-        return jsonify({}), 200
+        return make_response(jsonify({}), 200)
 
 
 # POST Request
@@ -61,7 +61,7 @@ def post_state():
 
     new_state = State(**request.get_json())
     new_state.save()
-    return jsonify(new_state.to_dict()), 201
+    return make_response(jsonify(new_state.to_dict()), 201)
 
 
 # PUT Request
@@ -84,4 +84,4 @@ def update_state(state_id):
             setattr(state_obj, key, value)
 
     storage.save()
-    return jsonify(state_obj.to_dict()), 200
+    return make_response(jsonify(state_obj.to_dict()), 200)
