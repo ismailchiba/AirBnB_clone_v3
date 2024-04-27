@@ -120,15 +120,24 @@ class TestFileStorage(unittest.TestCase):
         """test get"""
         state = State(name="tokyo")
         storage.new(state)
+        res = storage.get(State, state.id)
         self.assertIsNotNone(state)
-        self.assertEqual(state.__class__.__name__, 'State')
+        self.assertIsInstance(res, State)
+        self.assertTrue(res.id, state.id)
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_count_method(self):
         """test count"""
         count_all = storage.count()
         count_states = storage.count(State)
-        print(count_all)
-        print(count_states)
         self.assertGreater(count_all, 0)
         self.assertGreater(count_states, 0)
+
+    def test_count(self):
+        """test count"""
+        i = storage.count(State)
+        city = State(name="tokyo")
+        city_2 = State(name="newyork")
+        storage.new(city)
+        storage.new(city_2)
+        self.assertEqual(i + 2, storage.count(State))
