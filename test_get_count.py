@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 """ Test .get() and .count() methods
 """
+
+import models
 from models import storage
 from models.state import State
 
