@@ -2,7 +2,7 @@
 """ index file for the project """
 
 
-from api.v1.views import app_views
+from . import app_views
 from flask import jsonify
 
 
