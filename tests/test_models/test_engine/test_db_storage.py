@@ -46,9 +46,10 @@ class TestDBStorageDocs(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         """Clean up the database after all tests"""
-        cls.cursor.execute("DROP DATABASE hbnb_test_db;")
-        cls.db.commit()
-        cls.cursor.close()
+        if hasattr(cls, 'cursor') and cls.cursor:
+            cls.cursor.execute("DROP DATABASE hbnb_test_db;")
+            cls.db.commit()
+            cls.cursor.close()
         cls.db.close()
 
     def test_obj_list_empty(self):
