@@ -48,7 +48,7 @@ def add_state():
     new_state = State(**obj)
     storage.new(new_state)
     storage.save()
-    return make_response(jsonify(new_state), 201)
+    return make_response(jsonify(new_state.to_dict()), 201)
 
 
 @app_views.route("/states/<state_id>", methods=['PUT'], strict_slashes=False)
