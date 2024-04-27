@@ -29,7 +29,7 @@ def all_users():
 
 
 @app_views.route('/users/<user_id>', methods=['GET', 'DELETE', 'PUT'],
-                    strict_slashes=False)
+                 strict_slashes=False)
 def users_by_id(user_id):
     '''gets, deletes, and updates objects of User object'''
     user = storage.get(User, user_id)

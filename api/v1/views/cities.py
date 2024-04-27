@@ -60,6 +60,6 @@ def one_city(city_id):
             abort(400, 'Not a JSON')
         for key, value in body.items():
             if key not in ['id', 'state_id', 'created_at', 'updated_at']:
-                city.__setattr__(key, value)
+                setattr(city, key, value)
         storage.save()
         return jsonify(city.to_dict()), 200
