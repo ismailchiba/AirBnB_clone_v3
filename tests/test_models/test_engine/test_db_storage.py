@@ -37,11 +37,14 @@ class TestDBStorageDocs(unittest.TestCase):
                                  host="localhost",
                                  port=3306)
         cls.cursor = cls.db.cursor()
-        # cls.cursor.execute("CREATE DATABASE IF NOT EXISTS hbnb_test_db;")
-        # cls.cursor.execute("USE hbnb_test_db;")
-        # cls.cursor.execute("CREATE TABLE IF NOT EXISTS baseModel
-        # (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255) NOT NULL);")
-        # cls.db.commit()
+
+    def setUp(self):
+        """Prepare the test environment before each test."""
+        # Clean up any existing objects in storage
+        all_objects = storage.all()
+        for obj_id in all_objects.keys():
+            storage.delete(all_objects[obj_id])
+        storage.save()
 
     @classmethod
     def tearDownClass(cls):
