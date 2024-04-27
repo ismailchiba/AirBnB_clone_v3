@@ -130,7 +130,7 @@ class TestFileStorageDocs(unittest.TestCase):
         new = BaseModel()
         new.save()  # Ensure the object is saved and thus added to storage
         _id = new.id
-        expected_key = f'BaseModel.{_id}'
+        expected_key = 'BaseModel.{}'.format(_id)
         # Directly check if the expected key is in the keys of storage
         self.assertIn(expected_key, storage.all().keys(),
                       "Expected key format not found in storage keys")
