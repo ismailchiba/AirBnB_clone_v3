@@ -58,8 +58,9 @@ def update_state(state_id):
     if not obj:
         abort(404)
 
-    req = request.get_json()
-    if not req:
+    try:
+        req = request.get_json()
+    except Exception:
         abort(400, "Not a JSON")
 
     for k, v in req.items():
