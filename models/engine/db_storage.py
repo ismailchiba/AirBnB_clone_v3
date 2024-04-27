@@ -80,16 +80,10 @@ class DBStorage:
         # Check if the class is specified
         if cls is not None and cls in classes.values():
             # Query objects for the specified class
-            objs = self.__session.query(cls).all()
-            
-            # Iterate through the queried objects and count them
-            for obj in objs:
-                my_count += 1
+            objs = self.all(cls)
+            my_count = len(objs)
 
-            return my_count
-        else:
-            # If no class is specified, return the count of all objects in storage
-            return len(self.__objects)
+        return my_count
             
     def new(self, obj):
         """add the object to the current database session"""
