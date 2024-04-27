@@ -73,16 +73,61 @@ class TestDBStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_all_returns_dict(self):
         """Test that all returns a dictionaty"""
-        self.assertIs(type(models.storage.all()), dict)
+        storage = models.storage
+        self.assertIs(type(storage.all()), dict)
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_all_no_class(self):
         """Test that all returns all rows when no class is passed"""
+        storage = models.storage
+        all_cls = storage.all()
+        self.assertEqual(len(all_cls), storage.count())
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_new(self):
         """test that new adds an object to the database"""
+        all_objs = models.storage.all()
+        state = State(name="Nigeria")
+        models.storage.new(state)
+        session = models.storage._DBStorage__session
+        query_state = session.query(State).filter_by(id=state.id).first()
+        self.assertEqual(query_state.id, state.id)
+        self.assertEqual(query_state.name, state.name)
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
+        all_objs = models.storage.all()
+        state = State(name="Nigeria")
+        models.storage.new(state)
+        models.storage.save()
+        self.assertTrue(models.storage.count() > len(all_objs))
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get(self):
+        """ test that it returns an obj if id is provided """
+        state = State(name="Gana")
+        models.storage.new(state)
+        models.storage.save()
+        retrived_obj = models.storage.get(State, state.id)
+        self.assertEqual(state.id, retrived_obj.id)
+        self.assertEqual(state.name, retrived_obj.name)
+        self.assertIsNone(models.storage.get("fake", state.id))
+        self.assertIsNone(models.storage.get("State", "fake"))
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_count(self):
+        """  test case for storage.count """
+        state = State(name="Gana")
+        models.storage.new(state)
+        models.storage.save()
+        session = models.storage._DBStorage__session
+        count_state = len(session.query(State).all())
+        # count returns all instances of a class if class is provided
+        self.assertEqual(count_state, models.storage.count(State))
+        # count returns all if class is not provided
+        count_all = len(models.storage.all())
+        self.assertEqual(count_all, models.storage.count())
+        # check if the returned count is a number
+        self.assertTrue(type(models.storage.count()), int)
+        self.assertTrue(type(models.storage.count(State)), int)
