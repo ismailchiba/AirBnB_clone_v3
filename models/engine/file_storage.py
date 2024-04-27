@@ -81,7 +81,7 @@ class FileStorage:
         The object based on the class name and its ID, or None if not found.
     """
     if cls not in classes.values():
-            return None
+        return None
     else :
         entities = self.all(cls)
         for value in entities.values():
@@ -90,7 +90,7 @@ class FileStorage:
 
         return None
 
-     def count(self, cls=None):
+    def count(self, cls=None):
         """
         Count the number of objects in storage.
     Args:
@@ -111,4 +111,3 @@ class FileStorage:
             return len(given_cls);
         else :
             return
--- INSERT --                                                                                                        82,1          81%
