@@ -60,14 +60,14 @@ def post_place(city_id):
         abort(404)
     data = request.get_json()
     if not data:
-        abort(400, description="Not a JSON")
+        abort(400, "Not a JSON")
     if 'user_id' not in data:
-        abort(400, description="Missing user_id")
+        abort(400, "Missing user_id")
     user_id = data.get('user_id')
     if not storage.get(User, user_id):
         abort(404)
     if 'name' not in data:
-        abort(400, description="Missing name")
+        abort(400, "Missing name")
 
     instance = Place(**data)
     instance.city_id = city.id
@@ -85,7 +85,7 @@ def put_place(place_id):
         abort(404)
     data = request.get_json()
     if not data:
-        abort(400, description="Not a JSON")
+        abort(400, "Not a JSON")
     ignore = ['id', 'user_id', 'city_id', 'created_at', 'updated_at']
     for key, value in data.items():
         if key not in ignore:
