@@ -1,3 +1,7 @@
+#!/usr/bin/python3
+
+""" This module sets blueprint for app"""
+
 from api.v1.views import app_views, jsonify
 from flask import Flask
 
