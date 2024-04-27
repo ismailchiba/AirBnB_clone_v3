@@ -130,7 +130,7 @@ class TestDBStorage(unittest.TestCase):
 
         storage.reload()
 
-        state_data = ("name": "Maldives"}
+        state_data = {"name": "Maldives"}
 
         state_instance = State(**state_data)
         storage.new(state_instance)
@@ -164,7 +164,7 @@ class TestDBStorage(unittest.TestCase):
         state_occurrence = storage.count(State)
         self.assertEqual(state_occurrence, len(storage.all(State)))
 
-        all occurrence = storage.count()
+        all_occurrence = storage.count()
         self.assertEqual(all_occurrence, len(storage.all()))
 
 
