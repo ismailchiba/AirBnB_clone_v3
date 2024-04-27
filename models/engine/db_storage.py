@@ -82,10 +82,13 @@ class DBStorage:
         my_count = 0
 
         # Check if the class is specified
-        if cls is not None and cls in classes.values():
+        if cls and cls in classes.values():
             # Query objects for the specified class
             objs = self.all(cls)
             my_count = len(objs)
+        else:
+            # if cls not provided, return count of all cls
+            my_count = len(self.all())
 
         return my_count
 
