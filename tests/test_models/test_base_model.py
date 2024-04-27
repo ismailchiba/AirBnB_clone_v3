@@ -159,5 +159,10 @@ class TestBaseModel(unittest.TestCase):
         self.assertTrue(mock_storage.new.called)
         self.assertTrue(mock_storage.save.called)
 
-        if __name__ == '__main__':
-            TestBaseModelDocs().unittest()
+    def test_deletion(self):
+        first_inst = BaseModel()
+        first_inst.save()
+        object_not_id = first_inst.id
+        first_inst.delete()
+
+        self.assertIsNone(BaseModel.get(object_not_id))
