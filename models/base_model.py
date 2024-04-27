@@ -10,6 +10,7 @@ import sqlalchemy
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 import uuid
+import hashlib
 
 time = "%Y-%m-%dT%H:%M:%S.%f"
 
@@ -70,9 +71,8 @@ class BaseModel:
             del new_dict["_sa_instance_state"]
 
         # Remove password key unless explicitly specified
-        # if save_fs is None:
-            # if 'password' in new_dict:
-                # del new_dict['password']
+        if 'password' not in kwargs:
+            new_dict.pop('password', None)
 
         return new_dict
 
