@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 from flask import jsonify, request, abort, make_response
-from api.v1.views import app_views
+from api.v1.views.index import app_views
 from models import storage
 from models.state import State
 
@@ -38,6 +38,7 @@ def delete_state(state_id):
 
 @app_views.route('/states', strict_slashes=False, methods=['POST'])
 def creat_stat():
+    """create new state"""
     response = request.get_json(silent=True)
     if response is None:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
@@ -50,6 +51,7 @@ def creat_stat():
 
 @app_views.route('/states/<state_id>', strict_slashes=False, methods=['PUT'])
 def update_stat(state_id):
+    """update states"""
     if state_id is None:
         abort(404)
     state = storage.get(State, state_id)
