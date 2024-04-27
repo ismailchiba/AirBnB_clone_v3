@@ -8,8 +8,10 @@ from models import storage
 from flask import Flask, jsonify, make_response
 from api.v1.views import app_views
 import os
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 # Register the blueprint app_views to the Flask instance app
 app.register_blueprint(app_views)
 
