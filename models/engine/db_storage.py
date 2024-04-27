@@ -80,24 +80,20 @@ class DBStorage:
         retrieve objects from file storage by class and id
         '''
         if cls and id:
-            if id cls in classes.values() and isinstance(id, str):
+            if cls in classes.values() and isinstance(id, str):
                 all_objects = self.all(cls)
                 for key, value in all_objects.items():
-                    if key.split('.')[1] == id:
+                    if value.id == id:
                         return value
-            else:
-                return
-        return
+        return None
 
     def count(self, cls=None):
         '''count:
         count number of objects in storage
         '''
         if not cls:
-            instance_of_all_cls = self.all()
-            return len(instance_of_all_cls)
-        if cls in classes.values():
-            all_instance_of_classes_provided = self.all(cls)
-            return len(all_instance_of_classes_provided)
-        if cls not in classes.values():
-            return
+            return len(self.all())
+        elif cls in classes.values():
+            return len(self.all(cls))
+        else:
+            return 0
