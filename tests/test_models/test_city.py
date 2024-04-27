@@ -15,6 +15,24 @@ City = city.City
 
 class TestCityDocs(unittest.TestCase):
     """Tests to check the documentation and style of City class"""
+    def __init__(self, *args, **kwargs):
+        """ """
+        super().__init__(*args, **kwargs)
+        self.name = "City"
+        self.value = City
+
+    def test_state_id(self):
+        """ """
+        new = self.value()
+        new.state_id = '0001'
+        self.assertEqual(type(new.state_id), str)
+
+    def test_name(self):
+        """ """
+        new = self.value()
+        new.name = 'City'
+        self.assertEqual(type(new.name), str)
+
     @classmethod
     def setUpClass(cls):
         """Set up for the doc tests"""

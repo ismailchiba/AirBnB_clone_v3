@@ -15,6 +15,18 @@ Amenity = amenity.Amenity
 
 class TestAmenityDocs(unittest.TestCase):
     """Tests to check the documentation and style of Amenity class"""
+    def __init__(self, *args, **kwargs):
+        """Set up for class tests"""
+        super().__init__(*args, **kwargs)
+        self.name = "Amenity"
+        self.value = Amenity
+
+    def test_name2(self):
+        """Test for Amenity creation"""
+        new = self.value()
+        new.name = "Amenity"
+        self.assertEqual(type(new.name), str)
+
     @classmethod
     def setUpClass(cls):
         """Set up for the doc tests"""

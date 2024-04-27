@@ -15,6 +15,19 @@ State = state.State
 
 class TestStateDocs(unittest.TestCase):
     """Tests to check the documentation and style of State class"""
+
+    def __init__(self, *args, **kwargs):
+        """ """
+        super().__init__(*args, **kwargs)
+        self.name = "State"
+        self.value = State
+
+    def test_name3(self):
+        """ """
+        new = self.value()
+        new.name = 'State'
+        self.assertEqual(type(new.name), str)
+
     @classmethod
     def setUpClass(cls):
         """Set up for the doc tests"""

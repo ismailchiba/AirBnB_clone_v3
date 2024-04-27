@@ -14,10 +14,13 @@ from models.place import Place
 from models.review import Review
 from models.state import State
 from models.user import User
+import MySQLdb
 import json
 import os
 import pep8
 import unittest
+from models import storage
+import os
 DBStorage = db_storage.DBStorage
 classes = {"Amenity": Amenity, "City": City, "Place": Place,
            "Review": Review, "State": State, "User": User}
@@ -25,6 +28,144 @@ classes = {"Amenity": Amenity, "City": City, "Place": Place,
 
 class TestDBStorageDocs(unittest.TestCase):
     """Tests to check the documentation and style of DBStorage class"""
+    @classmethod
+    def setUpClass(cls):
+        """Set up the database once for all tests"""
+        cls.db = MySQLdb.connect(user='hbnb_test',
+                                 passwd='hbnb_test_pwd',
+                                 db='hbnb_test_db',
+                                 host="localhost",
+                                 port=3306)
+        cls.cursor = cls.db.cursor()
+        # cls.cursor.execute("CREATE DATABASE IF NOT EXISTS hbnb_test_db;")
+        # cls.cursor.execute("USE hbnb_test_db;")
+        # cls.cursor.execute("CREATE TABLE IF NOT EXISTS baseModel
+        # (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255) NOT NULL);")
+        # cls.db.commit()
+
+    @classmethod
+    def tearDownClass(cls):
+        """Clean up the database after all tests"""
+        cls.cursor.execute("DROP DATABASE hbnb_test_db;")
+        cls.db.commit()
+        cls.cursor.close()
+        cls.db.close()
+
+    def test_obj_list_empty(self):
+        """ __objects is initially empty """
+        self.assertEqual(len(storage.all()), 0)
+
+    # def test_new(self):
+    #     """ New object is correctly added to __objects """
+    #     new = BaseModel()
+    #     before_add = self.cursor.execute("""
+    #         SELECT count(*) FROM baseModel
+    #         GROUP BY (id)
+    #     """)
+    #     new.save()
+    #     # Now checking if new object is in storage
+    #     after_add = self.cursor.execute("""
+    #         SELECT count(*) FROM baseModel
+    #         GROUP BY (id)
+    #     """)
+    #     self.assertEqual(before_add + 1, after_add)
+    # def test_all(self):
+    #     """ __objects is properly returned """
+    #     new = BaseModel()
+    #     temp = storage.all()
+    #     # Get the count of objects from the database
+    #     self.cursor.execute("""
+    #         SELECT count(*) FROM baseModel
+    #         GROUP BY (id)
+    #     """)
+    #     db_all = len(self.cursor.fetchall())
+    # Get the count of rows returned
+    #     self.assertEqual(len(temp), db_all)
+
+    # def test_base_model_instantiation(self):
+    #     """ table is not created on BaseModel save """
+    #     before_instance = self.cursor.execute(""""
+    #                         SELECT count(*) From baseModel
+    #                         GROUP BY (id)
+    #                         """)
+    #     new = BaseModel()
+    #     after_instance = self.cursor.execute(""""
+    #                         SELECT count(*) From baseModel
+    #                         GROUP BY (id)
+    #                         """)
+    #     self.assertEqual(before_instance, after_instance)
+
+    # def test_empty(self):
+    #     """Data is not saved to database upon instance creation"""
+    #     # Get the count of rows before creating a new object
+    #     self.cursor.execute("SELECT COUNT(*) FROM baseModel;")
+    #     before_create = self.cursor.fetchone()[0]
+    #     # Create a new BaseModel instance without calling save
+    #     new = BaseModel()
+    #     # Count the number of rows after creating the new object
+    #     self.cursor.execute("SELECT COUNT(*) FROM baseModel;")
+    #     after_create = self.cursor.fetchone()[0]
+    #     # Check that the number of rows remains the same,
+    # indicating that the object was not saved to the database
+    #     self.assertEqual(before_create, after_create)
+    # def test_save(self):
+    #     """DBStorage save method"""
+    #     # Create a new BaseModel instance
+    #     new = BaseModel()
+    #     # Save the new instance using the storage
+    #     storage.save(new)
+    #     # Assuming you have a method to get the object
+    # from storage, check if it exists
+    #     retrieved_obj = storage.get(BaseModel, new.id)
+
+    #     # Assert that the retrieved object is the same as the one we saved
+    #     self.assertEqual(new, retrieved_obj)
+    # def test_reload(self):
+    #     """ Db is successfully loaded to __objects """
+    #     new = BaseModel()
+    #     new_id = new.id
+    #     storage.save()
+    #     storage.reload()
+    #     _id = f'BaseModel.{new_id}'
+    #     # Directly fetch the object by its unique ID after reloading
+    #     reloaded_obj = storage.all()
+    #     ob_id = f'{new.__class__.__name__}' + '.' + new.id
+    #     # Ensure an object was returned after reload and it's the correct one
+    #     self.assertIsNotNone(reloaded_obj,
+    #                         "No object was loaded after reload.")
+    # def test_reload_empty(self):
+    #     """ Load from an empty db/table """
+    #     with self.assertRaises(ValueError):
+    #         storage.reload()
+
+    # def test_reload_from_nonexistent(self):
+    #     """ Nothing happens if db does not exist """
+    #     self.assertEqual(storage.reload(), None)
+
+    # def test_type_objects(self):
+    #     """Confirm __objects is a dict"""
+    #     self.assertIsInstance(storage.all(), dict,
+    # "__objects is not a dictionary")
+    # def test_key_format(self):
+    #     """Key is properly formatted"""
+    #     # Create a new BaseModel instance
+    #     new = BaseModel()
+    #     new.save()  # Save the object to ensure it's in storage
+    #     _id = new.id
+    #     expected_key = f'BaseModel.{_id}'
+    #     # Check if the expected key is in the keys of storage
+    #     self.assertIn(expected_key, storage.all().keys(),
+    #                 f"Key {expected_key} not found in storage keys")
+
+    # def test_storage_var_created(self):
+    #     """Test if storage variable is an instance of DBStorage"""
+    #     # Assuming storage is properly initialized before the test
+    #     from models.engine.db_storage import DBStorage
+
+    #     # Assert that storage is an instance of DBStorage
+    #     self.assertIsInstance(storage, DBStorage,
+    # "storage is not an instance of DBStorage")
+
     @classmethod
     def setUpClass(cls):
         """Set up for the doc tests"""

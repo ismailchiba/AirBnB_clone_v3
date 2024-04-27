@@ -15,6 +15,36 @@ User = user.User
 
 class TestUserDocs(unittest.TestCase):
     """Tests to check the documentation and style of User class"""
+    def __init__(self, *args, **kwargs):
+        """ """
+        super().__init__(*args, **kwargs)
+        self.name = "User"
+        self.value = User
+
+    def test_first_name(self):
+        """ """
+        new = self.value()
+        new.first_name = "first"
+        self.assertEqual(type(new.first_name), str)
+
+    def test_last_name(self):
+        """ """
+        new = self.value()
+        new.last_name = "last"
+        self.assertEqual(type(new.last_name), str)
+
+    def test_email(self):
+        """ """
+        new = self.value()
+        new.email = "me@gmail.com"
+        self.assertEqual(type(new.email), str)
+
+    def test_password(self):
+        """ """
+        new = self.value()
+        new.password = "password"
+        self.assertEqual(type(new.password), str)
+
     @classmethod
     def setUpClass(cls):
         """Set up for the doc tests"""
