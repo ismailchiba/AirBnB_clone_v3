@@ -3,7 +3,7 @@
     State- Blueprint Module
 """
 
-from flask import jsonify, make_response, abort, request
+from flask import abort, jsonify, make_response, request
 from api.v1.views import app_views
 from models import storage
 from models.state import State
