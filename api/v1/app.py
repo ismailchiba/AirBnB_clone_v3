@@ -1,12 +1,14 @@
+#!/usr/bin/python3
 """ airbnb api wih flask"""
 
 
 from flask import Flask
 from models import storage
-from api.v1.views import app_viwes
+from api.v1.views import app_views
+import os
 
 app = Flask(__name__)
-app.register_blueprint(app_viwes)
+app.register_blueprint(app_views)
 
 
 @app.teardown_appcontext
@@ -14,11 +16,13 @@ def tearodwn_close(exception):
     """close data base"""
     storage.close()
 
-app.route("/status")
-def status():
-    return jsonify({"status": "ok"})
-
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, threaded=True)
+    host = os.getenv("HBNB_API_HOST")
+    port = os.getenv("HBNB_API_PORT")
+    if host is None:
+        host = "0.0.0.0"
+    if port is None:
+        port = "5000"
+    app.run(host=host, port=port, threaded=True)
