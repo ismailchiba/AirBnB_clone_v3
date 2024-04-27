@@ -90,4 +90,3 @@ def update_placey(place_id):
     place.longitude = data.get("longitude", place.longitude)
     place.save()
     return jsonify(place.to_dict()), 200
-
