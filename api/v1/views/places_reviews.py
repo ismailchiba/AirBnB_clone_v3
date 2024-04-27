@@ -6,6 +6,7 @@ from flask import jsonify, abort, request, make_response
 from models import storage
 from models.review import Review
 from models.place import Place
+from models.user import User
 
 
 @app_views.route('/places/<place_id>/reviews',
@@ -59,7 +60,7 @@ def post_review(place_id):
         return "Missing user_id", 400
     if 'text' not in data:
         return "Missing text", 400
-    user = storage.get("User", data['user_id'])
+    user = storage.get(User, data['user_id'])
     if user is None:
         abort(404)
     data['place_id'] = place_id
