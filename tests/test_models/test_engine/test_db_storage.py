@@ -125,3 +125,6 @@ class TestDBStorage(unittest.TestCase):
         # count returns all if class is not provided
         count_all = models.storage.all()
         self.assertEqual(count_all, models.storage.count())
+        # check if the returned count is a number
+        self.assertTrue(type(models.storage.count()), int)
+        self.assertTrue(type(models.storage.count(State)), int)
