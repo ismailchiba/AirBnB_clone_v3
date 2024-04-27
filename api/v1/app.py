@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """Status of your API"""
 
-from models import storage
 from api.v1.views import app_views
 from flask import Flask, make_response, jsonify
 from os import getenv
@@ -12,6 +11,7 @@ app = Flask(__name__)
 app.register_blueprint(app_views)
 
 
+from models import storage
 @app.teardown_appcontext
 def app_tear(obj):
     """ calling close() method"""
