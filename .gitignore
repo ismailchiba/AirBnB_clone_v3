@@ -1,0 +1,4 @@
+#Ignore all the .pyc files
+**/__pycache__
+# Ignore the file.json
+file.json
