@@ -1,4 +1,5 @@
 # AirBnB Clone - The Console
+<img src="https://s3.amazonaws.com/alx-intranet.hbtn.io/uploads/medias/2020/9/02078cd7f0573885c85a225c7436584a5afea1f9.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIARDDGGGOUSBVO6H7D%2F20240427%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240427T170254Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=d367d68e906bb35fd72c96197ff8b774ca7f6fe098816ebf3f14de5149cabbc6">
 The console is the first segment of the AirBnB project at Holberton School that will collectively cover fundamental concepts of higher level programming. The goal of AirBnB project is to eventually deploy our server a simple copy of the AirBnB Website(HBnB). A command interpreter is created in this segment to manage objects for the AirBnB(HBnB) website.
 
 #### Functionalities of this command interpreter:
@@ -149,9 +150,6 @@ EOF  all  create  destroy  help  quit  show  update
 ** no instance found **
 (hbnb) quit
 ```
-
-## Bugs
-No known bugs at this time. 
 
 ## Authors
 Karima Touhami - [Github](https://github.com/karimatouhami) / [Linkedin](https://www.linkedin.com/in/karimatouhami/) 
