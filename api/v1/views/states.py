@@ -6,6 +6,7 @@ from models.state import State
 from api.v1.views import app_views
 from flask import request, abort, jsonify
 
+
 @app_views.route('/states', methods=['GET', 'POST'], strict_slashes=False)
 def all_states():
     """gets and creates objects of State object"""
@@ -24,8 +25,9 @@ def all_states():
         storage.save()
         return jsonify(new_state.to_dict()), 201
 
+
 @app_views.route('/states/<state_id>', methods=['GET', 'DELETE', 'PUT'],
-                                 strict_slashes=False)
+                 strict_slashes=False)
 def states_by_id(state_id):
     """gets, deletes, and updates objects of State object"""
     state = storage.get(State, state_id)
