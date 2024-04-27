@@ -18,13 +18,14 @@ import json
 import os
 import pep8
 import unittest
+
 DBStorage = db_storage.DBStorage
 classes = {"Amenity": Amenity, "City": City, "Place": Place,
            "Review": Review, "State": State, "User": User}
 
 
 class TestDBStorageDocs(unittest.TestCase):
-    """Tests to check the documentation and style of DBStorage class"""
+    """ Tests to check the documentation and style of DBStorage class"""
     @classmethod
     def setUpClass(cls):
         """Set up for the doc tests"""
@@ -67,6 +68,44 @@ test_db_storage.py'])
             self.assertTrue(len(func[1].__doc__) >= 1,
                             "{:s} method needs a docstring".format(func[0]))
 
+     def test_get_existing_object(self):
+         """ New ones """
+        obj = MyClass(id='1', name='Object 1')
+        self.storage.add(obj)
+
+        retrieved_obj = self.storage.get(MyClass, '1')
+
+        self.assertEqual(retrieved_obj, obj)
+
+    def test_get_nonexistent_object(self):
+        retrieved_obj = self.storage.get(MyClass, '2')
+
+        self.assertIsNone(retrieved_obj)
+
+    def test_count_all_objects(self):
+        obj1 = MyClass(id='1', name='Object 1')
+        obj2 = MyClass(id='2', name='Object 2')
+        obj3 = MyClass(id='3', name='Object 3')
+        self.storage.add(obj1)
+        self.storage.add(obj2)
+        self.storage.add(obj3)
+
+        count = self.storage.count()
+        self.assertEqual(count, 3)
+
+    def test_count_objects_by_class(self):
+        """ end of new ones """
+        obj1 = MyClass(id='1', name='Object 1')
+        obj2 = AnotherClass(id='2', name='Object 2')
+        obj3 = MyClass(id='3', name='Object 3')
+        self.storage.add(obj1)
+        self.storage.add(obj2)
+        self.storage.add(obj3)
+
+        count = self.storage.count(MyClass)
+
+        self.assertEqual(count, 2)
+
 
 class TestFileStorage(unittest.TestCase):
     """Test the FileStorage class"""
@@ -86,3 +125,5 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
+
+
