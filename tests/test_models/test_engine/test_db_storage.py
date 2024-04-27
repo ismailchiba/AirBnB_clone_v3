@@ -39,12 +39,14 @@ class TestDBStorageDocs(unittest.TestCase):
         cls.cursor = cls.db.cursor()
 
     def setUp(self):
-        """Prepare the test environment before each test."""
-        # Clean up any existing objects in storage
+        # Create a static list of keys to iterate over
         all_objects = storage.all()
-        for obj_id in all_objects.keys():
+        keys_list = list(all_objects.keys())
+        
+        for obj_id in keys_list:
             storage.delete(all_objects[obj_id])
         storage.save()
+
 
     @classmethod
     def tearDownClass(cls):
