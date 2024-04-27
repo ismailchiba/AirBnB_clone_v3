@@ -50,6 +50,26 @@ class DBStorage:
                     key = obj.__class__.__name__ + '.' + obj.id
                     new_dict[key] = obj
         return (new_dict)
+            
+    def new(self, obj):
+        """add the object to the current database session"""
+        self.__session.add(obj)
+
+    def save(self):
+        """commit all changes of the current database session"""
+        self.__session.commit()
+
+    def delete(self, obj=None):
+        """delete from the current database session obj if not None"""
+        if obj is not None:
+            self.__session.delete(obj)
+
+    def reload(self):
+        """reloads data from the database"""
+        Base.metadata.create_all(self.__engine)
+        sess_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        Session = scoped_session(sess_factory)
+        self.__session = Session
 
     def get(self, cls, id):
         """Retrives object based on class and it ID"""
@@ -84,26 +104,6 @@ class DBStorage:
             my_count = len(objs)
 
         return my_count
-            
-    def new(self, obj):
-        """add the object to the current database session"""
-        self.__session.add(obj)
-
-    def save(self):
-        """commit all changes of the current database session"""
-        self.__session.commit()
-
-    def delete(self, obj=None):
-        """delete from the current database session obj if not None"""
-        if obj is not None:
-            self.__session.delete(obj)
-
-    def reload(self):
-        """reloads data from the database"""
-        Base.metadata.create_all(self.__engine)
-        sess_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
-        Session = scoped_session(sess_factory)
-        self.__session = Session
 
     def close(self):
         """call remove() method on the private session attribute"""
