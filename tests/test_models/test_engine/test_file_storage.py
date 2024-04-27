@@ -133,6 +133,7 @@ class TestFileStorage(unittest.TestCase):
         self.assertGreater(count_all, 0)
         self.assertGreater(count_states, 0)
 
+    @unittest.skipIf(models.storage_t == 'db', "not testing db storage")
     def test_count(self):
         """test count"""
         i = storage.count(State)
