@@ -64,12 +64,46 @@ class DBStorage:
         if obj is not None:
             self.__session.delete(obj)
 
+    def get(self, cls, id):
+        """Retrives object based on class and it ID"""
+        # Check if the class is valid
+        if cls in classes.values():
+            # Query the database for all objects of the given class
+            objs = self.all(cls)
+
+            # Iterate through the objects to find the one with the matching ID
+            for obj in objs.values():
+                if obj.id == id:
+                    return obj
+        return None
+
+    def count(self, cls=None):
+        """Counts the number of objects in storage matching the given class."""
+        my_count = 0
+
+        # Check if the class is specified
+        if cls and cls in classes.values():
+            # Query objects for the specified class
+            objs = self.all(cls)
+            my_count = len(objs)
+        else:
+            # if cls not provided, return count of all cls
+            my_count = len(self.all())
+
+        return my_count
+
     def reload(self):
         """reloads data from the database"""
         Base.metadata.create_all(self.__engine)
         sess_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(sess_factory)
         self.__session = Session
+
+        # Query all objects and add them to the session
+        for cls in classes.values():
+            objs = self.all(cls)
+            for obj in objs.values():
+                self.__session.add(obj)
 
     def close(self):
         """call remove() method on the private session attribute"""
