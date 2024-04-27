@@ -17,6 +17,6 @@ def close(exception):
 
 
 if __name__ == "__main__":
-    app.config['SERVER_NAME'] = os.getenv('HBNB_API_HOST', '0.0.0.0')
-    app.config['SERVER_PORT'] = os.getenv('HBNB_API_PORT', '5000')
-    app.run(threaded=True)
+    the_host = os.getenv('HBNB_API_HOST', '0.0.0.0')
+    the_port = int(os.getenv('HBNB_API_PORT', 5000))
+    app.run(host=the_host, port=the_port, threaded=True)
