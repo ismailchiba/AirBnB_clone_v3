@@ -1,9 +1,7 @@
 #!/usr/bin/python3
 """This module defines routes for the status and statistics of the API."""
 
-from models import storage
 from flask import Flask
-from api.v1.views import app_views
 from flask import jsonify
 
 
@@ -14,6 +12,7 @@ def status():
     Returns:
         JSON: A JSON object with the status "OK".
     """
+    from api.v1.views import app_views
     return jsonify({'status': 'OK'})
 
 
@@ -24,6 +23,7 @@ def get_stats():
     Returns:
         JSON: A JSON object with counts of various data types stored in the API.
     """
+    from models import storage
     counts = {
         'amenities': storage.count('Amenity'),
         'cities': storage.count('City'),
