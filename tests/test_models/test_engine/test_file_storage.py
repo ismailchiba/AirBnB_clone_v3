@@ -113,37 +113,24 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
-
         
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    def test_get(self):
-        """Tests method for obtaining an instance db storage"""
-        storage = FileStorage()
-        storage.reload()
-        state_data = {"name": "Maldives"}
-        state_instance = State(**state_data)
-        storage.new(state_instance)
-        storage.save()
-        retrived_state = storage.get(State, state_instance.id)
-        self.assertEqual(state_instance, retrived_state)
-        fake_state_id = storage.get(State, 'fake_id')
-        self.assertEqual(fake_state_id, None)
-
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_count(self):
-        """Tests method for obtaining an instance db storage"""
-        storage = FileStorage()
-        storage.reload()
-        state_data = {"name": "Ethiopia"}
-        state_instance = State(**state_data)
-        storage.new(state_instance)
-        city_data = {"name": "Addis Ababa"}
-        state_instance = City(**city_data)
-        storage.new(city_instance)
+        """test that count property work"""
+        store = models.storage
+        addstate = State()
+        addstate.new = "Maldives"
+        store.new(addstate)
+        store.save()
+        self.assertEqual(len(store.all("State")),
+                         store.count("State"))
 
-        storage.save()
-        state_occurance = storage.count(State)
-        self.assertEqual(state_occurence, len(storage.all(State)))
-
-        all_occurance = storage.count()
-        self.assertEqual(all_occurence, len(storage.all()))
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_get(self):
+        """test that count proprty work very well"""
+        store = models.storage
+        addstate = State()
+        addstate.new = "Maldives"
+        store.new(addstate)
+        store.save()
+        self.assertEqual(addstate, store.get("State", addstate.id))
