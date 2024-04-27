@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Unit Test for Place Class
+This is the file that contains the Tests_Place_Doc classes
 """
 import unittest
 from datetime import datetime
