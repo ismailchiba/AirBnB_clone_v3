@@ -10,6 +10,7 @@ app.register_blueprint(app_views)
 
 @app.teardown_appcontext
 def tear_down(error=None):
+    """ Tears down or close the db session"""
     storage.close()
 
 if __name__ == "__main__":
