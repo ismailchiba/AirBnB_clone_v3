@@ -13,7 +13,7 @@ def get_states():
     return jsonify([state.to_dict() for state in states])
 
 # Endpoint to retrieve a specific State object by state_id
-@app_views.route('/states/<string:state_id>', methods=['GET'],
+@app_views.route('/states/<state_id>', methods=['GET'],
                  strict_slashes=False)
 def get_state(state_id):
     """ get state information based on id"""
@@ -23,7 +23,7 @@ def get_state(state_id):
     return jsonify(state.to_dict())
 
 
-@app_views.route('/states/<string:state_id>', methods=['DELETE'],
+@app_views.route('/states/<state_id>', methods=['DELETE'],
                  strict_slashes=False)
 def delete_state(state_id):
     """deletes a state based on its state_id"""
@@ -49,7 +49,7 @@ def post_state():
     return jsonify(new_state.to_dict()), 201
 
 
-@app_views.route('/states/<string:state_id>', methods=['PUT'],
+@app_views.route('/states/<state_id>', methods=['PUT'],
                  strict_slashes=False)
 def put_state(state_id):
     """update a state"""
