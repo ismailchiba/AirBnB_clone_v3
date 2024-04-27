@@ -95,7 +95,7 @@ class TestFileStorageDocs(unittest.TestCase):
         _id = 'BaseModel.{}'.format(new_id)
         # Directly fetch the object by its unique ID after reloading
         reloaded_obj = storage.all()
-        ob_id = f'{new.__class__.__name__}' + '.' + new.id
+        ob_id = '{}.{}'.format(new.__class__.__name__, new.id)
         # Ensure an object was returned after reload and it's the correct one
         self.assertIsNotNone(reloaded_obj,
                              "No object was loaded after reload.")
