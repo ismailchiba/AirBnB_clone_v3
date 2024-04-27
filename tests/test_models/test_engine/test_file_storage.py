@@ -3,6 +3,7 @@
 Contains the TestFileStorageDocs classes
 """
 
+from models import storage
 from datetime import datetime
 import inspect
 import models
@@ -115,9 +116,19 @@ class TestFileStorage(unittest.TestCase):
         self.assertEqual(json.loads(string), json.loads(js))
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
-    def test_get(self):
+    def test_get_method(self):
         """test get"""
+        state = State(name="tokyo")
+        storage.new(state)
+        self.assertIsNotNone(state)
+        self.assertEqual(state.__class__.__name__, 'State')
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
-    def test_count(self):
+    def test_count_method(self):
         """test count"""
+        count_all = storage.count()
+        count_states = storage.count(State)
+        print(count_all)
+        print(count_states)
+        self.assertGreater(count_all, 0)
+        self.assertGreater(count_states, 0)
