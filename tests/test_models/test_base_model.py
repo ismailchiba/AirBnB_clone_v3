@@ -123,12 +123,26 @@ class TestBaseModelDocs(unittest.TestCase):
         self.assertEqual(type(new.created_at), datetime)
 
     def test_updated_at(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.updated_at), datetime)
-        n = new.to_dict()
-        new = BaseModel(**n)
-        self.assertFalse(new.created_at == new.updated_at)
+        """
+        Test that 'updated_at' is initialized correctly, and it remains
+        unchanged upon creating a new instance from a
+        dictionary representation.
+        """
+        # Create an instance of BaseModel
+        instance = BaseModel()
+
+        # Check if 'updated_at' is of type 'datetime'
+        self.assertIsInstance(instance.updated_at, datetime,
+                              "updated_at should be a datetime object")
+
+        # Convert instance to a dictionary and create a new instance from it
+        instance_dict = instance.to_dict()
+        new_instance = BaseModel(**instance_dict)
+
+        # Check if 'created_at' and 'updated_at' are equal for the new instance
+        self.assertEqual(new_instance.created_at, new_instance.updated_at,
+                         "created_at and updated_at should be equal for a new\
+                         instance created from a dictionary")
 
     @classmethod
     def setUpClass(self):
