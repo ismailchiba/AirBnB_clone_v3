@@ -50,7 +50,9 @@ class TestDBStorageDocs(unittest.TestCase):
             cls.cursor.execute("DROP DATABASE hbnb_test_db;")
             cls.db.commit()
             cls.cursor.close()
-        cls.db.close()
+        if hasattr(cls, 'db') and cls.db:
+            cls.db.close()
+
 
     def test_obj_list_empty(self):
         """ __objects is initially empty """
