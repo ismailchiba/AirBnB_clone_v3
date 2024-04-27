@@ -9,13 +9,14 @@ import pep8
 import unittest
 from unittest.mock import patch
 from io import StringIO
-
 HBNBCommand = console.HBNBCommand
+
+
 class TestConsoleDocs(unittest.TestCase):
     """Class for testing documentation of the console"""
-    
+
     def setUp(self):
-        """Setu console environment"""
+        """Setup console"""
         self.console = HBNBCommand()
 
     @patch('sys.stdout', new_callable=StringIO)
@@ -55,9 +56,10 @@ class TestConsoleDocs(unittest.TestCase):
         # Assert that the object is shown successfully
         self.assertIn(_id, _id1)
     # Add similar test methods for 'all' and 'delete'
+
     def test_pep8_conformance_console(self):
         """Test that console.py conforms to PEP8."""
-        pep8s = pep8.StyleGuide(quiet=True)
+        pep8s = pycodestyle.StyleGuide(quiet=True)
         result = pep8s.check_files(['console.py'])
         self.assertEqual(result.total_errors, 0,
                          "Found code style errors (and warnings).")
