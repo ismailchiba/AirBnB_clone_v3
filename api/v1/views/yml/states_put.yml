@@ -14,4 +14,3 @@ responses:
     description: Resource not found
   400:
     description: Not a JSON
-
