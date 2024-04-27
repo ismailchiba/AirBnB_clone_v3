@@ -42,11 +42,9 @@ class TestDBStorageDocs(unittest.TestCase):
         # Create a static list of keys to iterate over
         all_objects = storage.all()
         keys_list = list(all_objects.keys())
-        
         for obj_id in keys_list:
             storage.delete(all_objects[obj_id])
         storage.save()
-
 
     @classmethod
     def tearDownClass(cls):
