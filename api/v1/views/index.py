@@ -1,20 +1,11 @@
-#!/usr/bin/python3
-import models
-from models import storage
-from models.base_model import BaseModel
-from api.v1.views import app_views
 from flask import jsonify
 
+from api.v1.views import app_views
 
-@app_views.route('/api/v1/stats', methods=['GET'])
-def get_status():
-    """Get the number of each object by its type"""
-    stats = {
-            "amenities": storage.count("Amenity"),
-            "cities": storage.count("City"),
-            "places": storage.count("Place"),
-            "reviews": storage.count("Review"),
-            "states": storage.count("State"),
-            "users": storage.count("User")
-    }
-    return jsonify(stats)
+
+@app_views.route('/status')
+def status():
+    """
+    Route to return status OK in JSON format
+    """
+    return jsonify({"status": "OK"})
