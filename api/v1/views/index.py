@@ -5,6 +5,7 @@ Tihs file uses the created Blueprint to define routes
 from flask import jsonify
 from api.v1.views import app_views
 from models import storage
+import json
 
 
 @app_views.route('/status', strict_slashes=False)
@@ -12,8 +13,8 @@ def home():
     """
     returns a status ok
     """
-
-    return jsonify({"status": "OK"})
+    json_data = json.dumps({"status": "OK"}, indent=4)
+    return jsonify(json_data)
 
 @app_views.route('/stats')
 def objects_count():
@@ -29,5 +30,7 @@ def objects_count():
         "states": storage.count("State"),
         "users": storage.count("User")
     }
+
+    stats = json.dumps(stats, indent=4)
 
     return jsonify(stats)

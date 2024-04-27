@@ -23,4 +23,4 @@ def all_states():
     print(states_obj)
 
 
-    # return jsonify(storage.all("State"))
+    return jsonify(storage.all("State"))
