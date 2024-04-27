@@ -1,24 +1,29 @@
 #!/usr/bin/python3
-"""index file"""
-
-
+""" Index module """
 from api.v1.views import app_views
-from flask import jsonify
-from models import storage
 
 
-@app_views.route('/status', strict_slashes=False)
+@app_views.route('/status', methods=['GET'], strict_slashes=False)
 def status():
-    """Simple function that returns status: ok"""
-    return jsonify({"status": "OK"})
+    """Returns a JSON response"""
+    return {"status": "OK"}
 
 
-@app_views.route('/stats', strict_slashes=False)
+@app_views.route('/stats', methods=['GET'], strict_slashes=False)
 def stats():
-    """Returns json that contains stats of storage"""
-    return jsonify({"amenities": storage.count("Amenity"),
-                    "cities": storage.count("City"),
-                    "places": storage.count("Place"),
-                    "reviews": storage.count("Review"),
-                    "states": storage.count("State"),
-                    "users": storage.count("User")})
+    """Returns object counts"""
+    from models import storage
+    states = storage.count('State')
+    amenities = storage.count('Amenity')
+    cities = storage.count('City')
+    places = storage.count('Place')
+    reviews = storage.count('Review')
+    users = storage.count('User')
+    return {
+        "amenities": amenities,
+        "cities": cities,
+        "places": places,
+        "reviews": reviews,
+        "states": states,
+        "users": users
+    }
