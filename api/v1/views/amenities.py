@@ -16,11 +16,12 @@ def all_amenities():
         return jsonify(amenities)
 
     if request.method == 'POST':
+        amenity_dict = request.get_json()
         if not request.get_json():
             abort(400, 'Not a JSON')
         if 'name' not in request.get_json():
             abort(400, 'Missing name')
-        new_amenity = Amenity(name=request.json['name'])
+        new_amenity = Amenity(**amenity_dict)
         storage.new(new_amenity)
         storage.save()
         return jsonify(new_amenity.to_dict()), 201
@@ -31,7 +32,7 @@ def all_amenities():
 def amenities_by_id(amenity_id):
     """gets, deletes, and updates objects of Amenity object"""
     amenity = storage.get(Amenity, amenity_id)
-    if not state:
+    if not amenity:
         abort(404)
     if request.method == 'GET':
         return jsonify(amenity.to_dict())
@@ -45,8 +46,8 @@ def amenities_by_id(amenity_id):
         if not request.get_json():
             abort(400, 'Not a JSON')
         req_json = request.json
-        for key in req_json.keys():
+        for key, value in req_json.items():
             if key not in ['id', 'created_at', 'updated_at']:
-                setattr(state, key, req_json[key])
+                setattr(state, key, value)
         storage.save()
         return jsonify(amenity.to_dict()), 200
