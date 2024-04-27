@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+
 """users module"""
 from api.v1.views import app_views
 from flask import jsonify, request, abort
@@ -19,8 +20,9 @@ def get_users():
 @app_views.route('/users', methods=['POST'], strict_slashes=False)
 def post_user():
     """create a user"""
-    data = request.get_json()
-    if data is None:
+    try:
+        data = request.get_json()
+    except Exception as e:
         abort(400, 'Not a JSON')
     if 'email' not in data:
         abort(400, 'Missing email')
@@ -58,8 +60,9 @@ def put_user(user_id):
     user = storage.get(User, user_id)
     if user is None:
         abort(404)
-    data = request.get_json()
-    if data is None:
+    try:
+        data = request.get_json()
+    except Exception as e:
         abort(400, 'Not a JSON')
     for key, value in data.items():
         if key not in ['id', 'email', 'created_at', 'updated_at']:
