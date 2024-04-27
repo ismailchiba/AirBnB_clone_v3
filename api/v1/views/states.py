@@ -6,6 +6,8 @@ from api.v1.views import app_views
 from flask import Flask, jsonify, request, abort, make_response
 from models import storage
 from models.state import State
+from datetime import datetime
+import uuid
 
 
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
@@ -19,9 +21,9 @@ def get_states():
 def get_state(state_id):
     """get a state"""
     state = storage.get(State, state_id)
-    if state:
-        return jsonify(state.to_dict())
-    abort(404)
+    if state is None:
+        abort(404)
+    return jsonify(state.to_dict())
 
 
 @app_views.route(
@@ -30,11 +32,11 @@ def get_state(state_id):
 def delete_state(state_id):
     """delete a state"""
     state = storage.get(State, state_id)
-    if state:
-        storage.delete(state)
-        storage.save()
-        return jsonify({})
-    abort(404)
+    if state is None:
+        abort(404)
+    state.delete()
+    storage.save()
+    return jsonify({}), 200
 
 
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
@@ -42,9 +44,13 @@ def create_state():
     """create a state"""
     data = request.get_json()
     if not data:
-        abort(400, "Not a JSON")
+        return make_response(
+            jsonify({"error": "Not a JSON"}), 400
+        )
     if 'name' not in data:
-        abort(400, "Missing name")
+        return make_response(
+            jsonify({"error": "Missing name"}), 400
+        )
     new_state = State(**data)
     new_state.save()
     return jsonify(new_state.to_dict()), 201
@@ -55,7 +61,9 @@ def update_state(state_id):
     """update a state"""
     data = request.get_json()
     if not data:
-        abort(400, "Not a JSON")
+        return make_response(
+            jsonify({"error": "Not a JSON"}), 400
+        )
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
@@ -64,4 +72,4 @@ def update_state(state_id):
         if k not in ignore_keys:
             setattr(state, k, v)
     storage.save()
-    return jsonify(state.to_dict())
+    return jsonify(state.to_dict()), 200
