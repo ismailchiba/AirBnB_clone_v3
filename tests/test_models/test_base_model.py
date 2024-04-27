@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Unit Test for BaseModel Class
+This is the file that contains the Tests_Basemodel_Doc classes
 """
 import unittest
 from datetime import datetime
