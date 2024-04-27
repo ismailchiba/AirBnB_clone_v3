@@ -70,9 +70,9 @@ class BaseModel:
             del new_dict["_sa_instance_state"]
 
         # Remove password key unless explicitly specified
-        if save_fs is None:
-            if 'password' in new_dict:
-                del new_dict['password']
+        # if save_fs is None:
+            # if 'password' in new_dict:
+                # del new_dict['password']
 
         return new_dict
 
