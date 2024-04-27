@@ -13,16 +13,15 @@ app.register_blueprint(app_views)
 
 
 @app.teardown_appcontext
-def teardown(self):
+def teardown(exception):
     """ handles teardown"""
     storage.close()
 
-
-@app.errorhandler(404)
+"""@app.errorhandler(404)
 def not_found(error):
-    """handles 404 error"""
+    """'handles' 404 'error'"""
     return jsonify({'error': 'Not found'}), 404
-
+"""
 
 if __name__ == "__main__":
     HOST = getenv("HBNB_API_HOST", "0.0.0.0")
