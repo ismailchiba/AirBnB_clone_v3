@@ -23,7 +23,7 @@ def teardown_app_context(exception):
 
 
 @app.errorhandler(404)
-def not_found():
+def not_found(error):
     """
     Handler for 404 errors, returns a JSON-formatted 404 response.
     """
