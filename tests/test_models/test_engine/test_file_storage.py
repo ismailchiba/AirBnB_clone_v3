@@ -121,7 +121,7 @@ class TestFileStorage(unittest.TestCase):
 
         storage.reload()
 
-        state_data = ("name": "Maldives"}
+        state_data = {"name": "Maldives"}
 
         state_instance = State(**state_data)
         storage.new(state_instance)
@@ -135,27 +135,27 @@ class TestFileStorage(unittest.TestCase):
 
         self.assertEqual(fake_state_id, None)
 
-     @unittest.skipIf(models.storage_t != 'db', "not testing file storage")
-     def test_count(self):
-         """Test the count method"""
-         storage = FileStorage()
-         storage.reload()
-         state_data = {"name": "newstates"}
-         state_instance = State(**state_data)
-         storage.new(state_instance)
+    @unittest.skipIf(models.storage_t != 'db', "not testing file storage")
+    def test_count(self):
+        """Test the count method"""
+        storage = FileStorage()
+        storage.reload()
+        state_data = {"name": "newstates"}
+        state_instance = State(**state_data)
+        storage.new(state_instance)
 
-         city_data = {"name": "Joe", "state_id":state_instance.id}
-         
-         city_instance = City(**city_data)
+        city_data = {"name": "Joe", "state_id":state_instance.id}
 
-         storage.new(city_instance)
+        city_instance = City(**city_data)
 
-         storage.save()
+        storage.new(city_instance)
 
-         state_occurrence = storage.count(State)
-         
-         self.assertEqual(state_occurrence, len(storage.all(State)))
+        storage.save()
 
-         all occurrence = storage.count()
+        state_occurrence = storage.count(State)
+ 
+        self.assertEqual(state_occurrence, len(storage.all(State)))
 
-         self.assertEqual(all_occurrence, len(storage.all()))
+        all_occurrence = storage.count()
+
+        self.assertEqual(all_occurrence, len(storage.all()))
