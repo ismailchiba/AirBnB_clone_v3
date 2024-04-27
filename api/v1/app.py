@@ -16,6 +16,12 @@ def close_db(error):
     storage.close()
 
 
+@app.errorhandler(404)
+def page_not_found(error):
+    """ page not found"""
+    return make_response(jsonify({'error': "Not found"}), 404)
+
+
 if __name__ == "__main__":
     """ Main Function """
     host = environ.get('HBNB_API_HOST')
