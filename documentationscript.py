@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""cript to check documentatios"""
 import ast
 import os
 
