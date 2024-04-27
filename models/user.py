@@ -6,7 +6,7 @@ from os import getenv
 import sqlalchemy
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
-
+import hashlib
 
 class User(BaseModel, Base):
     """Representation of a user """
@@ -26,4 +26,13 @@ class User(BaseModel, Base):
 
     def __init__(self, *args, **kwargs):
         """initializes user"""
+        if 'password' in kwargs:
+            kwargs['password'] = self.generate_password_hash(kwargs['password'])
         super().__init__(*args, **kwargs)
+
+    def generate_password_hash(self, password):
+        salt = hashlib.new('md5', str(random.random()).encode()).hexdigest()
+        return hashlib.md5(salt.encode() + password.encode()).hexdigest()
+
+    def check_password(self, password):
+        return self.generate_password_hash(password) == self.password
