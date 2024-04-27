@@ -17,9 +17,9 @@ app.register_blueprint(app_views)
 
 
 @app.teardown_appcontext
-def storage_close(exception=None):
+def teardown_storage(exception):
     """
-    closes the connection at the end of the request
+    Closes the storage when the application context ends
     """
     storage.close()
 
@@ -31,6 +31,6 @@ def not_found(error):
 
 
 if __name__ == "__main__":
-    host = getenv('HBNB_API_HOST') or '0.0.0.0'
-    port = getenv('HBNB_API_PORT') or '5000'
+    host = getenv('HBNB_API_HOST', '0.0.0.0')
+    port = getenv('HBNB_API_PORT', 5000)
     app.run(host=host, port=port, threaded=True)
