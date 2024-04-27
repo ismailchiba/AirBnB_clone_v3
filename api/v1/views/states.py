@@ -32,7 +32,7 @@ def states_by_id(state_id):
     """gets, deletes, and updates objects of State object"""
     state = storage.get(State, state_id)
     if not state:
-        abort(400)
+        abort(404)
     if request.method == 'GET':
         return jsonify(state.to_dict())
 
