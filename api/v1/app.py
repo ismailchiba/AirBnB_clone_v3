@@ -12,10 +12,12 @@ import os
 app = Flask(__name__)
 app.register_blueprint(app_views)
 
+
 @app.teardown_appcontext
 def tear_down(error=None):
     """ Tears down or close the db session"""
     storage.close()
+
 
 if __name__ == "__main__":
     HBNB_API_HOST = os.getenv('HBNB_API_HOST')
