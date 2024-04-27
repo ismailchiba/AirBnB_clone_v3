@@ -66,24 +66,15 @@ class DBStorage:
 
     def get(self, cls, id):
         """Retrives object based on class and it ID"""
-        new_dict = {}
-
         # Check if the class is valid
-        if cls is not None and cls is classes.values():
-            objs = self.__session.query(cls).filter_by(id=id).all()
+        if cls in classes.values():
+            # Query the database for all objects of the given class
+            objs = self.all(cls)
 
-            # Firstly check if the obj is found
-            if objs:
-                # iterate through the queried objects
-                for obj in objs:
-                    key = obj.__class__.__name__ + '.' + obj.id
-                    new_dict[key] = obj
-
-                return (new_dict)
-
-            else:
-                # Return nonw is the object is not found
-                return None
+            # Iterate through the objects to find the one with the matching ID
+            for obj in objs.values():
+                if obj.id == id:
+                    return obj
         return None
 
     def count(self, cls=None):
