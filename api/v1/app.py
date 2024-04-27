@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """
-This file contains the configuration and setup for the AirBnB clone API application.
+This file contains the configuration and setup
+for the AirBnB clone API application.
 """
 import os
 
@@ -24,7 +25,8 @@ def teardown_app_context(exception):
 
 if __name__ == "__main__":
     """
-    Runs the Flask application with specified host and port, using environment variables if available.
+    Runs the Flask application with specified host and port,
+    using environment variables if available.
     """
     host = os.getenv('HBNB_API_HOST', '0.0.0.0')
     port = int(os.getenv('HBNB_API_PORT', 5000))

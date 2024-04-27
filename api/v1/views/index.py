@@ -13,4 +13,3 @@ def api_status():
     Returns the status of the API as a JSON response.
     """
     return jsonify({"status": "OK"})
-
