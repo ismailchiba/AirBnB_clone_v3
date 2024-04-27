@@ -10,3 +10,9 @@ from flask import jsonify
 def status():
     """ the ok status """
     return jsonify({'status': "OK"})
+
+
+@app_views.route('/api/v1/stats', methods=['GET'], strict_slashes=False)
+def stats():
+    """ the stats count """
+    return jsonify(storage.count())
