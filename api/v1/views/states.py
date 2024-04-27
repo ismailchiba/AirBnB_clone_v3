@@ -39,8 +39,9 @@ def del_state(state_id):
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
 def add_state():
     """Returns the new State with the status code 201"""
-    new_obj = request.get_json()
-    if not new_obj:
+    try:
+        new_obj = request.get_json()
+    except Exception:
         abort(400, "Not a JSON")
     if 'name' not in new_obj:
         abort(400, "Missing name")
