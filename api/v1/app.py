@@ -8,10 +8,10 @@ import os
 # Flask application instance: app
 app = Flask(__name__)
 
-#Register app_views blueprint
+# Register app_views blueprint
 app.register_blueprint(app_views)
 
-#the environment variables
+# the environment variables
 host = os.getenv('HBNB_API_HOST', '0.0.0.0')
 port = int(os.getenv('HBNB_API_PORT', 5000))
 threaded = True
@@ -25,13 +25,13 @@ def close_app(error=None):
     """
     storage.close()
 
+
 @app.errorhandler(404)
 def not_found_error(error):
     """
     Error handler for 404 Not Found errors
     """
     return jsonify({"error": "Not found"}), 404
-
 
 
 if __name__ == '__main__':

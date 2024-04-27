@@ -13,8 +13,8 @@ def get_states():
     return jsonify([state.to_dict() for state in states])
 
 # Endpoint to retrieve a specific State object by state_id
-@app_views.route('/states/<string:state_id>', methods=['GET'], 
-                strict_slashes=False)
+@app_views.route('/states/<string:state_id>', methods=['GET'],
+                 strict_slashes=False)
 def get_state(state_id):
     """ get state information based on id"""
     state = storage.get("State", state_id)
@@ -55,7 +55,7 @@ def put_state(state_id):
     """update a state"""
     state = storage.get("State", state_id)
     if not state:
-         abort(404)
+        abort(404)
     data = request.get_json()
     if not data:
         abort(400, "Not a JSON")
