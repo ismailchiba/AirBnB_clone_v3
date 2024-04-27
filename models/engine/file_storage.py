@@ -12,20 +12,21 @@ to_json = base_model.BaseModel.to_json
 
 class FileStorage:
     """handles long term storage of all class instances"""
+
     CNC = {
-        'BaseModel': base_model.BaseModel,
-        'Amenity': amenity.Amenity,
-        'City': city.City,
-        'Place': place.Place,
-        'Review': review.Review,
-        'State': state.State,
-        'User': user.User
+        "BaseModel": base_model.BaseModel,
+        "Amenity": amenity.Amenity,
+        "City": city.City,
+        "Place": place.Place,
+        "Review": review.Review,
+        "State": state.State,
+        "User": user.User,
     }
     """CNC - this variable is a dictionary with:
     keys: Class Names
     values: Class type (used for instantiation)
     """
-    __file_path = './dev/file.json'
+    __file_path = "./dev/file.json"
     __objects = {}
 
     def all(self, cls=None):
@@ -38,6 +39,40 @@ class FileStorage:
             return objects_dict
         return FileStorage.__objects
 
+    def get(self, cls, id):
+        """
+        Retrieve an object by its ID from the provided class.
+
+        Args:
+            cls: The class of objects to search within.
+            id: The ID of the object to retrieve.
+
+        Returns:
+            The object with the specified ID if found, otherwise returns None.
+        """
+        all_class = self.all(cls)
+
+        for obj in all_class.values():
+            if id == str(obj.id):
+                return obj
+
+        return None
+
+    def count(self, cls=None):
+        """
+        Count the number of objects of the specified class,
+        or all classes if none is provided.
+
+        Args:
+            cls: (Optional) The class of objects to count.
+            If not provided, counts all objects.
+
+        Returns:
+            The number of objects of the specified class,
+            or all classes if none is provided.
+        """
+        return len(self.all(cls))
+
     def new(self, obj):
         """sets / updates in __objects the obj with key <obj class name>.id"""
         bm_id = "{}.{}".format(type(obj).__name__, obj.id)
@@ -49,7 +84,7 @@ class FileStorage:
         d = {}
         for bm_id, bm_obj in FileStorage.__objects.items():
             d[bm_id] = bm_obj.to_json()
-        with open(fname, mode='w+', encoding='utf-8') as f_io:
+        with open(fname, mode="w+", encoding="utf-8") as f_io:
             json.dump(d, f_io)
 
     def reload(self):
@@ -57,17 +92,15 @@ class FileStorage:
         fname = FileStorage.__file_path
         FileStorage.__objects = {}
         try:
-            with open(fname, mode='r', encoding='utf-8') as f_io:
+            with open(fname, mode="r", encoding="utf-8") as f_io:
                 new_objs = json.load(f_io)
         except:
             return
         for o_id, d in new_objs.items():
-            k_cls = d['__class__']
+            k_cls = d["__class__"]
             d.pop("__class__", None)
-            d["created_at"] = datetime.strptime(d["created_at"],
-                                                "%Y-%m-%d %H:%M:%S.%f")
-            d["updated_at"] = datetime.strptime(d["updated_at"],
-                                                "%Y-%m-%d %H:%M:%S.%f")
+            d["created_at"] = datetime.strptime(d["created_at"], "%Y-%m-%d %H:%M:%S.%f")
+            d["updated_at"] = datetime.strptime(d["updated_at"], "%Y-%m-%d %H:%M:%S.%f")
             FileStorage.__objects[o_id] = FileStorage.CNC[k_cls](**d)
 
     def delete(self, obj=None):
@@ -81,6 +114,6 @@ class FileStorage:
 
     def close(self):
         """
-            calls the reload() method for deserialization from JSON to objects
+        calls the reload() method for deserialization from JSON to objects
         """
         self.reload()
