@@ -59,10 +59,6 @@ class DBStorage:
         """add the object to the current database session"""
         self.__session.add(obj)
 
-    def count(self, cls=None):
-        """count number of object in storage"""
-        return len(self.all(cls))
-
     def get(self, cls, id):
         """method to retrieve one object"""
         all_class = self.all(cls)
@@ -72,6 +68,10 @@ class DBStorage:
                 return (obj)
         """if no matching object is found return none"""
         return (None)
+
+    def count(self, cls=None):
+        """count number of object in storage"""
+        return len(self.all(cls))
 
     def save(self):
         """commit all changes of the current database session"""
