@@ -15,12 +15,12 @@ def status():
 
 @app_views.route('/stats', strict_slashes=False)
 def count():
-    """Create an endpoint that retrieves the number of each object"""
+    """count"""
     return jsonify({
         "amenities": storage.count("Amenity"),
         "cities": storage.count("City"),
         "places": storage.count("Place"),
-        "reviews": storage.count("Review"), 
+        "reviews": storage.count("Review"),
         "states": storage.count("State"),
         "users": storage.count("User")
     })
