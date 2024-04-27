@@ -159,10 +159,16 @@ class TestBaseModel(unittest.TestCase):
         self.assertTrue(mock_storage.new.called)
         self.assertTrue(mock_storage.save.called)
 
-    def test_deletion(self):
-        first_inst = BaseModel()
-        first_inst.save()
-        object_not_id = first_inst.id
-        first_inst.delete()
-
-        self.assertIsNone(BaseModel.get(object_not_id))
+    def test_code_under_deserialization(self):
+        """Test deserialized of BaseModel instances from dictionaries"""
+        data = {
+                "id": "456",
+                "created_at" = "2024-04-26T21:05:53.291487",
+                "updated_at" = "2024-04-26T21:05:53.291487",
+                "name": "MariamObject",
+                "number": "32",
+                }
+        role_inst = BaseModel.from_dict(data)
+        self.assertEqual(role_inst.id, "456",
+        self.assertEqual(role_inst.name, "MariamObject"),
+        self.assertEqual(role_inst.number, "32")
