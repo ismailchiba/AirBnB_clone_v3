@@ -15,9 +15,10 @@ from models.user import User
 classes = {"amenity": Amenity, "cities": City,
            "places": Place, "reviews": Review, "states": State, "users": User}
 
+
 @app_views.route('/status', strict_slashes=False)
 def status():
-   return {"status": "OK"}
+    return {"status": "OK"}
 
 
 @app_views.route('/stats', strict_slashes=False)
