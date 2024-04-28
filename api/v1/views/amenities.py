@@ -42,10 +42,10 @@ def delete_amenity(amenity_id):
 
     if amenity_obj is None:
         abort(404)
-    else:
-        storage.delete(amenity_obj)
-        storage.save()
-        return make_response(jsonify({}), 200)
+
+    storage.delete(amenity_obj)
+    storage.save()
+    return make_response(jsonify({}), 200)
 
 
 @app_views.route("/amenities", methods=["POST"], strict_slashes=False)

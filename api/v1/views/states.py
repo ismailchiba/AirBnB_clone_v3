@@ -41,13 +41,10 @@ def delete_state(state_id):
     state_obj = storage.get(State, state_id)
     if state_obj is None:
         abort(404)
-    else:
-        if not state_obj.cities:
-            storage.delete(state_obj)
-            storage.save()
-            return make_response(jsonify({}), 200)
-        else:
-            abort(400, description="referenced by cities")
+
+    storage.delete(state_obj)
+    storage.save()
+    return make_response(jsonify({}), 200)
 
 
 # POST Request
