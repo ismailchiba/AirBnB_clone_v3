@@ -19,14 +19,6 @@ def close_store(self):
     storage.close()
 
 
-@app.errorhandler(404)
-def sorry_page_not_found(error):
-    """
-    Handles 404 errors by returning a JSON response indicating the error.
-    """
-    return jsonify({"error": "Not found"}), 404
-
-
 def get_environment_variable(var_name, default_value):
     """
     Retrieves the value of an environment variable
@@ -39,4 +31,3 @@ if __name__ == "__main__":
     host = get_environment_variable('HBNB_API_HOST', '0.0.0.0')
     port = get_environment_variable('HBNB_API_PORT', '5000')
     app.run(host=host, port=port, threaded=True)
-
