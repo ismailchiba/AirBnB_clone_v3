@@ -101,14 +101,13 @@ class TestFileDb(unittest.TestCase):
         self.assertEqual(get_state.name, new_state.name)
         self.assertIsNone(get_state)
 
-
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
         state = {"name": "Kampala"}
         new_state = State(**state)
         models.storage.new(state)
-        
+
         models.storage.save()
 
         session = models.storage._DBStorage__session
