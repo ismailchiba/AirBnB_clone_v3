@@ -12,8 +12,9 @@ app.url_map.strict_slashes = False
 
 @app.teardown_appcontext
 def teardown(self):
-    '''Status of the API'''
+    """Status of the API"""
     storage.close()
+
 
 if __name__ == "__main__":
     # host = getenv('HBNB_API_HOST')
