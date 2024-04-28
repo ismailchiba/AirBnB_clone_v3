@@ -1,7 +1,7 @@
 #!/usr/bin/python3
-'''
-create states 
-'''
+"""
+create states
+"""
 from flask import jsonify
 from flask import abort
 from flask import request
@@ -10,7 +10,7 @@ from models import storage
 from api.v1.views import app_views
 
 
-@app_views.route('/states',methods=['GET'],
+@app_views.route('/states', methods=['GET'],
                  strict_slashes=False)
 def get_all_states():
     """
@@ -20,7 +20,8 @@ def get_all_states():
     state_list = [state.to_dict() for state in states]
     return jsonify(state_list)
 
-@app_views.route('/state/<state_id>',methods=['GET'],
+
+@app_views.route('/state/<state_id>', methods=['GET'],
                  strict_slashes=False)
 def get_state(state_id):
     """
@@ -31,6 +32,7 @@ def get_state(state_id):
         return jsonify(state.to_dict())
     except Exception:
         abort(404)
+
 
 @app_views.route('/state/<state_id>', methods=['DELETE'],
                  strict_slashes=False)
@@ -44,6 +46,7 @@ def delete_state(state_id):
         return jsonify({}), 200
     except Exception:
         abort(404)
+
 
 @app_views.route('/state', methods=['POST'],
                  strict_slashes=False)
@@ -61,6 +64,7 @@ def create_state():
     new_state.save()
     return jsonify(new_state.to_dict()), 201
 
+
 @app_views.route('/state/<state_id>', methods=['PUT'],
                  strict_slashes=False)
 def update_state(state_id):
@@ -76,7 +80,7 @@ def update_state(state_id):
         data = request.get_json()
         ignore_keys = ['id', 'created_at', 'updated_at']
 
-        for key, value in  data.items():
+        for key, value in data.items():
             if key not in ignore_keys:
                 setattr(state, key, value)
         state.save()
