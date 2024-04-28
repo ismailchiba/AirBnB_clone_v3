@@ -76,12 +76,13 @@ class DBStorage:
         self.__session.remove()
 
     def get(self, cls, id):
-        ''' 
-        args:
-            cls(str): class name
+        '''
+        gets an object
+        Args:
+            cls (str): class name
             id (str): object ID
         Returns:
-            an object based on the class and its ID or None if not found
+            an object based on class name and its ID
         '''
         obj_dict = models.storage.all(cls)
         for k, v in obj_dict.items():
@@ -93,10 +94,12 @@ class DBStorage:
 
     def count(self, cls=None):
         '''
-        args:
-            cls(str): class name
+        counts number of objects of a class (if given)
+        Args:
+            cls (str): class name
         Returns:
-            the number of objects in strorage matching the give class. If no class passed,returns the count of all objects in storage.
+            number of objects in class, if no class name given
+            return total number of objects in database
         '''
         obj_dict = models.storage.all(cls)
         return len(obj_dict)
