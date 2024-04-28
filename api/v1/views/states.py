@@ -48,7 +48,7 @@ def delete_state(state_id):
         abort(404)
     storage.delete(state)
     storage.save()
-    return jsonify({})
+    return make_response(jsonify({}), 200)
 
 
 @app_views.route('/states/<string:state_id>', methods=['PUT'],
@@ -64,4 +64,4 @@ def update_state(state_id):
         if key not in ['id', 'created_at', 'updated_at']:
             setattr(state, key, value)
     storage.save()
-    return jsonify(state.to_dict())
+    return make_response(jsonify(state.to_dict()), 200)
