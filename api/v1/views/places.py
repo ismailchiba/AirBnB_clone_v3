@@ -17,9 +17,9 @@ from api.v1.views import app_views
                  strict_slashes=False)
 def read_places(city_id):
     """ Retrieves place objects corresponding to city id"""
-    city_id = storage.get(City, city_id)
+    city_obj = storage.get(City, city_id)
 
-    if not city_id:
+    if not city_obj:
         abort(404)
 
     places_list = [place.to_dict() for place in storage.all(Place).values()
