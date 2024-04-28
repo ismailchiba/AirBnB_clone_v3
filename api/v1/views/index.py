@@ -6,4 +6,5 @@ import jsonify
 
 @app_views.route('/status', strict_slashes=False)
 def check_status():
+    """ Returns the status"""
     return jsonify("status: OK")
