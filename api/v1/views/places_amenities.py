@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 """Place Amenities route handler"""
 
+import os
 from api.v1.views import app_views
 from flask import abort, make_response, jsonify
 from models import storage
-import models
 from models.amenity import Amenity
 from models.place import Place
 
@@ -19,7 +19,7 @@ def get_amenities(place_id):
     if place is None:
         abort(404)
     else:
-        if models.storage_t == 'db':
+        if os.getenv('HBNB_TYPE_STORAGE') == 'db':
             amenities = place.amenities
         else:
             amenities = place.amenity_ids
@@ -37,7 +37,7 @@ def delete_amenity(place_id, amenity_id):
     amenity = storage.get(Amenity, amenity_id)
     if place is None or amenity is None:
         abort(404)
-    if models.storage_t == 'db':
+    if os.getenv('HBNB_TYPE_STORAGE') == 'db':
         amenities = place.amenities
     else:
         amenities = place.amenity_ids
@@ -57,7 +57,7 @@ def link_amenity_to_place(place_id, amenity_id):
     amenity = storage.get(Amenity, amenity_id)
     if place is None or amenity is None:
         abort(404)
-    if models.storage_t == 'db':
+    if os.getenv('HBNB_TYPE_STORAGE') == 'db':
         amenities = place.amenities
     else:
         amenities = place.amenity_ids
