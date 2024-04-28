@@ -29,7 +29,7 @@ def states_without_id():
 
 
 @app_views.route("/states/<state_id>", methods=['GET', 'PUT', 'DELETE'])
-def states_with_id(state_id):
+def states_with_id(state_id=None):
     """retrun status json"""
     state = storage.get(State, state_id)
     if state is None:
@@ -40,7 +40,7 @@ def states_with_id(state_id):
 
     if request.method == 'DELETE':
         state.delete()
-        storage.save()
+        del state
         return jsonify({})
 
     if request.method == 'PUT':
@@ -54,4 +54,4 @@ def states_with_id(state_id):
         for k, v in json.items():
             setattr(state, k, v)
         state.save()
-        return jsonify(state.to_dict()), 200
+        return jsonify(state.to_dict())
