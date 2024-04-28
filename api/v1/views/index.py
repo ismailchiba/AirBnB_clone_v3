@@ -16,10 +16,10 @@ def get_status():
 def status_page():
     """return the status of each model"""
     model = models.storage
-    ret = {'amenities': model.count("Amenity"),
+    stats = {'amenities': model.count("Amenity"),
            'cities': model.count("City"),
            'places': model.count("Place"),
            'reviews': model.count("Review"),
            'states': model.count("State"),
            'users': model.count("User")}
-    return jsonify(ret)
+    return jsonify(stats)
