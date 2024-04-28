@@ -122,3 +122,11 @@ class TestFileStorage(unittest.TestCase):
         new_state.save()
         get_state = storage.get(State, new_state.id)
         self.assertEqual(new_state, get_state)
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_get(self):
+        """ Test get retrives the obj with id = id """
+        state = State(name="Nairobi")
+        state.save()
+        testing_get_state = models.storage.get(State, state.id)
+        self.assertEqual(state, testing_get_state)
