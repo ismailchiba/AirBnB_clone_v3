@@ -39,9 +39,8 @@ def del_user(user_id):
 @app_views.route('/users', methods=['POST'], strict_slashes=False)
 def add_user():
     """Returns the new user with the status code 201"""
-    try:
-        new_obj = request.get_json()
-    except Exception:
+    new_obj = request.get_json()
+    if not new_obj:
         abort(400, "Not a JSON")
     if 'email' not in new_obj:
         abort(400, "Missing email")
