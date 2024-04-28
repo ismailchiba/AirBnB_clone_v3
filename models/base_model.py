@@ -2,7 +2,7 @@
 """
 Contains class BaseModel
 """
-
+import hashlib
 from datetime import datetime
 import models
 from os import getenv
@@ -73,3 +73,16 @@ class BaseModel:
     def delete(self):
         """delete the current instance from the storage"""
         models.storage.delete(self)
+
+    def to_dict(self, with_password=False):
+        """Return a dictionary representation of the model."""
+        dictionary = self.__dict__.copy()
+        if not with_password and 'password' in dictionary:
+            del dictionary['password']
+        return dictionary
+
+
+class User(BaseModel):
+    def __init__(self, password, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.password = hashlib.md5(password.encode()).hexdigest()
