@@ -50,12 +50,12 @@ def add_amenity():
             abort(400, description="Missing name")
         amenity = Amenity(**kwargs_data)
         amenity.save()
-        return make_response(jsonify(amenity.to_dict()), 200)
+        return make_response(jsonify([amenity.to_dict()]), 200)
     abort(400)
 
 @app_views.route('/amenities/<amenity_id>', methods=['PUT'],
                  strict_slashes=False)
-def delete_amenity(amenity_id):
+def update_amenity(amenity_id):
     """ updates an amenity with an id <amenity_id> """
     amenity = storage.get("Amenity", amenity_id)
     if not amenity:
@@ -66,5 +66,5 @@ def delete_amenity(amenity_id):
             for key, val in kwargs_data.items():
                setattr(amenity, key, val)
             storage.save()
-            return make_response(jsonify(amenity.to_dict()), 200)
+            return make_response(jsonify([amenity.to_dict()]), 200)
         abort(400, description='Not a JSON')   
