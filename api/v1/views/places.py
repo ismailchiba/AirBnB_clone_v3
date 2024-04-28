@@ -54,7 +54,7 @@ def delete_place(place_id):
     if not place_obj:
         abort(404)
 
-    # deletes a city
+    # deletes a place
     storage.delete(place_obj)
     storage.save()
     return jsonify({}), 200
