@@ -5,6 +5,7 @@ Contains the TestDBStorageDocs and TestDBStorage classes
 
 from datetime import datetime
 import inspect
+from distutils.dep_util import newer   # type: ignore
 import models
 from models.engine import db_storage
 from models.amenity import Amenity
@@ -16,7 +17,8 @@ from models.state import State
 from models.user import User
 import json
 import os
-import pep8
+import sqlalchemy
+import pep8  # type: ignore
 import unittest
 DBStorage = db_storage.DBStorage
 classes = {"Amenity": Amenity, "City": City, "Place": Place,
@@ -82,7 +84,49 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_new(self):
         """test that new adds an object to the database"""
+        # Added April 2024
+        new_obj = State('Idaho')
+        self.assertEqual(new_obj.name, 'Idaho')
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
+
+    @unittest.skipIf(models.storage_t != 'db', 'not testing db storage')
+    def test_check_storage(self):
+        """Check if the storage is an instance of DbStorage. Added April 2024
+        """
+        self.assertTrue(isinstance(models.storage, DBStorage))
+
+    @unittest.skipIf(models.storage_t != 'db')
+    def test_check_dbstorage_attributes(self):
+        """Check the storage attributes match for a new obj. Added April 2024
+        """
+        new_obj = User(email='okay@hello.com', password='HelloTheRe')
+        self.assertTrue(new_obj.email, 'okay@hello.com')
+
+    @unittest.skipIf(models.storage_t != 'db')
+    def test_if_methods_exist(self):
+        """Check if dbstorage has the following attributes. Added April 2024
+        """
+        self.assertTrue(hasattr(self.dbstorage, '__init__'))
+        self.assertTrue(hasattr(self.dbstorage, 'all'))
+        self.assertTrue(hasattr(self.dbstorage, 'new'))
+        self.assertTrue(hasattr(self.dbstorage, 'save'))
+        self.assertTrue(hasattr(self.dbstorage, 'delete'))
+
+    @unittest.skipIf(models.storage_t != 'db')
+    def test_check_delete(self):
+        """Verify if delete works as expected. Added April 2024
+        """
+        new_obj = State('Delaware')
+        models.storage.new(new_obj)
+        save_id = new_obj.id
+        key = 'User.{}'.format(save_id)
+        self.assertIsInstance(new_obj, State)
+        models.storage.save()
+        old_result = models.storage.all("State")
+        del_user_obj = old_result[key]
+        models.storage.delete(del_user_obj)
+        new_result = models.storage.all("State")
+        self.assertNotEqual(len(old_result), len(new_result))

@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 """
-Contains the class DBStorage
+Improve the class DBStorage - April 2024
 """
+
 
 import models
 from models.amenity import Amenity
@@ -11,9 +12,11 @@ from models.place import Place
 from models.review import Review
 from models.state import State
 from models.user import User
+
 from os import getenv
+
 import sqlalchemy
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, MetaData
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 classes = {"Amenity": Amenity, "City": City,
@@ -21,7 +24,7 @@ classes = {"Amenity": Amenity, "City": City,
 
 
 class DBStorage:
-    """interaacts with the MySQL database"""
+    """A db storage for interacting w the hbnb db"""
     __engine = None
     __session = None
 
@@ -74,3 +77,28 @@ class DBStorage:
     def close(self):
         """call remove() method on the private session attribute"""
         self.__session.remove()
+
+# Addition: A GET FUNCTION
+    def get(self, cls, id):
+        """
+           Args:
+               cls (str) : Class name
+               id (str)  : object ID
+           Returns: Object based on ID or None
+        """
+        objs = models.storage.all(cls)
+        for key, val in objs.items():
+            query_string = cls + '.' + id
+            if key == query_string:
+                return val
+
+        return None
+
+    def count(self, cls=None):
+        """
+            Args:
+                cls (str) : class name, defaults to None
+            Returns: Count of Class items if exists/ Items in all classes
+        """
+        objs = models.storage.all(cls)
+        return (len(objs))

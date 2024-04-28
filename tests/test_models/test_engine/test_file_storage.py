@@ -16,7 +16,7 @@ from models.state import State
 from models.user import User
 import json
 import os
-import pep8
+import pep8  # type: ignore
 import unittest
 FileStorage = file_storage.FileStorage
 classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
@@ -113,3 +113,11 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+
+# Addition - April 2024
+        @unittest.skipIf(models.storage_t == 'db')
+        def test_check_storage(self):
+            """Check model in file storage
+            """
+
+            self.assertTrue(isinstance(models.file_storage, FileStorage))
