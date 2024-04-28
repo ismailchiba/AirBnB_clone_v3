@@ -27,3 +27,9 @@ class User(BaseModel, Base):
     def __init__(self, *args, **kwargs):
         """initializes user"""
         super().__init__(*args, **kwargs)
+
+    def __setattr__(self, key, new_pass):
+        """update pasword"""
+        if key == "password":
+            value = hashlib.md5(new_pass.encode()).hexdigest()
+        super().__setattr__(key, value)
