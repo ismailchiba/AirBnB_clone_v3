@@ -8,16 +8,16 @@ from models import storage
 from models.state import State
 from models.city import City
 
+
 @app_views.route('/states/<state_id>/cities',
                  methods=['GET'], strict_slashes=False)
 def cities_by_state(state_id):
     """Retrieves the list of all cities of a State objects"""
     objs = storage.all(City)
-    try:
-        return jsonify([obj.to_dict() for obj in objs.values() \
-                        if obj.state_id == state_id])
-    except Exception:
+    if not objs:
         abort(404)
+    return jsonify([obj.to_dict() for obj in objs.values()
+                    if obj.state_id == state_id])
 
 
 @app_views.route('/cities/<city_id>', methods=['GET'],
@@ -25,11 +25,9 @@ def cities_by_state(state_id):
 def cities(city_id):
     """Retrieve a city from cities using id"""
     obj = storage.all(City, city_id)
-    try:
-        return jsonify(obj.to_dict())
-    except Exception:
+    if not obj:
         abort(404)
-
+    return jsonify(obj.to_dict())
 
 
 @app_views.route('/cities/<city_id>',
@@ -44,7 +42,8 @@ def del_city(city_id):
     return make_response(jsonify({}), 200)
 
 
-@app_views.route('/states/<state_id>/cities', methods=['POST'], strict_slashes=False)
+@app_views.route('/states/<state_id>/cities', methods=['POST'],
+                 strict_slashes=False)
 def add_city():
     """Returns the new city and returns 201"""
     try:
@@ -73,7 +72,7 @@ def update_city(city_id):
         abort(400, "Not a JSON")
 
     for key, value in req.items():
-        if key not in ['id', 'state_id','created_at', 'updated_at']:
+        if key not in ['id', 'state_id', 'created_at', 'updated_at']:
             setattr(obj, key, value)
     storage.save()
     return make_response(jsonify(obj.to_dict()), 200)
