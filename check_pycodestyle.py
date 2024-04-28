@@ -10,7 +10,7 @@ def check_pycodestyle(directory):
         directory (str): The root directory to start checking from.
     """
     # Define the directories to exclude from checking
-    excluded_dirs = {'venv', 'site-packages'}
+    excluded_dirs = {"venv", "site-packages"}
 
     # Walk through the directory tree
     for root, dirs, files in os.walk(directory, topdown=True):
@@ -18,12 +18,13 @@ def check_pycodestyle(directory):
         dirs[:] = [d for d in dirs if d not in excluded_dirs]
 
         for file in files:
-            if file.endswith('.py'):
+            if file.endswith(".py"):
                 # Construct the full file path
                 file_path = os.path.join(root, file)
                 # Run pycodestyle check
-                result = subprocess.run(['pycodestyle', file_path],
-                                        capture_output=True, text=True)
+                result = subprocess.run(
+                    ["pycodestyle", file_path], capture_output=True, text=True
+                )
                 if result.stdout:
                     # If there are PEP8 issues, print them out
                     print(f"PEP8 issues in {file_path}:\n{result.stdout}")

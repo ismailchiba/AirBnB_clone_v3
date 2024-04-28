@@ -130,6 +130,7 @@ class TestPlaceDocs(unittest.TestCase):
         new = self.value()
         new.longitude = 12.1923
         self.assertEqual(type(new.longitude), float)
+
     # def test_amenity_ids_files(self):
     #     """
     #     Test the 'amenities' attribute for a Place

@@ -217,6 +217,7 @@ test_file_storage.py"
 
 class TestFileStorage(unittest.TestCase):
     """Test the FileStorage class"""
+
     def setUp(self):
         """Set up the storage attribute before each test method."""
         self.storage = storage

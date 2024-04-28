@@ -139,10 +139,14 @@ class TestBaseModelDocs(unittest.TestCase):
         """
         n = {"Name": "test"}
         new = self.value(**n)
-        self.assertTrue(hasattr(new, 'Name'),
-                        "The attribute 'Name' should be set")
-        self.assertEqual(new.Name, 'test',
-                         "The attribute 'Name' should have the value 'test'")
+        self.assertTrue(
+            hasattr(new, "Name"), "The attribute 'Name' should be set"
+        )
+        self.assertEqual(
+            new.Name,
+            "test",
+            "The attribute 'Name' should have the value 'test'",
+        )
 
     def test_id(self):
         """
