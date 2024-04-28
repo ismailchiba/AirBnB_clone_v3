@@ -5,6 +5,7 @@ Flask route that returns json status response
 from api.v1.views import app_views
 from flask import abort, jsonify, make_response, request
 from models import storage
+from models.engine.db_storage import classes
 
 
 @app_views.route('/states/<state_id>/cities', methods=['GET', 'POST'])
@@ -28,7 +29,7 @@ def cities_per_state(state_id=None):
             abort(400, 'Not a JSON')
         if req_json.get("name") is None:
             abort(400, 'Missing name')
-        City = storage.classes.get("City")
+        City = classes("City")
         req_json['state_id'] = state_id
         new_object = City(**req_json)
         new_object.save()
