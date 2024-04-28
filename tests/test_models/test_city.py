@@ -16,22 +16,37 @@ City = city.City
 class TestCityDocs(unittest.TestCase):
     """Tests to check the documentation and style of City class"""
     def __init__(self, *args, **kwargs):
-        """ """
+        """
+        Initialize a new City instance with given arguments and keyword arguments.
+        
+        Attributes:
+            name (str): The name of the model, set to 'City'.
+            value (class): The class reference for the model, set to City.
+        """
         super().__init__(*args, **kwargs)
         self.name = "City"
         self.value = City
 
     def test_state_id(self):
-        """ """
+        """
+        Test the type of 'state_id' attribute for a City instance.
+        
+        Ensures that the 'state_id' attribute is a string.
+        """
         new = self.value()
         new.state_id = '0001'
         self.assertEqual(type(new.state_id), str)
 
     def test_name(self):
-        """ """
+        """
+        Test the type of 'name' attribute for a City instance.
+        
+        Ensures that the 'name' attribute is a string.
+        """
         new = self.value()
         new.name = 'City'
         self.assertEqual(type(new.name), str)
+
 
     @classmethod
     def setUpClass(cls):

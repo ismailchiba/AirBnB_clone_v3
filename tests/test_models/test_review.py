@@ -17,28 +17,51 @@ class TestReviewDocs(unittest.TestCase):
     """Tests to check the documentation and style of Review class"""
 
     def __init__(self, *args, **kwargs):
-        """ """
+        """
+        Initialize the Review instance.
+        
+        Args:
+            *args: Variable length argument list.
+            **kwargs: Arbitrary keyword arguments.
+            
+        Attributes:
+            name (str): The name of the model, set to 'Review'.
+            value (type): The class type of the model, set to Review.
+        """
         super().__init__(*args, **kwargs)
         self.name = "Review"
         self.value = Review
 
     def test_place_id(self):
-        """ """
+        """
+        Test the type of 'place_id' attribute.
+        
+        This test ensures that the 'place_id' attribute of a new Review instance is a string.
+        """
         new = self.value()
         new.place_id = "800-100"
         self.assertEqual(type(new.place_id), str)
 
     def test_user_id(self):
-        """ """
+        """
+        Test the type of 'user_id' attribute.
+        
+        This test ensures that the 'user_id' attribute of a new Review instance is a string.
+        """
         new = self.value()
         new.user_id = "783"
         self.assertEqual(type(new.user_id), str)
 
     def test_text(self):
-        """ """
+        """
+        Test the type of 'text' attribute.
+        
+        This test ensures that the 'text' attribute of a new Review instance is a string.
+        """
         new = self.value()
         new.text = "text"
         self.assertEqual(type(new.text), str)
+
 
     @classmethod
     def setUpClass(cls):

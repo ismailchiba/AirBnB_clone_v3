@@ -16,31 +16,53 @@ User = user.User
 class TestUserDocs(unittest.TestCase):
     """Tests to check the documentation and style of User class"""
     def __init__(self, *args, **kwargs):
-        """ """
+        """
+        Initialize a new User instance with given arguments and keyword arguments.
+        
+        Attributes:
+            name (str): The name of the model, set to 'User'.
+            value (class): The class reference for the model, set to User.
+        """
         super().__init__(*args, **kwargs)
         self.name = "User"
         self.value = User
 
     def test_first_name(self):
-        """ """
+        """
+        Test the type of 'first_name' attribute for a User instance.
+        
+        Ensures that the 'first_name' attribute is a string.
+        """
         new = self.value()
         new.first_name = "first"
         self.assertEqual(type(new.first_name), str)
 
     def test_last_name(self):
-        """ """
+        """
+        Test the type of 'last_name' attribute for a User instance.
+        
+        Ensures that the 'last_name' attribute is a string.
+        """
         new = self.value()
         new.last_name = "last"
         self.assertEqual(type(new.last_name), str)
 
     def test_email(self):
-        """ """
+        """
+        Test the type of 'email' attribute for a User instance.
+        
+        Ensures that the 'email' attribute is a string.
+        """
         new = self.value()
         new.email = "me@gmail.com"
         self.assertEqual(type(new.email), str)
 
     def test_password(self):
-        """ """
+        """
+        Test the type of 'password' attribute for a User instance.
+        
+        Ensures that the 'password' attribute is a string.
+        """
         new = self.value()
         new.password = "password"
         self.assertEqual(type(new.password), str)

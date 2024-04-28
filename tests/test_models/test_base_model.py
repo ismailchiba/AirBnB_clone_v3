@@ -18,42 +18,126 @@ module_doc = models.base_model.__doc__
 class TestBaseModelDocs(unittest.TestCase):
     """Tests to check the documentation and style of BaseModel class"""
     def __init__(self, *args, **kwargs):
-        """ """
+        """
+        Initialize the TestBaseModelDocs instance.
+        """
         super().__init__(*args, **kwargs)
         self.name = 'BaseModel'
         self.value = BaseModel
 
     def setUp(self):
-        """ """
+        """
+        Set up method to configure the test environment before each test.
+        """
         self.n = {'Name': 'test'}
-        pass
 
     def tearDown(self):
+        """
+        Tear down method to clean up after each test.
+        """
         try:
             os.remove('file.json')
         except Exception:
             pass
 
     def test_default(self):
-        """ """
+        """
+        Test the default instantiation of a BaseModel.
+        """
         i = self.value()
         self.assertEqual(type(i), self.value)
 
     def test_kwargs(self):
-        """ """
+        """
+        Test instantiation of a BaseModel with kwargs.
+        """
         i = self.value()
         copy = i.to_dict()
         new = BaseModel(**copy)
         self.assertFalse(new is i)
 
     def test_kwargs_int(self):
-        """ """
+        """
+        Test instantiation of a BaseModel with kwargs containing non-string keys.
+        """
         i = self.value()
         copy = i.to_dict()
         copy.update({1: 2})
         with self.assertRaises(TypeError):
             new = BaseModel(**copy)
 
+    def test_save(self):
+        """
+        Test the save method of a BaseModel instance.
+        """
+        i = self.value()
+        i.save()
+        key = self.name + "." + i.id
+        with open('file.json', 'r') as f:
+            j = json.load(f)
+            self.assertEqual(j[key], i.to_dict())
+
+    def test_str(self):
+        """
+        Test the __str__ method of a BaseModel instance.
+        """
+        i = self.value()
+        self.assertEqual(str(i), '[{}] ({}) {}'.format(self.name, i.id, i.__dict__))
+
+    def test_todict(self):
+        """
+        Test the to_dict method of a BaseModel instance.
+        """
+        i = self.value()
+        n = i.to_dict()
+        self.assertEqual(i.to_dict(), n)
+
+    def test_kwargs_types(self):
+        """
+        Test if attribute types remain the same when using kwargs to instantiate a BaseModel.
+        """
+        base_model = BaseModel()
+        attribute_types_before = {key: type(getattr(base_model, key)) for key in base_model.__dict__.keys()}
+        base_model = BaseModel(id='test_id', __class__='BaseModel', created_at='2024-01-01T00:00:00.000000', updated_at='2024-01-01T00:00:00.000000')
+        attribute_types_after = {key: type(getattr(base_model, key)) for key in base_model.__dict__.keys()}
+        self.assertEqual(attribute_types_before, attribute_types_after)
+
+    def test_empty_kwargs(self):
+        """
+        Test instantiation of a BaseModel with empty kwargs.
+        """
+        base_model = BaseModel()
+        self.assertEqual(len(base_model.to_dict()), 4)
+
+    def test_kwargs_none(self):
+        """
+        Test instantiation of a BaseModel with kwargs containing None.
+        """
+        n = {None: None}
+        with self.assertRaises(TypeError):
+            new = self.value(**n)
+
+    def test_kwargs_one(self):
+        """
+        Test instantiation of a BaseModel with a single kwarg.
+        """
+        n = {'Name': 'test'}
+        with self.assertRaises(KeyError):
+            new = self.value(**n)
+
+    def test_id(self):
+        """
+        Test the id attribute of a BaseModel instance.
+        """
+        new = self.value()
+        self.assertEqual(type(new.id), str)
+
+    def test_created_at(self):
+        """
+        Test the created_at attribute of a BaseModel instance.
+        """
+        new = self.value()
+        self.assertEqual(type(new.created_at), datetime)
     @unittest.skipIf(getenv("HBNB_TYPE_STORAGE") == "db", "Testeing to save")
     def test_save(self):
         """ Testing save """
@@ -64,17 +148,6 @@ class TestBaseModelDocs(unittest.TestCase):
             j = json.load(f)
             self.assertEqual(j[key], i.to_dict())
 
-    def test_str(self):
-        """ """
-        i = self.value()
-        self.assertEqual(str(i), '[{}] ({}) {}'.format(self.name, i.id,
-                         i.__dict__))
-
-    def test_todict(self):
-        """ """
-        i = self.value()
-        n = i.to_dict()
-        self.assertEqual(i.to_dict(), n)
 
     def test_kwargs_types(self):
         """Test if types remain the same as attribute
@@ -98,29 +171,6 @@ class TestBaseModelDocs(unittest.TestCase):
         """Test if kwargs is empty"""
         base_model = BaseModel()
         self.assertEqual(len(base_model.to_dict()), 4)
-
-    def test_kwargs_none(self):
-        """ """
-        n = {None: None}
-        with self.assertRaises(TypeError):
-            new = self.value(**n)
-
-    @unittest.skip("Skipping test because dictionary is passed")
-    def test_kwargs_one(self):
-        """ """
-        n = {'Name': 'test'}
-        with self.assertRaises(KeyError):
-            new = self.value(**n)
-
-    def test_id(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.id), str)
-
-    def test_created_at(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.created_at), datetime)
 
     def test_updated_at(self):
         """

@@ -17,16 +17,29 @@ class TestStateDocs(unittest.TestCase):
     """Tests to check the documentation and style of State class"""
 
     def __init__(self, *args, **kwargs):
-        """ """
+        """
+        Initialize a new instance of the State class.
+        
+        The constructor sets the name of the instance to "State" and assigns the State class itself to the 'value' attribute.
+
+        Args:
+            *args: Variable length argument list.
+            **kwargs: Arbitrary keyword arguments.
+        """
         super().__init__(*args, **kwargs)
         self.name = "State"
         self.value = State
 
     def test_name3(self):
-        """ """
+        """
+        Test the 'name' attribute for the State instance.
+        
+        This test ensures that the 'name' attribute is of type str.
+        """
         new = self.value()
         new.name = 'State'
         self.assertEqual(type(new.name), str)
+
 
     @classmethod
     def setUpClass(cls):

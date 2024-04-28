@@ -17,74 +17,123 @@ Place = place.Place
 class TestPlaceDocs(unittest.TestCase):
     """Tests to check the documentation and style of Place class"""
     def __init__(self, *args, **kwargs):
-        """ """
+        """
+        Initialize a new Place instance with given arguments and keyword arguments.
+        
+        Attributes:
+            name (str): The name of the model, set to 'Place'.
+            value (class): The class reference for the model, set to Place.
+        """
         super().__init__(*args, **kwargs)
         self.name = "Place"
         self.value = Place
 
     def test_city_id(self):
-        """ """
+        """
+        Test the type of 'city_id' attribute for a Place instance.
+        
+        Ensures that the 'city_id' attribute is a string.
+        """
         new = self.value()
         new.city_id = "0001"
         self.assertEqual(type(new.city_id), str)
 
     def test_user_id(self):
-        """ """
+        """
+        Test the type of 'user_id' attribute for a Place instance.
+        
+        Ensures that the 'user_id' attribute is a string.
+        """
         new = self.value()
         new.user_id = '0090'
         self.assertEqual(type(new.user_id), str)
 
     def test_name(self):
-        """ """
+        """
+        Test the type of 'name' attribute for a Place instance.
+        
+        Ensures that the 'name' attribute is a string.
+        """
         new = self.value()
         new.name = "Name"
         self.assertEqual(type(new.name), str)
 
     def test_description(self):
-        """ """
+        """
+        Test the type of 'description' attribute for a Place instance.
+        
+        Ensures that the 'description' attribute is a string.
+        """
         new = self.value()
         new.description = "description"
         self.assertEqual(type(new.description), str)
 
     def test_number_rooms(self):
-        """ """
+        """
+        Test the type of 'number_rooms' attribute for a Place instance.
+        
+        Ensures that the 'number_rooms' attribute is an integer.
+        """
         new = self.value()
         new.number_rooms = 10
         self.assertEqual(type(new.number_rooms), int)
 
     def test_number_bathrooms(self):
-        """ """
+        """
+        Test the type of 'number_bathrooms' attribute for a Place instance.
+        
+        Ensures that the 'number_bathrooms' attribute is an integer.
+        """
         new = self.value()
         new.number_bathrooms = 2
         self.assertEqual(type(new.number_bathrooms), int)
 
     def test_max_guest(self):
-        """ """
+        """
+        Test the type of 'max_guest' attribute for a Place instance.
+        
+        Ensures that the 'max_guest' attribute is an integer.
+        """
         new = self.value()
         new.max_guest = 8
         self.assertEqual(type(new.max_guest), int)
 
     def test_price_by_night(self):
-        """ """
+        """
+        Test the type of 'price_by_night' attribute for a Place instance.
+        
+        Ensures that the 'price_by_night' attribute is an integer.
+        """
         new = self.value()
         new.price_by_night = 90
         self.assertEqual(type(new.price_by_night), int)
 
     def test_latitude(self):
-        """ """
+        """
+        Test the type of 'latitude' attribute for a Place instance.
+        
+        Ensures that the 'latitude' attribute is a float.
+        """
         new = self.value()
         new.latitude = -78.382324
         self.assertEqual(type(new.latitude), float)
 
     def test_longitude(self):
-        """ """
+        """
+        Test the type of 'longitude' attribute for a Place instance.
+        
+        Ensures that the 'longitude' attribute is a float.
+        """
         new = self.value()
-        new.latitude = 12.1923
-        self.assertEqual(type(new.latitude), float)
+        new.longitude = 12.1923
+        self.assertEqual(type(new.longitude), float)
 
-    @unittest.skipIf(getenv("HBNB_TYPE_STORAGE") != "db", "Testeing to save")
     def test_amenity_ids_files(self):
-        """ """
+        """
+        Test the 'amenities' attribute for a Place instance when using file storage.
+        
+        Ensures that the 'amenities' attribute is a list of strings representing amenity IDs.
+        """
         new = self.value()
         new.amenities = ['wifi', 'tv']
         self.assertEqual(new.amenities[0], 'wifi')
