@@ -83,3 +83,8 @@ class DBStorage:
             if temp == key:
                 return value
         return None
+
+    def count(self, cls=None):
+        """ count objects """
+        objects = models.storage.all(cls)
+        return len(objects)
