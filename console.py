@@ -3,6 +3,7 @@
 
 import cmd
 from datetime import datetime
+from models import storage
 import models
 from models.amenity import Amenity
 from models.base_model import BaseModel
@@ -66,6 +67,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             print("** class doesn't exist **")
             return False
+        storage.new(instance)
         print(instance.id)
         instance.save()
 

@@ -31,14 +31,15 @@ class FileStorage:
             for key, value in self.__objects.items():
                 if cls == value.__class__ or cls == value.__class__.__name__:
                     new_dict[key] = value
+            #print(new_dict)
             return new_dict
         return self.__objects
 
     def new(self, obj):
         """sets in __objects the obj with key <obj class name>.id"""
-        if obj is not None:
-            key = obj.__class__.__name__ + "." + obj.id
-            self.__objects[key] = obj
+        key = f"{obj.__class__.__name__}.{obj.id}"
+        #print(f'key: {key}')
+        self.__objects[key] = obj
 
     def save(self):
         """serializes __objects to the JSON file (path: __file_path)"""
@@ -70,27 +71,17 @@ class FileStorage:
         self.reload()
 
     def get(self, cls, id):
-        """
-        Get the number of objects in storage.
-        """
-        if cls and id:
-            if cls in classes.values():
-                all_objects = self.all(cls)
-                for value in all_objects.values():
-                    if value.id == id:
-                        return value
-            return
-        return
+        """object to get"""
+        #if cls and id:
+        for k, v in classes.items():
+            if v is cls:
+                cls_str = k
+        take_obj = '{}.{}'.format(cls_str, id)
+        every_obj = self.all(cls)
+        return every_obj[take_obj]
+        #else:
+         #   return None
 
     def count(self, cls=None):
-        """
-        Count the number of objects in storage.
-        """
-        if not cls:
-            var = self.all()
-            return len(var)
-        if cls in classes.values():
-            insta = self.all(cls)
-            return len(insta)
-        if cls not in classes.values():
-            return
+        """class that is (optional)"""
+        return (len(self.all(cls)))
