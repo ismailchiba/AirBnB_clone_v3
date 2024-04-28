@@ -17,10 +17,10 @@ def downTear(self):
     storage.close()
 
 
-def handle_not_found_error(error):
-    response = jsonify({"error": "Not found"})
-    response.status_code = 404
-    return response
+@app.errorhandler(404)
+def page_not_found(error):
+    """return render_template"""
+    return jsonify(error='Not found'), 404
 
 
 if __name__ == "__main__":
