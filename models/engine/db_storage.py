@@ -80,7 +80,7 @@ class DBStorage:
         if cls in classes.values():
             return self.__session.query(cls).get(id)
         return None
-    
+
     def count(self, cls=None):
         """ class method to count no of object in storage."""
         if cls is None:
@@ -93,4 +93,3 @@ class DBStorage:
             for i in self.all(cls).values():
                 cls_count += 1
             return cls_count
-            
