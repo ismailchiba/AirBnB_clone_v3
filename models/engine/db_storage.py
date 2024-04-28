@@ -76,8 +76,8 @@ class DBStorage:
         self.__session.remove()
 
     def get(self, cls, id):
-	if cls is None or id is None:
-		return None
+        if cls is None or id is None:
+            return None
         key = "{}.{}".format(cls.__name__, id)
         return self.__objects.get(key, None)
 
