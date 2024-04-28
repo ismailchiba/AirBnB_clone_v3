@@ -2,9 +2,7 @@
 """Flask server (variable app)
 """
 
-
-from flask import Flask
-from flask import jsonify
+from flask import Flask, jsonify
 from models import storage
 from os import getenv
 from api.v1.views import app_views
@@ -14,9 +12,16 @@ app.register_blueprint(app_views)
 
 
 @app.teardown_appcontext
-def downtear(self):
-    '''Status of your API'''
+def downTear(self):
+    """Status of your API"""
     storage.close()
+
+
+def handle_not_found_error(error):
+    response = jsonify({"error": "Not found"})
+    response.status_code = 404
+    return response
+
 
 if __name__ == "__main__":
     host = getenv('HBNB_API_HOST')
