@@ -70,15 +70,10 @@ class FileStorage:
         self.reload()
 
     def get(self, cls, id):
-        key = "{}_{}".fiormat(cls.__name__, id)
-        return self.dict.get(key, None)
+        if cls is None or id is None:
+            return None
+        key = "{}.{}".format(cls.__name__, id)
+        return self.__objects.get(key, None)
 
     def count(self, cls=None):
-        if cls is None:
-            return len(self.dict)
-        else:
-            count = 0
-            for obj in self.dict.values():
-                if isinstance(obj, cls):
-                    count += 1
-            return count
+        return len(self.all(cls))
