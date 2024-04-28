@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """states"""
 from api.v1.views import app_views
-from flask import jsonify, request, abort, make_response
+from flask import jsonify, abort, request, make_response
 from models import storage
 from models.state import State
 
@@ -20,7 +20,7 @@ def get_states():
 )
 def get_state(state_id):
     """get a state"""
-    state = storage.get(State, str(state_id))
+    state = storage.get(State, state_id)
     if state is None:
         abort(404)
     return jsonify(state.to_dict())
@@ -33,7 +33,7 @@ def get_state(state_id):
 )
 def delete_state(state_id):
     """delete a state"""
-    state = storage.get(State, str(state_id))
+    state = storage.get(State, state_id)
     if state is None:
         abort(404)
     state.delete()
@@ -48,11 +48,15 @@ def delete_state(state_id):
 )
 def create_state():
     """create a state"""
+    if not request.get_json():
+        return make_response(
+            jsonify({"error": "Not a JSON"}), 400
+        )
+    if 'name' not in request.get_json():
+        return make_response(
+            jsonify({"error": "Missing name"}), 400
+        )
     data = request.get_json()
-    if not data:
-        return make_response(jsonify({"error": "Not a JSON"}), 400)
-    if 'name' not in data:
-        return make_response(jsonify({"error": "Missing name"}), 400)
     new_state = State(**data)
     new_state.save()
     return jsonify(new_state.to_dict()), 201
@@ -65,15 +69,15 @@ def create_state():
 )
 def update_state(state_id):
     """update a state"""
-    data = request.get_json()
+    if not request.get_json():
+        return make_response(
+            jsonify({"error": "Not a JSON"}), 400
+        )
+    data = storage.get(State, state_id)
     if data is None:
-        return make_response(jsonify({"error": "Not a JSON"}), 400)
-    state = storage.get(State, str(state_id))
-    if state is None:
         abort(404)
-    ignore_keys = ['id', 'created_at', 'updated_at']
-    for k, v in data.items():
-        if k not in ignore_keys:
-            setattr(state, k, v)
+    for k, v in request.get_json().items():
+        if k not in ['id', 'created_at', 'updated']:
+            setattr(data, k, v)
     storage.save()
-    return jsonify(state.to_dict())
+    return jsonify(data.to_dict())
