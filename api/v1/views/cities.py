@@ -13,7 +13,7 @@ from models.city import City
                  methods=['GET'], strict_slashes=False)
 def cities_by_state(state_id):
     """Retrieves the list of all cities of a State objects"""
-    objs = storage.all(State, state_id)
+    objs = storage.get(State, state_id)
     if not objs:
         abort(404)
     return jsonify([city.to_dict() for city in objs.cities])
@@ -23,7 +23,7 @@ def cities_by_state(state_id):
                  strict_slashes=False)
 def cities(city_id):
     """Retrieve a city from cities using id"""
-    obj = storage.all(City, city_id)
+    obj = storage.get(City, city_id)
     if not obj:
         abort(404)
     return jsonify(obj.to_dict())
