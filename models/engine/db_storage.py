@@ -82,7 +82,6 @@ class DBStorage:
             target = cls + '.' + id
             if key == target:
                 return value
-
         return None
 
     def count(self, cls=None):
