@@ -35,7 +35,7 @@ classes = {
 }
 
 
-@unittest.skipIf(models.storage_t == "db", "not testing file storage")
+@unittest.skipIf(models.storage_t == "db", "testing file storage")
 class TestFileStorageDocs(unittest.TestCase):
     """Tests to check the documentation and style of FileStorage class"""
 
