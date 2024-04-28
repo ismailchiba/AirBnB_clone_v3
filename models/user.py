@@ -27,10 +27,11 @@ class User(BaseModel, Base):
 
     def __init__(self, *args, **kwargs):
         """initializes user"""
+        if kwargs:
+            password = kwargs.pop('password', None)
+            if password:
+                hash_code = hashlib.md5()
+                hash_code.update(password.encode('utf-8'))
+                new_password = hash_code.hexdigest()
+                kwargs['password'] = new_password
         super().__init__(*args, **kwargs)
-
-    def __setattr__(self, key, new_pass):
-        """update pasword"""
-        if key == "password":
-            value = hashlib.md5(new_pass.encode()).hexdigest()
-        super().__setattr__(key, value)
