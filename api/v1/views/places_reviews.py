@@ -48,7 +48,7 @@ def delete_review(review_id):
         abort(404)
     storage.delete(i)
     storage.save()
-    return make_response(jsonify({}), 200)
+    return jsonify({})
 
 
 @app_views.route(
