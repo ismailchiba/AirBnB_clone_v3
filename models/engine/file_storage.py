@@ -31,14 +31,12 @@ class FileStorage:
             for key, value in self.__objects.items():
                 if cls == value.__class__ or cls == value.__class__.__name__:
                     new_dict[key] = value
-            #print(new_dict)
             return new_dict
         return self.__objects
 
     def new(self, obj):
         """sets in __objects the obj with key <obj class name>.id"""
         key = f"{obj.__class__.__name__}.{obj.id}"
-        #print(f'key: {key}')
         self.__objects[key] = obj
 
     def save(self):
@@ -72,15 +70,15 @@ class FileStorage:
 
     def get(self, cls, id):
         """object to get"""
-        #if cls and id:
-        for k, v in classes.items():
-            if v is cls:
-                cls_str = k
-        take_obj = '{}.{}'.format(cls_str, id)
-        every_obj = self.all(cls)
-        return every_obj[take_obj]
-        #else:
-         #   return None
+        if cls and id:
+            for k, v in classes.items():
+                if v is cls:
+                    cls_str = k
+            take_obj = '{}.{}'.format(cls_str, id)
+            every_obj = self.all(cls)
+            return every_obj[take_obj]
+        else:
+            return None
 
     def count(self, cls=None):
         """class that is (optional)"""
