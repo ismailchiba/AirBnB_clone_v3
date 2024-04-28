@@ -138,8 +138,10 @@ class TestBaseModelDocs(unittest.TestCase):
         Test instantiation of a BaseModel with a single kwarg.
         """
         n = {"Name": "test"}
-        with self.assertRaises(KeyError):
-            new = self.value(**n)
+        new = self.value(**n)
+        self.assertTrue(hasattr(new, 'Name'), "The attribute 'Name' should be set")
+        self.assertEqual(new.Name, 'test', "The attribute 'Name' should have the value 'test'")
+
 
     def test_id(self):
         """
