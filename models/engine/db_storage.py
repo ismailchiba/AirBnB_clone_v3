@@ -80,7 +80,8 @@ class DBStorage:
         return None
 
     def count(self, cls=None):
-        """Returns the object based on the class and its ID, or None if not found"""
+        """Returns the object based on the class and its ID,
+        or None if not found"""
         if cls in classes.values():
             return len(self.all(cls))
         return len(self.all())
