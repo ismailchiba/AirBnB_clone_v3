@@ -47,9 +47,9 @@ def states_with_id(state_id=None):
         json = request.get_json()
         if json is None:
             abort(400, "Not a JSON")
-        json.pop('id', None)
-        json.pop('created_at', None)
-        json.pop('updated_at', None)
+        json.pop('id')
+        json.pop('created_at')
+        json.pop('updated_at')
 
         for k, v in json.items():
             setattr(state, k, v)
