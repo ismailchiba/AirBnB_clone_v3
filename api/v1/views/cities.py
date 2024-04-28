@@ -28,6 +28,7 @@ def citys_without_id(state_id=None):
             abort(400, "Not a JSON")
         if json.get('name') is None:
             abort(400, "Missing name")
+        json['state_id'] = state_id
         city = City(**json)
         city.save()
         return jsonify(city.to_dict()), 201
@@ -52,11 +53,5 @@ def citys_with_id(city_id=None):
         json = request.get_json()
         if json is None:
             abort(400, "Not a JSON")
-        json.pop('id', None)
-        json.pop('created_at', None)
-        json.pop('updated_at', None)
-
-        for k, v in json.items():
-            setattr(city, k, v)
-        city.save()
+        city.update(**json)
         return jsonify(city.to_dict()), 200
