@@ -65,7 +65,7 @@ class DBStorage:
     def get(self, cls, id):
         """fetches specific object """
         all_class = self.all(cls)
-        
+
         for obj in all_class.values():
             if id == str(obj.id):
                 return obj
