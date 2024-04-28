@@ -8,6 +8,10 @@ from flask import jsonify
 from models import storage, amenity, city, place, review, state, user
 
 
+classes = {"users": "User", "places": "Place", "states": "State",
+           "cities": "City", "amenities": "Amenity",
+           "reviews": "Review"}
+
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
 def get_status():
     """Returns the status of the API."""
@@ -17,12 +21,7 @@ def get_status():
 @app_views.route('/stats', methods=['GET'], strict_slashes=False)
 def get_stats():
     """ Gets the counts in Json """
-    counts = {
-        "amenities": storage.count("Amenity"),
-        "cities":  storage.count("City"),
-        "places":  storage.count("Place"),
-        "reviews": storage.count("Review"),
-        "states":  storage.count("State"),
-        "users": storage.count("User")
-    }
-    return jsonify(counts)
+    count_dict = {}
+    for cls in classes:
+        count_dict[cls] = storage.count(classes[cls])
+    return jsonify(count_dict)
