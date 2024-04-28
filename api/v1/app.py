@@ -12,7 +12,7 @@ app.register_blueprint(app_views)
 
 
 @app.teardown_appcontext
-def close_db(obj):
+def close_db(exception):
     """
     Close the storage when the application context ends.
 
@@ -24,12 +24,9 @@ def close_db(obj):
 
 
 if __name__ == "__main__":
+    HBNB_API_HOST = getenv('HBNB_API_HOST')
+    HBNB_API_PORT = getenv('HBNB_API_PORT')
 
-    # Get the host from the environment variable or use default value
-    host = getenv('HBNB_API_HOST', default='0.0.0.0')
-
-    # Get the port from the environment variable or use default value
-    port = getenv('HBNB_API_PORT', default=5000)
-
-    # Run the Flask app with the specified host, port, and threaded=True
-    app.run(host, int(port), threaded=True)
+    host = '0.0.0.0' if not HBNB_API_HOST else HBNB_API_HOST
+    port = 5000 if not HBNB_API_PORT else HBNB_API_PORT
+    app.run(host=host, port=port, threaded=True)
