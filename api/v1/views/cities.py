@@ -114,4 +114,4 @@ def update_city(city_id):
 
     storage.save()
 
-    return jsonify(city_obj.to_dict()), 201
+    return jsonify(city_obj.to_dict()), 200
