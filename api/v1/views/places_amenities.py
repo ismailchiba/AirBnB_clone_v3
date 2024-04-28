@@ -11,7 +11,7 @@ from models.place import Place
 
 @app_views.route("/places/<place_id>/amenities", strict_slashes=False,
                  methods=["GET"])
-def get_amenities(place_id):
+def get_amenity_by_place_id(place_id):
     """ get amenities by place ID"""
     amenity_list = []
     amenities = []
@@ -30,7 +30,7 @@ def get_amenities(place_id):
 
 @app_views.route("/places/<place_id>/amenities/<amenity_id>",
                  strict_slashes=False, methods=["DELETE"])
-def delete_amenity(place_id, amenity_id):
+def delete_amenity_by_place_id(place_id, amenity_id):
     """ delete amenity by place"""
     amenities = []
     place = storage.get(Place, place_id)
