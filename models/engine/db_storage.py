@@ -87,15 +87,7 @@ class DBStorage:
     Returns:
         The object based on the class name and its ID, or None if not found.
     """
-    if cls not in classes.values():
-        return None
-    else :
-        entities = self.all(cls)
-        for value in entities.values():
-            if (value.id == id):
-                return value
-
-        return None
+        return self.__session.query(cls).filter_by(id=id).first()
 
     def count(self, cls=None):
         """
