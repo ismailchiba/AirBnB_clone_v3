@@ -1,7 +1,11 @@
+#!/usr/bin/python3
+"""
+Created the flask blueprint
+"""
+
 from flask import Blueprint
 
-#creating a variable appviews
-app_views = Blueprint('app_views', __name__, url_prefix='/api/v1')
+#all the urls we create must include /api/v1
+app_views = Blueprint('app_views',__name__, url_prefix='/api/v1')
 
-# Importing views to avoid circular imports
-from api.v1.views import index
+from api.v1.views.index import *
