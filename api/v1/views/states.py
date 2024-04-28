@@ -25,7 +25,7 @@ def get_state(state_id):
     Retrieves a State object: GET /api/v1/states/<state_id>
     If the state_id is not linked to any State object, raise a 404 error
     """
-    state = storage.get('State', state_id)
+    state = storage.get(State, state_id)
     if state:
         return jsonify(state.to_dict())
     else:
@@ -39,7 +39,7 @@ def delete_state(state_id):
     If the state_id is not linked to any State object, raise a 404 error
     Returns an empty dictionary with the status code 200
     """
-    state = storage.get('State', state_id)
+    state = storage.get(State, state_id)
     if state:
         storage.delete(state)
         storage.save()
@@ -80,7 +80,7 @@ def update_state(state_id):
     Ignore keys: id, created_at and updated_at
     Returns the State object with the status code 200
     """
-    state = storage.get('State', state_id)
+    state = storage.get(State, state_id)
     if not state:
         abort(404)
     else:

@@ -64,7 +64,7 @@ def create_review(place_id):
     If the dictionary doesn’t contain the key text, raise a 400 error with the message Missing text
     Returns the new Review with the status code 201
     """
-    place = storage.get('Place', place_id)
+    place = storage.get(Place, place_id)
     if not place:
         abort(404)
 
@@ -98,7 +98,7 @@ def update_review(review_id):
     Ignore keys: id, user_id, place_id, created_at and updated_at
     Returns the Review object with the status code 200
     """
-    review = storage.get('Review', review_id)
+    review = storage.get(Review, review_id)
     if review:
         if not request.is_json:
             abort(400, 'Not a JSON')

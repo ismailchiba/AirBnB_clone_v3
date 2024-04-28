@@ -100,7 +100,7 @@ def update_place(place_id):
     Ignore keys: id, user_id, city_id, created_at and updated_at
     Returns the Place object with the status code 200
     """
-    place = storage.get('Place', place_id)
+    place = storage.get(Place, place_id)
     if place:
         if not request.is_json:
             abort(400, description='Not a JSON')

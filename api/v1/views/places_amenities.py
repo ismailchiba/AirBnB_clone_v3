@@ -16,7 +16,7 @@ def get_place_amenities(place_id):
     returns a list of place amenities of place with id
     <place_id>
     """
-    place = storage.get('Place', place_id)
+    place = storage.get(Place, place_id)
     if not place:
         abort(404)
     else:
@@ -28,7 +28,7 @@ def get_place_amenities(place_id):
                  strict_slashes=False)
 def delete_place_amenities(place_id, amenity_id):
     """ deletes amenity to a place """
-    place = storage.get("Place", place_id)
+    place = storage.get(Place, place_id)
     amenity = storage.get("Amenity", amenity_id)
     if not amenity:
         abort(404)
@@ -48,7 +48,7 @@ def delete_place_amenities(place_id, amenity_id):
                  strict_slashes=False)
 def delete_place_amenities(place_id, amenity_id):
     """ adds amenity to a place """
-    place = storage.get("Place", place_id)
+    place = storage.get(Place, place_id)
     amenity = storage.get("Amenity", amenity_id)
     if not amenity:
         abort(404)
