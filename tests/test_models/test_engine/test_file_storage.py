@@ -67,6 +67,20 @@ test_file_storage.py'])
             self.assertTrue(len(func[1].__doc__) >= 1,
                             "{:s} method needs a docstring".format(func[0]))
 
+    def test_get_method_docstring(self):
+        """Test for the presence of docstring in get method"""
+        self.assertIsNot(FileStorage.get.__doc__, None,
+                         "get method needs a docstring")
+        self.assertTrue(len(FileStorage.get.__doc__) >= 1,
+                        "get method needs a docstring")
+
+    def test_count_method_docstring(self):
+        """Test for the presence of docstring in count method"""
+        self.assertIsNot(FileStorage.count.__doc__, None,
+                         "count method needs a docstring")
+        self.assertTrue(len(FileStorage.count.__doc__) >= 1,
+                        "count method needs a docstring")
+
 
 class TestFileStorage(unittest.TestCase):
     """Test the FileStorage class"""
@@ -113,3 +127,33 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_get(self):
+        """Test the get method"""
+        # Create test objects
+        state = State(name="Test State")
+        models.storage.new(state)
+        models.storage.save()
+
+        # Retrieve the object
+        retrieved_state = models.storage.get(State, state.id)
+
+        # Assert the object is retrieved correctly
+        self.assertEqual(retrieved_state, state)
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_count(self):
+        """Test the count method"""
+        # Create test objects
+        state1 = State(name="Test State 1")
+        state2 = State(name="Test State 2")
+        models.storage.new(state1)
+        models.storage.new(state2)
+        models.storage.save()
+
+        # Count the objects
+        state_count = models.storage.count(State)
+
+        # Assert the count is correct
+        self.assertEqual(state_count, 2)

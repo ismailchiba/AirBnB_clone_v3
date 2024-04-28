@@ -2,7 +2,7 @@
 """
 Contains class BaseModel
 """
-
+import hashlib
 from datetime import datetime
 import models
 from os import getenv
@@ -35,16 +35,16 @@ class BaseModel:
             if kwargs.get("created_at", None) and type(self.created_at) is str:
                 self.created_at = datetime.strptime(kwargs["created_at"], time)
             else:
-                self.created_at = datetime.utcnow()
+                self.created_at = datetime.now()
             if kwargs.get("updated_at", None) and type(self.updated_at) is str:
                 self.updated_at = datetime.strptime(kwargs["updated_at"], time)
             else:
-                self.updated_at = datetime.utcnow()
+                self.updated_at = datetime.now()
             if kwargs.get("id", None) is None:
                 self.id = str(uuid.uuid4())
         else:
             self.id = str(uuid.uuid4())
-            self.created_at = datetime.utcnow()
+            self.created_at = datetime.now()
             self.updated_at = self.created_at
 
     def __str__(self):
@@ -73,3 +73,16 @@ class BaseModel:
     def delete(self):
         """delete the current instance from the storage"""
         models.storage.delete(self)
+
+    def to_dict(self, with_password=False):
+        """Return a dictionary representation of the model."""
+        dictionary = self.__dict__.copy()
+        if not with_password and 'password' in dictionary:
+            del dictionary['password']
+        return dictionary
+
+
+class User(BaseModel):
+    def __init__(self, password, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.password = hashlib.md5(password.encode()).hexdigest()
