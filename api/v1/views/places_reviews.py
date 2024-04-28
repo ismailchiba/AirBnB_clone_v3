@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """
+Defines API routes for handling Place reviews objects
 """
 from flask import abort, jsonify, request
 from models.review import Review
