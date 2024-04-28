@@ -72,7 +72,7 @@ class FileStorage:
     def get(self, cls, id):
         '''method that retrieves one object'''
         if cls and id:
-            match_string = cls, __name__ + "." + id
+            match_string = cls.__name__ + "." + id
             all_object = self.all(cls)
             for key in all_object:
                 if key == match_string:
