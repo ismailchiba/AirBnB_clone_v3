@@ -4,6 +4,7 @@ from flask import Flask
 from flask import Blueprint
 from models import storage
 from api.v1.views import app_views
+from os import environ
 
 
 app = Flask(__name__)
@@ -17,4 +18,13 @@ def teardown_db(exception):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port='5000', threaded=True, debug=True)
+    if environ['HBNB_API_HOST']:
+        HOST = environ['HBNB_API_HOST']
+    else:
+        HOST = '0.0.0.0'
+    if environ['HBNB_API_PORT']:
+        PORT = environ['HBNB_API_PORT']
+    else:
+        PORT = '5000'
+
+    app.run(host=HOST, port=PORT, threaded=True, debug=True)
