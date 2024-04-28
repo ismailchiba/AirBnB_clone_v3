@@ -27,7 +27,7 @@ def get_state(state_id):
     Get state by id
     """
     try:
-        state = storage.get('State', state_id)
+        state = storage.get(State, state_id)
         return jsonify(state.to_dict())
     except Exception:
         abort(404)
@@ -39,10 +39,10 @@ def delete_state(state_id):
     Delete state by id
     """
     try:
-        state = storage.get('State', state_id)
+        state = storage.get(State, state_id)
         storage.delete(state)
         return jsonify({}), 200
-    else:
+    except Exception:
         abort(404)
 
 @app_views.route('/state', methods=['POST'],
@@ -57,8 +57,8 @@ def create_state():
     if 'name' not in request.json():
         abort(400)
         return jsonify({"error": "Missing name"})
-    newstate = State(**request.get_json())
-    newstate.save()
+    new_state = State(**request.get_json())
+    new_state.save()
     return jsonify(new_state.to_dict()), 201
 
 @app_views.route('/state/<state_id>', methods=['PUT'],
