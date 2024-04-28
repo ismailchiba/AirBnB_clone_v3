@@ -20,7 +20,7 @@ def citys_without_id(state_id=None):
         for city in cities_dict.values():
             if city.state_id == state_id:
                 cities_list.append(city.to_dict())
-        return jsonify(cities_list)
+        return jsonify(cities_list), 200
 
     if request.method == 'POST':
         json = request.get_json()
@@ -46,7 +46,7 @@ def citys_with_id(city_id=None):
     if request.method == 'DELETE':
         city.delete()
         del city
-        return jsonify({})
+        return jsonify({}), 200
 
     if request.method == 'PUT':
         json = request.get_json()
@@ -59,4 +59,4 @@ def citys_with_id(city_id=None):
         for k, v in json.items():
             setattr(city, k, v)
         city.save()
-        return jsonify(city.to_dict())
+        return jsonify(city.to_dict()), 200
