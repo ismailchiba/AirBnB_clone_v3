@@ -3,7 +3,7 @@
 This module contains endpoint(route) status
 """
 from api.v1.views import app_views
-from flask import jsonify
+from flask import Flask, jsonify
 
 """Create an instance of Blueprint with the URL prefix /api/v1"""
 
