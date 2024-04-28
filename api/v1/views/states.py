@@ -21,7 +21,7 @@ def get_states():
 def get_state(state_id):
     """ Retrieves a State object """
     state = storage.get(State, state_id)
-    if not state:
+    if state is None:
         abort(404)
 
     return jsonify(state.to_dict())
@@ -32,7 +32,7 @@ def get_state(state_id):
 def delete_state(state_id):
     """ Delete State Object """
     state = storage.get(State, state_id)
-    if not state:
+    if state is None:
         abort(404)
 
     storage.delete(state)
