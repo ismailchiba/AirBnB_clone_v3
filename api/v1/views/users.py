@@ -8,6 +8,7 @@ from models.user import User
 
 app = Flask(__name__)
 
+
 @app.route('/api/v1/users', methods=['GET'])
 def get_users():
     """
