@@ -83,8 +83,6 @@ class DBStorage:
         for value in found_objects.values():
             if (value.id == id):  # Fixed the comparison operator here
                 return value
-            else:
-                return None
         return None
 
     def count(self, cls=None):

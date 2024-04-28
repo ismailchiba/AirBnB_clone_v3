@@ -21,11 +21,11 @@ def get_all_states():
 @app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
 def get_state(state_id):
     """ Retrieves a specific State """
-    state = storage.get(State, state_id)
-    if not state:
-        return jsonify(state.to_dict())
+    spf_state = storage.get(State, state_id)
+    if not spf_state:
+        abort(404)
     else:
-        return abirt(404)
+        return jsonify(spf_state.to_dict())
 
 
 @app_views.route('/states/<state_id>', methods=['DELETE'],
