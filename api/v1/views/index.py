@@ -15,7 +15,7 @@ from models.user import User
 @app_views.route("/status")
 def status():
     """retrun status json"""
-    return jsonify({"status": "ok"})
+    return jsonify({"status": "OK"})
 
 
 @app_views.route("/stats")
