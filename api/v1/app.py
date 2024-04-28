@@ -4,7 +4,7 @@ Flask server (variable app)
 """
 
 from flask import Flask, jsonify
-from models import storage
+"""from models import storage"""
 from os import getenv
 from api.v1.views import app_views
 
