@@ -34,5 +34,4 @@ class User(BaseModel, Base):
             md5 = hashlib.md5()
             md5.update(value.encode())
             value = md5.hexdigest()
-            setattr(self, name, value)
         super().__setattr__(name, value)
