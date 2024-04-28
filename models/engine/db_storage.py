@@ -76,13 +76,41 @@ class DBStorage:
         self.__session.remove()
 
     def get(self, cls, id):
-        """ """
-        if not cls:
-            return models.all()
-        if cls not in classes.values():
-            return
-        if cls in class
+        """Retrieve an object based on class and ID.
+
+        Args:
+            cls (type): The class type of the object.
+            id (str): The identifier of the object.
+
+        Returns:
+            object: The object with the specified class and ID, or None if not found.
+        """
+        if cls and id:
+            # Check if the class is among the values of the classes dictionary and if id is a string
+            if cls in classes.values() and type(id) == str:
+                # Retrieve all objects of the specified class
+                all_objs = self.all(cls)
+                # Iterate through objects and return the one with matching ID
+                for k, v in all_objs.items():
+                    if k.split(".")[1] == id:
+                        return v
+            else:
+                return None
+        return None
+
 
     def count(self, cls=None):
-        """ """
-        return
+        """Count the number of objects.
+
+        Args:
+            cls (type, optional): The class type of objects to count. Defaults to None.
+
+        Returns:
+            int: The number of objects matching the specified class,
+                        or total objects if cls is None.
+        """
+        if not cls:
+            return len(self.all())
+        if cls in classes.values():
+            return len(self.all(cls))
+        return None

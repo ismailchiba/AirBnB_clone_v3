@@ -70,9 +70,35 @@ class FileStorage:
         self.reload()
 
     def get(self, cls, id):
-        """ """
-        return
+        """Retrieve an object based on class and ID.
+
+        Args:
+            cls (type): The class type of the object.
+            id (str): The identifier of the object.
+
+        Returns:
+            object: The object with the specified class and ID, or None if not found.
+        """
+        if cls and id:
+            if cls in classes.values() and type(id) == str:
+                all_objs = self.all(cls)
+                for v in all_objs.values():
+                    if v.id == id:
+                        return v
+        return None
+
 
     def count(self, cls=None):
-        """ """
-        return
+        """Count the number of objects.
+
+        Args:
+            cls (type, optional): The class type of objects to count. Defaults to None.
+
+        Returns:
+            int: The number of objects matching the specified class, or total objects if cls is None.
+        """
+        if not cls:
+            return len(self.all())
+        if cls in classes.values():
+            return len(self.all(cls))
+        return None
