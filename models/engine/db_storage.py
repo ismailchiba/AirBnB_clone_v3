@@ -53,7 +53,7 @@ class DBStorage:
 
     def get(self, cls, id):
         """retrieve one object"""
-        c = classes.get(cls)
+        c = classes.get('State')
         key = f'{c.__name__}.{id}'
         if key and key in self.all(cls):
             return self.all(cls)[key]

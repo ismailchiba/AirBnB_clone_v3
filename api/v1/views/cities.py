@@ -6,13 +6,14 @@ from flask import request
 from flask import jsonify, abort, make_response
 from models.city import City
 from models import storage
+from models.state import State
 
 
 @app_views.route('/states/<state_id>/cities',
                  methods=['GET'], strict_slashes=False)
 def get_state_cities(state_id):
     """ returns cities of a state with id <state_id> """
-    state = storage.get("State", state_id)
+    state = storage.get(State, state_id)
     if not state:
         abort(404)
     else:
@@ -24,7 +25,7 @@ def get_state_cities(state_id):
                  methods=['POST'], strict_slashes=False)
 def add_city(state_id):
     """ Adds city to state """
-    state = storage.get("State", state_id)
+    state = storage.get(State, state_id)
     if not state:
         abort(404)
     else:
@@ -43,7 +44,7 @@ def add_city(state_id):
                  methods=['GET'], strict_slashes=False)
 def get_cities(city_id):
     """ returns json of a city with city_id """
-    city = storage.get("City", city_id)
+    city = storage.get(City, city_id)
     if not city:
         abort(404)
     else:
@@ -54,7 +55,7 @@ def get_cities(city_id):
                  methods=['DELETE'], strict_slashes=False)
 def delete_cities(city_id):
     """ deletes a city with id <city_id> """
-    city = storage.get("City", city_id)
+    city = storage.get(City, city_id)
     if not city:
         abort(404)
     else:
@@ -67,7 +68,7 @@ def delete_cities(city_id):
                  methods=['PUT'], strict_slashes=False)
 def update_cities(city_id):
     """ updates a city with an id <city_id> """
-    city = storage.get("City", city_id)
+    city = storage.get(City, city_id)
     if not city:
         abort(404)
     else:
