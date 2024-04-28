@@ -43,7 +43,7 @@ def del_city(city_id):
 
 @app_views.route('/states/<state_id>/cities', methods=['POST'],
                  strict_slashes=False)
-def add_city():
+def add_city(state_id):
     """Returns the new city and returns 201"""
     obj_state = storage.get(State, state_id)
     if not obj_state:
