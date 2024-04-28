@@ -37,7 +37,7 @@ class Place(BaseModel, Base):
         amenities = relationship("Amenity", secondary="place_amenity",
                                  backref="place_amenities",
                                  viewonly=False)
-    else:
+        else:
         city_id = ""
         user_id = ""
         name = ""
@@ -76,3 +76,4 @@ class Place(BaseModel, Base):
                 if amenity.place_id == self.id:
                     amenity_list.append(amenity)
             return amenity_list
+
