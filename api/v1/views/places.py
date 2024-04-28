@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """
+Defines API routes for handling Place objects
 """
 from flask import abort, jsonify, request
 from models.city import City
@@ -112,3 +113,40 @@ def update_place(place_id):
         return jsonify(place.to_dict()), 200
     else:
         abort(404)
+
+
+@app_views.route('/places_search', methods=['POST'], strict_slashes=False)
+def search_places():
+    """
+    Search for places based on JSON data in request body
+    """
+    if not request.get_json():
+        abort(400, 'Not a JSON')
+
+    data = request.get_json()
+    states = data.get('states', [])
+    cities = data.get('cities', [])
+    amenities = data.get('amenities', [])
+
+    places = []
+    if not states and not cities and not amenities:
+        places = storage.all(Place).values()
+    else:
+        if states:
+            for state_id in states:
+                state = storage.get(State, state_id)
+                if state:
+                    for city in state.cities:
+                        if city not in cities:
+                            cities.append(city)
+
+        for city_id in cities:
+            city = storage.get(City, city_id)
+            if city:
+                places.extend(city.places)
+
+    if amenities:
+        amenities_set = set(amenities)
+        places = [place for place in places if amenities_set.issubset(set(place.amenity_ids))]
+
+    return jsonify([place.to_dict() for place in places])
