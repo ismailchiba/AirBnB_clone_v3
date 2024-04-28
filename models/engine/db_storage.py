@@ -96,8 +96,9 @@ class DBStorage:
         if not cls:
             all_cls_instance = self.all()
             return len(all_cls_instance)
-        if cls in classes.values():
-            given_cls_instance = self.all(cls)
-            return len(given_cls_instance)
+        for klass, value in classes.items():
+            if cls == klass or cls == value:
+                given_cls_instance = self.all(cls)
+                return len(given_cls_instance)
         if cls not in classes.values():
             return
