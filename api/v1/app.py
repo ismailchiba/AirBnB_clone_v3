@@ -18,20 +18,16 @@ def tearodwn_close(exception):
     storage.close()
 
 
+@app.errorhandler(404)
 @app.errorhandler(400)
 def handle_request_error(exception):
     """Handle the request errors"""
     code = str(exception).split()[0]
+    if code == '404':
+        return make_response(jsonify({'error': "Not found"}), 404)
     description = exception.description
     message = {'error': description}
     return make_response(jsonify(message), code)
-
-
-@app.errorhandler(404)
-def handle_request_error(exception):
-    """Handle the request errors"""
-    message = {'error': "Not found"}
-    return make_response(jsonify(message), 404)
 
 
 if __name__ == "__main__":
