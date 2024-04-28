@@ -15,7 +15,7 @@ def all_states():
         states = [obj.to_dict() for obj in all_states.values()]
         return jsonify(states)
 
-    if request == 'POST':
+    if request.method == 'POST':
         if not request.get_json():
             abort(400, 'Not a JSON')
         if 'name' not in request.get_json():
@@ -32,7 +32,7 @@ def states_by_id(state_id):
     """gets, deletes, and updates objects of State object"""
     state = storage.get(State, state_id)
     if not state:
-        abort(400)
+        abort(404)
     if request.method == 'GET':
         return jsonify(state.to_dict())
 
