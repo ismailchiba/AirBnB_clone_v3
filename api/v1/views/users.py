@@ -79,7 +79,7 @@ def update_user(user_id):
     """ Update the user """
     user_obj = storage.get(User, user_id)
 
-    if not user_id:
+    if not user_obj:
         abort(404)
 
     if not request.get_json():
