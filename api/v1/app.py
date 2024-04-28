@@ -11,20 +11,12 @@ from api.v1.views import app_views
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
-app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
 
 
 @app.teardown_appcontext
 def downtear(self):
     '''Status of your API'''
     storage.close()
-
-@app.errorhandler(404)
-def not_found(error):
-    response jsonify ({'error': 'Not found'})
-    response.status_code = 404
-    response.headers['Content-Type'] = 'application/json'
-    return response
 
 if __name__ == "__main__":
     host = getenv('HBNB_API_HOST')
