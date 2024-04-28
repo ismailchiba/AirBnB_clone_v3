@@ -46,7 +46,7 @@ def delete_place_amenities(place_id, amenity_id):
 
 @app_views.route('/places/<place_id>/amenities/<amenity_id>', methods=['POST'],
                  strict_slashes=False)
-def delete_place_amenities(place_id, amenity_id):
+def link_amenity_to_place(place_id, amenity_id):
     """ adds amenity to a place """
     place = storage.get(Place, place_id)
     amenity = storage.get("Amenity", amenity_id)
