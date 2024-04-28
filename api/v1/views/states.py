@@ -62,7 +62,7 @@ def put_state(state_id):
 
 
 @app_views.route("/states/<state_id>", methods=["DELETE"], strict_slashes=False)
-def state_delete_by_id(state_id):
+def state_delete(state_id):
     """deletes State using its id"""
 
     state_obj = storage.get("State", str(state_id))
