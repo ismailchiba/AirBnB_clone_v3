@@ -24,7 +24,7 @@ def get_user(user_id):
     if not user:
         abort(404)
     else:
-        return jsonify([user.to_dict()])
+        return jsonify(user.to_dict())
 
 
 @app_views.route('/users/<user_id>', methods=['DELETE'],
@@ -52,7 +52,7 @@ def add_user():
         else:
             user = User(**kwargs_data)
             user.save()
-            return make_response(jsonify([user.to_dict()]), 201)
+            return make_response(jsonify(user.to_dict()), 201)
     abort(400, description='Not a JSON')
 
 
@@ -71,5 +71,5 @@ def update_user(user_id):
                 if key not in ignore:
                     setattr(user, key, val)
             storage.save()
-            return make_response(jsonify([user.to_dict()]), 200)
+            return make_response(jsonify(user.to_dict()), 200)
         abort(400, description='Not a JSON')

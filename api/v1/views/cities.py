@@ -34,7 +34,7 @@ def add_city(state_id):
                 kwargs_data.update({"state_id": state_id})
                 city = City(**kwargs_data)
                 city.save()
-                return make_response(jsonify([city.to_dict()]), 201)
+                return make_response(jsonify(city.to_dict()), 201)
             abort(400, description="Missing name")
         abort(400, description="Not a JSON")
 
@@ -47,7 +47,7 @@ def get_cities(city_id):
     if not city:
         abort(404)
     else:
-        return jsonify([city.to_dict()])
+        return jsonify(city.to_dict())
 
 
 @app_views.route('/cities/<city_id>',
