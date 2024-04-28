@@ -87,61 +87,49 @@ def update_place(place_id):
 @app_views.route("/places_search", methods=["POST"], strict_slashes=False)
 def places_search():
     """This retrieves all place objects depending on the request"""
-    body = request.get_json()
-    if body is None:
+    if not request.json:
         abort(400, 'Not a JSON')
-    if not body or (
-        not body.get("states")
-        and not body.get("cities")
-        and not body.get("amenities")
-    ):
-        places = storage.all(Place)
-        return jsonify([place.to_dict() for place in places.values()])
 
-    places = []
+    states = request.json.get('states', [])
+    cities = request.json.get('cities', [])
+    amenities = request.json.get('amenities', [])
 
-    if body.get("states"):
-        states = [storage.get("State", id) for id in body.get("states")]
+    if not states and not cities and not amenities:
+        places = storage.all('Place').values()
+        return jsonify([place.to_dict() for place in places])
 
-        for state in states:
+    place_ids = set()
+
+    for state_id in states:
+        state = storage.get('State', state_id)
+        if state:
             for city in state.cities:
                 for place in city.places:
-                    places.append(place)
+                    place_ids.add(place.id)
 
-    if body.get("cities"):
-        cities = [storage.get("City", id) for id in body.get("cities")]
-
-        for city in cities:
+    for city_id in cities:
+        city = storage.get('City', city_id)
+        if city:
             for place in city.places:
-                if place not in places:
-                    places.append(place)
+                place_ids.add(place.id)
 
-    if not places:
-        places = storage.all(Place)
-        places = [place for place in places.values()]
+    if not place_ids:
+        return jsonify([])
 
-    if body.get("amenities"):
-        amenities = [storage.get("Amenity", id) for id in
-                     body.get("amenities")]
-        count = 0
-        limit = count(places)
-        HBNB_API_HOST = getenv("HBNB_API_HOST")
-        HBNB_API_PORT = getenv("HBNB_API_PORT")
+    if amenities:
+        place_ids = filter_by_amenities(place_ids, amenities)
 
-        port = 5000 if not HBNB_API_PORT else HBNB_API_PORT
-        f_url = "http://0.0.0.0:{}/api/v1/places/".format(port)
-        while count < limit:
-            place = places[count]
-            url = f_url + "{}/amenities"
-            requ = url.format(place.id)
-            response = requests.get(requ)
-            ame_d = json.loads(response.text)
-            ame = [storage.get("Amenity", o["id"]) for o in ame_d]
-            for amenity in amenities:
-                if amenity not in amenities:
-                    places.pop(count)
-                    count -= 1
-                    limit -= 1
-                    break
-            count += 1
-    return jsonify([place.to_dict() for place in places])
+    places = [storage.get('Place', place_id).to_dict() for place_id in place_ids]
+    return jsonify(places)
+
+
+def filter_by_amenities(place_ids, amenities):
+    filtered_place_ids = set()
+    """This filters amenities by place ids"""
+
+    for place_id in place_ids:
+        place = storage.get('Place', place_id)
+        if place and all(amenity_id in place.amenities for amenity_id in amenities):
+            filtered_place_ids.add(place_id)
+
+    return filtered_place_ids
