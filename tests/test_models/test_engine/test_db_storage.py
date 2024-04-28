@@ -6,7 +6,10 @@ import unittest
 import os
 from models.base_model import Base
 from models.engine.db_storage import DBStorage
+<<<<<<< HEAD
 from models import *
+=======
+>>>>>>> b8a1a6e6f7c66a4da3539d24c3ff8220518d04e9
 
 
 storage_type = os.environ.get('HBNB_TYPE_STORAGE')
@@ -229,3 +232,186 @@ class TestCityDBInstancesUnderscore(unittest.TestCase):
             if self.city.id in k:
                 exist_in_all = True
         exist_in_all_city = False
+<<<<<<< HEAD
+=======
+        for k in all_city_objs.keys():
+            if self.city.id in k:
+                exist_in_all_city = True
+
+        self.assertTrue(exist_in_all)
+        self.assertTrue(exist_in_all_city)
+
+
+@unittest.skipIf(storage_type != 'db', 'skip if environ is not db')
+class TestPlaceDBInstances(unittest.TestCase):
+    """testing for class instances"""
+
+    @classmethod
+    def setUpClass(cls):
+        print('\n\n.................................')
+        print('...... Testing DBStorage ......')
+        print('.......... Place  Class ..........')
+        print('.................................\n\n')
+
+    def setUp(self):
+        """initializes new user for testing"""
+        self.user = User()
+        self.user.email = 'test'
+        self.user.password = 'test'
+        self.user.save()
+        self.state = State()
+        self.state.name = 'California'
+        self.state.save()
+        self.city = City()
+        self.city.name = 'San_Mateo'
+        self.city.state_id = self.state.id
+        self.city.save()
+        self.place = Place()
+        self.place.city_id = self.city.id
+        self.place.user_id = self.user.id
+        self.place.name = 'test_place'
+        self.place.description = 'test_description'
+        self.place.number_rooms = 2
+        self.place.number_bathrooms = 1
+        self.place.max_guest = 4
+        self.place.price_by_night = 100
+        self.place.latitude = 120.12
+        self.place.longitude = 101.4
+        self.place.save()
+
+    def test_place_all(self):
+        """... checks if all() function returns newly created instance"""
+        all_objs = storage.all()
+        all_place_objs = storage.all('Place')
+
+        exist_in_all = False
+        for k in all_objs.keys():
+            if self.place.id in k:
+                exist_in_all = True
+        exist_in_all_place = False
+        for k in all_place_objs.keys():
+            if self.place.id in k:
+                exist_in_all_place = True
+
+        self.assertTrue(exist_in_all)
+        self.assertTrue(exist_in_all_place)
+
+
+@unittest.skipIf(storage_type != 'db', 'skip if environ is not db')
+class TestStorageGet(unittest.TestCase):
+    """
+    Testing `get()` method in DBStorage
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        """
+        setup tests for class
+        """
+        print('\n\n.................................')
+        print('...... Testing Get() Method ......')
+        print('.......... Place  Class ..........')
+        print('.................................\n\n')
+
+    def setUp(self):
+        """
+        setup method
+        """
+        self.state = State(name="Florida")
+        self.state.save()
+
+    def test_get_method_obj(self):
+        """
+        testing get() method
+        :return: True if pass, False if not pass
+        """
+        result = storage.get(cls="State", id=self.state.id)
+
+        self.assertIsInstance(result, State)
+
+    def test_get_method_return(self):
+        """
+        testing get() method for id match
+        :return: True if pass, false if not pass
+        """
+        result = storage.get(cls="State", id=str(self.state.id))
+
+        self.assertEqual(self.state.id, result.id)
+
+    def test_get_method_none(self):
+        """
+        testing get() method for None return
+        :return: True if pass, false if not pass
+        """
+        result = storage.get(cls="State", id="doesnotexist")
+
+        self.assertIsNone(result)
+
+
+@unittest.skipIf(storage_type != 'db', 'skip if environ is not db')
+class TestStorageCount(unittest.TestCase):
+    """
+    tests count() method in DBStorage
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        """
+        setup tests for class
+        """
+        print('\n\n.................................')
+        print('...... Testing Get() Method ......')
+        print('.......... Place  Class ..........')
+        print('.................................\n\n')
+
+    def setUp(self):
+        """
+        setup method
+        """
+        self.state1 = State(name="California")
+        self.state1.save()
+        self.state2 = State(name="Colorado")
+        self.state2.save()
+        self.state3 = State(name="Wyoming")
+        self.state3.save()
+        self.state4 = State(name="Virgina")
+        self.state4.save()
+        self.state5 = State(name="Oregon")
+        self.state5.save()
+        self.state6 = State(name="New_York")
+        self.state6.save()
+        self.state7 = State(name="Ohio")
+        self.state7.save()
+
+    def test_count_all(self):
+        """
+        testing counting all instances
+        :return: True if pass, false if not pass
+        """
+        result = storage.count()
+
+        self.assertEqual(len(storage.all()), result)
+
+    def test_count_state(self):
+        """
+        testing counting state instances
+        :return: True if pass, false if not pass
+        """
+        result = storage.count(cls="State")
+
+        self.assertEqual(len(storage.all("State")), result)
+
+    def test_count_city(self):
+        """
+        testing counting non existent
+        :return: True if pass, false if not pass
+        """
+        result = storage.count(cls="City")
+
+        self.assertEqual(int(0 if len(storage.all("City")) is None else
+                             len(storage.all("City"))), result)
+
+
+if __name__ == '__main__':
+    unittest.main()
+>>>>>>> b8a1a6e6f7c66a4da3539d24c3ff8220518d04e9
