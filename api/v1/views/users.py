@@ -11,7 +11,7 @@ from models.user import User
                  strict_slashes=False)
 def get_users():
     """ returns a list of all users json """
-    users = storage.all("User").values()
+    users = storage.all(User).values()
     list_users = [user.to_dict() for user in users]
     return jsonify(list_users)
 
@@ -20,7 +20,7 @@ def get_users():
                  strict_slashes=False)
 def get_user(user_id):
     """ returns json of a single user with an ide <iser_id> """
-    user = storage.get("User", user_id)
+    user = storage.get(User, user_id)
     if not user:
         abort(404)
     else:
@@ -31,7 +31,7 @@ def get_user(user_id):
                  strict_slashes=False)
 def delete_user(user_id):
     """ deletes a user with an id <user_id> """
-    user = storage.get("User", user_id)
+    user = storage.get(User, user_id)
     if not user:
         abort(404)
     else:
@@ -60,7 +60,7 @@ def add_user():
                  strict_slashes=False)
 def update_user(user_id):
     """ updates an amenity with an id <amenity_id> """
-    user = storage.get('User', user_id)
+    user = storage.get(User, user_id)
     if not user:
         abort(404)
     else:
