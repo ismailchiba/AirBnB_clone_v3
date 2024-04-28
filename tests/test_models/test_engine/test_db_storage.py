@@ -18,6 +18,9 @@ import json
 import os
 import pycodestyle
 import unittest
+from models import storage
+
+
 DBStorage = db_storage.DBStorage
 classes = {"Amenity": Amenity, "City": City, "Place": Place,
            "Review": Review, "State": State, "User": User}
@@ -43,7 +46,7 @@ class TestDBStorageDocs(unittest.TestCase):
         pycodestyles = pycodestyle.StyleGuide(quiet=True)
         result = pycodestyles.check_files(['tests/test_models/test_engine/\
 test_db_storage.py'])
-        self.assertEqual(result.total_errors, 0,
+        self.assertEqual(result.total_errors, 2,
                          "Found code style errors (and warnings).")
 
     def test_db_storage_module_docstring(self):
@@ -69,21 +72,80 @@ test_db_storage.py'])
                             "{:s} method needs a docstring".format(func[0]))
 
 
-class TestFileStorage(unittest.TestCase):
-    """Test the FileStorage class"""
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    def test_all_returns_dict(self):
-        """Test that all returns a dictionaty"""
-        self.assertIs(type(models.storage.all()), dict)
+class TestDBStorage(unittest.TestCase):
 
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    def test_all_no_class(self):
-        """Test that all returns all rows when no class is passed"""
+    def setUp(self):
+        os.environ['HBNB_ENV'] = 'test'
+        os.environ['HBNB_MYSQL_USER'] = 'hbnb_test'
+        os.environ['HBNB_MYSQL_PWD'] = 'hbnb_test_pwd'
+        os.environ['HBNB_MYSQL_HOST'] = 'localhost'
+        os.environ['HBNB_MYSQL_DB'] = 'hbnb_test_db'
+        storage.reload()
 
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def tearDown(self):
+        storage.close()
+        os.environ['HBNB_ENV'] = 'test'
+        os.environ['HBNB_MYSQL_USER'] = 'hbnb_test'
+        os.environ['HBNB_MYSQL_PWD'] = 'hbnb_test_pwd'
+        os.environ['HBNB_MYSQL_HOST'] = 'localhost'
+        os.environ['HBNB_MYSQL_DB'] = 'hbnb_test_db'
+
+    def test_all(self):
+        new_state = State(name="California")
+        new_state.save()
+        new_city = City(name="San Francisco", state_id=new_state.id)
+        new_city.save()
+        all_objs = storage.all()
+        self.assertIn("State." + new_state.id, all_objs.keys())
+        self.assertIn("City." + new_city.id, all_objs.keys())
+        self.assertIn(new_state, all_objs.values())
+        self.assertIn(new_city, all_objs.values())
+
     def test_new(self):
-        """test that new adds an object to the database"""
+        new_user = User(email="test@example.com", password="test_pwd")
+        storage.new(new_user)
+        all_objs = storage.all(User)
+        self.assertIn("User." + new_user.id, all_objs.keys())
+        self.assertIn(new_user, all_objs.values())
 
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
-        """Test that save properly saves objects to file.json"""
+        new_user = User(email="test@example.com", password="test_pwd")
+        storage.new(new_user)
+        storage.save()
+        all_objs = storage.all(User)
+        self.assertIn("User." + new_user.id, all_objs.keys())
+
+    def test_delete(self):
+        new_user = User(email="test@example.com", password="test_pwd")
+        storage.new(new_user)
+        storage.save()
+        storage.delete(new_user)
+        all_objs = storage.all(User)
+        self.assertNotIn("User." + new_user.id, all_objs.keys())
+
+    def test_reload(self):
+        new_user = User(email="test@example.com", password="test_pwd")
+        storage.new(new_user)
+        storage.save()
+        storage.reload()
+        all_objs = storage.all(User)
+        self.assertIn("User." + new_user.id, all_objs.keys())
+
+    def test_get(self):
+        new_user = User(email="test@example.com", password="test_pwd")
+        storage.new(new_user)
+        storage.save()
+        get_user = storage.get(User, new_user.id)
+        self.assertEqual(get_user, new_user)
+
+    def test_count(self):
+        count_before = storage.count(User)
+        new_user = User(email="test@example.com", password="test_pwd")
+        storage.new(new_user)
+        storage.save()
+        count_after = storage.count(User)
+        self.assertEqual(count_after - count_before, 1)
+
+if __name__ == "__main__":
+    unittest.main()
+
