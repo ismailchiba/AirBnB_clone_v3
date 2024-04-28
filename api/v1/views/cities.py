@@ -8,7 +8,7 @@ from models.city import City
 
 
 @app_views.route(
-    '/states/<state_id>/cities',
+    '/states/<string:state_id>/cities',
     methods=['GET'],
     strict_slashes=False
 )
@@ -22,7 +22,7 @@ def get_cities(state_id):
 
 
 @app_views.route(
-    '/cities/<city_id>',
+    '/cities/<string:city_id>',
     methods=['GET'],
     strict_slashes=False
 )
@@ -35,7 +35,7 @@ def get_city(city_id):
 
 
 @app_views.route(
-    '/cities/<city_id>',
+    '/cities/<string:city_id>',
     methods=['DELETE'],
     strict_slashes=False
 )
@@ -46,11 +46,11 @@ def delete_city(city_id):
         abort(404)
     storage.delete(city)
     storage.save()
-    return make_response(jsonify({}), 200)
+    return jsonify({}), 200
 
 
 @app_views.route(
-    '/states/<state_id>/cities',
+    '/states/<string:state_id>/cities',
     methods=['POST'],
     strict_slashes=False
 )
@@ -69,12 +69,13 @@ def create_city(state_id):
         )
     city = request.get_json()
     i = City(**city)
+    i.state_id = state.id
     i.save()
-    return make_response(jsonify(i.to_dict()), 201)
+    return jsonify(i.to_dict()), 201
 
 
 @app_views.route(
-    '/cities/<city_id>',
+    '/cities/<string:city_id>',
     methods=['PUT'],
     strict_slashes=False
 )
@@ -91,5 +92,5 @@ def update_city(city_id):
     for k, v in data.items():
         if k not in ['id', 'state_id', 'created_at', 'updated_at']:
             setattr(city, k, v)
-    city.save()
-    return make_response(jsonify(city.to_dict()), 200)
+    storage.save()
+    return jsonify(city.to_dict())
