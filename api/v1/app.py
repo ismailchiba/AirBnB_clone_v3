@@ -29,7 +29,5 @@ def not_found(error):
 if __name__ == "__main__":
     """run your Flask server"""
     host = getenv('HBNB_API_HOST', default='0.0.0.0')
-    port = getenv('HBNB_API_PORT') if getenv(
-        'HBNB_API_PORT'
-    ) is not None else 5000
+    port = getenv('HBNB_API_PORT', default=' 5000')
     app.run(host=host, port=port, threaded=True)
