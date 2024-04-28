@@ -16,7 +16,6 @@ class DocStringChecker(ast.NodeVisitor):
     """
     A class that extends ast.NodeVisitor to check for docstrings
     in Python class and function definitions.
-
     Attributes:
         undocumented (list): A list to store the names
         of undocumented Python entities.

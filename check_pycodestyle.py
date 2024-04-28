@@ -5,7 +5,7 @@ import subprocess
 
 def check_pycodestyle(directory):
     """
-    Check for PEP8 compliance using pycodestyle in the given directory.
+    Check for PEP8compliance using pycodestyle in the given directory.
     Args:
         directory (str): The root directory to start checking from.
     """

@@ -96,7 +96,7 @@ class DBStorage:
         A method to count the number of objects in storage.
         If cls is provided, count only objects of that class.
         """
-        # Get all objects of cls if provided, otherwise all objects
+        # Get all objects of  the cls if provided, otherwise all objects
         objects = self.all(cls) if cls else self.all()
 
         # Return the total count
