@@ -3,7 +3,7 @@
 """
 
 
-from flask import Flask
+from flask import Flask, jsonify
 from models import storage
 import os
 from api.v1.views import app_views
@@ -17,6 +17,14 @@ app.url_map.strict_slashes = False
 def close_store(self):
     '''close the storage'''
     storage.close()
+
+
+@app.errorhandler(404)
+def sorry_page_not_found(error):
+    """
+    Handles 404 errors by returning a JSON response indicating the error.
+    """
+    return jsonify({"error": "Not found"}), 404
 
 
 def get_environment_variable(var_name, default_value):
