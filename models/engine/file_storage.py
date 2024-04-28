@@ -71,13 +71,12 @@ class FileStorage:
 
     def get(self, cls, id):
         '''method to retrieve one object'''
-        if cls and id:
-            if cls in classes.values() and isinstance(id, str):
-                found_objects = self.all(cls)
-                desired_object = cls, __name__ + "." + id
-                for value in found_objects.values():
-                    if value.id == id:  # Fixed the comparison operator here
-                        return value
+        if cls not in clasees.value:
+            return None
+        found_objects = models.storage.all(cls)
+        for value in found_objects.values():
+            if (value.id == id):  # Fixed the comparison operator here
+                return value
             else:
                 return None
         return None
