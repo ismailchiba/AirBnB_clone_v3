@@ -1,84 +1,60 @@
 #!/usr/bin/python3
-''' The cities blueprint '''
+"""
+Flask route that returns json status response
+"""
 from api.v1.views import app_views
-from flask import Flask, Blueprint
-from flask import jsonify, request, abort, make_response
+from flask import abort, jsonify, make_response, request
 from models import storage
-from models.city import City
 
 
-@app_views.route('/states/<string:state_id>/cities',
-                 methods=['GET'], strict_slashes=False)
-def get_cities(state_id):
-    ''' gets all cities by a state id '''
+@app_views.route('/states/<state_id>/cities', methods=['GET', 'POST'])
+def cities_per_state(state_id=None):
+    """
+        cities route to handle http method for requested cities by state
+    """
+    state_obj = storage.get('State', state_id)
+    if state_obj is None:
+        abort(404, 'Not found')
 
-    state = [state for state in storage.all("State").values()
-             if state.id == state_id]
-    if len(state) < 1:
-        abort(404)
+    if request.method == 'GET':
+        all_cities = storage.all('City')
+        state_cities = [obj.to_json() for obj in all_cities.values()
+                        if obj.state_id == state_id]
+        return jsonify(state_cities)
 
-    cities = ([city.to_dict() for city in
-              storage.all("City").values() if city.state_id == state_id])
-    return jsonify(cities) if len(cities) > 0 else jsonify([])
-
-
-@app_views.route('/cities/<string:city_id>',
-                 methods=['GET'], strict_slashes=False)
-def get_city(city_id):
-    ''' Gets a city by its id '''
-
-    all = storage.all("City")
-    all = [city for city in all.values() if city.id == city_id]
-
-    return jsonify(all[0].to_dict()) if len(all) > 0 else abort(404)
-
-
-@app_views.route('/cities/<string:city_id>',
-                 methods=['DELETE'], strict_slashes=False)
-def destroy_city(city_id):
-    ''' Deletes a city from a database '''
-
-    all = storage.all("City")
-    all = [city for city in all.values() if city.id == city_id]
-    city = all[0] if len(all) > 0 else abort(404)
-    city.delete()
-    storage.save()
-    return jsonify({})
+    if request.method == 'POST':
+        req_json = request.get_json()
+        if req_json is None:
+            abort(400, 'Not a JSON')
+        if req_json.get("name") is None:
+            abort(400, 'Missing name')
+        City = storage.classes.get("City")
+        req_json['state_id'] = state_id
+        new_object = City(**req_json)
+        new_object.save()
+        return jsonify(new_object.to_json()), 201
 
 
-@app_views.route('/states/<string:state_id>/cities',
-                 methods=['POST'], strict_slashes=False)
-def create(state_id):
-    ''' create a new city '''
-    state = [state for state in storage.all("State").values()
-             if state.id == state_id]
-    if len(state) < 1:
-        abort(404)
+@app_views.route('/cities/<city_id>', methods=['GET', 'DELETE', 'PUT'])
+def cities_with_id(city_id=None):
+    """
+        cities route to handle http methods for given city
+    """
+    city_obj = storage.get('City', city_id)
+    if city_obj is None:
+        abort(404, 'Not found')
 
-    if "name" in request.get_json():
-        new = City(state_id=state_id, **request.get_json())
-        new.save()
-        return make_response(jsonify(new.to_dict()), 201)
+    if request.method == 'GET':
+        return jsonify(city_obj.to_json())
 
-    else:
-        return make_response(jsonify({"error": "Missing name"}), 400)
+    if request.method == 'DELETE':
+        city_obj.delete()
+        del city_obj
+        return jsonify({}), 200
 
-
-@app_views.route('/cities/<string:city_id>',
-                 methods=['PUT'], strict_slashes=False)
-def update(city_id):
-    ''' updates a city in the database '''
-
-    if not city_id:
-        abort(404)
-
-    all = storage.all("City")
-    got = [city for city in all.values() if city.id == city_id]
-
-    city = got[0] if len(got) > 0 else abort(404)
-    for key, value in request.get_json().items():
-        if key not in ['created_at', 'updated_at', 'id']:
-            setattr(city, key, value)
-    city.save()
-
-    return (jsonify(city.to_dict()))
+    if request.method == 'PUT':
+        req_json = request.get_json()
+        if req_json is None:
+            abort(400, 'Not a JSON')
+        city_obj.bm_update(req_json)
+        return jsonify(city_obj.to_json()), 200
