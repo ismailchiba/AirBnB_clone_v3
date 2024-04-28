@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """This module defines routes for the status and statistics of the API."""
 
+from api.v1.views import app_views
 from flask import Flask
 from flask import jsonify
 
@@ -12,7 +13,6 @@ def status():
     Returns:
         JSON: A JSON object with the status "OK".
     """
-    from api.v1.views import app_views
     return jsonify({'status': 'OK'})
 
 
