@@ -16,7 +16,7 @@ def get_reviews_of_place(place_id):
     Retrieves the list of all Review objects of a Place: GET /api/v1/places/<place_id>/reviews
     If the place_id is not linked to any Place object, raise a 404 error
     """
-    place = storage.get(Place, place_id)
+    place = storage.get('Place', place_id)
     if not place:
          abort(404)
 
@@ -30,7 +30,7 @@ def get_review(review_id):
     Retrieves a Review object. : GET /api/v1/reviews/<review_id>
     If the review_id is not linked to any Review object, raise a 404 error
     """
-    review = storage.get(Review, review_id)
+    review = storage.get('Review', review_id)
     if review:
         return jsonify(review.to_dict())
     else:
@@ -44,7 +44,7 @@ def delete_review(review_id):
     If the review_id is not linked to any Review object, raise a 404 error
     Returns an empty dictionary with the status code 200
     """
-    review = storage.get(Review, review_id)
+    review = storage.get('Review', review_id)
     if review:
         storage.delete(review)
         storage.save()
@@ -65,11 +65,11 @@ def create_review(place_id):
     If the dictionary doesn’t contain the key text, raise a 400 error with the message Missing text
     Returns the new Review with the status code 201
     """
-    place = storage.get(Place, place_id)
+    place = storage.get('Place', place_id)
     if not place:
         abort(404)
 
-    if not request.get_json():
+    if not request.is_json:
         abort(400, 'Not a JSON')
 
     data = request.get_json()
@@ -78,7 +78,7 @@ def create_review(place_id):
     if 'text' not in data:
         abort(400, 'Missing text')
     
-    user = storage.get(User, data['user_id'])
+    user = storage.get('User', data['user_id'])
     if not user:
         abort(404)
 
@@ -99,9 +99,9 @@ def update_review(review_id):
     Ignore keys: id, user_id, place_id, created_at and updated_at
     Returns the Review object with the status code 200
     """
-    review = storage.get(Review, review_id)
+    review = storage.get('Review', review_id)
     if review:
-        if not request.get_json():
+        if not request.is_json:
             abort(400, 'Not a JSON')
         data = request.get_json()
         ignore_keys = ['id', 'user_id', 'place_id', 'created_at', 'updated_at']

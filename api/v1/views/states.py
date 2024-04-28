@@ -25,7 +25,7 @@ def get_state(state_id):
     Retrieves a State object: GET /api/v1/states/<state_id>
     If the state_id is not linked to any State object, raise a 404 error
     """
-    state = storage.get(State, state_id)
+    state = storage.get('State', state_id)
     if state:
         return jsonify(state.to_dict())
     else:
@@ -39,7 +39,7 @@ def delete_state(state_id):
     If the state_id is not linked to any State object, raise a 404 error
     Returns an empty dictionary with the status code 200
     """
-    state = storage.get(State, state_id)
+    state = storage.get('State', state_id)
     if state:
         storage.delete(state)
         storage.save()
@@ -57,19 +57,16 @@ def create_state():
     If the dictionary doesn’t contain the key name, raise a 400 error with the message Missing name
     Returns the new State with the status code 201  
     """
-    if request.content_type != 'application.json':
-        abort(400, 'Not a JSON')
-    if not request.get_json():
-        abort(400, 'Not a JSON')
-    kwargs = request.get_json()
+    if request.is_json:
+        kwargs = request.get_json()
 
-    if 'name' not in kwargs:
-        abort(400, 'Missing Name')
+        if 'name' not in kwargs:
+            abort(400, 'Missing Name')
 
-    state = State(**kwargs)
-    state.save()
-    return jsonify(state.to_dict()), 201
-
+        state = State(**kwargs)
+        state.save()
+        return jsonify(state.to_dict()), 201
+    abort(400, 'Not a JSON')
 
 
 @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
@@ -83,19 +80,17 @@ def update_state(state_id):
     Ignore keys: id, created_at and updated_at
     Returns the State object with the status code 200
     """
-    if request.content_type != 'application.json':
-        abort(400, 'Not a JSON')
-    state = storage.get(State, state_id)
-    if state:
-        if not request.get_json():
-            abort(400, 'Not a JSON')
-        data = request.get_json()
-        ignore_keys = ['id', 'created_at', 'updated_at']
-
-        for key, value in data.items():
-            if key not in ignore_keys:
-                setattr(state, key, value)
-        state.save()
-        return jsonify(state.to_dict()), 200
-    else:
+    state = storage.get('State', state_id)
+    if not state:
         abort(404)
+    else:
+        if request.is_json:
+            data = request.get_json()
+            ignore_keys = ['id', 'created_at', 'updated_at']
+
+            for key, value in data.items():
+                if key not in ignore_keys:
+                    setattr(state, key, value)
+            state.save()
+            return jsonify(state.to_dict()), 200
+        abort(400, 'Not a JSON')
