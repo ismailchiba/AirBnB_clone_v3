@@ -59,9 +59,8 @@ def update_user(user_id):
     if not obj:
         abort(404)
 
-    try:
-        req = request.get_json()
-    except Exception:
+    req = request.get_json()
+    if not req:
         abort(400, "Not a JSON")
 
     for k, v in req.items():
