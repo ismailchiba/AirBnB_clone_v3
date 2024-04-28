@@ -2,9 +2,9 @@
 """create a variable app, instance of Flask"""
 
 
-from flask import Flask, jsonify, make_response
-from models import storage
 from api.v1.views import app_views
+from flask import Flask, jsonify
+from models import storage
 from os import getenv
 
 
@@ -13,23 +13,19 @@ app.register_blueprint(app_views)
 
 
 @app.teardown_appcontext
-def teardown_end(self):
-    """declare a method to handle"""
+def teardown_appcontext(self):
+    """Close the storage."""
     storage.close()
 
 
 @app.errorhandler(404)
-def not_found(error):
-    ''' handles 404 error and gives json formatted response '''
-    return make_response(
-        jsonify({'error': 'Not found'}), 404
-    )
+def error_handler(error):
+    """handles 404 error"""
+    return jsonify({"error": "Not found"}), 404
 
 
 if __name__ == "__main__":
-    """run your Flask server"""
-    host = getenv('HBNB_API_HOST', default='0.0.0.0')
-    port = getenv('HBNB_API_PORT') if getenv(
-        'HBNB_API_PORT'
-    ) is not None else 5000
-    app.run(host=host, port=int(port), threaded=True)
+    host = getenv("HBNB_API_HOST", "0.0.0.0")
+    port = getenv("HBNB_API_PORT", "5000")
+
+    app.run(host=host, port=port, threaded=True)
