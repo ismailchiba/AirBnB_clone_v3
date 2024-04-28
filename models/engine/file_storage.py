@@ -83,7 +83,15 @@ class FileStorage:
         try:
             with open(fname, mode='r', encoding='utf-8') as f_io:
                 new_objs = json.load(f_io)
+<<<<<<< HEAD
         except Exception:
+=======
+<<<<<<< HEAD
+        except Exception:
+=======
+        except:
+>>>>>>> origin/storage_get_count
+>>>>>>> master
             return
         for o_id, d in new_objs.items():
             k_cls = d['__class__']
