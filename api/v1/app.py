@@ -2,9 +2,9 @@
 """create a variable app, instance of Flask"""
 
 
-from api.v1.views import app_views
-from flask import Flask, jsonify
+from flask import Flask, jsonify, make_response
 from models import storage
+from api.v1.views import app_views
 from os import getenv
 
 
@@ -13,13 +13,13 @@ app.register_blueprint(app_views)
 
 
 @app.teardown_appcontext
-def teardown_appcontext(self):
-    """Close the storage."""
+def teardown_end(self):
+    """declare a method to handle"""
     storage.close()
 
 
 @app.errorhandler(404)
-def error_handler(error):
+def not_found(error):
     """handles 404 error"""
     return make_response(
         jsonify({'error': 'Not found'}), 404
