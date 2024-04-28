@@ -64,17 +64,12 @@ def create_city(state_id):
 def update_city(city_id):
     """Updates a City object"""
     city = storage.get(City, city_id)
-    if not city:
+    if city is None:
         abort(404)
-
-    if not request.get_json():
-        abort(400, description="Not a JSON")
-
-    ignore = ['id', 'state_id', 'created_at', 'updated_at']
-
-    data = request.get_json()
-    for key, value in data.items():
-        if key not in ignore:
+    if not request.json:
+        abort(400, "Not a JSON")
+    for key, value in request.json.items():
+        if key not in ['id', 'state_id', 'created_at', 'updated_at']:
             setattr(city, key, value)
     storage.save()
     return make_response(jsonify(city.to_dict()), 200)
