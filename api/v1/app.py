@@ -5,10 +5,18 @@ from flask import Blueprint
 from models import storage
 from api.v1.views import app_views
 from os import environ
+from werkzeug.exceptions import BadRequest
+from flask import jsonify
 
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
+
+
+@app.errorhandler(404)
+def not_found(error):
+    not_found = {'error': 'Not found'}
+    return jsonify(not_found), 404
 
 
 @app.teardown_appcontext
