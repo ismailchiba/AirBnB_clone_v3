@@ -2,10 +2,14 @@
 """
 This module contains endpoint(route) status
 """
-from models import storage
-from flask import Flask
 from api.v1.views import app_views
 from flask import jsonify
+from models.user import User
+from models.place import Place
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.review import Review
 
 
 @app_views.route('/stats', strict_slashes=False)
