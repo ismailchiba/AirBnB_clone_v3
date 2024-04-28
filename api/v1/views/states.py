@@ -7,7 +7,7 @@ from flask import abort, jsonify, make_response, request
 
 
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
-def get_states():
+def get_all_states():
     """
     Retrieves the list of all State objects
     """
@@ -23,8 +23,9 @@ def get_state(state_id):
     """ Retrieves a specific State """
     state = storage.get(State, state_id)
     if not state:
-        abort(404)
-    return jsonify(state.to_dict())
+        return jsonify(state.to_dict())
+    else:
+        return abirt(404)
 
 
 @app_views.route('/states/<state_id>', methods=['DELETE'],
