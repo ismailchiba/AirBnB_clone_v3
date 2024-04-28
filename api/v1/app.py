@@ -1,5 +1,4 @@
-#!/usr/bin/python3
-from flask import Flask
+from flask import Flask, make_response, jsonify
 from models import storage
 import os
 from api.v1.views import app_views
@@ -10,6 +9,11 @@ app.register_blueprint(app_views)
 
 host = os.environ.get('HBNB_API_HOST')
 port = os.environ.get('HBNB_API_PORT')
+
+@app.errorhandler(404)
+def not_found(error):
+    """ json 404 page """
+    return make_response(jsonify({"error": "Not found"}), 404)
 
 @app.teardown_appcontext
 def handle_teardown(evt):
