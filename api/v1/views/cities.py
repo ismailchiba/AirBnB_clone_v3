@@ -13,11 +13,10 @@ from models.city import City
                  methods=['GET'], strict_slashes=False)
 def cities_by_state(state_id):
     """Retrieves the list of all cities of a State objects"""
-    objs = storage.all(City)
+    objs = storage.all(State, state_id)
     if not objs:
         abort(404)
-    return jsonify([obj.to_dict() for obj in objs.values()
-                    if obj.state_id == state_id])
+    return jsonify([city.to_dict() for city in objs.cities])
 
 
 @app_views.route('/cities/<city_id>', methods=['GET'],
@@ -46,6 +45,10 @@ def del_city(city_id):
                  strict_slashes=False)
 def add_city():
     """Returns the new city and returns 201"""
+    obj_state = storage.get(State, state_id)
+    if not obj_state:
+        abort(404)
+
     try:
         new_obj = request.get_json()
     except Exception:
