@@ -2030,3 +2030,15 @@ api/virtual/lib/python3.12/site-packages/werkzeug-3.0.2.dist-info/METADATA
 api/virtual/lib/python3.12/site-packages/werkzeug-3.0.2.dist-info/RECORD
 api/virtual/lib/python3.12/site-packages/werkzeug-3.0.2.dist-info/WHEEL
 __pycache__/console.cpython-312.pyc
+api/virtual/bin/pep8
+api/virtual/lib/python3.12/site-packages/pep8.py
+api/virtual/lib/python3.12/site-packages/pep8-1.7.1.dist-info/DESCRIPTION.rst
+api/virtual/lib/python3.12/site-packages/pep8-1.7.1.dist-info/entry_points.txt
+api/virtual/lib/python3.12/site-packages/pep8-1.7.1.dist-info/INSTALLER
+api/virtual/lib/python3.12/site-packages/pep8-1.7.1.dist-info/METADATA
+api/virtual/lib/python3.12/site-packages/pep8-1.7.1.dist-info/metadata.json
+api/virtual/lib/python3.12/site-packages/pep8-1.7.1.dist-info/namespace_packages.txt
+api/virtual/lib/python3.12/site-packages/pep8-1.7.1.dist-info/RECORD
+api/virtual/lib/python3.12/site-packages/pep8-1.7.1.dist-info/REQUESTED
+api/virtual/lib/python3.12/site-packages/pep8-1.7.1.dist-info/top_level.txt
+api/virtual/lib/python3.12/site-packages/pep8-1.7.1.dist-info/WHEEL
