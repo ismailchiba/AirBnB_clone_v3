@@ -17,14 +17,14 @@ class_objects = {
 
 @app_views.route('/status', methods=['GET'])
 def status():
-    '''method that routes to status pageand returns the status'''
+    '''method that routes to status pag and return the status'''
     return jsonify({'status': 'OK'})
 
 
 @app_views.route('/stats', methods=['GET'])
 def stats():
     '''method that returns the number of each objects by type'''
-    num_of_obj_type = {}
+    result = {}
     for key in class_objects:
-        num_of_obj_type[key] = storage.count(class_objects[key])
-    return jsonify(num_of_obj_type)
+       result[key] = storage.count(class_objects[key])
+    return jsonify(result)
