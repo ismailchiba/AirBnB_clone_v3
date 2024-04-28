@@ -30,7 +30,7 @@ def states_without_id():
 
 @app_views.route("/states/<state_id>", methods=['GET', 'PUT', 'DELETE'])
 def states_with_id(state_id=None):
-    """retrun status json"""
+    """Perform READ UPDATE DELETE operations on a state object"""
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
