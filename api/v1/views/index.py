@@ -2,26 +2,17 @@
 """ index file for the project """
 
 
-from api.v1.views import app_views
+from . import app_views
 from flask import jsonify
-<<<<<<< HEAD
-from models import storage, amenity, city, place, review, state, user
 
-
-classes = {"users": "User", "places": "Place", "states": "State",
-           "cities": "City", "amenities": "Amenity",
-           "reviews": "Review"}
 
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
-def get_status():
-    """Returns the status of the API."""
-    return jsonify({"status": "OK"})
+def status():
+    """ the ok status """
+    return jsonify({'status': "OK"})
 
 
-@app_views.route('/stats', methods=['GET'], strict_slashes=False)
-def get_stats():
-    """ Gets the counts in Json """
-    count_dict = {}
-    for cls in classes:
-        count_dict[cls] = storage.count(classes[cls])
-    return jsonify(count_dict)
+@app_views.route('/api/v1/stats', methods=['GET'], strict_slashes=False)
+def stats():
+    """ the stats count """
+    return jsonify(storage.count())
