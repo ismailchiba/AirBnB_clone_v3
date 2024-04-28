@@ -85,13 +85,13 @@ class FileStorage:
             Amenity: "Amenity",
             BaseModel: "BaseModel",
             City: "City",
-            Place: "Place" ,
+            Place: "Place",
             Review: "Review",
             State: "State",
             User: "User",
         }
 
-        obj_id ="{}.{}".format(classe_str[cls],id)
+        obj_id = "{}.{}".format(classe_str[cls], id)
         # Return the object if the key exists, otherwise return None
         return self.__objects.get(obj_id)
 
