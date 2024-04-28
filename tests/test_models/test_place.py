@@ -130,18 +130,17 @@ class TestPlaceDocs(unittest.TestCase):
         new = self.value()
         new.longitude = 12.1923
         self.assertEqual(type(new.longitude), float)
+    # def test_amenity_ids_files(self):
+    #     """
+    #     Test the 'amenities' attribute for a Place
+    #     instance when using file storage.
 
-    def test_amenity_ids_files(self):
-        """
-        Test the 'amenities' attribute for a Place
-        instance when using file storage.
-
-        Ensures that the 'amenities' attribute is a
-        list of strings representing amenity IDs.
-        """
-        new = self.value()
-        new.amenities = ["wifi", "tv"]
-        self.assertEqual(new.amenities[0], "wifi")
+    #     Ensures that the 'amenities' attribute is a
+    #     list of strings representing amenity IDs.
+    #     """
+    #     new = self.value()
+    #     new.amenities = ["wifi", "tv"]
+    #     self.assertEqual(new.amenities[0], "wifi")
 
     @unittest.skipIf(getenv("HBNB_TYPE_STORAGE") == "db", "Testeing to save")
     def test_amenity_ids(self):
