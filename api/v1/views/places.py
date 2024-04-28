@@ -6,7 +6,7 @@ from models.city import City
 from models.user import User
 from models.place import Place
 from api.v1.views import app_views
-from flask impoer request, abort, jsonify
+from flask import request, abort, jsonify
 
 
 @app_views.route('/cities/<city_id>/places', methods=['GET', 'POST'],
@@ -26,7 +26,7 @@ def all_places(city_id):
         if not dict_place:
             abort(400, 'Not a JSON')
         if 'user_id' not in dict_place:
-            abort(400 'Missing user_id')
+            abort(400, 'Missing user_id')
         if not storage.get(User, dict_place['user_id']):
             abort(404)
         if 'name' not in dict_place:
