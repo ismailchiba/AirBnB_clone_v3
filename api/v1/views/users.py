@@ -48,7 +48,7 @@ def add_user():
         if 'email' not in kwargs_data:
             abort(400, description='Missing email')
         elif 'password' not in kwargs_data:
-            abort('400', description='Missing password')
+            abort(400, description='Missing password')
         else:
             user = User(**kwargs_data)
             user.save()
@@ -72,4 +72,4 @@ def update_user(user_id):
                     setattr(user, key, val)
             storage.save()
             return make_response(jsonify([user.to_dict()]), 200)
-        abort(400, description='Not a JSON')   
+        abort(400, description='Not a JSON')
