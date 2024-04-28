@@ -3,10 +3,11 @@
 Unit Test for BaseModel Class
 """
 import unittest
+from datetime import datetime
+from models import *
 import os
 from models.base_model import Base
 from models.engine.db_storage import DBStorage
-from models import *
 
 
 storage_type = os.environ.get('HBNB_TYPE_STORAGE')
@@ -359,7 +360,7 @@ class TestStorageCount(unittest.TestCase):
         print('.......... Place  Class ..........')
         print('.................................\n\n')
 
-    def setUp(self):
+    def setup(self):
         """
         setup method
         """
@@ -408,4 +409,4 @@ class TestStorageCount(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main
