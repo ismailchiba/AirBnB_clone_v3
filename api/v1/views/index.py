@@ -27,4 +27,3 @@ def get_statistics():
         'reviews': storage.count(Review)
     }
     return jsonify(entity_counts)
-
