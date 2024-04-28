@@ -86,6 +86,7 @@ class DBStorage:
         return len(self.all())
 
     def close(self):
-        """Returns the number of objects in storage matching the given class. If no class is passed,
+        """Returns the number of objects in storage matching the given class.
+        If no class is passed,
         returns the count of all objects in storage."""
         self.__session.remove()
