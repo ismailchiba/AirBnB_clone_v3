@@ -4,6 +4,7 @@ Contains the FileStorage class
 """
 
 import json
+
 from models.amenity import Amenity
 from models.base_model import BaseModel
 from models.city import City
@@ -12,8 +13,15 @@ from models.review import Review
 from models.state import State
 from models.user import User
 
-classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
-           "Place": Place, "Review": Review, "State": State, "User": User}
+classes = {
+    "Amenity": Amenity,
+    "BaseModel": BaseModel,
+    "City": City,
+    "Place": Place,
+    "Review": Review,
+    "State": State,
+    "User": User
+}
 
 
 class FileStorage:
@@ -33,6 +41,37 @@ class FileStorage:
                     new_dict[key] = value
             return new_dict
         return self.__objects
+
+    def get(self, cls, id):
+        """
+        Retrieves an object based on the class and its ID.
+
+        Args:
+            cls (class): The class of the object to retrieve.
+            id (str): The ID of the object to retrieve.
+
+        Returns:
+            object: The object if found, otherwise None.
+        """
+        if cls and id:
+            key = "{}.{}".format(cls.__name__, id)
+            objs = self.all(cls)
+            return objs.get(key)
+        else:
+            return None
+
+    def count(self, cls=None):
+        """
+        Counts the number of objects in storage.
+
+        Args:
+            cls (class, optional): The class to filter the count by. Defaults to None.
+
+        Returns:
+            int: The number of objects in storage matching the given class.
+                 If no class is passed, returns the count of all objects in storage.
+        """
+        return (len(self.all(cls)))
 
     def new(self, obj):
         """sets in __objects the obj with key <obj class name>.id"""
