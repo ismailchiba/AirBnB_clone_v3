@@ -78,7 +78,7 @@ class TestDBStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_all_no_class(self):
         """Test that all returns all rows when no class is passed"""
-        state_stats = {"name": "Nakuru"}
+        state_stat = {"name": "Nakuru"}
         new_state = State(**state_stat)
         models.storage.new(new_state)
         models.storage.save()
@@ -90,7 +90,7 @@ class TestDBStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_new(self):
         """test that new adds an object to the database"""
-        state_stats = {"name": "Laikipia"}
+        state_stat = {"name": "Laikipia"}
         new_state = State(**state_stat)
         models.storage.new(new_state)
 
@@ -103,7 +103,7 @@ class TestDBStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
-        state_stats = {"name": "Kiambu"}
+        state_stat = {"name": "Kiambu"}
         new_state = State(**state_stat)
 
         models.storage.new(new_state)
@@ -141,7 +141,7 @@ class TestDBStorage(unittest.TestCase):
 
         state_stat = {"name": "Malindi"}
         state_id = State(**state_stat)
-        storage.new(State_id)
+        storage.new(state_id)
 
         city_stat = {"name": "Mtwapa", "current_state_id": state_id.id}
 

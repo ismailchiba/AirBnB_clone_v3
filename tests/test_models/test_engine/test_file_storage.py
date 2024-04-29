@@ -134,11 +134,11 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_count(self):
         """Test cases for .count() method"""
-        storage = FileStorage
+        storage = FileStorage()
         storage.reload()
         state_stat = {"name": "Malindi"}
         state_id = State(**state_stat)
-        storage.new(State_id)
+        storage.new(state_id)
 
         city_stat = {"name": "Mtwapa", "current_state_id": state_id.id}
 
