@@ -5,12 +5,12 @@ from models import storage
 from models.user import User
 
 
-@app_views.route('/users', strict_slashes=False, methods=['GET'])
-def get_users():
+@app_views.route('/users', strict_slashes=False)
+def retr_users():
     """Retrieves the list of all User objects."""
     users = storage.all(User)
     user_list = [value.to_dict() for value in users.values()]
-    return make_response(jsonify(user_list), 200)
+    return (jsonify(user_list), 200)
 
 
 @app_views.route('/users/<user_id>',
@@ -27,12 +27,12 @@ def get_user(user_id):
                  strict_slashes=False, methods=['DELETE'])
 def delete_user(user_id):
     """Deletes a User object."""
-    if user_id is None:
-        abort(404)
-
-    user_id.delete()
-    storage.save()
-    return make_response({}, 200)
+    usr = storage.get(User, user_id)
+    if usr:
+        usr.delete()
+        storage.save()
+        return (jsonify({}), 200)
+    abort(404)
 
 
 @app_views.route('/users', strict_slashes=False, methods=['POST'])
