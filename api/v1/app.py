@@ -1,28 +1,24 @@
 #!/usr/bin/python3
-from model.engine import db_storage, file_storage
+"""
+created 29 April 2024
+@autor: Edogun peter uyi
+"""
+from models import storage
+from os import getenv
 from api.v1.views import app_views
-from flask import Flask
+from flask import Flask, jsonify, Blueprint
 from app.app_views import app_views
 
 
 app = Flask(__name__)
 
 
-class db_storage:
-    """ define class storage """
-    def __init__(self):
-    """ initialize storage """
-        pass
-
-    def close(self):
-        """ performs any neccesarily cleanup """
-        pass
-
-storage = db_storage()
-""" An instance of storage class """
+CORS(app, origins='0.0.0.0')
+app.register_blueprint(app_views)
+CORS(app_views)
 
 @app.teardown_appcontext
-def teardown_storage(exception=None):
+def close_db_sesion(exception=None):
     """ Call the close method of storage instance """
     storage.close()
 
