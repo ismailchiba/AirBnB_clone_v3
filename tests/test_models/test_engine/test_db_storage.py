@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Contains the TestDBStorageDocs
+Contains TestDBStorageDocs
 and  TestDBStorage classes
 """
 
