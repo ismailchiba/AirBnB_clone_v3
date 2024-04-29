@@ -8,6 +8,7 @@ from os import environ
 app = Flask(__name__)
 app.register_blueprint(app_views)
 
+
 @app.teardown_appcontext
 def close_database(error):
     """ close db when the app is torn down"""
