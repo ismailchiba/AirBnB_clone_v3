@@ -111,7 +111,7 @@ def place_search_id():
     if not data:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
 
-if data and len(data):
+    if data and len(data):
         states = data.get('states', None)
         cities = data.get('cities', None)
         amenities = data.get('amenities', None)
