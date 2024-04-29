@@ -9,7 +9,7 @@ from models.review import Review
 
 
 @app_views.route("/places/<place_id>/reviews", methods=['GET', 'POST'])
-def places_without_id(place_id=None):
+def reviews_without_id(place_id=None):
     """Create a new place or return all the cities"""
     place = storage.get(Place, place_id)
     if place is None:
