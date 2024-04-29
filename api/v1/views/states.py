@@ -98,4 +98,3 @@ def delete_state(state_id):
 
   # Return an empty dictionary with status code 200
   return jsonify({}), 200
-
