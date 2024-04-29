@@ -96,7 +96,8 @@ class TestFileStorage(unittest.TestCase):
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_save(self):
-        """Test that save properly saves objects to file.json"""
+        """
+        //Test that save properly saves objects to file.json//
         storage = FileStorage()
         new_dict = {}
         for key, value in classes.items():
@@ -113,3 +114,68 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+        """
+        @untitest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_save(self):
+        """
+        Test that save properly saves objects to file.json
+        """
+        state_data = {"name": "Nevada"}
+        new_state = State(**state_data)
+
+        models.storage.new(new_state)
+        models.storage.save()
+
+        session = models.storage._DBStorage_session
+
+        retrieved_state = session.query(State).filter_by(id_new_state).first()
+
+        self.assertEqual(retrieved_state.id, new_state.id)
+        self.assertEqual(retrieved_stae.name, new_state.name)
+        self.assertIsNone(retrieved_state)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get(self):
+        """
+        Tests method for obtaining an instance db storage
+        Testing the real retrieval
+        """
+        stroge = FileStorage()
+
+        storage.reload()
+
+        state_data = {"name": "Manhatan"}
+        state_instance = State(**state_data)
+
+        retrieved_state = storage.get(State, state_instatce.id)
+
+        self.assertEqual(state_instance, retriieve_state)
+
+        fake_state_id = storage.get(State, 'fake_id')
+
+        self.assertEqual(fake_state_id, None)
+
+    @unitest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_count(self):
+        """
+        Testing the count founction
+        To test if the count counts the real number
+        """
+        storage = FileStorage()
+        storage.reload()
+        state_data = {"name": "NewJasay"}
+        state_instatce = State(**state_data)
+        storage.new(state_instance)
+
+        city_data = {"naame": "Ohao", "state_id": state_instance_id}
+
+        city_instance = City(**city_data)
+
+        storage.new(city_instance)
+        storage.save()
+
+        state_occurrence = storage.count()
+        self.assertEqual(state_occurrence, len(storage.all(State)))
+
+        all_occurrence = storage.count()
+        self.assertEqual(state_occurrence, len(storage.all()))
