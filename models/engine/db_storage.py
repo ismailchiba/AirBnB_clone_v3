@@ -21,7 +21,7 @@ classes = {"Amenity": Amenity, "City": City,
 
 
 class DBStorage:
-    """interaacts with the MySQL database"""
+    """interacts with the MySQL database"""
     __engine = None
     __session = None
 
@@ -36,7 +36,8 @@ class DBStorage:
                                       format(HBNB_MYSQL_USER,
                                              HBNB_MYSQL_PWD,
                                              HBNB_MYSQL_HOST,
-                                             HBNB_MYSQL_DB))
+                                             HBNB_MYSQL_DB),
+                                      pool_pre_ping=True)
         if HBNB_ENV == "test":
             Base.metadata.drop_all(self.__engine)
 
@@ -49,15 +50,31 @@ class DBStorage:
                 for obj in objs:
                     key = obj.__class__.__name__ + '.' + obj.id
                     new_dict[key] = obj
-        return (new_dict)
+        return new_dict
+
+    def get(self, cls, id):
+        """Retrieve one object"""
+        return self.__session.query(cls).get(id)
+
+    def count(self, cls=None):
+        """Count number of objects in storage"""
+        if cls:
+            return self.__session.query(cls).count()
+        else:
+            total = 0
+            for cls in classes.values():
+                total += self.__session.query(cls).count()
+            return total
 
     def new(self, obj):
         """add the object to the current database session"""
-        self.__session.add(obj)
+        if self.__session is not None:
+            self.__session.add(obj)
 
     def save(self):
         """commit all changes of the current database session"""
-        self.__session.commit()
+        if self.__session is not None:
+            self.__session.commit()
 
     def delete(self, obj=None):
         """delete from the current database session obj if not None"""
@@ -67,10 +84,10 @@ class DBStorage:
     def reload(self):
         """reloads data from the database"""
         Base.metadata.create_all(self.__engine)
-        sess_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
-        Session = scoped_session(sess_factory)
-        self.__session = Session
+        Session = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        self.__session = scoped_session(Session)
 
     def close(self):
         """call remove() method on the private session attribute"""
-        self.__session.remove()
+        if self.__session is not None:
+            self.__session.remove()

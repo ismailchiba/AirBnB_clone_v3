@@ -38,7 +38,7 @@ class TestFileStorageDocs(unittest.TestCase):
                          "Found code style errors (and warnings).")
 
     def test_pep8_conformance_test_file_storage(self):
-        """Test tests/test_models/test_file_storage.py conforms to PEP8."""
+        """Test tests/test_models/test_engine/test_file_storage.py conforms to PEP8."""
         pep8s = pep8.StyleGuide(quiet=True)
         result = pep8s.check_files(['tests/test_models/test_engine/\
 test_file_storage.py'])
@@ -113,3 +113,28 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+
+    def test_get(self):
+        """Test the get() method"""
+        storage = FileStorage()
+        state = State(name="Test State")
+        storage.new(state)
+        storage.save()
+
+        retrieved_state = storage.get(State, state.id)
+        self.assertEqual(retrieved_state, state)
+
+    def test_count(self):
+        """Test the count() method"""
+        storage = FileStorage()
+        num_states = 5
+        for i in range(num_states):
+            state = State(name=f"State {i}")
+            storage.new(state)
+        storage.save()
+
+        self.assertEqual(storage.count(State), num_states)
+
+
+if __name__ == '__main__':
+    unittest.main()
