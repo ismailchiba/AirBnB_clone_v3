@@ -114,11 +114,14 @@ class FileStorage:
         for object_id, dictionary in new_objs.items():
             k_cls = dictionary['__class__']
             dictionary.pop("__class__", None)
-            dictionary["created_at"] = datetime.strptime(dictionary["created_at"],
-                                                "%Y-%m-%d %H:%M:%S.%f")
-            dictionary["updated_at"] = datetime.strptime(dictionary["updated_at"],
-                                                "%Y-%m-%d %H:%M:%S.%f")
-            FileStorage.__objects[object_id] = FileStorage.CNC[k_cls](**dictionary)
+            dictionary["created_at"] = datetime.strptime(
+                dictionary["created_at"], "%Y-%m-%d %H:%M:%S.%f")
+
+            dictionary["updated_at"] = datetime.strptime(
+                dictionary["updated_at"], "%Y-%m-%d %H:%M:%S.%f")
+
+            FileStorage.__objects[object_id] = FileStorage.CNC[k_cls](
+                **dictionary)
 
     def delete(self, obj=None):
         """
