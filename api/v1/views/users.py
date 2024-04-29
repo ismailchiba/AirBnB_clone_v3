@@ -27,7 +27,7 @@ def users_without_id():
             abort(400, "Missing password")
         user = User(**json)
         user.save()
-        return jsonify(User.to_dict()), 201
+        return jsonify(user.to_dict()), 201
 
 
 @app_views.route("/users/<user_id>", methods=['GET', 'PUT', 'DELETE'])
@@ -42,7 +42,7 @@ def users_with_id(user_id=None):
 
     if request.method == 'DELETE':
         user.delete()
-        del User
+        del user
         return jsonify({})
 
     if request.method == 'PUT':
