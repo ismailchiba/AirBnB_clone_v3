@@ -10,6 +10,7 @@ import sqlalchemy
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 import uuid
+import hashlib
 
 time = "%Y-%m-%dT%H:%M:%S.%f"
 
@@ -68,17 +69,24 @@ class BaseModel:
         new_dict["__class__"] = self.__class__.__name__
         if "_sa_instance_state" in new_dict:
             del new_dict["_sa_instance_state"]
+        if models.storage_t == "db":
+            new_dict.pop('password', None)
         return new_dict
 
-    def update(self, **kwarg):
+    def update(self, **kwargs):
         """Update the object attributes"""
 
         ignored = ['id', 'created_at', 'updated_at', 'user_id', 'city_id']
 
         for key in ignored:
-            kwarg.pop(key, None)
+            kwargs.pop(key, None)
 
-        for k, v in kwarg.items():
+        password = kwargs.get('password')
+        if password is not None:
+            m = hashlib.md5()
+            m.update(bytes(password, 'utf-8'))
+            kwargs['password'] = str(m.digest())
+        for k, v in kwargs.items():
             setattr(self, k, v)
         self.save()
 
