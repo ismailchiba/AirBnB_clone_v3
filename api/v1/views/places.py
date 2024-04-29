@@ -2,9 +2,9 @@
 """
 Create a Flask app that serves the content of the AirBnB clone v3 RESTful API.
 """
-import json
-import requests
 from flask import abort, jsonify, make_response, request
+import requests
+import json
 from os import getenv
 from api.v1.views import app_views
 from api.v1.views.amenities import amenities
@@ -21,9 +21,7 @@ from models.user import User
                  methods=['GET'], strict_slashes=False)
 def place(city_id):
     """
-    Retrieves the list of all Place objects of a City.
-    Returns:
-        JSON: A list of dictionaries representing Place objects.
+    Retrieves the list of all Place objects of a City
     """
     obj_city = storage.get(City, city_id)
     if not obj_city:
@@ -35,9 +33,7 @@ def place(city_id):
 @app_views.route('/places/<place_id>', methods=['GET'], strict_slashes=False)
 def single_place(place_id):
     """
-    Retrieves a Place object.
-    Returns:
-        JSON: A dictionary representing the Place object.
+    Retrieves a Place object
     """
     obj = storage.get(Place, place_id)
     if not obj:
@@ -49,9 +45,7 @@ def single_place(place_id):
                  methods=['DELETE'], strict_slashes=False)
 def del_place(place_id):
     """
-    Deletes a Place object.
-    Returns:
-        JSON: An empty dictionary with the status code 200.
+    Deletes a Place object
     """
     obj = storage.get(Place, place_id)
     if not obj:
@@ -65,9 +59,7 @@ def del_place(place_id):
                  methods=['POST'], strict_slashes=False)
 def post_place(city_id):
     """
-    Creates a Place object.
-    Returns:
-        JSON: A dictionary representing the new Place object with the status code 201.
+    Creates a Place object
     """
     obj_city = storage.get(City, city_id)
     if not obj_city:
@@ -95,9 +87,7 @@ def post_place(city_id):
 @app_views.route('/places/<place_id>', methods=['PUT'], strict_slashes=False)
 def put_place(place_id):
     """
-    Updates a Place object.
-    Returns:
-        JSON: A dictionary representing the updated Place object with the status code 200.
+    Updates a Place object
     """
     obj = storage.get(Place, place_id)
     if not obj:
@@ -118,9 +108,7 @@ def put_place(place_id):
 @app_views.route('/places_search', methods=['POST'], strict_slashes=False)
 def places_search():
     """
-    Retrieves the list of all Place objects depending of the JSON in the body.
-    Returns:
-        JSON: A list of dictionaries representing Place objects.
+    Retrieves the list of all Place objects depending of the JSON in the body
     """
     req = request.get_json()
     if req is None:

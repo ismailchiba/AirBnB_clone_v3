@@ -1,11 +1,5 @@
 #!/usr/bin/python3
-'''Contains the places_reviews view for the API.
-
-This module handles the API endpoints related to Review objects associated with Place objects.
-It includes routes for retrieving, creating, updating, and deleting Review objects.
-'''
-
-import os
+'''Contains the places_reviews view for the API.'''
 from flask import abort, jsonify, make_response, request
 from api.v1.views import app_views
 from models import storage
@@ -13,12 +7,12 @@ from models.place import Place
 from models.review import Review
 from models.user import User
 
-@app_views.route('/places/<place_id>/reviews', methods=['GET'], strict_slashes=False)
+
+@app_views.route('/places/<place_id>/reviews',
+                 methods=['GET'], strict_slashes=False)
 def review(place_id):
     """
-    Retrieves the list of all Review objects of a Place.
-    Returns:
-        JSON: A list of dictionaries representing Review objects.
+    Retrieves the list of all Review objects of a Place
     """
     obj_place = storage.get(Place, place_id)
     if not obj_place:
@@ -29,9 +23,7 @@ def review(place_id):
 @app_views.route('/reviews/<review_id>', methods=['GET'], strict_slashes=False)
 def single_review(review_id):
     """
-    Retrieves a Review object.
-    Returns:
-        JSON: A dictionary representing the Review object.
+    Retrieves a Review object
     """
     obj = storage.get(Review, review_id)
     if not obj:
@@ -39,12 +31,11 @@ def single_review(review_id):
     return jsonify(obj.to_dict())
 
 
-@app_views.route('/reviews/<review_id>', methods=['DELETE'], strict_slashes=False)
+@app_views.route('/reviews/<review_id>',
+                 methods=['DELETE'], strict_slashes=False)
 def del_review(review_id):
     """
-    Deletes a Review object.
-    Returns:
-        JSON: An empty dictionary with the status code 200.
+    Deletes a Review object
     """
     obj = storage.get(Review, review_id)
     if not obj:
@@ -54,12 +45,11 @@ def del_review(review_id):
     return make_response(jsonify({}), 200)
 
 
-@app_views.route('/places/<place_id>/reviews', methods=['POST'], strict_slashes=False)
+@app_views.route('/places/<place_id>/reviews',
+                 methods=['POST'], strict_slashes=False)
 def push_review(place_id):
     """
-    Creates a Review object.
-    Returns:
-        JSON: A dictionary representing the new Review object with the status code 201.
+    Creates a Review object
     """
     obj_place = storage.get(Place, place_id)
     if not obj_place:
@@ -84,12 +74,11 @@ def push_review(place_id):
     return make_response(jsonify(obj.to_dict()), 201)
 
 
-@app_views.route('/reviews/<review_id>', methods=['PUT'], strict_slashes=False)
+@app_views.route('/reviews/<review_id>',
+                 methods=['PUT'], strict_slashes=False)
 def put_review(review_id):
     """
-    Updates a Review object.
-    Returns:
-        JSON: A dictionary representing the updated Review object with the status code 200.
+    Updates a Review object
     """
     obj = storage.get(Review, review_id)
     if not obj:

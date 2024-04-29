@@ -1,9 +1,6 @@
 #!/usr/bin/python3
-
 """
-This module creates a new view for State objects.
 Create a Flask app that serves the content of the AirBnB clone v3 RESTful API.
-iT handles all default RestFul API actions.
 """
 from flask import abort, jsonify, make_response, request
 from api.v1.views import app_views
@@ -14,9 +11,7 @@ from models.state import State
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
 def state():
     """
-    Retrieves the list of all State objects.
-    Returns:
-        JSON: A list of dictionaries representing State objects.
+    Retrieves the list of all State objects
     """
     objs = storage.all(State)
     return jsonify([obj.to_dict() for obj in objs.values()])
@@ -25,9 +20,7 @@ def state():
 @app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
 def single_state(state_id):
     """
-    Retrieves a State object.
-    Returns:
-        JSON: A dictionary representing the State object.
+    Retrieves a State object
     """
     obj = storage.get(State, state_id)
     if not obj:
@@ -39,9 +32,7 @@ def single_state(state_id):
                  methods=['DELETE'], strict_slashes=False)
 def del_state(state_id):
     """
-    Deletes a State object.
-    Returns:
-        JSON: An empty dictionary with the status code 200.
+    Deletes a State object
     """
     obj = storage.get(State, state_id)
     if not obj:
@@ -54,9 +45,7 @@ def del_state(state_id):
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
 def post_state():
     """
-    Creates a State object.
-    Returns:
-        JSON: A dictionary representing the new State object with the status code 201.
+    Creates a State object
     """
     new_obj = request.get_json()
     if not new_obj:
@@ -72,9 +61,7 @@ def post_state():
 @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
 def put_state(state_id):
     """
-    Updates a State object.
-    Returns:
-        JSON: A dictionary representing the updated State object with the status code 200.
+    Updates a State object
     """
     obj = storage.get(State, state_id)
     if not obj:

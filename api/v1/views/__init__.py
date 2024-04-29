@@ -1,7 +1,5 @@
 #!/usr/bin/python3
 """
-This module is a blueprint object that handles all views for the application
-It includes routes for retrieving, creating, updating, and deleting objects
 create a blueprint object that handles all views for the application
 """
 from flask import Blueprint
