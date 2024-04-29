@@ -44,7 +44,7 @@ class DBStorage:
             # Query objects of a specific class
             obj_class = self.__session.query(self.CNC.get(cls)).all()
             for item in obj_class:
-                key = f"{item.__class__.__name__}.{item.id}"
+                key = str(item.__class__.__name__) + "." + str(item.id)
                 obj_dict[key] = item
             return obj_dict
 
@@ -54,7 +54,7 @@ class DBStorage:
                 continue
             obj_class = self.__session.query(self.CNC.get(class_name)).all()
             for item in obj_class:
-                key = f"{item.__class__.__name__}.{item.id}"
+                key = str(item.__class__.__name__) + "." + str(item.id)
                 obj_dict[key] = item
         return obj_dict
 
