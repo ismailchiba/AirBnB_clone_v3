@@ -5,9 +5,11 @@ from api.v1.views import app_views
 from models.state import State
 from models import storage
 from flask import abort, jsonify, make_response, request
+from flasgger.utils import swag_from
 
 
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
+@swag_from('documentation/state/get_state.yml', methods=['GET'])
 def get_states():
     """  Retrieves the list of all State objects """
     all_states = storage.all(State).values()
@@ -18,6 +20,7 @@ def get_states():
 
 
 @app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
+@swag_from('documentation/state/get_id_state.yml', methods=['get'])
 def get_state(state_id):
     """ Retrieves a State object """
     state = storage.get(State, state_id)
@@ -29,6 +32,7 @@ def get_state(state_id):
 
 @app_views.route('/states/<state_id>', methods=['DELETE'],
                  strict_slashes=False)
+@swag_from('documentation/state/delete_state.yml', methods=['DELETE'])
 def delete_state(state_id):
     """ Delete State Object """
     state = storage.get(State, state_id)
@@ -42,6 +46,7 @@ def delete_state(state_id):
 
 
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
+@swag_from('documentation/state/post_state.yml', methods=['POST'])
 def post_state():
     """ Post a state object """
     if not request.get_json():
@@ -57,6 +62,7 @@ def post_state():
 
 
 @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
+@swag_from('documentation/state/put_state.yml', methods=['PUT'])
 def put_state(state_id):
     """ Put state_object """
     state = storage.get(State, state_id)
