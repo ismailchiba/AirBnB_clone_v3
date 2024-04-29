@@ -146,8 +146,10 @@ def place_search_id():
             )
         ]
 
-    list_places = [place.to_dict() for place in places]
-    for place in list_places:
+    list_places = []
+    for p in places:
+        place = p.to_dict()
         place.pop('amenities', None)
+        list_places.append(place)
 
     return jsonify(list_places)
