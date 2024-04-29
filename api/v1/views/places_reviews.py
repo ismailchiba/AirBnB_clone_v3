@@ -53,5 +53,7 @@ def reviews_with_id(review_id=None):
         json = request.get_json()
         if json is None:
             abort(400, "Not a JSON")
+        json.pop("user_id", None)
+        json.pop("city_id", None)
         review.update(**json)
         return jsonify(review.to_dict()), 200
