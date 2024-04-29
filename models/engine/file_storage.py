@@ -1,4 +1,10 @@
+#!/usr/bin/python3
+"""
+Contains the FileStorage class
+"""
+
 import json
+import models
 from models.amenity import Amenity
 from models.base_model import BaseModel
 from models.city import City
@@ -8,6 +14,10 @@ from models.state import State
 from models.user import User
 from hashlib import md5
 
+classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
+           "Place": Place, "Review": Review, "State": State, "User": User}
+
+
 class FileStorage:
     """serializes instances to a JSON file & deserializes back to instances"""
 
@@ -15,10 +25,6 @@ class FileStorage:
     __file_path = "file.json"
     # dictionary - empty but will store all objects by <class name>.id
     __objects = {}
-
-    # Define the classes dictionary inside the FileStorage class
-    classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
-               "Place": Place, "Review": Review, "State": State, "User": User}
 
     def all(self, cls=None):
         """returns the dictionary __objects"""
@@ -52,7 +58,7 @@ class FileStorage:
             with open(self.__file_path, 'r') as f:
                 jo = json.load(f)
             for key in jo:
-                self.__objects[key] = self.classes[jo[key]["__class__"]](**jo[key])
+                self.__objects[key] = classes[jo[key]["__class__"]](**jo[key])
         except:
             pass
 
@@ -72,7 +78,7 @@ class FileStorage:
         Returns the object based on the class name and its ID, or
         None if not found
         """
-        if cls not in self.classes.values():
+        if cls not in classes.values():
             return None
 
         all_cls = models.storage.all(cls)
@@ -86,14 +92,13 @@ class FileStorage:
         """
         count the number of objects in storage
         """
-        all_class = self.classes.values()
+        all_class = classes.values()
 
         if not cls:
             count = 0
             for clas in all_class:
-                count += len(self.all(clas).values())
+                count += len(models.storage.all(clas).values())
         else:
-            count = len(self.all(cls).values())
+            count = len(models.storage.all(cls).values())
 
         return count
-
