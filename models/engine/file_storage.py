@@ -85,7 +85,7 @@ class FileStorage:
                 new_objs = json.load(f_io)
         except exception as e:
             return
-        
+
         for o_id, d in new_objs.items():
             k_cls = d['__class__']
             d.pop("__class__", None)
