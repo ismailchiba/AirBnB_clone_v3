@@ -109,48 +109,41 @@ def place_search_id():
     """search place"""
     data = request.get_json()
     if not data:
-        return make_response(
-            jsonify({"error": "Not a JSON"}), 400
-        )
-    states = data.get('states', None)
-    cities = data.get('cities', None)
-    amenities = data.get('amenities', None)
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
+
+    states = data.get('states', [])
+    cities = data.get('cities', [])
+    amenities = data.get('amenities', [])
+
     if not states and not cities and not amenities:
         places = storage.all(Place).values()
-        return jsonify([p.to_dict() for p in places])
-
-    places = []
-    for state_id in states:
-        state = storage.get(State, state_id)
-        if state:
-            for city in state.cities:
+    else:
+        places = []
+        for state_id in states:
+            state = storage.get(State, state_id)
+            if state:
+                for city in state.cities:
+                    places.extend(city.places)
+        for city_id in cities:
+            city = storage.get(City, city_id)
+            if city:
                 places.extend(city.places)
 
-    for city_id in cities:
-        city = storage.get(City, city_id)
-        if city:
-            places.extend(city.places)
-
     if amenities:
-        amenity_objs = []
-        for amenity_id in amenities:
-            amenity = storage.get(Amenity, amenity_id)
-            if amenity:
-                amenity_objs.extend(amenity)
-
-        for place in places:
-            if all(
+        amenity_objs = [
+            storage.get(
+                Amenity, amenity_id
+            ) for amenity_id in amenities
+        ]
+        places = [
+            place for place in places if all(
                 amenity in place.amenities
                 for amenity in amenity_objs
-            ):
-                places.extend(place)
+            )
+        ]
 
-    filtered_places = []
+    list_places = [place.to_dict() for place in places]
+    for place in list_places:
+        place.pop('amenities', None)
 
-    for p in places:
-        filtered_places.append(p.to_dict())
-
-    for i in filtered_places:
-        i.pop('amenities', None)
-
-    return jsonify(filtered_places)
+    return jsonify(list_places)
