@@ -1,5 +1,14 @@
 #!/usr/bin/python3
-'''Contains the places_amenities view for the API.'''
+
+"""
+This is the places_amenities module.
+it contains the following:
+- retrieves the list of all Amenity objects of a Place
+- deletes a Amenity object to a Place
+- link a Amenity object to a Place
+- returns the Amenity with the status code 201
+"""
+
 from flask import abort, jsonify, make_response
 from api.v1.views import app_views
 from models import storage
@@ -12,7 +21,11 @@ from os import getenv
 @app_views.route('/places/<place_id>/amenities',
                  methods=['GET'], strict_slashes=False)
 def place_amenities(place_id):
-    """Retrieves the list of all Amenity objects of a Place"""
+    """
+    This function
+    Retrieves the list of all Amenity objects of a Place
+    It returns a list of all Amenity objects of a Place
+    """
     obj_place = storage.get(Place, place_id)
     if not obj_place:
         abort(404)
@@ -28,7 +41,11 @@ def place_amenities(place_id):
 @app_views.route('/places/<place_id>/amenities/<amenity_id>',
                  methods=['DELETE'], strict_slashes=False)
 def del_place_amenity(place_id, amenity_id):
-    """Returns an empty dictionary with the status code 200"""
+    """
+    This function
+    It deletes a Amenity object to a Place
+    Returns an empty dictionary with the status code 200
+    """
     obj_place = storage.get(Place, place_id)
     if not obj_place:
         abort(404)
@@ -50,7 +67,10 @@ def del_place_amenity(place_id, amenity_id):
 @app_views.route('/places/<place_id>/amenities/<amenity_id>',
                  methods=['POST'], strict_slashes=False)
 def link_place_amenity(place_id, amenity_id):
-    """Returns the Amenity with the status code 201"""
+    """
+    The function
+    it links a Amenity object to a Place
+    Returns the Amenity with the status code 201"""
     obj_place = storage.get(Place, place_id)
     if not obj_place:
         abort(404)
