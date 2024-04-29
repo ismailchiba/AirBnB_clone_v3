@@ -88,12 +88,12 @@ def func_updateamenity(amenity_id):
     if datareq_json is None:
         abort(400, "Not a JSON")
     # Liste des clés à ignorer lors de la mise à jour de l'objet Amenity
-    ignore_keys = ['id', 'created_at', 'updated_at']
+    ignrkeys = ['id', 'created_at', 'updated_at']
     # Parcourt les clés et valeurs des données JSON
     for key, value in datareq_json.items():
         # Si la clé n'est pas dans la liste des clés à ignorer,
         # met à jour l'attribut correspondant de l'objet Amenity
-        if key not in ignore_keys:
+        if key not in ignrkeys:
             setattr(amenity, key, value)
     # Enregistre les changements effectués sur l'objet Amenity
     amenity.save()
