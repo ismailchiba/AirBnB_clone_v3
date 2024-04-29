@@ -27,10 +27,10 @@ class User(BaseModel, Base):
 
     def __init__(self, *args, **kwargs):
         """initializes user"""
-        super().__init__(*args, **kwargs)
         if kwargs:
             find_pwd = kwargs.pop("passwowd", None)
             if find_pwd:
-                encryptor = hashlib.md5()
-                encryptor.update(find_pwd.encode('utf-8'))
-                encrypted_pwd = encryptor.hexdigest()
+                hasher = hashlib.md5()
+                hasher.update(find_pwd.encode('utf-8'))
+                encrypted_pwd = hasher.hexdigest()
+            super().__init__(*args, **kwargs)
