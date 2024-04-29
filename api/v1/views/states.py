@@ -14,24 +14,32 @@ def every_state():
     return jsonify(states_all)
 
 
+@app_views.route('/states', defaults={'state_id': None})
 @app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
 def one_state(state_id):
-    """ get state by id"""
-    state = storage.get(State, state_id)
-    if state is None:
-        abort(404)
-    return jsonify(state.to_dict())
+    """Get state by id or all states if no id is provided"""
+    if state_id is None:
+        all_states = storage.all(State)
+        return jsonify([state.to_dict() for state in all_states.values()])
+    else:
+        state = storage.get(State, state_id)
+        if state is None:
+            abort(404)
+        return jsonify(state.to_dict())
 
 
 @app_views.route('/states/<state_id>',
-                 methods=['DELETE'], strict_slashes=False)
+                 methods=['DELETE'],
+                 strict_slashes=False)
 def del_state(state_id):
-    """ delete state by id"""
+    """Delete state by id"""
     state = storage.get(State, state_id)
     if state is None:
+        app.logger.error('State with id {} not found.'.format(state_id))
         abort(404)
     state.delete()
     storage.save()
+    app.logger.info('State with id {} deleted.'.format(state_id))
     return jsonify({}), 200
 
 
