@@ -108,14 +108,21 @@ def update_place(place_id):
 def place_search_id():
     """search place"""
     data = request.get_json()
-    if not data:
-        return make_response(jsonify({"error": "Not a JSON"}), 400)
+    if data is None:
+        return make_response(
+            jsonify({"error": "Not a JSON"}), 400
+        )
 
-    states = data.get('states', None)
-    cities = data.get('cities', None)
-    amenities = data.get('amenities', None)
+    if data and len(data):
+        states = data.get('states', [])
+        cities = data.get('cities', [])
+        amenities = data.get('amenities', [])
 
-    if not data or (not states and not cities and not amenities):
+    if not data or (
+        not states and
+        not cities and
+        not amenities
+    ) or not len(data):
         list_places = []
         places = storage.all(Place).values()
         for p in places:
