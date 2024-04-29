@@ -44,19 +44,19 @@ class TestDBStorageDocs(unittest.TestCase):
 
     def test_doc_new(self):
         """... documentation for new function"""
-        expected = ' adds objects to current database session '
+        expected = "Add a new object to the database session."
         actual = DBStorage.new.__doc__
         self.assertEqual(expected, actual)
 
     def test_doc_save(self):
         """... documentation for save function"""
-        expected = ' commits all changes of current database session '
+        expected = "Commit all changes in the current database session."
         actual = DBStorage.save.__doc__
         self.assertEqual(expected, actual)
 
     def test_doc_reload(self):
         """... documentation for reload function"""
-        expected = ' creates all tables in database & session from engine '
+        expected = "Create all tables in the database and reload session."
         actual = DBStorage.reload.__doc__
         self.assertEqual(expected, actual)
 

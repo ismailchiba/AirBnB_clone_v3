@@ -56,8 +56,8 @@ class DBStorage:
         for class_name in self.CLASS_MAP:
             if class_name == 'BaseModel':
                 continue
-            obj_class = self.__session.query(self.CLASS_MAP.get(class_name))
-            .all()
+            obj_class = self.__session.query(self.CLASS_MAP.get(
+               class_name)).all()
             for item in obj_class:
                 key = f"{item.__class__.__name__}.{item.id}"
                 obj_dict[key] = item
