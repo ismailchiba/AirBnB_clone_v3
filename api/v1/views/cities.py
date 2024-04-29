@@ -29,7 +29,6 @@ def get_cities_of_state(state_id):
         if value.state_id == state_id:
             cities.append(value.to_dict())
 
-
     return jsonify(cities)
 
 
@@ -103,7 +102,7 @@ def update_city(city_id):
         request_body = request.get_json()
 
         if not request.is_json:
-            abort(404, 'Not a JSON')
+            abort(400, description="Not a JSON")
 
         for k, v in request_body.items():
             if k not in ["id", "state_id", "created_at", "updated_at"]:
