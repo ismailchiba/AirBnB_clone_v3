@@ -1,9 +1,9 @@
 #!/usr/bin/python3
+""" this area is for file decription """
 from flask import Flask
 from models import storage
 from api.v1.views import app_views
 from os import environ
-""" this area is for file decription """
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
