@@ -53,7 +53,7 @@ def state_by_id(state_id):
     Gets a specific State object by ID
         :state_id: State object ID
 
-    Return: State obj with the specified id or error
+    Return: State obj with the specified ID or error
     """
 
     fetched_object = storage.get("State", str(state_id))
