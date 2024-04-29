@@ -74,7 +74,7 @@ def search_places():
 
     if (json == {} or
             (states_ids == [] and cities_ids == [] and amenities_ids == [])):
-        places = storage.all(Place).values()
+        places = [p for p in storage.all(Place).values()]
 
     cities = set()
 
