@@ -5,7 +5,7 @@
 
 from flask import Flask, jsonify
 from models import storage
-import os
+from os import getenv
 from api.v1.views import app_views
 
 app = Flask(__name__)
@@ -27,15 +27,7 @@ def sorry_page_not_found(error):
     return jsonify({"error": "Not found"}), 404
 
 
-def get_environment_variable(var_name, default_value):
-    """
-    Retrieves the value of an environment variable
-    or returns a default value if the variable is not set.
-    """
-    return os.getenv(var_name, default_value)
-
-
 if __name__ == "__main__":
-    host = get_environment_variable('HBNB_API_HOST', '0.0.0.0')
-    port = get_environment_variable('HBNB_API_PORT', '5000')
-    app.run(host=host, port=port, threaded=True)
+    app.run(host=getenv('HBNB_API_HOST', '0.0.0.0'),
+            port=int(getenv('HBNB_API_PORT', '5000')),
+            threaded=True)
