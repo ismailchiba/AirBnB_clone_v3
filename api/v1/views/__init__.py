@@ -1,8 +1,6 @@
 #!/usr/bin/python3
 """
-This creates a blueprint object that handles all views for the application
 create a blueprint object that handles all views for the application
-It is the main file that is executed to start the application.
 """
 from flask import Blueprint
 
