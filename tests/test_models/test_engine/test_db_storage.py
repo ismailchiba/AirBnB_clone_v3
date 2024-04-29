@@ -68,21 +68,55 @@ test_db_storage.py'])
                             "{:s} method needs a docstring".format(func[0]))
 
 
-class TestFileStorage(unittest.TestCase):
-    """Test the FileStorage class"""
+class DBStorage(unittest.TestCase):
+    """Test the DBStorage class"""
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_all_returns_dict(self):
         """Test that all returns a dictionaty"""
         self.assertIs(type(models.storage.all()), dict)
+import unittest
+from models import storage, State, City
 
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+@unittest.skipIf(storage._type != 'db', "not testing db storage")
+class TestStorage(unittest.TestCase):
+
     def test_all_no_class(self):
         """Test that all returns all rows when no class is passed"""
+        new_state = State(name="Dubai")
+        storage.new(new_state)
+        storage.save()
 
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+        all_states = storage.all(State)
+        self.assertTrue(len(all_states) > 0)
+
     def test_new(self):
-        """test that new adds an object to the database"""
+        """Test that new adds an object to the database"""
+        new_state = State(name="Khartoum")
+        storage.new(new_state)
+        storage.save()
 
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+        retrieved_state = storage.get(State, new_state.id)
+        self.assertEqual(retrieved_state.id, new_state.id)
+        self.assertEqual(retrieved_state.name, new_state.name)
+        self.assertIsNotNone(retrieved_state)
+
     def test_save(self):
-        """Test that save properly saves objects to file.json"""
+        """Test that save properly saves objects to database"""
+        new_state = State(name="Beijing")
+        storage.new(new_state)
+        storage.save()
+
+        retrieved_state = storage.get(State, new_state.id)
+        self.assertEqual(retrieved_state.id, new_state.id)
+        self.assertEqual(retrieved_state.name, new_state.name)
+        self.assertIsNotNone(retrieved_state)
+
+    def test_get(self):
+        """Test that get retrieves an object from the database"""
+        storage.reload()
+        new_state = State(name="Berlin")
+        storage.new(new_state)
+        storage.save()
+
+        retrieved_state = storage.get(State, new_state.id)
+        self.assertEqual(retrieved_state)
