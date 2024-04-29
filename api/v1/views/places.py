@@ -107,9 +107,10 @@ def update_place(place_id):
 )
 def place_search_id():
     """search place"""
-    data = request.get_json()
-    if not data:
+    if request.get_json() is None:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
+
+    data = request.get_json()
 
     if data and len(data):
         states = data.get('states', None)
@@ -152,10 +153,10 @@ def place_search_id():
                        if all([am in place.amenities
                                for am in amenities_obj])]
 
-    list_places = []
-    for p in places:
-        place = p.to_dict()
-        place.pop('amenities', None)
-        list_places.append(place)
+    places = []
+    for p in list_places:
+        d = p.to_dict()
+        d.pop('amenities', None)
+        places.append(d)
 
-    return jsonify(list_places)
+    return jsonify(places)
