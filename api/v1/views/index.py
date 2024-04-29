@@ -10,8 +10,6 @@ from models.city import City
 from models.amenity import Amenity
 from models.review import Review
 
-app = Flask(__name__)
-
 classes = {"users": "User", "places": "Place", "states": "State",
            "cities": "City", "amenities": "Amenity",
            "reviews": "Review"}
@@ -29,6 +27,3 @@ def count():
         count_dict[cls] = storage.count(classes[cls])
     return jsonify(count_dict)
 
-
-if __name__ == "__main__":
-    app.run(host='0.0.0.0', port='5000')
