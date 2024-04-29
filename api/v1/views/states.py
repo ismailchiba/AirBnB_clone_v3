@@ -11,9 +11,9 @@ from models import storage
 def all_state():
     """retrieves the list of all state objects"""
     allState = storage.all(State)
-    statelist = []
+    state_list = []
 
     for states in allState.items():
-        stateDict.append(states.to_dict())
+        state_list.append(states.to_dict())
 
-    return jsonify(stateDict)
+    return jsonify(state_list)
