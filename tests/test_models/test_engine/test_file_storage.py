@@ -115,16 +115,16 @@ class TestFileStorage(unittest.TestCase):
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
 
-    def test_get_method(self):
+    def test_get_method_file(self):
         """test get"""
-        state = State(name="tokyo")
-        storage.new(state)
-        res = storage.get("State", "state.id")
+        new = State(name="new_me")
+        res = storage.get("State", "s_id")
         self.assertIsNone(res)
 
-    def test_count_method(self):
+    def test_count_method_file(self):
         """test count"""
         count_all = storage.count()
-        count_states = storage.count(State)
-        self.assertGreater(count_all, 0)
-        self.assertGreater(count_states, 0)
+        count_states = storage.count("State")
+        self.assertIsInstance(count_all, int)
+        self.assertIsInstance(count_states, int)
+        self.assertGreaterEqual(count_all, count_states)

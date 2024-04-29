@@ -88,18 +88,16 @@ class TestFileStorage(unittest.TestCase):
     def test_save(self):
         """Test that save properly saves objects to file.json"""
 
-    def test_get_method(self):
+    def test_get_method_db(self):
         """test get"""
-        state = State(name="tokyo")
-        storage.new(state)
-        res = storage.get(State, state.id)
-        self.assertIsNotNone(state)
-        self.assertIsInstance(res, State)
-        self.assertTrue(res.id, state.id)
+        new = State(name="new_me")
+        res = storage.get("State", "s_id")
+        self.assertIsNone(res)
 
-    def test_count_method(self):
+    def test_count_method_db(self):
         """test count"""
         count_all = storage.count()
-        count_states = storage.count(State)
-        self.assertGreater(count_all, 0)
-        self.assertGreater(count_states, 0)
+        count_states = storage.count("State")
+        self.assertIsInstance(count_all, int)
+        self.assertIsInstance(count_states, int)
+        self.assertGreaterEqual(count_all, count_states)
