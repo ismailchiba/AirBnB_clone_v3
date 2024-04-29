@@ -66,31 +66,25 @@ class FileStorage:
                 del self.__objects[key]
 
     def close(self):
-        """call reload() method for deserializing the JSON file to objects"""
-       self.reload()
+        """Close the session."""
+        self.reload()
 
     def get(self, cls, id):
-        '''get:
-        retrive an object from the file storage by class and id.
-        '''  
-    if cls and id:
-    if cls in classes.values():
-        all_objects = self.all(cls)
-
-        for value in all_objects.values():
-            if value.id == id:
-                 return value
-        return 
-    return 
+        """Retrieve an object from the file storage by class and id."""
+        if cls and id:
+            if cls in classes.values():
+                all_objects = self.all(cls)
+                for value in all_objects.values():
+                    if value.id == id:
+                        return value
+        return None
 
     def count(self, cls=None):
-        '''count:
-        count the number of objects in storage matching the fiven class.
-        '''
+        """Count the number of objects in storage matching the given class."""
         inst_of_all_cls = self.all()
-        return len(inst_of_all_cls)
+        if not cls:
+            return len(inst_of_all_cls)
         if cls in classes.values():
             all_inst_of_prov_cls = self.all(cls)
             return len(all_inst_of_prov_cls)
-            if cls is not in classes.values():
-                return 
+        return None
