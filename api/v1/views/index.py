@@ -49,3 +49,15 @@ def stats():
     stats = {cls_name: storage.count(cls)
              for cls_name, cls in model_classes.items()}
     return jsonify(stats)
+
+
+@app_views.route("/nop", methods=["GET"])
+def page_not_found():
+    """
+    Returns a 'Not Found' error response.
+    ---
+    responses:
+      404:
+        description: The requested resource was not found.
+    """
+    return jsonify({"error": "Not found"})
