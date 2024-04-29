@@ -13,30 +13,30 @@ from models.user import User
 
 @app_views.route('/users', methods=['GET'], strict_slashes=False)
 def get_users():
-    state_api = []
+    user_api = []
     users = storage.all(State).values()
-    for state in users:
-        state_api.append(state.to_dict())
-    return jsonify(state_api)
+    for user in users:
+        user_api.append(user.to_dict())
+    return jsonify(user_api)
 
 
-@app_views.route('/users/<state_id>', methods=['GET'], strict_slashes=False)
-def get_state_by_id(state_id):
-    state = storage.get(State, state_id)
-    if state:
-        state_api = state.to_dict()
-        return jsonify(state_api)
+@app_views.route('/users/<user_id>', methods=['GET'], strict_slashes=False)
+def get_user_by_id(user_id):
+    user = storage.get(State, user_id)
+    if user:
+        user_api = user.to_dict()
+        return jsonify(user_api)
     else:
         from api.v1.app import not_found
         return not_found(404)
 
 
-@app_views.route('/users/<state_id>', methods=['DELETE'],
+@app_views.route('/users/<user_id>', methods=['DELETE'],
                  strict_slashes=False)
-def delete_state_by_id(state_id):
-    state = storage.get(State, state_id)
-    if state:
-        storage.delete(state)
+def delete_user_by_id(user_id):
+    user = storage.get(State, user_id)
+    if user:
+        storage.delete(user)
         storage.save()
         return jsonify({}), 200
     else:
@@ -44,7 +44,7 @@ def delete_state_by_id(state_id):
 
 
 @app_views.route('/users', methods=['POST'], strict_slashes=False)
-def post_state_by_name():
+def post_user_by_name():
     if 'name' not in request.get_json():
         abort(400, 'Missing name')
     if not request.get_json():
@@ -57,17 +57,17 @@ def post_state_by_name():
     return jsonify(obj.to_dict()), 201
 
 
-@app_views.route('/users/<state_id>', methods=['PUT'], strict_slashes=False)
-def put_state_by_id(state_id):
+@app_views.route('/users/<user_id>', methods=['PUT'], strict_slashes=False)
+def put_user_by_id(user_id):
     if not request.get_json():
         abort(400, 'Not a JSON')
-    state = storage.get(State, state_id)
-    if state:
+    user = storage.get(State, user_id)
+    if user:
         data_request = request.get_json()
         for k, v in data_request.items():
             if k != 'id' and k != 'created_at' and k != 'updated_at':
-                setattr(state, k, v)
+                setattr(user, k, v)
                 storage.save()
-        return jsonify(state.to_dict()), 201
+        return jsonify(user.to_dict()), 201
     else:
         abort(404)

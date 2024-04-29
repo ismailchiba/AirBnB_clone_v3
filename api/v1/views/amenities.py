@@ -13,30 +13,30 @@ from models.user import User
 
 @app_views.route('/amenities', methods=['GET'], strict_slashes=False)
 def get_amenities():
-    state_api = []
+    amenity_api = []
     amenities = storage.all(State).values()
-    for state in amenities:
-        state_api.append(state.to_dict())
-    return jsonify(state_api)
+    for amenity in amenities:
+        amenity_api.append(amenity.to_dict())
+    return jsonify(amenity_api)
 
 
-@app_views.route('/amenities/<state_id>', methods=['GET'], strict_slashes=False)
-def get_state_by_id(state_id):
-    state = storage.get(State, state_id)
-    if state:
-        state_api = state.to_dict()
-        return jsonify(state_api)
+@app_views.route('/amenities/<amenity_id>', methods=['GET'], strict_slashes=False)
+def get_amenity_by_id(amenity_id):
+    amenity = storage.get(State, amenity_id)
+    if amenity:
+        amenity_api = amenity.to_dict()
+        return jsonify(amenity_api)
     else:
         from api.v1.app import not_found
         return not_found(404)
 
 
-@app_views.route('/amenities/<state_id>', methods=['DELETE'],
+@app_views.route('/amenities/<amenity_id>', methods=['DELETE'],
                  strict_slashes=False)
-def delete_state_by_id(state_id):
-    state = storage.get(State, state_id)
-    if state:
-        storage.delete(state)
+def delete_amenity_by_id(amenity_id):
+    amenity = storage.get(State, amenity_id)
+    if amenity:
+        storage.delete(amenity)
         storage.save()
         return jsonify({}), 200
     else:
@@ -44,7 +44,7 @@ def delete_state_by_id(state_id):
 
 
 @app_views.route('/amenities', methods=['POST'], strict_slashes=False)
-def post_state_by_name():
+def post_amenity_by_name():
     if 'name' not in request.get_json():
         abort(400, 'Missing name')
     if not request.get_json():
@@ -57,17 +57,17 @@ def post_state_by_name():
     return jsonify(obj.to_dict()), 201
 
 
-@app_views.route('/amenities/<state_id>', methods=['PUT'], strict_slashes=False)
-def put_state_by_id(state_id):
+@app_views.route('/amenities/<amenity_id>', methods=['PUT'], strict_slashes=False)
+def put_amenity_by_id(amenity_id):
     if not request.get_json():
         abort(400, 'Not a JSON')
-    state = storage.get(State, state_id)
-    if state:
+    amenity = storage.get(State, amenity_id)
+    if amenity:
         data_request = request.get_json()
         for k, v in data_request.items():
             if k != 'id' and k != 'created_at' and k != 'updated_at':
-                setattr(state, k, v)
+                setattr(amenity, k, v)
                 storage.save()
-        return jsonify(state.to_dict()), 201
+        return jsonify(amenity.to_dict()), 201
     else:
         abort(404)
