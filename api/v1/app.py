@@ -1,22 +1,19 @@
 #!/usr/bin/python3
 '''
-This module contains the entry point of the command interpreter.
-It is the main file that is executed to start the application.
-Starts the AirBnB clone v3 RESTful API server using Flask.
+Create a Flask app that serves the content of the AirBnB clone v3 RESTful API.
 '''
+from flask import Flask, jsonify
 from flask_cors import CORS
 import os
-from flask import Flask, jsonify
+
 from models import storage
 from api.v1.views import app_views
 
 
 app = Flask(__name__)
-'''
-This module contains the entry point of the command interpreter.
-Creates a blueprint object to manage all views for the application.
-It is the main file that is executed to start the application.
-'''
+"""
+create a blueprint object that handles all views for the application
+"""
 app_host = os.getenv('HBNB_API_HOST', '0.0.0.0')
 app_port = int(os.getenv('HBNB_API_PORT', '5000'))
 app.url_map.strict_slashes = False
@@ -26,32 +23,21 @@ CORS(app, resources={'/*': {'origins': app_host}})
 
 @app.teardown_appcontext
 def teardown_flask(exception):
-    '''
-    This module contains the entry point of the command interpreter.
-    It removes the current SQLAlchemy Session after each request.
-    Removes the current SQLAlchemy Session after each request.
-    And closes the storage engine.
-    '''
+    """
+    remove the current SQLAlchemy Session after each request
+    """
     storage.close()
 
 
 @app.errorhandler(404)
 def error_404(error):
-    '''
-    This module handles the 404 HTTP error code.
-    Handles the 404 HTTP error code.
-    If the error is an instance of an Exception, it will return the description.
-    '''
+    '''Handles the 404 HTTP error code.'''
     return jsonify(error='Not found'), 404
 
 
 @app.errorhandler(400)
 def error_400(error):
-    '''
-    This module handles the 400 HTTP error code.
-    Handles the 400 HTTP error code.
-    If the error is an instance of an Exception, it will return the description.
-    '''
+    '''Handles the 400 HTTP error code.'''
     msg = 'Bad request'
     if isinstance(error, Exception) and hasattr(error, 'description'):
         msg = error.description
