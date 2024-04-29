@@ -120,3 +120,4 @@ class TestStorage(unittest.TestCase):
 
         retrieved_state = storage.get(State, new_state.id)
         self.assertEqual(retrieved_state)
+
