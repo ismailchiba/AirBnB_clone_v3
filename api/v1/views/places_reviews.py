@@ -1,5 +1,13 @@
 #!/usr/bin/python3
-'''Contains the places_reviews view for the API.'''
+
+"""
+This is the places_reviews module.
+it contains the following:
+- retrieves the list of all Review objects of a Place
+- retrieves a Review object
+- deletes a Review object
+"""
+
 from flask import abort, jsonify, make_response, request
 from api.v1.views import app_views
 from models import storage
@@ -12,7 +20,9 @@ from models.user import User
                  methods=['GET'], strict_slashes=False)
 def review(place_id):
     """
+    This function
     Retrieves the list of all Review objects of a Place
+    It returns a list of all Review objects of a Place
     """
     obj_place = storage.get(Place, place_id)
     if not obj_place:
@@ -23,7 +33,9 @@ def review(place_id):
 @app_views.route('/reviews/<review_id>', methods=['GET'], strict_slashes=False)
 def single_review(review_id):
     """
+    This function
     Retrieves a Review object
+    It returns a Review object
     """
     obj = storage.get(Review, review_id)
     if not obj:
@@ -35,7 +47,9 @@ def single_review(review_id):
                  methods=['DELETE'], strict_slashes=False)
 def del_review(review_id):
     """
+    This function
     Deletes a Review object
+    It returns an empty dictionary
     """
     obj = storage.get(Review, review_id)
     if not obj:
@@ -49,7 +63,9 @@ def del_review(review_id):
                  methods=['POST'], strict_slashes=False)
 def push_review(place_id):
     """
+    This function
     Creates a Review object
+    It returns the new Review object
     """
     obj_place = storage.get(Place, place_id)
     if not obj_place:
@@ -78,7 +94,9 @@ def push_review(place_id):
                  methods=['PUT'], strict_slashes=False)
 def put_review(review_id):
     """
+    This function
     Updates a Review object
+    This function updates a Review object
     """
     obj = storage.get(Review, review_id)
     if not obj:
