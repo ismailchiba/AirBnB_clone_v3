@@ -1,70 +1,69 @@
 #!/usr/bin/python3
-"""testing the index route"""
+"""Unit tests for the state routes."""
+
 import unittest
-import pep8
-from os import getenv
-import requests
 import json
-from api.v1.app import *
-from flask import request, jsonify
+from api.v1.app import app
 from models.state import State
 from models import storage
 
 
 class TestStates(unittest.TestCase):
-    """test state"""
+    """Test cases for state-related routes."""
+
+    def setUp(self):
+        """Set up test client and seed data."""
+        self.client = app.test_client()
+        self.test_state = State(name="Testland")
+        storage.new(self.test_state)
+        storage.save()
+
+    def tearDown(self):
+        """Clean up any mock data after tests."""
+        storage.delete(self.test_state)
+        storage.save()
 
     def test_lists_states(self):
-        """test state GET route"""
-        with app.test_client() as c:
-            resp = c.get("/api/v1/states")
-            self.assertEqual(resp.status_code, 200)
-            resp2 = c.get("/api/v1/states/")
-            self.assertEqual(resp.status_code, 200)
+        """Test retrieval of all states."""
+        response = self.client.get("/api/v1/states")
+        self.assertEqual(response.status_code, 200)
 
     def test_create_state(self):
-        """test state POST route"""
-        with app.test_client() as c:
-            resp = c.post(
-                "/api/v1/states/",
-                data=json.dumps({"name": "California"}),
-                content_type="application/json",
-            )
-            self.assertEqual(resp.status_code, 201)
+        """Test creation of a new state."""
+        response = self.client.post(
+            "/api/v1/states",
+            data=json.dumps({"name": "California"}),
+            content_type="application/json"
+        )
+        self.assertEqual(response.status_code, 201)
+        # Clean up created state
+        created_state = json.loads(response.data.decode('utf-8'))
+        storage.delete(State(**created_state))
+        storage.save()
 
     def test_delete_state(self):
-        """test state DELETE route"""
-        with app.test_client() as c:
-            new_state = State(name="Beckystan")
-            storage.new(new_state)
-            resp = c.get("api/v1/states/{}".format(new_state.id))
-            self.assertEqual(resp.status_code, 200)
-            resp1 = c.delete("api/v1/states/{}".format(new_state.id))
-            self.assertEqual(resp1.status_code, 404)
-            resp2 = c.get("api/v1/states/{}".format(new_state.id))
-            self.assertEqual(resp2.status_code, 404)
+        """Test deletion of a state."""
+        response = self.client.delete("/api/v1/states/{}"
+                                      .format(self.test_state.id))
+        self.assertEqual(response.status_code, 200)
+        self.assertIsNone(storage.get(State, self.test_state.id))
 
-    def test_get_state(self):
-        """test state GET by id route"""
-        with app.test_client() as c:
-            new_state = State(name="Beckystan")
-            storage.new(new_state)
-            resp = c.get("api/v1/states/{}".format(new_state.id))
-            self.assertEqual(resp.status_code, 200)
+    def test_get_state_by_id(self):
+        """Test retrieval of a state by its ID."""
+        response = self.client.get("/api/v1/states/{}"
+                                   .format(self.test_state.id))
+        self.assertEqual(response.status_code, 200)
 
     def test_update_state(self):
-        """test state PUT route"""
-        with app.test_client() as c:
-            new_state = State(name="Beckystan")
-            storage.new(new_state)
-            resp = c.put(
-                "api/v1/states/{}".format(new_state.id),
-                data=json.dumps({"name": "Beckytopia"}),
-                content_type="application/json",
-            )
-            # data = json.loads(resp.data.decode('utf-8'))
-            # print(data)
-            self.assertEqual(resp.status_code, 200)
+        """Test updating a state's name."""
+        response = self.client.put(
+            "/api/v1/states/{}".format(self.test_state.id),
+            data=json.dumps({"name": "Newland"}),
+            content_type="application/json"
+        )
+        self.assertEqual(response.status_code, 200)
+        updated_state = storage.get(State, self.test_state.id)
+        self.assertEqual(updated_state.name, "Newland")
 
 
 if __name__ == "__main__":

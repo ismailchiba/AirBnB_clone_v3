@@ -33,7 +33,7 @@ class TestIndex(unittest.TestCase):
     def test_404(self):
         """test for 404 error"""
         with app.test_client() as c:
-            resp = c.get("/api/v1/yabbadabbadoo")
+            resp = c.get("/api/v1/nop")
             data = json.loads(resp.data.decode("utf-8"))
             self.assertEqual(data, {"error": "Not found"})
 
