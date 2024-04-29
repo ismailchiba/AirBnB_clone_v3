@@ -20,7 +20,7 @@ def retrive_amnety():
                  strict_slashes=False, methods=['GET'])
 def get_amnty(amenity_id):
     """Retrieves a Amenity object by id"""
-    amnty = storage.get('Amenity', 'amenity_id')
+    amnty = storage.get(Amenity, amenity_id)
     if not amnty:
         abort(404)
     return jsonify(amnty.to_dict())
@@ -30,7 +30,7 @@ def get_amnty(amenity_id):
                  strict_slashes=False, methods=['DELETE'])
 def del_amnty(amenity_id):
     """Deletes a Amenity object by id"""
-    amnty = storage.get('Amenity', 'amenity_id')
+    amnty = storage.get(Amenity, amenity_id)
     if amnty:
         amnty.delete()
         storage.save()
@@ -57,7 +57,7 @@ def update_amnty(amenity_id):
     """Updates a Amenity object"""
     if not amenity_id:
         abort(404)
-    amnty = storage.get('Amenity', 'amenity_id')
+    amnty = storage.get(Amenity, amenity_id)
     if not amnty:
         abort(404)
     response = request.get_json(silent=True)
