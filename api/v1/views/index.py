@@ -3,7 +3,8 @@
 from api.v1.views import app_views
 from flask import jsonify
 
+from models import storage
 
-@app_view.rout('/status', method=['GET'])
+@app_view.rout("/status", method=['GET'])
 def status():
     return jsonify({"status": "OK"})
