@@ -5,7 +5,7 @@ This file handles all the default  RESTFul API
 actions (CRUD)
 """
 
-from flask import abort, make_response, request
+from flask import abort, jsonify, make_response, request
 from models import storage
 from models.city import City
 from api.v1.views import app_views
@@ -26,7 +26,7 @@ def get_cities_of_state(state_id):
     if len(cities) == 0:
         abort(404)
 
-    return cities
+    return jsonify(cities)
 
 
 @app_views.route('/cities/<city_id>', strict_slashes=False)
