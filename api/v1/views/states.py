@@ -7,7 +7,7 @@ from models.state import State
 from models import storage
 
 
-@app_views.route('/status', methods=['GET'], strict_slashes=False)
+@app_views.route('/states', methods=['GET'], strict_slashes=False)
 def retrieve_states():
     """
     Retrieves all State objects and returns them as a JSON response.
