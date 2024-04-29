@@ -1,5 +1,8 @@
 #!/usr/bin/python3
-""" Database engine for storing class instances in a MySQL database """
+
+"""
+Database engine for storing class instances in a MySQL database
+"""
 
 import os
 from sqlalchemy import create_engine, MetaData
