@@ -42,9 +42,9 @@ def create_amenity():
     except (ValueError, TypeError):
         req = None
     if req is None:
-        abort(400, {'Not a JSON'})
+        abort(400, message={'Not a JSON'})
     if 'name' not in req:
-        abort(400, {'Missing name'})
+        abort(400, message={'Missing name'})
     amenity = Amenity(**req)
     amenity.save()
     return amenity.to_dict(), 201
@@ -62,7 +62,7 @@ def update_amenity(amenity_id=None):
     except (ValueError, TypeError):
         req = None
     if req is None:
-        abort(400, {'Not a JSON'})
+        abort(400, message={'Not a JSON'})
     for key, val in req.items():
         if key not in ('id', 'created_at', 'updates_at'):
             setattr(amenity, key, val)
