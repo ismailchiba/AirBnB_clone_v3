@@ -26,10 +26,12 @@ def reviews_without_id(place_id=None):
         json = request.get_json()
         if json is None:
             abort(400, "Not a JSON")
-        if json.get('name') is None:
-            abort(400, "Missing name")
+        if json.get('user_id') is None:
+            abort(400, "Missing user_id")
+        if json.get('text') is None:
+            abort(400, "Missing text")
         json['place_id'] = place_id
-        review = review(**json)
+        review = Review(**json)
         review.save()
         return jsonify(review.to_dict()), 201
 
