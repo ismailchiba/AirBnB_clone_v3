@@ -21,8 +21,10 @@ def users_without_id():
         json = request.get_json()
         if json is None:
             abort(400, "Not a JSON")
-        if json.get('name') is None:
-            abort(400, "Missing name")
+        if json.get('email') is None:
+            abort(400, "Missing email")
+        if json.get('password') is None:
+            abort(400, "Missing password")
         User = User(**json)
         User.save()
         return jsonify(User.to_dict()), 201
@@ -47,11 +49,6 @@ def users_with_id(user_id=None):
         json = request.get_json()
         if json is None:
             abort(400, "Not a JSON")
-        json.pop('id', None)
-        json.pop('created_at', None)
-        json.pop('updated_at', None)
-
-        for k, v in json.items():
-            setattr(User, k, v)
-        user.save()
-        return jsonify(user.to_dict())
+        json.pop("email", None)
+        user.update(**json)
+        return jsonify(user.to_dict()), 200
