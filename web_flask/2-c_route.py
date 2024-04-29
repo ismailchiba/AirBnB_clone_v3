@@ -1,28 +1,35 @@
 #!/usr/bin/python3
+
 """
-starts a Flask web application
+script that starts Flask web app
+    listen on 0.0.0.0, port 5000
+    routes: /:         display "Hello HBNB!"
+            /hbnb:     display "HBNB"
+            /c/<text>: display "C" + text (replace underscores with space)
 """
 
 from flask import Flask
 app = Flask(__name__)
+app.url_map.strict_slashes = False
 
 
-@app.route('/', strict_slashes=False)
-def index():
-    """returns Hello HBNB!"""
-    return 'Hello HBNB!'
+@app.route('/')
+def hello_hbnb():
+    """script that display text"""
+    return "Hello HBNB!"
 
 
-@app.route('/hbnb', strict_slashes=False)
+@app.route('/hbnb')
 def hbnb():
-    """returns HBNB"""
-    return 'HBNB'
+    """script that display text"""
+    return "HBNB"
 
 
-@app.route('/c/<text>', strict_slashes=False)
-def cisfun(text):
-    """display “C ” followed by the value of the text variable"""
-    return 'C ' + text.replace('_', ' ')
+@app.route('/c/<text>')
+def c_text(text):
+    """script that display custom text given"""
+    return "C {}".format(text.replace('_', ' '))
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port='5000')
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
