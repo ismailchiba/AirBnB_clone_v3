@@ -120,21 +120,21 @@ class TestFileStorage(unittest.TestCase):
         storage = FileStorage()
         content_dict = {"name": "Mariam"}
         the_value = State(**val)
-        storage.new(instance)
+        storage.new(the_value)
         storage.save()
         storage = FileStorage()
         result_of_instance = storage.get(State, the_value.id)
-        self.assertEqual(get_instance, instance)
+        self.assertEqual(result_of_instance, instance)
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_count_variables(self):
         """This is a method for testing the number of objects"""
         storage = FileStorage()
         content_dict = {"name": "Mujib"}
-        the_value = State(**val)
+        state = State(**val)
         storage.new(state)
         content_dict = {"name": "Canada"}
-        city_values = City(**obj)
+        city = City(**obj)
         storage.new(city)
         storage.save()
         count_result = storage.count()
