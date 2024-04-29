@@ -112,13 +112,6 @@ class TestFileStorageDocs(unittest.TestCase):
             reloaded_obj, "No object was loaded after reload."
         )
 
-    # def test_reload_empty(self):
-    #     """ Load from an empty file """
-    #     with open('file.json', 'w') as f:
-    #         pass
-    #     with self.assertRaises(ValueError):
-    #         storage.reload()
-
     def test_reload_from_nonexistent(self):
         """Nothing happens if file does not exist"""
         self.assertEqual(storage.reload(), None)
