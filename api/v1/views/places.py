@@ -120,53 +120,37 @@ def place_search_id():
         return jsonify([p.to_dict() for p in places])
 
     places = []
-    if states:
-        state_agrs = [
-            storage.get(
-                State, state_id
-            ) for state_id in states
-        ]
-        for s in state_agrs:
-            if s:
-                for c in s.cities:
-                    if c:
-                        for p in c.places:
-                            places.append(p)
+    for state_id in states:
+        state = storage.get(State, state_id)
+        if state:
+            for city in state.cities:
+                places.extend(city.places)
 
-    if cities:
-        cities_args = [
-            storage.get(
-                City, city_id
-            ) for city_id in cities
-        ]
-        for c in cities_args:
-            if c:
-                for p in c.places:
-                    if p not in places:
-                        places.append(p)
+    for city_id in cities:
+        city = storage.get(City, city_id)
+        if city:
+            places.extend(city.places)
 
     if amenities:
-        places = storage.all(
-            Place
-        ).values() if not places else places
-        place_amenities = [
-            storage.get(
-                Amenity, amenity_id
-            ) for amenity_id in amenities
-        ]
-        for p in places:
+        amenity_objs = []
+        for amenity_id in amenities:
+            amenity = storage.get(Amenity, amenity_id)
+            if amenity:
+                amenity_objs.extend(amenity)
+
+        for place in places:
             if all(
-                [
-                    amenity_id in p.amenities
-                    for amenity_id in place_amenities
-                ]
+                amenity in place.amenities
+                for amenity in amenity_objs
             ):
-                places.append(p)
+                places.extend(place)
 
     filtered_places = []
-    for place in places:
-        i = place.to_dict()
+
+    for p in places:
+        filtered_places.append(p.to_dict())
+
+    for i in filtered_places:
         i.pop('amenities', None)
-        filtered_places.append(place)
 
     return jsonify(filtered_places)
