@@ -18,7 +18,7 @@ model_classes = {
     "places": storage.count(Place),
     "reviews": storage.count(Review),
     "states": storage.count(State),
-    "users": storage.count(User)
+    "users": storage.count(User),
 }
 
 
@@ -46,8 +46,9 @@ def stats():
         description: Error occurred, unable to retrieve statistics.
     """
     # Use dictionary comprehension to create the stats dictionary
-    stats = {cls_name: storage.count(cls)
-             for cls_name, cls in model_classes.items()}
+    stats = {
+        cls_name: storage.count(cls) for cls_name, cls in model_classes.items()
+    }
     return jsonify(stats)
 
 
