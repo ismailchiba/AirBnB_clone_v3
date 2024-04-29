@@ -31,7 +31,7 @@ def stats():
     stats of all objs route
     :return: json of all objs
     """
-    data = {
+    stats = {
         "amenities": storage.count("Amenity"),
         "cities": storage.count("City"),
         "places": storage.count("Place"),
@@ -40,7 +40,7 @@ def stats():
         "users": storage.count("User"),
     }
 
-    resp = jsonify(data)
+    resp = jsonify(stats)
     resp.status_code = 200
 
     return resp
