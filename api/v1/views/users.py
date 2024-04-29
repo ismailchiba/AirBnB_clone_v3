@@ -8,9 +8,7 @@ from models.user import User
 @app_views.route('/users', strict_slashes=False, methods=['GET'])
 def get_users():
     """Retrieves the list of all User objects."""
-    users = storage.all(User)
-    user_list = [value.to_dict() for value in users.values()]
-    return make_response(jsonify(user_list), 200)
+    return jsonify([user.to_dict() for user in storage.all(User).values()])
 
 
 @app_views.route('/users/<user_id>',
