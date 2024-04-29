@@ -129,7 +129,8 @@ class TestDBStorage(unittest.TestCase):
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_get(self):
-        """ tests get function """
+        """ tests get function
+        """
         storage = models.storage
 
         storage.reload()
@@ -150,7 +151,8 @@ class TestDBStorage(unittest.TestCase):
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_count(self):
-        """ tests count function """
+        """ tests count function
+        """
         storage = models.storage
         storage.reload()
         state_data = {"name": "alex"}
