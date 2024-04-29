@@ -1,8 +1,15 @@
 #!/usr/bin/python3
-"""
+
+"""This module contains the TestFileStorageDocs classes
 Contains the TestFileStorageDocs classes
+It tests the documentation and style of FileStorage class
+It also tests for the presence of docstrings within FileStorage class
 """
 
+import json
+import os
+import pep8
+import unittest
 from datetime import datetime
 import inspect
 import models
@@ -14,31 +21,38 @@ from models.place import Place
 from models.review import Review
 from models.state import State
 from models.user import User
-import json
-import os
-import pep8
-import unittest
+
 FileStorage = file_storage.FileStorage
 classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
 
 
 class TestFileStorageDocs(unittest.TestCase):
-    """Tests to check the documentation and style of FileStorage class"""
+    """This class contains the TestFileStorageDocs classes
+    Tests to check the documentation and style of FileStorage class
+    It also tests for the presence of docstrings within FileStorage class
+    """
     @classmethod
     def setUpClass(cls):
-        """Set up for the doc tests"""
+        """This method is run once for each class before any tests are run
+        Set up for the doc tests
+        It retrieves methods and attributes from FileStorage class
+        """
         cls.fs_f = inspect.getmembers(FileStorage, inspect.isfunction)
 
     def test_pep8_conformance_file_storage(self):
-        """Test that models/engine/file_storage.py conforms to PEP8."""
+        """This method checks for PEP8 compliance in file_storage.py
+        Test that models/engine/file_storage.py conforms to PEP8."""
         pep8s = pep8.StyleGuide(quiet=True)
         result = pep8s.check_files(['models/engine/file_storage.py'])
         self.assertEqual(result.total_errors, 0,
                          "Found code style errors (and warnings).")
 
     def test_pep8_conformance_test_file_storage(self):
-        """Test tests/test_models/test_file_storage.py conforms to PEP8."""
+        """This method checks for PEP8 compliance in test_file_storage.py
+        Test tests/test_models/test_file_storage.py conforms to PEP8.
+        It checks for PEP8 compliance.
+        """
         pep8s = pep8.StyleGuide(quiet=True)
         result = pep8s.check_files(['tests/test_models/test_engine/\
 test_file_storage.py'])
@@ -69,10 +83,15 @@ test_file_storage.py'])
 
 
 class TestFileStorage(unittest.TestCase):
-    """Test the FileStorage class"""
+    """This class contains the TestFileStorage classes
+    Test the FileStorage class
+    It tests the FileStorage class to ensure the methods are working as expected
+    """
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_all_returns_dict(self):
-        """Test that all returns the FileStorage.__objects attr"""
+        """This method checks whether all returns a dictionary
+        It checks if the return value of all is a dictionary
+        Test that all returns the FileStorage.__objects attr"""
         storage = FileStorage()
         new_dict = storage.all()
         self.assertEqual(type(new_dict), dict)
@@ -80,7 +99,8 @@ class TestFileStorage(unittest.TestCase):
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_new(self):
-        """test that new adds an object to the FileStorage.__objects attr"""
+        """This method checks whether new adds an object to the FileStorage.__objects attr
+        test that new adds an object to the FileStorage.__objects attr"""
         storage = FileStorage()
         save = FileStorage._FileStorage__objects
         FileStorage._FileStorage__objects = {}
@@ -113,3 +133,23 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_get(self):
+        """This is a test for the get method
+        Test that get properly returns a requested object
+        When an object is not found, get returns None
+        """
+        storage = FileStorage()
+        user = User(name="User1")
+        user.save()
+        self.assertEqual(user, storage.get("User", user.id))
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_count(self):
+        """this is a test for the count method
+        it tests that count properly counts all objects
+        Test that count properly counts all objects"""
+        storage = FileStorage()
+        nobjs = len(storage._FileStorage__objects)
+        self.assertEqual(nobjs, storage.count())
