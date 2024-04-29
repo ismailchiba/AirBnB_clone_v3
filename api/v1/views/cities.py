@@ -20,7 +20,7 @@ def func_getcities(state_id):
     datastate = storage.get(State, state_id)
     # Si l'objet State n'existe pas, retourne une erreur 404
     if datastate is None:
-        abort(404)
+        return abort(404)
     else:
         # Récupère la liste de tous les objets City liés à l'objet State
         datacities = [city.to_dict() for city in datastate.cities]
@@ -34,7 +34,7 @@ def func_getcity(city_id):
     datacity = storage.get(City, city_id)
     # Si l'objet City n'existe pas, retourne une erreur 404
     if datacity is None:
-        abort(404)
+        return abort(404)
     return jsonify(datacity.to_dict())
 
 @app_views.route('/cities/<city_id>', methods=['DELETE'], strict_slashes=False)
@@ -45,7 +45,7 @@ def func_deletecity(city_id):
     city = storage.get(City, city_id)
     # Si l'objet City n'existe pas, retourne une erreur 404
     if city is None:
-        abort(404)
+        return abort(404)
     else:
         # Supprime l'objet City de la base de données
         # enregistre les changements
@@ -61,12 +61,12 @@ def func_createcity(state_id):
     state = storage.get(State, state_id)
     # Si l'objet State n'existe pas, retourne une erreur 404
     if state is None:
-        abort(404)
+        return abort(404)
     # Récupère les données JSON de la requête HTTP
     dtreq_json = request.get_json()
     # Si les données JSON sont invalides, retourne une erreur 400
     if dtreq_json is None:
-        abort(400, "Not a JSON")
+        return abort(400, "Not a JSON")
     # Si la clé 'name' est absente des données JSON, retourne une erreur 400
     if 'name' not in dtreq_json:
         abort(400, "Missing name")
@@ -88,13 +88,13 @@ def func_updatecity(city_id):
     city = storage.get(City, city_id)
     # Si l'objet City n'existe pas, retourne une erreur 404
     if city is None:
-        abort(404)
+        return abort(404)
     else:
         # Récupère les données JSON de la requête HTTP
         dtreq_json = request.get_json()
         # Si les données JSON sont invalides, retourne une erreur 400
         if dtreq_json is None:
-            abort(400, "Not a JSON")
+            return abort(400, "Not a JSON")
             # Liste des clés à ignorer lors de la mise à jour de l'objet City
         ignrkeys = ['id', 'state_id', 'created_at', 'updated_at']
         # Parcourt les clés et valeurs des données JSON
