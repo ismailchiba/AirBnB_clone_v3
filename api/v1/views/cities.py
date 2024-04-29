@@ -18,7 +18,6 @@ def get_cities_of_state(state_id):
     """
 
     state = storage.get("State", state_id)
-    print("STATE::::", state)
 
     if not state:
         abort(404)
@@ -80,11 +79,12 @@ def create_city(state_id):
             abort(404, description='Not a JSON')
 
         if 'name' not in request_body:
-            abort(404, description="Missing name")
+            abort(404, description='Missing name')
 
         request_body['state_id'] = state_id
         city = City(**request_body)
-        city.save()
+        storage.new(city)
+        storage.save()
 
         return make_response(city.to_dict(), 201)
 
