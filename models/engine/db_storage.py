@@ -22,6 +22,10 @@ class DBStorage:
         'User': user.User
     }
 
+    # Handling Database storage
+    __engine = None
+    __session = None
+
     def __init__(self):
         """ Initializes the database engine """
         # Create database engine using environment variables
