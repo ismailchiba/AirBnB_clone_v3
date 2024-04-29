@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 '''
-    All the test for the user model are implemented here.
+   script for all the test for the user model are implemented here.
 '''
 
 import unittest
