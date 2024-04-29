@@ -78,7 +78,7 @@ class DBStorage:
     def get(self, cls, id):
         """ method to retrieve one object """
         if (cls in classes or cls.__name__ in classes) and id is not None:
-            if type(cls) != str:
+            if not isinstance(cls, str):
                 cls = classes[cls.__name__]
             else:
                 cls = classes[cls]
