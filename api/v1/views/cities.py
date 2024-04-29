@@ -12,7 +12,8 @@ from models import storage
 """app = Flask(__name__)"""
 
 
-@app_views.route('/states/<state_id>/cities', strict_slashes=False)
+@app_views.route('/states/<state_id>/cities',
+                 methods=['GET'], strict_slashes=False)
 def func_getcities(state_id):
     """Retrieves the list of all
     City objects for a specific State."""
