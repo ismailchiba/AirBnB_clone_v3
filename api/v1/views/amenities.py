@@ -1,7 +1,12 @@
 #!/usr/bin/python3
-'''
-Create a Flask app that serves the content of the AirBnB clone v3 RESTful API.
-'''
+
+"""
+This is the amenities module.
+it is used in the api/v1 blueprint
+it does the following:
+- retrieves the list of all Amenity objects
+- retrieves a Amenity object
+"""
 from flask import abort, jsonify, make_response, request
 from api.v1.views import app_views
 from models import storage
@@ -11,7 +16,9 @@ from models.amenity import Amenity
 @app_views.route('/amenities', methods=['GET'], strict_slashes=False)
 def amenities():
     """
+    This function
     Retrieves the list of all Amenity objects
+    it returns a list of all Amenity objects
     """
     objs = storage.all(Amenity)
     return jsonify([obj.to_dict() for obj in objs.values()])
@@ -21,7 +28,9 @@ def amenities():
                  methods=['GET'], strict_slashes=False)
 def single_amenities(amenity_id):
     """
+    This function
     Retrieves a Amenity object
+    It returns a Amenity object
     """
     obj = storage.get(Amenity, amenity_id)
     if not obj:
@@ -33,7 +42,10 @@ def single_amenities(amenity_id):
                  methods=['DELETE'], strict_slashes=False)
 def del_amenities(amenity_id):
     """
+    This function
     Deletes a Amenity object
+    It returns an empty dictionary
+    It deletes a Amenity object
     """
     obj = storage.get(Amenity, amenity_id)
     if not obj:
@@ -47,7 +59,9 @@ def del_amenities(amenity_id):
 @app_views.route('/amenities', methods=['POST'], strict_slashes=False)
 def post_amenity():
     """
+    This function
     Creates a Amenity object
+    It returns the new Amenity object
     """
     new_amenity = request.get_json()
     if not new_amenity:
@@ -65,7 +79,9 @@ def post_amenity():
                  methods=['PUT'], strict_slashes=False)
 def put_amenity(amenity_id):
     """
+    This function
     Updates a Amenity object
+    It returns the Amenity object
     """
     obj = storage.get(Amenity, amenity_id)
     if not obj:
