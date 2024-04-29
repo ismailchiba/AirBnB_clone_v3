@@ -1,6 +1,14 @@
 #!/usr/bin/python3
+
 '''
-Create a Flask app that serves the content of the AirBnB clone v3 RESTful API.
+This is the main module for the API called app.py
+It does the following:
+- creates a Flask instance
+- creates a blueprint object that handles all views for the application
+- registers the blueprint app_views
+- handles the 404 HTTP error code
+- handles the 400 HTTP error code
+- runs the application
 '''
 from flask import Flask, jsonify
 from flask_cors import CORS
@@ -12,6 +20,8 @@ from api.v1.views import app_views
 
 app = Flask(__name__)
 """
+This is the main module for the API called app.py
+It does the following:
 create a blueprint object that handles all views for the application
 """
 app_host = os.getenv('HBNB_API_HOST', '0.0.0.0')
@@ -24,20 +34,28 @@ CORS(app, resources={'/*': {'origins': app_host}})
 @app.teardown_appcontext
 def teardown_flask(exception):
     """
+    This function will
     remove the current SQLAlchemy Session after each request
+    It will close the storage
     """
     storage.close()
 
 
 @app.errorhandler(404)
 def error_404(error):
-    '''Handles the 404 HTTP error code.'''
+    '''
+    This is where the 404 error is handled
+    Handles the 404 HTTP error code.
+    '''
     return jsonify(error='Not found'), 404
 
 
 @app.errorhandler(400)
 def error_400(error):
-    '''Handles the 400 HTTP error code.'''
+    '''
+    This is where the 400 error is handled
+    It is a bad request
+    Handles the 400 HTTP error code.'''
     msg = 'Bad request'
     if isinstance(error, Exception) and hasattr(error, 'description'):
         msg = error.description

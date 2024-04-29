@@ -1,6 +1,12 @@
 #!/usr/bin/python3
+
 """
-Create a Flask app that serves the content of the AirBnB clone v3 RESTful API.
+This is the index module
+It does the following:
+- does a status check
+- retrieves the number of each object by type
+- returns the status of the API
+- retrieves the number of each object by type
 """
 from flask import jsonify
 from api.v1.views import app_views
@@ -10,7 +16,9 @@ from models import storage
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
 def status():
     """
+    This function
     returns the status of the API
+    in a JSON format
     """
     return jsonify(status="OK")
 
@@ -18,7 +26,9 @@ def status():
 @app_views.route('/stats', methods=['GET'], strict_slashes=False)
 def stat():
     """
+    This function
     retrieves the number of each object by type
+    It returns the number of each object by type
     """
     return jsonify(
         amenities=storage.count('Amenity'),

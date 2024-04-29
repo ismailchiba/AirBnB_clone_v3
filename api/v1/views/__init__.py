@@ -1,6 +1,12 @@
 #!/usr/bin/python3
+
 """
-create a blueprint object that handles all views for the application
+This module initializes the blueprint object app_views
+it does the following:
+- imports the Blueprint class from the flask module
+- creates a Blueprint object named app_views
+- imports the modules containing the views
+- registers the blueprint app_views
 """
 from flask import Blueprint
 
