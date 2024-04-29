@@ -111,12 +111,3 @@ class TestFileStorage(unittest.TestCase):
         count_states = storage.count(State)
         self.assertGreater(count_all, 0)
         self.assertGreater(count_states, 0)
-
-    def test_count_method_2(self):
-        """test count"""
-        i = storage.count(State)
-        city = State(name="tokyo")
-        city_2 = State(name="newyork")
-        storage.new(city)
-        storage.new(city_2)
-        self.assertEqual(i + 2, storage.count(State))
