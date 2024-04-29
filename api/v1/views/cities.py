@@ -1,5 +1,10 @@
 #!/usr/bin/python3
 
+"""
+This file handles all the default  RESTFul API
+actions (CRUD)
+"""
+
 from flask import abort, make_response, request
 from models import storage
 from models.city import City
