@@ -41,29 +41,20 @@ def delete_stat(state_id):
 @app_views.route('/states/<state_id>', strict_slashes=False, methods=['PUT'])
 def update_stat(state_id):
     """Update states"""
-    cur_state = storage.get(State, state_id)
-    if not cur_state:
+    if not state_id:
         abort(404)
-    new_state = request.get_json()
-    if not new_state:
-        return make_response("Not a JSON", 400)
-    setattr(cur_state, 'name', new_state.get('name'))
+    s = storage.get(State, state_id)
+    if not s:
+        abort(404)
+    resp_body = request.get_json(silent=True)
+    if not resp_body:
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
+    for k, v in dict(resp_body).items():
+        if k == "id" or k == "created_at" or k == "updated_at":
+            continue
+        setattr(s, k, v)
     storage.save()
-    return make_response(cur_state.to_dict(), 200)
-    # if not state_id:
-    #     abort(404)
-    # s = storage.get(State, state_id)
-    # if not s:
-    #     abort(404)
-    # resp_body = request.get_json(silent=True)
-    # if not resp_body:
-    #     return make_response(jsonify({"error": "Not a JSON"}), 400)
-    # for k, v in dict(resp_body).items():
-    #     if k == "id" or k == "created_at" or k == "updated_at":
-    #         continue
-    #     setattr(s, k, v)
-    # storage.save()
-    # return jsonify(s.to_dict()), 200
+    return jsonify(s.to_dict()), 200
 
 
 @app_views.route('/states', strict_slashes=False, methods=['POST'])
