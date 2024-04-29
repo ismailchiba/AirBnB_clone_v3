@@ -11,11 +11,13 @@ from flask import abort, jsonify, make_response, request
 from flasgger.utils import swag_from
 
 
-@app_views.route('/api/v1/cities/<city_id>/places', methods=['GET'],
+@app_views.route('/cities/<city_id>/places', methods=['GET'],
                  strict_slashes=False)
 @swag_from('documentation/place/get_places.yml', methods=['GET'])
 def get_places(city_id):
-    """Retrieves the list of all Place objects of a City"""
+    """
+    Retrieves the list of all Place objects of a City
+    """
     city = storage.get(City, city_id)
 
     if not city:
@@ -74,7 +76,7 @@ def post_place(city_id):
         abort(400, description="Not a JSON")
 
     if 'user_id' not in request.get_json():
-        abort(400, description="Mssing user_id")
+        abort(400, description="Missing user_id")
 
     data = request.get_json()
     user = storage.get(User, data['user_id'])
@@ -83,9 +85,9 @@ def post_place(city_id):
         abort(404)
 
     if 'name' not in request.get_json():
-        abort(400, description="Mssing name")
+        abort(400, description="Missing name")
 
-    data['city_id'] = city_id
+    data["city_id"] = city_id
     instance = Place(**data)
     instance.save()
     return make_response(jsonify(instance.to_dict()), 201)
