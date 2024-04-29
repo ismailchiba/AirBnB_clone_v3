@@ -27,14 +27,13 @@ def get_stat(state_id):
 @app_views.route('/states/<state_id>',
                  strict_slashes=False, methods=['DELETE'])
 def delete_stat(state_id):
-    if state_id:
         """Deletes a State object"""
         s = storage.get(State, state_id)
         if s:
             s.delete()
             storage.save()
             return jsonify({})
-    abort(404)
+        abort(404)
 
 
 @app_views.route('/states/<state_id>', strict_slashes=False, methods=['PUT'])
