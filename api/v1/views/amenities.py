@@ -69,16 +69,16 @@ def create_amenity():
 )
 def update_amenity(amenity_id):
     """update amenity"""
+    amenity = storage.get(Amenity, amenity_id)
+    if amenity is None:
+        abort(404)
     data = request.get_json()
     if not data:
         return make_response(
             jsonify({"error": "Not a JSON"}), 400
         )
-    amenity = storage.get(Amenity, amenity_id)
-    if amenity is None:
-        abort(404)
     for k, v in data.items():
         if k not in ['id', 'created_at', 'updated_at']:
             setattr(amenity, k, v)
     storage.save()
-    return jsonify(amenity.to_dict())
+    return make_response(jsonify(amenity.to_dict(), 200))
