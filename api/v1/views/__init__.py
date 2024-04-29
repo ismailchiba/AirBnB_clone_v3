@@ -5,6 +5,7 @@ This module will or is a blueprint object that handles all views for the applica
 create a blueprint object that handles all views for the application
 It will be imported in the app.py module
 """
+
 from flask import Blueprint
 
 app_views = Blueprint('app_views', __name__, url_prefix='/api/v1')
