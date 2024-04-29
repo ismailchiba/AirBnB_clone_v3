@@ -18,5 +18,9 @@ from api.v1.views.cities import *
 # 8. Amenity
 from api.v1.views.amenities import *
 # 9. User
+<<<<<<< HEAD
 from api.v1.views.users import *
 """
+=======
+# from api.v1.views.users import *
+>>>>>>> 5f97592faa1c2804df68a28fdd8e5649e85e7842
