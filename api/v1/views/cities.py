@@ -7,8 +7,9 @@ from api.v1.views import app_views, storage
 from models.city import City
 
 
-@app_views.route("/states/<state_id>/cities", methods=["GET"],
-                 strict_slashes=False)
+@app_views.route(
+    "/states/<state_id>/cities", methods=["GET"], strict_slashes=False
+)
 def city_by_state(state_id):
     """
     retrieves all City objects from a specific state
@@ -25,8 +26,9 @@ def city_by_state(state_id):
     return jsonify(city_list)
 
 
-@app_views.route("/states/<state_id>/cities", methods=["POST"],
-                 strict_slashes=False)
+@app_views.route(
+    "/states/<state_id>/cities", methods=["POST"], strict_slashes=False
+)
 def city_create(state_id):
     """
     create city route
@@ -35,13 +37,13 @@ def city_create(state_id):
     """
     city_json = request.get_json(silent=True)
     if city_json is None:
-        abort(400, 'Not a JSON')
+        abort(400, "Not a JSON")
 
     if not storage.get("State", str(state_id)):
         abort(404)
 
     if "name" not in city_json:
-        abort(400, 'Missing name')
+        abort(400, "Missing name")
 
     city_json["state_id"] = state_id
 
@@ -53,8 +55,7 @@ def city_create(state_id):
     return resp
 
 
-@app_views.route("/cities/<city_id>",  methods=["GET"],
-                 strict_slashes=False)
+@app_views.route("/cities/<city_id>", methods=["GET"], strict_slashes=False)
 def city_by_id(city_id):
     """
     gets a specific City object by ID
@@ -70,7 +71,7 @@ def city_by_id(city_id):
     return jsonify(fetched_obj.to_json())
 
 
-@app_views.route("cities/<city_id>",  methods=["PUT"], strict_slashes=False)
+@app_views.route("cities/<city_id>", methods=["PUT"], strict_slashes=False)
 def city_put(city_id):
     """
     updates specific City object by ID
@@ -79,7 +80,7 @@ def city_put(city_id):
     """
     city_json = request.get_json(silent=True)
     if city_json is None:
-        abort(400, 'Not a JSON')
+        abort(400, "Not a JSON")
     fetched_obj = storage.get("City", str(city_id))
     if fetched_obj is None:
         abort(404)
@@ -90,8 +91,7 @@ def city_put(city_id):
     return jsonify(fetched_obj.to_json())
 
 
-@app_views.route("/cities/<city_id>",  methods=["DELETE"],
-                 strict_slashes=False)
+@app_views.route("/cities/<city_id>", methods=["DELETE"], strict_slashes=False)
 def city_delete_by_id(city_id):
     """
     deletes City by id

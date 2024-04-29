@@ -33,25 +33,27 @@ class TestStates(unittest.TestCase):
         response = self.client.post(
             "/api/v1/states",
             data=json.dumps({"name": "California"}),
-            content_type="application/json"
+            content_type="application/json",
         )
         self.assertEqual(response.status_code, 201)
         # Clean up created state
-        created_state = json.loads(response.data.decode('utf-8'))
+        created_state = json.loads(response.data.decode("utf-8"))
         storage.delete(State(**created_state))
         storage.save()
 
     def test_delete_state(self):
         """Test deletion of a state."""
-        response = self.client.delete("/api/v1/states/{}"
-                                      .format(self.test_state.id))
+        response = self.client.delete(
+            "/api/v1/states/{}".format(self.test_state.id)
+        )
         self.assertEqual(response.status_code, 200)
         self.assertIsNone(storage.get(State, self.test_state.id))
 
     def test_get_state_by_id(self):
         """Test retrieval of a state by its ID."""
-        response = self.client.get("/api/v1/states/{}"
-                                   .format(self.test_state.id))
+        response = self.client.get(
+            "/api/v1/states/{}".format(self.test_state.id)
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_update_state(self):
@@ -59,7 +61,7 @@ class TestStates(unittest.TestCase):
         response = self.client.put(
             "/api/v1/states/{}".format(self.test_state.id),
             data=json.dumps({"name": "Newland"}),
-            content_type="application/json"
+            content_type="application/json",
         )
         self.assertEqual(response.status_code, 200)
         updated_state = storage.get(State, self.test_state.id)
