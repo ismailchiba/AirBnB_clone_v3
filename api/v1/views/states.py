@@ -13,7 +13,8 @@ from models.state import State
 def state_get_all():
     """
     Retrieving all State objects
-        Return: json of all states
+
+    Return: json of all states
     """
 
     state_list = []
@@ -28,7 +29,8 @@ def state_get_all():
 def state_create():
     """
     Creating State routes
-        Return: Newly created state obj
+
+    Return: Newly created state obj
     """
 
     state_json = request.get_json(silent=True)
@@ -49,8 +51,9 @@ def state_create():
 def state_by_id(state_id):
     """
     Gets a specific State object by ID
-        Parameter state_id: State object id
-        Return: State obj with the specified id or error
+        :state_id: State object ID
+
+    Return: State obj with the specified id or error
     """
 
     fetched_object = storage.get("State", str(state_id))
@@ -65,8 +68,9 @@ def state_by_id(state_id):
 def state_put(state_id):
     """
     Updating specific State object by ID
-        Parameter State_id: state object ID
-        Return: State object and 200 on success, or 400 or 404 on failure
+        :state_id: state object ID
+
+    Return: State object and 200 on success, or 400 or 404 on failure
     """
 
     state_json = request.get_json(silent=True)
@@ -86,9 +90,10 @@ def state_put(state_id):
                  strict_slashes=False)
 def state_delete_by_id(state_id):
     """
-    Removes State by id
-        Parameter state_id: State object id
-        Return: Empty dictionary with 200 or 404 if not found
+    Removes State by ID
+        :state_id: State object ID
+
+    Return: Empty dictionary with 200 or 404 if not found
     """
 
     fetched_object = storage.get("State", str(state_id))
