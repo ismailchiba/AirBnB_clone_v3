@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 '''
-    script that implements the State class
+    Implementation of the State class
 '''
 from os import getenv
 from sqlalchemy import Column, String
