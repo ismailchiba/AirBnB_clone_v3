@@ -78,7 +78,7 @@ def user_delete_by_id(user_id):
     if fetched_obj is None:
         abort(404)
 
-    storage.delete(fetched_obj)
-    storage.save()
+    fetched_obj.delete()
+    fetched_obj.save()
 
     return jsonify({})
