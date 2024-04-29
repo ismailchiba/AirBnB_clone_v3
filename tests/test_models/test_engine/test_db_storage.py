@@ -68,7 +68,7 @@ test_db_storage.py'])
                             "{:s} method needs a docstring".format(func[0]))
 
 
-class TestDBStorage(unittest.TestCase): #made a change here
+class TestDBStorage(unittest.TestCase):
     """Test the FileStorage class"""
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_all_returns_dict(self):
@@ -76,7 +76,7 @@ class TestDBStorage(unittest.TestCase): #made a change here
         self.assertIs(type(models.storage.all()), dict)
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    def test_all_no_class(self): # added tests
+    def test_all_no_class(self):
         """Test that all returns all rows when no class is passed"""
         state_stats = {"name": "Nakuru"}
         new_state = State(**state_stat)
@@ -88,14 +88,13 @@ class TestDBStorage(unittest.TestCase): #made a change here
         self.assertTrue(len(all_obj) > 0)
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    def test_new(self): # added test cases 
+    def test_new(self):
         """test that new adds an object to the database"""
         state_stats = {"name": "Laikipia"}
         new_state = State(**state_stat)
         models.storage.new(new_state)
 
         session = models.storage._DBStorage__session
-        
         retd_state = session.query(State).filter_by(id=new_state).first()
         self.assertEqual(retd_state.id, new_instance.id)
         self.assertEqual(retd_state.name, new_instance.name)
