@@ -1,5 +1,11 @@
 #!/usr/bin/python3
-'''Contains the places_amenities view for the API.'''
+
+"""This module will create a Flask app that serves the content of the AirBnB clone v3 RESTful API.
+It retrieves the list of all Amenity objects of a Place
+This is the places_amenities view module
+And will be imported in the app.py module
+"""
+
 from flask import abort, jsonify, make_response
 from api.v1.views import app_views
 from models import storage
@@ -12,7 +18,10 @@ from os import getenv
 @app_views.route('/places/<place_id>/amenities',
                  methods=['GET'], strict_slashes=False)
 def place_amenities(place_id):
-    """Retrieves the list of all Amenity objects of a Place"""
+    """This will be called when the route /places/<place_id>/amenities is requested
+    It does this by retrieving the list of all Amenity objects of a Place
+    So it will return a JSON object with all Amenity objects of a Place
+    Retrieves the list of all Amenity objects of a Place"""
     obj_place = storage.get(Place, place_id)
     if not obj_place:
         abort(404)
@@ -28,7 +37,11 @@ def place_amenities(place_id):
 @app_views.route('/places/<place_id>/amenities/<amenity_id>',
                  methods=['DELETE'], strict_slashes=False)
 def del_place_amenity(place_id, amenity_id):
-    """Returns an empty dictionary with the status code 200"""
+    """This function
+    Returns an empty dictionary with the status code 200
+    It will be called when the route /places/<place_id>/amenities/<amenity_id> is requested with the DELETE method
+    And will delete a Amenity object to a Place
+    """
     obj_place = storage.get(Place, place_id)
     if not obj_place:
         abort(404)
@@ -50,7 +63,11 @@ def del_place_amenity(place_id, amenity_id):
 @app_views.route('/places/<place_id>/amenities/<amenity_id>',
                  methods=['POST'], strict_slashes=False)
 def link_place_amenity(place_id, amenity_id):
-    """Returns the Amenity with the status code 201"""
+    """This function
+    Returns the Amenity with the status code 201
+    This will be called when the route /places/<place_id>/amenities/<amenity_id> is requested with the POST method
+    It will link a Amenity object to a Place
+    """
     obj_place = storage.get(Place, place_id)
     if not obj_place:
         abort(404)
