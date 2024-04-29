@@ -111,12 +111,16 @@ def place_search_id():
     if not data:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
 
-    states = data.get('states', [])
-    cities = data.get('cities', [])
-    amenities = data.get('amenities', [])
+    states = data.get('states', None)
+    cities = data.get('cities', None)
+    amenities = data.get('amenities', None)
 
-    if not states and not cities and not amenities:
+    if not data or (not states and not cities and not amenities):
+        list_places = []
         places = storage.all(Place).values()
+        for p in places:
+            list_places.append(p.to_dict())
+        return jsonify(list_places)
     else:
         places = []
         for state_id in states:
