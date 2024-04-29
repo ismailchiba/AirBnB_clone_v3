@@ -1,14 +1,14 @@
 #!/usr/bin/python3
 
-from flask import Flask, jsonify
-from api.v1.views import app_views  # type: ignore
-from models import storage  # type: ignore
-from models.user import User  # type: ignore
-from models.place import Place  # type: ignore
-from models.state import State  # type: ignore
-from models.city import City  # type: ignore
-from models.amenity import Amenity  # type: ignore
-from models.review import Review  # type: ignore
+from api.v1.views import app_views
+from flask import jsonify
+from models import storage
+from models.user import User
+from models.place import Place
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.review import Review
 
 app = Flask(__name__)
 

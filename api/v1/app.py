@@ -1,12 +1,12 @@
 #!/usr/bin/python3
 
-"""first endpoint (route) will be to return the status of your API"""
+"""flask app"""
 
 from flask import Flask, make_response, jsonify
-from models import storage  # type: ignore
-from api.v1.views import app_views  # type: ignore
+from models import storage
+from api.v1.views import app_views
 from os import getenv
-from flask_cors import CORS  # type: ignore
+from flask_cors import CORS
 
 app = Flask(__name__)
 cors = CORS(app, resources={r"/api/*": {"origins": "0.0.0.0"}})
