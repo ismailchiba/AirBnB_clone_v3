@@ -5,6 +5,7 @@ from models import storage
 from models.city import City
 from api.v1.views import app_views
 
+
 @app_views.route('/states/<state_id>/cities', strict_slashes=False)
 def get_cities_of_state(state_id):
     """
@@ -17,7 +18,7 @@ def get_cities_of_state(state_id):
         if value.state_id == state_id:
             cities.append(value.to_dict())
 
-    if len(cities) ==  0:
+    if len(cities) == 0:
         abort(404)
 
     return cities
@@ -54,7 +55,8 @@ def delete_city(city_id):
     abort(404)
 
 
-@app_views.route('/states/<state_id>/cities', methods=["POST"], strict_slashes=False)
+@app_views.route('/states/<state_id>/cities', methods=["POST"],
+                 strict_slashes=False)
 def create_city(state_id):
     """
     Creates a City object
