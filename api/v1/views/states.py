@@ -46,10 +46,10 @@ def update_stat(state_id):
     s = storage.get(State, state_id)
     if not s:
         abort(404)
-    resp_body = request.get_json(silent=True)
-    if not resp_body:
+    res_body = request.get_json(silent=True)
+    if not res_body:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
-    for k, v in dict(resp_body).items():
+    for k, v in dict(res_body).items():
         if k == "id" or k == "created_at" or k == "updated_at":
             continue
         setattr(s, k, v)
@@ -60,11 +60,11 @@ def update_stat(state_id):
 @app_views.route('/states', strict_slashes=False, methods=['POST'])
 def create_stat():
     """Create a new state"""
-    resp_body = request.get_json(silent=True)
-    if not resp_body:
+    res_body = request.get_json(silent=True)
+    if not res_body:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
-    if 'name' not in resp_body:
+    if 'name' not in res_body:
         return make_response(jsonify({"error": "Missing name"}), 400)
-    obj = State(**resp_body)
+    obj = State(**res_body)
     obj.save()
     return make_response(jsonify(obj.to_dict()), 201)
