@@ -14,6 +14,7 @@ from models.place import Place
 from models.review import Review
 from models.state import State
 from models.user import User
+from models.engine.db_storage import DBStorage
 import json
 import os
 import pep8
@@ -29,6 +30,8 @@ class TestDBStorageDocs(unittest.TestCase):
     def setUpClass(cls):
         """Set up for the doc tests"""
         cls.dbs_f = inspect.getmembers(DBStorage, inspect.isfunction)
+        
+        
 
     def test_pep8_conformance_db_storage(self):
         """Test that models/engine/db_storage.py conforms to PEP8."""
@@ -86,3 +89,110 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
+
+#TESTING THE METHOD GET AND COUNT
+class TestStorageGet(unittest.TestCase):
+    """
+    Testing the 'get()' method in DBStorage
+    """
+    
+    @classmethod
+    def setUpClass(cls):
+        """ the setup tests for class"""
+        print('\n\n.................................')
+        print('...... Testing Get() Method ......')
+        print('.......... Place  Class ..........')
+        print('.................................\n\n')
+        
+    def setUp(self):
+        # Initialize DBStorage
+        self.storage = DBStorage()
+        self.storage.reload()
+        # Create some test data
+        self.state = State(name="Test State")
+        self.state.save()
+        
+    def test_get_method_obj(self):
+        """
+        testing get() method
+        :return: True if pass, False if not pass
+        """
+        result = self.storage.get(cls="State", id=self.state.id)
+
+        self.assertIsInstance(result, State)
+
+    def test_get_method_return(self):
+        """
+        testing get() method for id match
+        :return: True if pass, false if not pass
+        """
+        result = self.storage.get(cls="State", id=str(self.state.id))
+
+        self.assertEqual(self.state.id, result.id)
+
+    def test_get_method_none(self):
+        """
+        testing get() method for None return
+        :return: True if pass, false if not pass
+        """
+        result = self.storage.get(cls="State", id="doesnotexist")
+
+        self.assertIsNone(result)
+
+class TestStorageCount(unittest.TestCase):
+    """
+    tests count() method in DBStorage
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        """
+        setup tests for class
+        """
+        print('\n\n.................................')
+        print('...... Testing Get() Method ......')
+        print('.......... Place  Class ..........')
+        print('.................................\n\n')
+
+    def setup(self):
+        """
+        setup method
+        """
+        #initializing the DBstorage
+        self.storage = DBStorage()
+        self.storage.reload
+        #creating some test data
+        self.state1 = State(name="California")
+        self.state1.save()
+
+    def test_count_all(self):
+        """
+        testing counting all instances
+        :return: True if pass, false if not pass
+        """
+        result = self.storage.count()
+
+        self.assertEqual(len(self.storage.all()), result)
+
+    def test_count_state(self):
+        """
+        testing counting state instances
+        :return: True if pass, false if not pass
+        """
+        result = self.storage.count(cls="State")
+
+        self.assertEqual(len(self.storage.all("State")), result)
+
+    def test_count_city(self):
+        """
+        testing counting non existent
+        :return: True if pass, false if not pass
+        """
+        result = self.storage(cls="City")
+
+        self.assertEqual(int(0 if len(self.storage.all("City")) is None else
+                             len(self.storage.all("City"))), result)
+
+
+if __name__ == '__main__':
+    unittest.main
