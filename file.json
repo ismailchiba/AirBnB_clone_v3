@@ -40,5 +40,54 @@
         "created_at": "2024-04-29T09:35:38.781872",
         "updated_at": "2024-04-29T09:35:38.781872",
         "__class__": "User"
+    },
+    "State.ad21d819-25c3-4601-996c-d05e868d4191": {
+        "name": "Nakuru",
+        "created_at": "2024-04-29T11:43:58.119290",
+        "updated_at": "2024-04-29T11:43:58.119293",
+        "id": "ad21d819-25c3-4601-996c-d05e868d4191",
+        "__class__": "State"
+    },
+    "State.20d44fd1-c3c5-4867-9a1c-5a5f46227678": {
+        "name": "Nakuru",
+        "created_at": "2024-04-29T11:48:14.722827",
+        "updated_at": "2024-04-29T11:48:14.722830",
+        "id": "20d44fd1-c3c5-4867-9a1c-5a5f46227678",
+        "__class__": "State"
+    },
+    "State.fb075d9a-2bad-4838-ae86-3cd1b6153d79": {
+        "name": "Eldoret",
+        "created_at": "2024-04-29T11:49:31.229293",
+        "updated_at": "2024-04-29T11:49:31.229296",
+        "id": "fb075d9a-2bad-4838-ae86-3cd1b6153d79",
+        "__class__": "State"
+    },
+    "State.7ce1295e-86f4-4b86-9722-2e740aecc5d3": {
+        "name": "Eldoret",
+        "created_at": "2024-04-29T11:50:21.270356",
+        "updated_at": "2024-04-29T11:50:21.270358",
+        "id": "7ce1295e-86f4-4b86-9722-2e740aecc5d3",
+        "__class__": "State"
+    },
+    "State.e0178e32-906e-401b-af3c-a6760ed50f6f": {
+        "name": "Eldoret",
+        "created_at": "2024-04-29T11:51:33.807510",
+        "updated_at": "2024-04-29T11:51:33.807515",
+        "id": "e0178e32-906e-401b-af3c-a6760ed50f6f",
+        "__class__": "State"
+    },
+    "State.71da587c-a932-4c78-a6b6-3a96ecca278e": {
+        "name": "Eldoret",
+        "created_at": "2024-04-29T11:52:22.044727",
+        "updated_at": "2024-04-29T11:52:22.044732",
+        "id": "71da587c-a932-4c78-a6b6-3a96ecca278e",
+        "__class__": "State"
+    },
+    "State.9d8a9144-efe0-4e9d-97dc-73903904d053": {
+        "name": "Mombasa",
+        "created_at": "2024-04-29T11:53:07.527761",
+        "updated_at": "2024-04-29T11:53:07.527764",
+        "id": "9d8a9144-efe0-4e9d-97dc-73903904d053",
+        "__class__": "State"
     }
 }
