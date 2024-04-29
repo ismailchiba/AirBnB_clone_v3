@@ -16,10 +16,7 @@ def places_without_id(city_id):
     if city is None:
         abort(404)
     if request.method == 'GET':
-        places_list = []
-        places_dict = city.places
-        for place in places_dict.values():
-            places_list.append(place.to_dict())
+        places_list = [place.to_dict() for place in city.places]
         return jsonify(places_list)
 
     if request.method == 'POST':
@@ -33,6 +30,7 @@ def places_without_id(city_id):
             abort(400, "Missing name")
         if storage.get(User, user_id) is None:
             abort(404)
+        json['city_id'] = city_id
         place = Place(**json)
         place.save()
         return jsonify(place.to_dict()), 201
