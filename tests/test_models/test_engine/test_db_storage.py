@@ -45,6 +45,8 @@ class TestDBStorageDocs(unittest.TestCase):
     def test_doc_new(self):
         """... documentation for new function"""
         expected = "Add a new object to the database session."
+        Args:
+            obj: The object to add to the session.
         actual = DBStorage.new.__doc__
         self.assertEqual(expected, actual)
 
