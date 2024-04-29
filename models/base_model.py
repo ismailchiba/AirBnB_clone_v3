@@ -73,7 +73,7 @@ class BaseModel:
     def update(self, **kwarg):
         """Update the object attributes"""
 
-        ignored = ['id', 'created_at', 'updated_at']
+        ignored = ['id', 'created_at', 'updated_at', 'user_id', 'city_id']
 
         for key in ignored:
             kwarg.pop(key, None)
