@@ -1,5 +1,9 @@
 #!/usr/bin/python3
-'''Contains the cities view for the API.'''
+""""This module will create a Flask app that serves the content of the AirBnB clone v3 RESTful API.
+It will be imported in the app.py module
+And will be used to create a blueprint object that handles all views for the application
+""" 
+
 from flask import abort, jsonify, make_response, request
 from api.v1.views import app_views
 from models import storage
@@ -10,7 +14,10 @@ from models.state import State
 @app_views.route('/states/<state_id>/cities',
                  methods=['GET'], strict_slashes=False)
 def cities(state_id):
-    """Retrieves the list of all City objects of a State"""
+    """This function
+    Retrieves the list of all City objects of a State
+    It will be called when the route /states/<state_id>/cities is requested
+    """
     obj_state = storage.get(State, state_id)
     if not obj_state:
         abort(404)
@@ -19,7 +26,10 @@ def cities(state_id):
 
 @app_views.route('/cities/<city_id>', methods=['GET'], strict_slashes=False)
 def single_city(city_id):
-    """Retrieves a City object"""
+    """This function
+    Retrieves a City object
+    It will be called when the route /cities/<city_id> is requested
+    """
     obj = storage.get(City, city_id)
     if not obj:
         abort(404)
@@ -28,7 +38,10 @@ def single_city(city_id):
 
 @app_views.route('/cities/<city_id>', methods=['DELETE'], strict_slashes=False)
 def del_city(city_id):
-    """Returns an empty dictionary with the status code 200"""
+    """This function
+    Returns an empty dictionary with the status code 200
+    It will be called when the route /cities/<city_id> is requested with the DELETE method
+    """
     obj = storage.get(City, city_id)
     if not obj:
         abort(404)
@@ -40,7 +53,10 @@ def del_city(city_id):
 @app_views.route('/states/<state_id>/cities',
                  methods=['POST'], strict_slashes=False)
 def post_city(state_id):
-    """Returns the new City with the status code 201"""
+    """This function
+    Returns the new City with the status code 201
+    It will be called when the route /states/<state_id>/cities is requested with the POST method
+    """
     obj_state = storage.get(State, state_id)
     if not obj_state:
         abort(404)
@@ -60,7 +76,10 @@ def post_city(state_id):
 
 @app_views.route('/cities/<city_id>', methods=['PUT'], strict_slashes=False)
 def put_city(city_id):
-    """Returns the City object with the status code 200"""
+    """This function
+    Returns the City object with the status code 200
+    It will be called when the route /cities/<city_id> is requested with the PUT method
+    """
     obj = storage.get(City, city_id)
     if not obj:
         abort(404)
