@@ -125,6 +125,9 @@ class TestDBStorage(unittest.TestCase): #made a change here
 
         state_stat = {"name": "Lamu"}
         state_id = State(**state_stat)
+        storage.new(state_id)
+        storage.save()
+
         retd_state = storage.get(State, state_id.id)
         self.assertEqual(state_id, retd_state)
 

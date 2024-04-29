@@ -117,11 +117,14 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
      def test_get(self):
          """Test cases for .get() method"""
-          storage = FileStorage
+        storage = FileStorage
         storage.reload()
 
         state_stat = {"name": "Lamu"}
         state_id = State(**state_stat)
+        storage.new(state_id)
+        storage.save()
+
         retd_state = storage.get(State, state_id.id)
         self.assertEqual(state_id, retd_state)
 
