@@ -32,8 +32,8 @@ def amenities_without_id():
 def amenities_with_id(amenity_id=None):
     """Perform READ UPDATE DELETE operations on a amenity object"""
     amenity = storage.get(Amenity, amenity_id)
-    if amenity is None or amenity_id is None:
-        abort(404,"Not found")
+    if amenity is None:
+        abort(404)
 
     if request.method == 'GET':
         return jsonify(amenity.to_dict())
