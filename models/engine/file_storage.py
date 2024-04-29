@@ -58,7 +58,7 @@ class FileStorage:
         return None
 
     def count(self, cls=None):
-        """count of instance """
+        """count of instance"""
 
         return len(self.all(cls))
 

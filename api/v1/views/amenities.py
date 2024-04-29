@@ -29,9 +29,9 @@ def amenity_create():
     """
     am_json = request.get_json(silent=True)
     if am_json is None:
-        abort(400, 'Not a JSON')
+        abort(400, "Not a JSON")
     if "name" not in am_json:
-        abort(400, 'Missing name')
+        abort(400, "Missing name")
 
     new_am = Amenity(**am_json)
     new_am.save()
@@ -41,8 +41,9 @@ def amenity_create():
     return resp
 
 
-@app_views.route("/amenities/<amenity_id>",  methods=["GET"],
-                 strict_slashes=False)
+@app_views.route(
+    "/amenities/<amenity_id>", methods=["GET"], strict_slashes=False
+)
 def amenity_by_id(amenity_id):
     """
     gets a specific Amenity object by ID
@@ -58,8 +59,9 @@ def amenity_by_id(amenity_id):
     return jsonify(fetched_obj.to_json())
 
 
-@app_views.route("/amenities/<amenity_id>",  methods=["PUT"],
-                 strict_slashes=False)
+@app_views.route(
+    "/amenities/<amenity_id>", methods=["PUT"], strict_slashes=False
+)
 def amenity_put(amenity_id):
     """
     updates specific Amenity object by ID
@@ -68,7 +70,7 @@ def amenity_put(amenity_id):
     """
     am_json = request.get_json(silent=True)
     if am_json is None:
-        abort(400, 'Not a JSON')
+        abort(400, "Not a JSON")
     fetched_obj = storage.get("Amenity", str(amenity_id))
     if fetched_obj is None:
         abort(404)
@@ -79,8 +81,9 @@ def amenity_put(amenity_id):
     return jsonify(fetched_obj.to_json())
 
 
-@app_views.route("/amenities/<amenity_id>",  methods=["DELETE"],
-                 strict_slashes=False)
+@app_views.route(
+    "/amenities/<amenity_id>", methods=["DELETE"], strict_slashes=False
+)
 def amenity_delete_by_id(amenity_id):
     """
     deletes Amenity by id

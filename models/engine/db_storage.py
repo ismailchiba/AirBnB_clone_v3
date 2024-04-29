@@ -63,7 +63,7 @@ class DBStorage:
         self.__session.add(obj)
 
     def get(self, cls, id):
-        """fetches specific object """
+        """fetches specific object"""
         all_class = self.all(cls)
 
         for obj in all_class.values():

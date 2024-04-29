@@ -20,19 +20,18 @@ class TestConsoleDocs(unittest.TestCase):
         """Setup console"""
         self.console = HBNBCommand()
 
+    @patch("sys.stdout", new_callable=StringIO)
+    def test_create(self, mock_stdout):
+        """
+        Test the 'create' command functionality in the console.
 
-@patch("sys.stdout", new_callable=StringIO)
-def test_create(self, mock_stdout):
-    """
-    Test the 'create' command functionality in the console.
-
-    This test ensures that using the 'create'
-    command with the 'State' class and
-    a name attribute successfully creates an object and prints its ID.
-    """
-    self.console.do_create('State name="California"')
-    output = mock_stdout.getvalue().strip()
-    self.assertRegex(output, r"\w*\-?")
+        This test ensures that using the 'create'
+        command with the 'State' class and
+        a name attribute successfully creates an object and prints its ID.
+        """
+        self.console.do_create('State name="California"')
+        output = mock_stdout.getvalue().strip()
+        self.assertRegex(output, r"\w*\-?")
 
     @patch("sys.stdout", new_callable=StringIO)
     def test_all(self, mock_stdout):
