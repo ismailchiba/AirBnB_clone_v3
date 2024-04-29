@@ -154,6 +154,7 @@ EOF  all  create  destroy  help  quit  show  update
 No known bugs at this time. 
 
 ## Authors
+Jean Paul Elisa NIYOKWIZERWA <niyokwizerwajeanpaulelisa@gmail.com>
 Rabson Maratshi <rabsonncubez@gmail.com>
 
 ## License
