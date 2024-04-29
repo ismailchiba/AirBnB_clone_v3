@@ -27,7 +27,7 @@ def check_pycodestyle(directory):
                 )
                 if result.stdout:
                     # If there are PEP8 issues, print them out
-                    print(f"PEP8 issues in {file_path}:\n{result.stdout}")
+                    print("PEP8 issues in {}:\n{}".format(file_path, result.stdout))
 
 
 if __name__ == "__main__":
