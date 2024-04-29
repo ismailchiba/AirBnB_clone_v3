@@ -1,7 +1,5 @@
 #!/usr/bin/python3
-"""
-Contains class BaseModel
-"""
+"""BaseModel"""
 
 from datetime import datetime
 import json
