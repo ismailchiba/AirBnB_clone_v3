@@ -7,7 +7,8 @@ from models import storage
 from os import getenv
 from api.v1.views import app_views
 from flask import Flask, jsonify, Blueprint
-from app.app_views import app_views
+from app.v1.views import app_views
+from flask_cors import CORS
 
 
 app = Flask(__name__)
@@ -23,5 +24,10 @@ def close_db_sesion(exception=None):
     storage.close()
 
 
-if __name__ == '__main__':
+@app.errorhandler(404)
+def not_found_error(error):
+    return jsonify({"error": "Not found"}), 404
+
+
+if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, threaded=True)
