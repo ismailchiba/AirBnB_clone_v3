@@ -31,5 +31,5 @@ class User(BaseModel, Base):
         if password is not None:
             m = hashlib.md5()
             m.update(bytes(password, 'utf-8'))
-            kwargs['password'] = str(m.digest())
+            kwargs['password'] = m.digest()
         super().__init__(*args, **kwargs)
