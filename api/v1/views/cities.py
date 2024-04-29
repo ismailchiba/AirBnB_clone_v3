@@ -82,11 +82,11 @@ def create_city(state_id):
             abort(404, description='Missing name')
 
         request_body['state_id'] = state_id
-        city = City(**request_body)
-        storage.new(city)
+        new_city = City(**request_body)
+        storage.new(new_city)
         storage.save()
 
-        return make_response(city.to_dict(), 201)
+        return make_response(new_city.to_dict(), 201)
 
     abort(404)
 
