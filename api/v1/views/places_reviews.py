@@ -1,5 +1,8 @@
 #!/usr/bin/python3
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6e6b784f8744e0630b80c062bbc68f66cf7ade6b
 """places_reviews"""
 from api.v1.views import app_views
 from flask import jsonify, abort, request
@@ -21,8 +24,13 @@ def list_reviews_of_place(place_id):
     list_reviews = [obj.to_dict() for obj in storage.all("Review").values()
                     if place_id == obj.place_id]
     return jsonify(list_reviews)
+<<<<<<< HEAD
 
 
+=======
+
+
+>>>>>>> 6e6b784f8744e0630b80c062bbc68f66cf7ade6b
 @app_views.route('/places/<place_id>/reviews', methods=['POST'])
 def create_review(place_id):
     '''Creates a Review'''

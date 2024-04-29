@@ -1,5 +1,8 @@
 #!/usr/bin/python3
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6e6b784f8744e0630b80c062bbc68f66cf7ade6b
 """states"""
 from api.v1.views import app_views
 from flask import jsonify, abort, request
@@ -24,8 +27,13 @@ def get_state(state_id):
     if state_obj == []:
         abort(404)
     return jsonify(state_obj[0])
+<<<<<<< HEAD
 
 
+=======
+
+
+>>>>>>> 6e6b784f8744e0630b80c062bbc68f66cf7ade6b
 @app_views.route('/states/<state_id>', methods=['DELETE'])
 def delete_state(state_id):
     '''Deletes a State object'''

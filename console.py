@@ -47,30 +47,38 @@ class HBNBCommand(cmd.Cmd):
             new_instance = eval(args[0])()
             for i in args[1:]:
                 try:
-                    key, value = i.split("=")
-                    value = value.replace("_", " ")
-                    if hasattr(new_instance, key):
-                        setattr(new_instance, key, eval(value))
+                    key = i.split("=")[0]
+                    value = i.split("=")[1]
+                    if hasattr(new_instance, key) is True:
+                        value = value.replace("_", " ")
+                        try:
+                            value = eval(value)
+                        except:
+                            pass
+                        setattr(new_instance, key, value)
                 except (ValueError, IndexError):
                     pass
             new_instance.save()
             print(new_instance.id)
-        except NameError:
+        except:
             print("** class doesn't exist **")
+            return
 
     def do_show(self, args):
         '''
-            Print the string representation of an instance based on
+            Print the string representation of an instance baed on
             the class name and id given as args.
         '''
         args = shlex.split(args)
-        if len(args) < 2:
-            print("** class name missing **" if len(args) == 0 else "** instance id missing **")
+        if len(args) == 0:
+            print("** class name missing **")
+            return
+        if len(args) == 1:
+            print("** instance id missing **")
             return
         obj_dict = storage.all(args[0])
         try:
-            if args[0] not in models.__all__:
-                raise NameError
+            eval(args[0])
         except NameError:
             print("** class doesn't exist **")
             return
@@ -86,33 +94,47 @@ class HBNBCommand(cmd.Cmd):
             Deletes an instance based on the class name and id.
         '''
         args = shlex.split(args)
-        if len(args) < 2:
-            print("** class name missing **" if len(args) == 0 else "** instance id missing **")
+        if len(args) == 0:
+            print("** class name missing **")
             return
-        class_name, class_id = args[0], args[1]
+        elif len(args) == 1:
+            print("** instance id missing **")
+            return
+        class_name = args[0]
+        class_id = args[1]
+        storage.reload()
         obj_dict = storage.all()
-        if class_name not in models.__all__:
+        try:
+            eval(class_name)
+        except NameError:
             print("** class doesn't exist **")
             return
         key = class_name + "." + class_id
         try:
             del obj_dict[key]
-            storage.save()
         except KeyError:
             print("** no instance found **")
+        storage.save()
 
     def do_all(self, args):
         '''
             Prints all string representation of all instances
             based or not on the class name.
         '''
+        args = args.split(" ")
         obj_list = []
-        objects = storage.all(args)
-        if args and args not in models.__all__:
+        objects = storage.all(args[0])
+        try:
+            if args[0] != "":
+                models.classes[args[0]]
+        except (KeyError, NameError):
             print("** class doesn't exist **")
             return
-        for obj in objects.values():
-            obj_list.append(str(obj))
+        try:
+            for key, val in objects.items():
+                obj_list.append(val)
+        except:
+            pass
         print(obj_list)
 
     def do_update(self, args):
@@ -122,29 +144,37 @@ class HBNBCommand(cmd.Cmd):
         '''
         storage.reload()
         args = shlex.split(args)
-        if len(args) < 4:
-            print("** class name missing **" if len(args) == 0 else
-                  "** instance id missing **" if len(args) == 1 else
-                  "** attribute name missing **" if len(args) == 2 else
-                  "** value missing **")
+        if len(args) == 0:
+            print("** class name missing **")
             return
-        class_name, class_id, attr_name, attr_value = args
-        obj_dict = storage.all()
-        if class_name not in models.__all__:
+        elif len(args) == 1:
+            print("** instance id missing **")
+            return
+        elif len(args) == 2:
+            print("** attribute name missing **")
+            return
+        elif len(args) == 3:
+            print("** value missing **")
+            return
+        try:
+            eval(args[0])
+        except NameError:
             print("** class doesn't exist **")
             return
-        key = class_name + "." + class_id
+        key = args[0] + "." + args[1]
+        obj_dict = storage.all()
         try:
             obj_value = obj_dict[key]
         except KeyError:
             print("** no instance found **")
             return
         try:
-            attr_type = type(getattr(obj_value, attr_name))
-            setattr(obj_value, attr_name, attr_type(attr_value))
-            obj_value.save()
+            attr_type = type(getattr(obj_value, args[2]))
+            args[3] = attr_type(args[3])
         except AttributeError:
-            print("** no attribute found **")
+            pass
+        setattr(obj_value, args[2], args[3])
+        obj_value.save()
 
     def emptyline(self):
         '''
@@ -156,29 +186,39 @@ class HBNBCommand(cmd.Cmd):
         '''
             Counts/retrieves the number of instances.
         '''
+        obj_list = []
         storage.reload()
-        obj_list = [obj for obj in storage.all().values() if isinstance(obj, eval(args))]
+        objects = storage.all()
+        try:
+            if len(args) != 0:
+                eval(args)
+        except NameError:
+            print("** class doesn't exist **")
+            return
+        for key, val in objects.items():
+            if len(args) != 0:
+                if type(val) is eval(args):
+                    obj_list.append(val)
+            else:
+                obj_list.append(val)
         print(len(obj_list))
 
     def default(self, args):
         '''
-            Catches all the function names that are not explicitly defined.
+            Catches all the function names that are not expicitly defined.
         '''
         functions = {"all": self.do_all, "update": self.do_update,
                      "show": self.do_show, "count": self.do_count,
-                     "destroy": self.do_destroy}
-        args = shlex.split(args)
-        if len(args) < 2:
-            print("*** Unknown syntax:", args[0])
-            return
-        cmd_arg = args[0] + " " + args[1]
-        func_name = args[2]
-        try:
-            func = functions[func_name]
-            func(cmd_arg)
-        except KeyError:
-            print("*** Unknown command:", func_name)
+                     "destroy": self.do_destroy, "update": self.do_update}
+        args = (args.replace("(", ".").replace(")", ".")
+                .replace('"', "").replace(",", "").split("."))
 
+        try:
+            cmd_arg = args[0] + " " + args[2]
+            func = functions[args[1]]
+            func(cmd_arg)
+        except:
+            print("*** Unknown syntax:", args[0])
 
 if __name__ == "__main__":
     '''

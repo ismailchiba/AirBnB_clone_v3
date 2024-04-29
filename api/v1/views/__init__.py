@@ -1,6 +1,10 @@
 #!/usr/bin/python3
+<<<<<<< HEAD
 
 """creates  blueprint from flask"""
+=======
+"""script that create blueprint"""
+>>>>>>> 6e6b784f8744e0630b80c062bbc68f66cf7ade6b
 from flask import Blueprint
 
 app_views = Blueprint('app_views', __name__, url_prefix='/api/v1')

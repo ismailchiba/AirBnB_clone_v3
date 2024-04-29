@@ -1,5 +1,8 @@
 #!/usr/bin/python3
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6e6b784f8744e0630b80c062bbc68f66cf7ade6b
 """places"""
 from api.v1.views import app_views
 from flask import jsonify, abort, request
