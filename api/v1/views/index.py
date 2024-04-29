@@ -13,12 +13,12 @@ from flask import jsonify
 
 # Dictionary mapping model classes to their names
 model_classes = {
-    "amenities": storage.count(Amenity),
-    "cities": storage.count(City),
-    "places": storage.count(Place),
-    "reviews": storage.count(Review),
-    "states": storage.count(State),
-    "users": storage.count(User),
+    "amenities": Amenity,
+    "cities": City,
+    "places": Place,
+    "reviews": Review,
+    "states": State,
+    "users": User,
 }
 
 
@@ -46,6 +46,9 @@ def stats():
         description: Error occurred, unable to retrieve statistics.
     """
     # Use dictionary comprehension to create the stats dictionary
+    for cls_name, cls in model_classes.items():
+        print(cls)
+
     stats = {
         cls_name: storage.count(cls) for cls_name, cls in model_classes.items()
     }
