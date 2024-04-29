@@ -10,4 +10,4 @@ from api.v1.views.cities import *
 # 8. Amenity
 from api.v1.views.amenities import *
 # 9. User
-from api.v1.views.users import *
+# from api.v1.views.users import *
