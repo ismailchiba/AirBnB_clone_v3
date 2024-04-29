@@ -1,30 +1,26 @@
 #!/usr/bin/python3
-"""
-Retrieves the number of each objects by type"""
-
-from flask import jsonify
+"""Flask app for my API """
+import os
+from flask import Flask, jsonify
 from models import storage
 from api.v1.views import app_views
 
-Object_types = {
-            "Amenity": "amenities",
-            "City": "cities",
-            "Place": "places",
-            "Review": "reviews",
-            "State": "states",
-            "User": "users"
-        }
-
-@app_views.route('/status', methods=['GET'])
-def status():
-    '''method that routes to status page and returns the status'''
-    return jsonify({'status': 'OK'})
+app = Flask(__name__)
+app.register_blueprint(app_views)
 
 
-@app_views.route('/stats', methods=['GET'])
-def stats():
-    '''method that returns the count of all objects by type'''
-    num_of_obj_type = {}
-    for key in object_types:
-        num_of_obj_type[key] = storage.count(object_types[key])
-    return jsonify(num_of_obj_type)
+@app.errorhandler(404)
+def not_found(error):
+    return jsonify({'error': 'Not found'}), 404
+
+
+@app.teardown_appcontext
+def teardown_db(exception):
+    """closes the storage on teardown"""
+    storage.close()
+
+
+if __name__ == "__main__":
+    app.run(host=os.getenv('HBNB_API_HOST', '0.0.0.0'),
+            port=os.getenv('HBNB_API_PORT', 5000),
+            threaded=True)

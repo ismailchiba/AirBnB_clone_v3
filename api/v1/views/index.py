@@ -1,10 +1,9 @@
-#!/usr/bin/python3xx
-'''api status'''
-import models
-from models import storage
-from models.base_model import BaseModel
+#!/usr/bin/python3
+"""index file where routes to my api are defined"""
+
+from . import app_views
 from flask import jsonify
-from api.v1.views import app_views
+from models import storage
 
 class_objects = {
             "Amenity": "amenities",
@@ -15,15 +14,16 @@ class_objects = {
             "User": "users"
         }
 
-@app_views.route('/status', methods=['GET'])
+
+@app_views.route('/status', strict_slashes=False, methods=['GET'])
 def status():
-    '''method that routes to status pag and return the status'''
-    return jsonify({'status': 'OK'})
-
-
-@app_views.route('/stats', methods=['GET'])
+    """returns the status of the api"""
+    return jsonify({'status': 'ok'})
+  
+  
+@app_views.route('/stats', strict_slashes=False, methods=['GET'])
 def stats():
-    '''method that returns the number of each objects by type'''
+    """method that returns the number of each objects by type"""
     result = {}
     for key in class_objects:
        result[key] = storage.count(class_objects[key])
