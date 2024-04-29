@@ -1,7 +1,7 @@
-
 #!/usr/bin/python3
+
 """
-script starts Flask web app
+script that  starts Flask web app
     listen on 0.0.0.0, port 5000
     routes: /:                    display "Hello HBNB!"
             /hbnb:                display "HBNB"
@@ -21,13 +21,13 @@ app.url_map.strict_slashes = False
 
 @app.route('/')
 def hello_hbnb():
-    """display text"""
+    """script that display text"""
     return "Hello HBNB!"
 
 
 @app.route('/hbnb')
 def hbnb():
-    """display text"""
+    """script that display text"""
     return "HBNB"
 
 
