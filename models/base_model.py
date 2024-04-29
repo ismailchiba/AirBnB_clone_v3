@@ -81,11 +81,12 @@ class BaseModel:
         for key in ignored:
             kwargs.pop(key, None)
 
-        password = kwargs.get('password')
+        if kwargs:
+            password = kwargs.get('password')
         if password is not None:
             m = hashlib.md5()
             m.update(bytes(password, 'utf-8'))
-            kwargs['password'] = m.digest()
+            kwargs['password'] = m.hexdigest()
         for k, v in kwargs.items():
             setattr(self, k, v)
         self.save()
