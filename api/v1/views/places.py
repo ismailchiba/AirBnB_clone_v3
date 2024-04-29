@@ -1,7 +1,15 @@
 #!/usr/bin/python3
+
 """
+This is the places module.
 Create a Flask app that serves the content of the AirBnB clone v3 RESTful API.
+It does the following:
+- retrieves the list of all Place objects of a City
+- retrieves a Place object
+- deletes a Place object
+- creates a Place object
 """
+
 from flask import abort, jsonify, make_response, request
 import requests
 import json
@@ -21,7 +29,9 @@ from models.user import User
                  methods=['GET'], strict_slashes=False)
 def place(city_id):
     """
+    This function
     Retrieves the list of all Place objects of a City
+    It returns a list of all Place objects of a City
     """
     obj_city = storage.get(City, city_id)
     if not obj_city:
@@ -33,6 +43,8 @@ def place(city_id):
 @app_views.route('/places/<place_id>', methods=['GET'], strict_slashes=False)
 def single_place(place_id):
     """
+    This function
+    It does the following:
     Retrieves a Place object
     """
     obj = storage.get(Place, place_id)
@@ -45,7 +57,9 @@ def single_place(place_id):
                  methods=['DELETE'], strict_slashes=False)
 def del_place(place_id):
     """
+    This function
     Deletes a Place object
+    It returns an empty dictionary
     """
     obj = storage.get(Place, place_id)
     if not obj:
@@ -59,7 +73,9 @@ def del_place(place_id):
                  methods=['POST'], strict_slashes=False)
 def post_place(city_id):
     """
+    This function
     Creates a Place object
+    This function creates a Place object
     """
     obj_city = storage.get(City, city_id)
     if not obj_city:
@@ -87,7 +103,9 @@ def post_place(city_id):
 @app_views.route('/places/<place_id>', methods=['PUT'], strict_slashes=False)
 def put_place(place_id):
     """
+    This function
     Updates a Place object
+    This function updates a Place object
     """
     obj = storage.get(Place, place_id)
     if not obj:
@@ -108,6 +126,7 @@ def put_place(place_id):
 @app_views.route('/places_search', methods=['POST'], strict_slashes=False)
 def places_search():
     """
+    This function
     Retrieves the list of all Place objects depending of the JSON in the body
     """
     req = request.get_json()
