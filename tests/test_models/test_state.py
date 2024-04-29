@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 '''
-    Contain tests for the state module.
+    script Contain tests for the state module.
 '''
 import unittest
 from models.base_model import BaseModel
