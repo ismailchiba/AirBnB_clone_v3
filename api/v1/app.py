@@ -2,6 +2,7 @@
 """ let's configure a flask app
 """
 
+
 from flask import Flask, jsonify
 from models import storage
 import os
