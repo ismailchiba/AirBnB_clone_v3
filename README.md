@@ -32,6 +32,6 @@ At the end of this project, we are able to explain:
 
 ## Authors
 Petunia Stemere - [Github](https://github.com/Petuniapet) 
-Brian Leong - [Github](https://github.com/)
+Brian Leong - [Github](https://github.com/BrianScotty)
 
 
