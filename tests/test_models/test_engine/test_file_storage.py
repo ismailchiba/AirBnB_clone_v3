@@ -125,18 +125,18 @@ class TestFileStorage(unittest.TestCase):
         self.assertIsInstance(res, State)
         self.assertTrue(res.id, state.id)
 
-    def test_count_method(self):
-        """test count"""
-        count_all = storage.count()
-        count_states = storage.count(State)
-        self.assertGreater(count_all, 0)
-        self.assertGreater(count_states, 0)
+def test_count_method(self):
+    """test count"""
+    count_all = storage.count()
+    count_states = storage.count(State)
+    self.assertGreater(count_all, 0)
+    self.assertGreater(count_states, 0)
 
-    def test_count(self):
-        """test count"""
-        i = storage.count(State)
-        city = State(name="tokyo")
-        city_2 = State(name="newyork")
-        storage.new(city)
-        storage.new(city_2)
-        self.assertEqual(i + 2, storage.count(State))
+def test_count(self):
+    """test count"""
+    i = storage.count(State)
+    city = State(name="tokyo")
+    city_2 = State(name="newyork")
+    storage.new(city)
+    storage.new(city_2)
+    self.assertEqual(i + 2, storage.count(State))
