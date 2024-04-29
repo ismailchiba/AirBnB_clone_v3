@@ -6,7 +6,6 @@ from models import storage
 from api.v1.views import app_views
 from os import environ
 from flask import abort, jsonify, make_response, request
-from flasgger.utils import swag_from
 
 
 @app_views.route('places/<place_id>/amenities', methods=['GET'],

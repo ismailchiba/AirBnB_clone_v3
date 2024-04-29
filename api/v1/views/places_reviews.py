@@ -6,7 +6,6 @@ from models.user import User
 from models import storage
 from api.v1.views import app_views
 from flask import abort, jsonify, make_response, request
-from flasgger.utils import swag_from
 
 
 @app_views.route('/places/<place_id>/reviews', methods=['GET'],
@@ -64,7 +63,6 @@ def post_review(place_id):
 
 
 @app_views.route('/reviews/<review_id>', methods=['PUT'], strict_slashes=False)
-@swag_from('documentation/reviews/put_reviews.yml', methods=['PUT'])
 def put_review(review_id):
     """Updates a Review"""
     review = storage.get(Review, review_id)
