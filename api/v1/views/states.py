@@ -23,7 +23,7 @@ def retrieve_state(state_id):
     try:
         state = jsonify(storage.get('State', state_id).to_dict())
         return state
-    except:
+    except (ValueError, TypeError):
         abort(404)
 
 

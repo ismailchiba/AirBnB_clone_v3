@@ -39,7 +39,7 @@ def create_amenity():
     """ create an Amenity """
     try:
         req = request.get_json()
-    except:
+    except (ValueError, TypeError):
         req = None
     if req is None:
         abort(400, {'Not a JSON'})
@@ -59,7 +59,7 @@ def update_amenity(amenity_id=None):
         abort(404)
     try:
         req = request.get_json()
-    except:
+    except (ValueError, TypeError):
         req = None
     if req is None:
         abort(400, {'Not a JSON'})

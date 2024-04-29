@@ -45,7 +45,7 @@ def create_user():
     """ create a User """
     try:
         req = request.get_json()
-    except:
+    except (ValueError, TypeError):
         req = None
     if req is None:
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
@@ -69,7 +69,7 @@ def put_user(user_id=None):
         abort(404)
     try:
         req = request.get_json()
-    except:
+    except (ValueError, TypeError):
         req = None
     if req is None:
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
