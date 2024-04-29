@@ -7,7 +7,7 @@ from os import name
 from models.amenity import Amenity
 
 
-# app = Flask(__name__)
+app = Flask(__name__)
 
 @app.route('/api/v1/amenities', methods=['GET'])
 def get_amenities():
