@@ -111,9 +111,9 @@ def place_search_id():
     if not data:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
 
-    states = data.get('states', [])
-    cities = data.get('cities', [])
-    amenities = data.get('amenities', [])
+    states = data.get('states', None)
+    cities = data.get('cities', None)
+    amenities = data.get('amenities', None)
 
     if not data or (not states and not cities and not amenities):
         list_places = []
