@@ -117,14 +117,18 @@ class TestFileStorage(unittest.TestCase):
 
     def test_get_method_file(self):
         """test get"""
-        new = State(name="new_me")
-        res = storage.get("State", "s_id")
-        self.assertIsNone(res)
+        state = State(name="tokyo")
+        storage.new(state)
+        res = storage.get(State, state.id)
+        self.assertIsNotNone(state)
+        self.assertIsInstance(res, State)
+        self.assertTrue(res.id, state.id)
 
     def test_count_method_file(self):
         """test count"""
-        count_all = storage.count()
-        count_states = storage.count("State")
-        self.assertIsInstance(count_all, int)
-        self.assertIsInstance(count_states, int)
-        self.assertGreaterEqual(count_all, count_states)
+        i = storage.count(State)
+        city = State(name="tokyo")
+        city_2 = State(name="newyork")
+        storage.new(city)
+        storage.new(city_2)
+        self.assertEqual(i + 2, storage.count(State))
