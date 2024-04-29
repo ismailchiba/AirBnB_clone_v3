@@ -1,94 +1,138 @@
 #!/usr/bin/python3
+
 """
 Contains the FileStorage class
 """
 
 import json
-from models.amenity import Amenity
-from models.base_model import BaseModel
-from models.city import City
-from models.place import Place
-from models.review import Review
-from models.state import State
-from models.user import User
 
-classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
-           "Place": Place, "Review": Review, "State": State, "User": User}
+from models import base_model
+from models import amenity
+from models import city
+from models import place
+from models import review
+from models import state
+from models import user
+
+from datetime import datetime
+
+strptime = datetime.strptime
+to_json = base_model.BaseModel.to_json
 
 
 class FileStorage:
-    """serializes instances to a JSON file & deserializes back to instances"""
+    """
+    Handling long term storage of all class instances
+    """
 
-    # string - path to the JSON file
-    __file_path = "file.json"
-    # dictionary - empty but will store all objects by <class name>.id
+    CNC = {
+        'BaseModel': base_model.BaseModel,
+        'Amenity': amenity.Amenity,
+        'City': city.City,
+        'Place': place.Place,
+        'Review': review.Review,
+        'State': state.State,
+        'User': user.User
+    }
+
+    """
+    CNC => A dictionary with:
+        keys: Class Names
+        values: Class type (used for instantiation)
+    """
+
+    __file_path = './dev/file.json'
     __objects = {}
 
     def all(self, cls=None):
-        """returns the dictionary __objects"""
-        if cls is not None:
-            new_dict = {}
-            for key, value in self.__objects.items():
-                if cls == value.__class__ or cls == value.__class__.__name__:
-                    new_dict[key] = value
-            return new_dict
-        return self.__objects
+        """
+        Retrieves all objects from the database
+        """
+
+        if cls:
+            objects_dict = {}
+            for class_id, obj in FileStorage.__objects.items():
+                if type(obj).__name__ == cls:
+                    objects_dict[class_id] = obj
+            return objects_dict
+        return FileStorage.__objects
 
     def new(self, obj):
-        """sets in __objects the obj with key <obj class name>.id"""
-        if obj is not None:
-            key = obj.__class__.__name__ + "." + obj.id
-            self.__objects[key] = obj
+        """
+        Adds a new object to the current session
+        """
+
+        basemodel_id = "{}.{}".format(type(obj).__name__, obj.id)
+        FileStorage.__objects[basemodel_id] = obj
 
     def get(self, cls, id):
         """
-        Getting a specific object
-            Param cls: Class
-            Param id: The id of the instance
-            Return: An Object or None
+        Retrieves a specific object
         """
-        all_class = self.all(cls)
 
-        for object in all_class.values():
-            if id == str(object.id):
-                return object
+        all_classes = self.all(cls)
+
+        for obj in all_classes.values():
+            if id == str(obj.id):
+                return obj
 
         return None
 
     def count(self, cls=None):
         """
-        Instances count
-            Parameter cls: Class
-            Return: Number of instances
+        Counts the number of instances of a class
         """
 
         return len(self.all(cls))
 
     def save(self):
-        """serializes __objects to the JSON file (path: __file_path)"""
-        json_objects = {}
-        for key in self.__objects:
-            json_objects[key] = self.__objects[key].to_dict()
-        with open(self.__file_path, 'w') as f:
-            json.dump(json_objects, f)
+        """
+        Commits all changes in the current database session
+        """
+
+        file_name = FileStorage.__file_path
+        dictionary = {}
+
+        for basemodel_id, basemodel_obj in FileStorage.__objects.items():
+            dictionary[basemodel_id] = basemodel_obj.to_json()
+        with open(file_name, mode='w+', encoding='utf-8') as f_io:
+            json.dump(dictionary, f_io)
 
     def reload(self):
-        """deserializes the JSON file to __objects"""
+        """
+        Creates all database tables & initializes new database session
+        """
+
+        file_name = FileStorage.__file_path
+        FileStorage.__objects = {}
+
         try:
-            with open(self.__file_path, 'r') as f:
-                jo = json.load(f)
-            for key in jo:
-                self.__objects[key] = classes[jo[key]["__class__"]](**jo[key])
+            with open(file_name, mode='r', encoding='utf-8') as f_io:
+                new_objs = json.load(f_io)
         except:
-            pass
+            return
+        for object_id, dictionary in new_objs.items():
+            k_cls = dictionary['__class__']
+            dictionary.pop("__class__", None)
+            dictionary["created_at"] = datetime.strptime(dictionary["created_at"],
+                                                "%Y-%m-%d %H:%M:%S.%f")
+            dictionary["updated_at"] = datetime.strptime(dictionary["updated_at"],
+                                                "%Y-%m-%d %H:%M:%S.%f")
+            FileStorage.__objects[object_id] = FileStorage.CNC[k_cls](**dictionary)
 
     def delete(self, obj=None):
-        """delete obj from __objects if it’s inside"""
-        if obj is not None:
-            key = obj.__class__.__name__ + '.' + obj.id
-            if key in self.__objects:
-                del self.__objects[key]
+        """
+        Deletes an object from the current session
+        """
+        if obj is None:
+            return
+        for key in list(FileStorage.__objects.keys()):
+            if obj.id == key.split(".")[1] and key.split(".")[0] in str(obj):
+                FileStorage.__objects.pop(key, None)
+                self.save()
 
     def close(self):
-        """call reload() method for deserializing the JSON file to objects"""
+        """
+        Closes the current session
+        """
         self.reload()
