@@ -24,7 +24,7 @@ def app_return():
 
 
 @app_views.route('/stats', methods=['GET'])
-def status():
+def count():
     """retrives the number of each objects by type"""
     storage = Storage()
     obj_counts = {}
