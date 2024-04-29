@@ -109,7 +109,7 @@ class FileStorage:
         try:
             with open(file_name, mode='r', encoding='utf-8') as f_io:
                 new_objs = json.load(f_io)
-        except:
+        except Exception:
             return
         for object_id, dictionary in new_objs.items():
             k_cls = dictionary['__class__']
