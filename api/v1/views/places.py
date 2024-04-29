@@ -32,7 +32,7 @@ def place_create(city_id):
     """
     Creating route for place
 
-    Return: newly created Place obj
+    Return: Newly created Place obj
     """
 
     place_json = request.get_json(silent=True)
@@ -62,9 +62,9 @@ def place_create(city_id):
 def place_by_id(place_id):
     """
     Getting a specific Place object by ID
-        :place_id: place object id
+        :place_id: place object ID
 
-    Return: place obj with the specified id or error
+    Return: Place obj with the specified ID or error
     """
 
     fetched_object = storage.get("Place", str(place_id))
@@ -108,8 +108,8 @@ def place_put(place_id):
                  strict_slashes=False)
 def place_delete_by_id(place_id):
     """
-    Removes Place by id
-        :place_id: Place object id
+    Removes Place by ID
+        :place_id: Place object ID
 
     Return: Empty dictionary with 200 or 404 if not found
     """
