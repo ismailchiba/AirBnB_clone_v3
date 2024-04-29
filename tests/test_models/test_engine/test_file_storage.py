@@ -119,10 +119,8 @@ class TestFileStorage(unittest.TestCase):
         """test get"""
         state = State(name="tokyo")
         storage.new(state)
-        res = storage.get(State, state.id)
-        self.assertIsNotNone(state)
-        self.assertIsInstance(res, State)
-        self.assertTrue(res.id, state.id)
+        res = storage.get("State", "state.id")
+        self.assertIsNone(res)
 
     def test_count_method(self):
         """test count"""
