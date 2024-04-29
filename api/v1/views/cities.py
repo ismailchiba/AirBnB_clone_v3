@@ -69,7 +69,7 @@ def create_obj_city(state_id):
                  strict_slashes=False)
 @swag_from('documentation/city/put.yml', methods=['PUT'])
 def post_city(city_id):
-    """  """
+    """ Update a paricular city"""
     if not request.get_json():
         return make_response(jsonify({"error": "Not a JSON"}), 400)
     obj = storage.get(City, city_id)
