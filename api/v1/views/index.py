@@ -1,26 +1,28 @@
 #!/usr/bin/python3
-
-"""A module that retrieves number for each type"""
+"""A Module for the index file"""
 
 from flask import jsonify
-from models import storage
 from api.v1.views import app_views
+from models import storage
 
 
-@app_views.route("/status", strict_slashes=False)
-def status():
-    """Returns status"""
+@app_views.route('/stats', methods=['GET'])
+def get_stats():
+    """A fn that retrieves the number of each object by type"""
 
-    return jsonify({'status': 'OK'})
+    classes = {
+        "Amenity": storage.count("Amenity"),
+        "City": storage.count("City"),
+        "Place": storage.count("Place"),
+        "Review": storage.count("Review"),
+        "State": storage.count("State"),
+        "User": storage.count("User")
+    }
+    return jsonify(classes)
 
 
-@app_views.route("/stats", strict_slashes=False)
-def stats():
-    """Returns stats"""
+@app_views.route('/status', methods=['GET'], strict_slashes=False)
+def get_status():
+    """A fn thst get status of the API"""
 
-    return jsonify({"amenities": storage.count("Amenity"),
-                    "cities": storage.count("City"),
-                    "places": storage.count("Place"),
-                    "reviews": storage.count("Review"),
-                    "states": storage.count("State"),
-                    "users": storage.count("User")})
+    return jsonify({"status": "OK"})
