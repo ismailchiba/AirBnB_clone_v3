@@ -30,6 +30,8 @@ def reviews_without_id(place_id=None):
             abort(400, "Missing user_id")
         if json.get('text') is None:
             abort(400, "Missing text")
+        if storage.get(User, json.get('user_id')) is None:
+            abort(404)
         json['place_id'] = place_id
         review = Review(**json)
         review.save()
