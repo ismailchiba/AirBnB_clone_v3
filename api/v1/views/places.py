@@ -4,48 +4,58 @@
 from models import storage
 from flask import jsonify, request, abort
 from api.v1.views import app_views
-from models.amenity import Amenity
+from models.place import Place
+from models.city import City
+from models.user import User
 
 
-@app_views.route("/amenities", methods=['GET', 'POST'])
-def amenities_without_id():
-    """Create a new amenity or return all the amenities"""
+@app_views.route("cities/<city_id>/places", methods=['GET', 'POST'])
+def places_without_id(city_id):
+    """Create a new place or return all the places"""
+    city = storage.get(City, city_id)
+    if city is None:
+        abort(404)
     if request.method == 'GET':
-        amenities_list = []
-        amenities_dict = storage.all(Amenity)
-        for amenity in amenities_dict.values():
-            amenities_list.append(amenity.to_dict())
-        return jsonify(amenities_list)
+        places_list = []
+        places_dict = city.places
+        for place in places_dict.values():
+            places_list.append(place.to_dict())
+        return jsonify(places_list)
 
     if request.method == 'POST':
         json = request.get_json()
         if json is None:
             abort(400, "Not a JSON")
+        user_id = json.get('user_id')
+        if user_id is None:
+            abort(400, "Missing user_id")
         if json.get('name') is None:
             abort(400, "Missing name")
-        amenity = Amenity(**json)
-        amenity.save()
-        return jsonify(amenity.to_dict()), 201
+        if storage.get(User, user_id) is None:
+            abort(404)
+        place = Place(**json)
+        place.save()
+        return jsonify(place.to_dict()), 201
 
 
-@app_views.route("/amenities/<amenity_id>", methods=['GET', 'PUT', 'DELETE'])
-def amenities_with_id(amenity_id=None):
-    """Perform READ UPDATE DELETE operations on a amenity object"""
-    amenity = storage.get(Amenity, amenity_id)
-    if amenity is None:
+@app_views.route("/places/<place_id>", methods=['GET', 'PUT', 'DELETE'])
+def places_with_id(place_id=None):
+    """Perform READ UPDATE DELETE operations on a place object"""
+    place = storage.get(Place, place_id)
+    if place is None:
         abort(404)
 
     if request.method == 'GET':
-        return jsonify(amenity.to_dict())
+        return jsonify(place.to_dict())
 
     if request.method == 'DELETE':
-        amenity.delete()
-        del amenity
+        place.delete()
+        del place
         return jsonify({})
 
     if request.method == 'PUT':
         json = request.get_json()
         if json is None:
             abort(400, "Not a JSON")
-        amenity.update(**json)
-        return jsonify(amenity.to_dict())
+        place.update(**json)
+        return jsonify(place.to_dict())
