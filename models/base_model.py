@@ -1,6 +1,12 @@
 #!/usr/bin/python3
+
 """
-Contains class BaseModel
+This is the base_model module.
+it contains the BaseModel class that is the parent class of all classes
+It does the following:
+- initializes the base model
+- saves the instance to the storage
+- converts the instance to a dictionary
 """
 
 from datetime import datetime
@@ -20,14 +26,23 @@ else:
 
 
 class BaseModel:
-    """The BaseModel class from which future classes will be derived"""
+    """The BaseModel class from which future classes will be derived
+    The BaseModel class contains the following attributes:
+    - id: string - empty string
+    - created_at: datetime - the current datetime
+    - updated_at: datetime - the current datetime
+    - __class__: string - the class name
+    """
     if models.storage_t == "db":
         id = Column(String(60), primary_key=True)
         created_at = Column(DateTime, default=datetime.utcnow)
         updated_at = Column(DateTime, default=datetime.utcnow)
 
     def __init__(self, *args, **kwargs):
-        """Initialization of the base model"""
+        """Initialization of the base model
+        the initialization of the base model class
+        It initializes the following attributes:
+        """
         if kwargs:
             for key, value in kwargs.items():
                 if key != "__class__":
@@ -48,18 +63,25 @@ class BaseModel:
             self.updated_at = self.created_at
 
     def __str__(self):
-        """String representation of the BaseModel class"""
+        """
+        This is the string representation of the BaseModel class
+        String representation of the BaseModel class"""
         return "[{:s}] ({:s}) {}".format(self.__class__.__name__, self.id,
                                          self.__dict__)
 
     def save(self):
-        """updates the attribute 'updated_at' with the current datetime"""
+        """
+        This is the save method of the BaseModel class
+        updates the attribute 'updated_at' with the current datetime
+        """
         self.updated_at = datetime.utcnow()
         models.storage.new(self)
         models.storage.save()
 
     def to_dict(self):
-        """returns a dictionary containing all keys/values of the instance"""
+        """
+        This is the to_dict method of the BaseModel class
+        returns a dictionary containing all keys/values of the instance"""
         new_dict = self.__dict__.copy()
         if "created_at" in new_dict:
             new_dict["created_at"] = new_dict["created_at"].strftime(time)
@@ -71,5 +93,7 @@ class BaseModel:
         return new_dict
 
     def delete(self):
-        """delete the current instance from the storage"""
+        """
+        This is the delete method of the BaseModel class
+        delete the current instance from the storage"""
         models.storage.delete(self)
