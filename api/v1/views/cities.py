@@ -43,7 +43,7 @@ def delete_city_by_id(city_id=None):
     else:
         storage.delete(city)
         storage.save()
-        return make_response(jsonify({}), 200)
+        return jsonify({}), 200
 
 
 @app_views.route("/states/<state_id>/cities",
