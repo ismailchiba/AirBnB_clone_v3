@@ -4,7 +4,7 @@
 from api.v1.views import app_views
 from flask import jsonify, abort, request
 from models import storage
-from models import state
+from models.state import State
 from datetime import datetime
 import uuid
 
