@@ -62,13 +62,17 @@ class DBStorage:
         param id: id of object as a string
         return found object or none
         """
-        all_class = self.all(cls)
-        
-        for obj in all_class.values():
-            if id == str(obj.id):
-                return obj
-            
-            return None
+        #check if id is an instance of a string
+        if cls and id:
+            if cls in classes.values() and isinstance(id, str):
+                all_objects = self.all(cls)
+                for key, value in all_objects.items():
+                    #split the key by the dot, index 0 is the classname and 1 is the id
+                    if key.split('.')[1] == id:
+                        return value
+            else:
+                return
+        return
         
     def count(self, cls=None):
         """
@@ -76,7 +80,15 @@ class DBStorage:
         :param cls: class name
         :return: count of instances in a class
         """
-        return len(self.all(cls))            
+        if not cls:
+            inst_of_all_cls = self.all()
+            return len(inst_of_all_cls)
+        if cls in classes.values():
+            all_prov_cls = self.all(cls)
+            return all_prov_cls
+        if cls not in classes.values():
+            return
+        #return len(self.all(cls))            
             
 
     def save(self):

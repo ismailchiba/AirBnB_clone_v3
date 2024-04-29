@@ -47,13 +47,18 @@ class FileStorage:
         :param id: id of the instance
         :return: object or none
         """
-        all_class = self.all(cls)
-        
-        for obj in all_class.values():
-            if id == str(obj.id):
-                return obj
-            
-        return None
+        if cls and id:
+            if cls in classes.values():
+                all_objects = self.all(cls)
+                
+                for value in all_objects.values():
+                    if value.id == id:
+                        return value
+        #all_class = self.all(cls)
+        #for obj in all_class.values():
+            #if id == str(obj.id):
+                #return obj
+            #return None
     
     def count(self, cls=None):
         """
@@ -61,7 +66,15 @@ class FileStorage:
         :param cls: class
         :return: number of instances
         """
-        return len(self.all(cls))
+        if not cls:
+            inst_of_all_cls = self.all()
+            return len(inst_of_all_cls)
+        if cls in classes.values():
+            all_prov_cls = self.all(cls)
+            return len(all_prov_cls)
+        if cls not in classes.values():
+            return
+        #return len(self.all(cls))
     
     def save(self):
         """serializes __objects to the JSON file (path: __file_path)"""
