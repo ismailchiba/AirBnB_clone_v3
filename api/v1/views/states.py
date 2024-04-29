@@ -28,6 +28,8 @@ def get_stat(state_id):
                  strict_slashes=False, methods=['DELETE'])
 def delete_stat(state_id):
         """Deletes a State object"""
+        if state_id is None:
+            abort(404)
         s = storage.get(State, state_id)
         if s:
             s.delete()
