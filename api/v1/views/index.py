@@ -45,10 +45,6 @@ def stats():
       500:
         description: Error occurred, unable to retrieve statistics.
     """
-    # Use dictionary comprehension to create the stats dictionary
-    for cls_name, cls in model_classes.items():
-        print(cls)
-
     stats = {
         cls_name: storage.count(cls) for cls_name, cls in model_classes.items()
     }
