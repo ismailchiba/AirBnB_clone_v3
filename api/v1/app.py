@@ -3,10 +3,10 @@
 """first endpoint (route) will be to return the status of your API"""
 
 from flask import Flask, make_response, jsonify
-from models import storage
-from api.v1.views import app_views
+from models import storage  # type: ignore
+from api.v1.views import app_views  # type: ignore
 from os import getenv
-from flask_cors import CORS # type: ignore
+from flask_cors import CORS  # type: ignore
 
 app = Flask(__name__)
 cors = CORS(app, resources={r"/api/*": {"origins": "0.0.0.0"}})
@@ -25,6 +25,7 @@ def teardown(exception):
 def not_found(error):
     ''' handles 404 error and gives json formatted response '''
     return make_response(jsonify({'error': 'Not found'}), 404)
+
 
 if __name__ == "__main__":
     if getenv("HBNB_API_HOST") is None:
