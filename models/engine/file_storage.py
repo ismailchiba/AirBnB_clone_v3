@@ -56,7 +56,7 @@ class FileStorage:
             for key in jo:
                 self.__objects[key] = classes[jo[key]["__class__"]](**jo[key])
         except FileNotFoundError:
-            pass 
+            pass
         except json.JSONDecodeError:
 
             pass
