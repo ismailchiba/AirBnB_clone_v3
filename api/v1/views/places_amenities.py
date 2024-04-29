@@ -1,18 +1,27 @@
 #!/usr/bin/python3
-'''Contains the places_amenities view for the API.'''
+
+'''Contains the places_amenities view for the API.
+
+This module handles the API endpoints related to Amenity objects associated with Place objects.
+It includes routes for retrieving, linking, and deleting Amenity objects from Place objects.
+'''
+
 from flask import abort, jsonify, make_response
+from os import getenv
 from api.v1.views import app_views
 from models import storage
-from models import amenity
 from models.amenity import Amenity
 from models.place import Place
-from os import getenv
 
 
 @app_views.route('/places/<place_id>/amenities',
                  methods=['GET'], strict_slashes=False)
 def place_amenities(place_id):
-    """Retrieves the list of all Amenity objects of a Place"""
+    """Retrieves the list of all Amenity objects of a Place
+
+    This function retrieves all Amenity objects associated with a given Place
+    and returns them in JSON format.
+    """
     obj_place = storage.get(Place, place_id)
     if not obj_place:
         abort(404)
@@ -28,7 +37,11 @@ def place_amenities(place_id):
 @app_views.route('/places/<place_id>/amenities/<amenity_id>',
                  methods=['DELETE'], strict_slashes=False)
 def del_place_amenity(place_id, amenity_id):
-    """Returns an empty dictionary with the status code 200"""
+    """Returns an empty dictionary with the status code 200
+
+    This function deletes a specified Amenity object from the specified Place object
+    and returns an empty dictionary with the status code 200.
+    """
     obj_place = storage.get(Place, place_id)
     if not obj_place:
         abort(404)
@@ -50,7 +63,11 @@ def del_place_amenity(place_id, amenity_id):
 @app_views.route('/places/<place_id>/amenities/<amenity_id>',
                  methods=['POST'], strict_slashes=False)
 def link_place_amenity(place_id, amenity_id):
-    """Returns the Amenity with the status code 201"""
+    """Returns the Amenity with the status code 201
+
+    This function links a specified Amenity object to the specified Place object
+    and returns the linked Amenity object with the status code 201.
+    """
     obj_place = storage.get(Place, place_id)
     if not obj_place:
         abort(404)
