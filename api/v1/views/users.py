@@ -25,8 +25,8 @@ def users_without_id():
             abort(400, "Missing email")
         if json.get('password') is None:
             abort(400, "Missing password")
-        User = User(**json)
-        User.save()
+        user = User(**json)
+        user.save()
         return jsonify(User.to_dict()), 201
 
 
