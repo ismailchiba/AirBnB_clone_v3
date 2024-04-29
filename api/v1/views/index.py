@@ -11,7 +11,7 @@ def app_return():
     return jsonify({'status': 'OK'})
 
 
-@app_views.route('/stats', method=['GET'])
+@app_views.route('/stats', methods=['GET'])
 def status():
     """retrives the number of each objects by type"""
     storage = Storage()
