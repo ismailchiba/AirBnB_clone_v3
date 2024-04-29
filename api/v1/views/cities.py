@@ -1,18 +1,18 @@
 #!/usr/bin/python3
 ''' Let's create a City view'''
 
-from flask import Flask , abort , request
+from flask import Flask, abort, request
 from api.v1.views import app_views
 from os import name
 from models.state import State
 from models.city import City
-
 from models import storage
 
 
 """app = Flask(__name__)"""
 
-@app_views.route('/states/<state_id>/cities', methods=['GET'], strict_slashes=False)
+
+@app_views.route('/states/<state_id>/cities', strict_slashes=False)
 def func_getcities(state_id):
     """Retrieves the list of all
     City objects for a specific State."""
@@ -26,6 +26,7 @@ def func_getcities(state_id):
         datacities = [city.to_dict() for city in datastate.cities]
         return jsonify(datacities)
 
+
 @app_views.route('/cities/<city_id>', methods=['GET'], strict_slashes=False)
 def func_getcity(city_id):
     """Retrieves a City
@@ -36,6 +37,7 @@ def func_getcity(city_id):
     if datacity is None:
         return abort(404)
     return jsonify(datacity.to_dict())
+
 
 @app_views.route('/cities/<city_id>', methods=['DELETE'], strict_slashes=False)
 def func_deletecity(city_id):
@@ -53,7 +55,9 @@ def func_deletecity(city_id):
         storage.save()
         return jsonify({}), 200
 
-@app_views.route('/states/<state_id>/cities', methods=['POST'], strict_slashes=False)
+
+@app_views.route('/states/<state_id>/cities',
+                 methods=['POST'], strict_slashes=False)
 def func_createcity(state_id):
     """Creates a new City object
     for a specific State."""
