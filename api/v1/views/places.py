@@ -121,19 +121,24 @@ def place_search_id():
         for p in places:
             list_places.append(p.to_dict())
         return jsonify(list_places)
-    else:
-        places = []
+
+    places = []
+    if states:
         for state_id in states:
             state = storage.get(State, state_id)
             if state:
                 for city in state.cities:
                     places.extend(city.places)
+
+    if cities:
         for city_id in cities:
             city = storage.get(City, city_id)
             if city:
                 places.extend(city.places)
 
     if amenities:
+        if not places:
+            places = storage.all(Place).values()
         amenity_objs = [
             storage.get(
                 Amenity, amenity_id
