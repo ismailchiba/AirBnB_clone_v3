@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """ this area is for file decription """
-from flask import Flask
+from flask import Flask, jsonify, make_response
 from models import storage
 from api.v1.views import app_views
 from os import environ
@@ -13,6 +13,12 @@ app.register_blueprint(app_views)
 def close_database(error):
     """ close db when the app is torn down"""
     storage.close()
+
+
+@app.errorhandler(404)
+def er_handler(error):
+    """ handle error response 404"""
+    return make_response(jsonify({"error": "Not found"}))
 
 if __name__ == "__main__":
     """ description for this methode"""
