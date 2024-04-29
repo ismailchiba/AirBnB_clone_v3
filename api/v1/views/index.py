@@ -18,7 +18,7 @@ def home():
     return jsonify(json_data)
 
 
-@app_views.route('/stats', methods=['GET'])
+@app_views.route('/stats', methods=['GET'], strict_slashes=False)
 def objects_count():
     """
     This retrieves the number of each object by type
