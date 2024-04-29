@@ -1,15 +1,25 @@
 #!/usr/bin/python3
-""" holds class User"""
-import models
-from models.base_model import BaseModel, Base
+"""
+This  Module is a subclass of BaseModel
+It is used to represent a user
+It holds class User
+holds class User
+"""
+
+import BaseModel, Base
 from os import getenv
 import sqlalchemy
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
+import models
+from models.base_model 
 
 
 class User(BaseModel, Base):
-    """Representation of a user """
+    """This is the class representation of a user
+    It holds the user information
+    Representation of a user
+    """
     if models.storage_t == 'db':
         __tablename__ = 'users'
         email = Column(String(128), nullable=False)
@@ -25,5 +35,7 @@ class User(BaseModel, Base):
         last_name = ""
 
     def __init__(self, *args, **kwargs):
-        """initializes user"""
+        """This method
+        initializes user
+        """
         super().__init__(*args, **kwargs)
