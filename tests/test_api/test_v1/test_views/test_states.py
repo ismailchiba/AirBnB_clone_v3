@@ -43,19 +43,21 @@ class TestStates(unittest.TestCase):
 
     def test_delete_state(self):
         """Test deletion of a state."""
-        response = self.client.delete(f"/api/v1/states/{self.test_state.id}")
+        response = self.client.delete("/api/v1/states/{}"
+                                      .format(self.test_state.id))
         self.assertEqual(response.status_code, 200)
         self.assertIsNone(storage.get(State, self.test_state.id))
 
     def test_get_state_by_id(self):
         """Test retrieval of a state by its ID."""
-        response = self.client.get(f"/api/v1/states/{self.test_state.id}")
+        response = self.client.get("/api/v1/states/{}"
+                                   .format(self.test_state.id))
         self.assertEqual(response.status_code, 200)
 
     def test_update_state(self):
         """Test updating a state's name."""
         response = self.client.put(
-            f"/api/v1/states/{self.test_state.id}",
+            "/api/v1/states/{}".format(self.test_state.id),
             data=json.dumps({"name": "Newland"}),
             content_type="application/json"
         )
