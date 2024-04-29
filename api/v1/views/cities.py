@@ -78,7 +78,11 @@ def post_city(state_id):
 
 @app_views.route('/cities/<city_id>', methods=['PUT'], strict_slashes=False)
 def put_city(city_id):
-    """Returns the City object with the status code 200"""
+    """
+    This function
+    Returns the City object with the status code 200
+    It updates a City object
+    """
     obj = storage.get(City, city_id)
     if not obj:
         abort(404)
