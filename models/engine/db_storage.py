@@ -1,96 +1,105 @@
 #!/usr/bin/python3
-"""
-BaseModel Class of Models Module
-"""
+""" Database engine """
 
 import os
-import json
-import models
-from uuid import uuid4, UUID
-from datetime import datetime
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, Float, DateTime
-
-storage_type = os.environ.get('HBNB_TYPE_STORAGE')
-
-"""
-    Creates instance of Base if storage type is a database
-    If not database storage, uses class Base
-"""
-if storage_type == 'db':
-    Base = declarative_base()
-else:
-    class Base:
-        pass
+from sqlalchemy import create_engine, MetaData
+from sqlalchemy.orm import sessionmaker, scoped_session
+from models.base_model import Base
+from models import base_model, amenity, city, place, review, state, user
 
 
-class BaseModel:
-    """
-        attributes and functions for BaseModel class
-    """
+class DBStorage:
+    """handles long term storage of all class instances"""
+    CNC = {
+        'BaseModel': base_model.BaseModel,
+        'Amenity': amenity.Amenity,
+        'City': city.City,
+        'Place': place.Place,
+        'Review': review.Review,
+        'State': state.State,
+        'User': user.User
+    }
 
-    if storage_type == 'db':
-        id = Column(String(60), nullable=False, primary_key=True)
-        created_at = Column(DateTime, nullable=False,
-                            default=datetime.utcnow())
-        updated_at = Column(DateTime, nullable=False,
-                            default=datetime.utcnow())
+    """ handles storage for database """
+    __engine = None
+    __session = None
 
-    def __init__(self, *args, **kwargs):
-        """instantiation of new BaseModel Class"""
-        self.id = str(uuid4())
-        self.created_at = datetime.now()
-        if kwargs:
-            for key, value in kwargs.items():
-                setattr(self, key, value)
+    def __init__(self):
+        """ creates the engine self.__engine """
+        self.__engine = create_engine(
+            'mysql+mysqldb://{}:{}@{}/{}'.format(
+                os.environ.get('HBNB_MYSQL_USER'),
+                os.environ.get('HBNB_MYSQL_PWD'),
+                os.environ.get('HBNB_MYSQL_HOST'),
+                os.environ.get('HBNB_MYSQL_DB')))
+        if os.environ.get("HBNB_ENV") == 'test':
+            Base.metadata.drop_all(self.__engine)
 
-    def __is_serializable(self, obj_v):
+    def all(self, cls=None):
+        """ returns a dictionary of all objects """
+        obj_dict = {}
+        if cls:
+            obj_class = self.__session.query(self.CNC.get(cls)).all()
+            for item in obj_class:
+                key = str(item.__class__.__name__) + "." + str(item.id)
+                obj_dict[key] = item
+            return obj_dict
+        for class_name in self.CNC:
+            if class_name == 'BaseModel':
+                continue
+            obj_class = self.__session.query(
+                self.CNC.get(class_name)).all()
+            for item in obj_class:
+                key = str(item.__class__.__name__) + "." + str(item.id)
+                obj_dict[key] = item
+        return obj_dict
+
+    def new(self, obj):
+        """ adds objects to current database session """
+        self.__session.add(obj)
+
+    def get(self, cls, id):
         """
-            private: checks if object is serializable
+        fetches specific object
+        :param cls: class of object as string
+        :param id: id of object as string
+        :return: found object or None
         """
-        try:
-            obj_to_str = json.dumps(obj_v)
-            return obj_to_str is not None and isinstance(obj_to_str, str)
-        except:
-            return False
+        all_class = self.all(cls)
 
-    def bm_update(self, name, value):
+        for obj in all_class.values():
+            if id == str(obj.id):
+                return obj
+
+        return None
+
+    def count(self, cls=None):
         """
-            updates the basemodel and sets the correct attributes
+        count of how many instances of a class
+        :param cls: class name
+        :return: count of instances of a class
         """
-        setattr(self, name, value)
-        if storage_type != 'db':
-            self.save()
+        return len(self.all(cls))
 
     def save(self):
-        """updates attribute updated_at to current time"""
-        if storage_type != 'db':
-            self.updated_at = datetime.now()
-        models.storage.new(self)
-        models.storage.save()
+        """ commits all changes of current database session """
+        self.__session.commit()
 
-    def to_json(self):
-        """returns json representation of self"""
-        bm_dict = {}
-        for key, value in (self.__dict__).items():
-            if (self.__is_serializable(value)):
-                bm_dict[key] = value
-            else:
-                bm_dict[key] = str(value)
-        bm_dict['__class__'] = type(self).__name__
-        if '_sa_instance_state' in bm_dict:
-            bm_dict.pop('_sa_instance_state')
-        if storage_type == "db" and 'password' in bm_dict:
-            bm_dict.pop('password')
-        return bm_dict
+    def delete(self, obj=None):
+        """ deletes obj from current database session if not None """
+        if obj is not None:
+            self.__session.delete(obj)
 
-    def __str__(self):
-        """returns string type representation of object instance"""
-        class_name = type(self).__name__
-        return '[{}] ({}) {}'.format(class_name, self.id, self.__dict__)
+    def reload(self):
+        """ creates all tables in database & session from engine """
+        Base.metadata.create_all(self.__engine)
+        self.__session = scoped_session(
+            sessionmaker(
+                bind=self.__engine,
+                expire_on_commit=False))
 
-    def delete(self):
+    def close(self):
         """
-            deletes current instance from storage
+            calls remove() on private session attribute (self.session)
         """
-        self.delete()
+        self.__session.remove()
