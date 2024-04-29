@@ -70,7 +70,7 @@ class BaseModel:
                 dictionary[key] = value.isoformat()
         dictionary.pop('_sa_instance_state', None)
 
-        if os.getenv('HBNB_TYPE_STORAGE') == 'db':
+        if getenv('HBNB_TYPE_STORAGE') == 'db':
             dictionary.pop('password', None)
         return dictionary
 
