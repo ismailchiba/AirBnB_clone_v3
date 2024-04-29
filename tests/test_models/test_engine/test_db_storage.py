@@ -3,6 +3,7 @@
 Contains the TestDBStorageDocs and TestDBStorage classes
 """
 
+
 from datetime import datetime
 import inspect
 import models
@@ -86,3 +87,41 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
+
+
+class TestDBStorageGetCountMethods(unittest.TestCase):
+    """Test the get and count methods in DBStorage"""
+    def test_get_existing_object(self):
+        """Test getting an existing object from DBStorage"""
+        obj = BaseModel()
+        obj.save()
+        retrieved_obj = models.storage.get(BaseModel, obj.id)
+        self.assertEqual(retrieved_obj, obj)
+
+    def test_get_non_existing_object(self):
+        """Test getting a non-existing object from DBStorage"""
+        obj = models.storage.get(BaseModel, "non_existing_id")
+        self.assertIsNone(obj)
+
+    def test_count_all_objects(self):
+        """Test counting all objects in DBStorage"""
+        initial_count = models.storage.count()
+        obj1 = BaseModel()
+        obj2 = User()
+        models.storage.save()
+        updated_count = models.storage.count()
+        self.assertEqual(updated_count, initial_count + 2)
+
+    def test_count_specific_class_objects(self):
+        """Test counting objects of a specific class in DBStorage"""
+        initial_count = models.storage.count(BaseModel)
+        obj1 = BaseModel()
+        obj2 = BaseModel()
+        obj3 = User()
+        models.storage.save()
+        updated_count = models.storage.count(BaseModel)
+        self.assertEqual(updated_count, initial_count + 2)
+
+
+if __name__ == '__main__':
+    unittest.main()
