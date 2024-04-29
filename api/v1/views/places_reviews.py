@@ -1,5 +1,11 @@
 #!/usr/bin/python3
-'''Contains the places_reviews view for the API.'''
+
+"""this module will create a view for the Review objects that handles all default RestFul API actions
+it will be imported in the __init__.py module
+this is the places_reviews view module
+and will be used to create a blueprint object that handles all views for the application
+"""
+
 from flask import abort, jsonify, make_response, request
 from api.v1.views import app_views
 from models import storage
@@ -11,8 +17,9 @@ from models.user import User
 @app_views.route('/places/<place_id>/reviews',
                  methods=['GET'], strict_slashes=False)
 def review(place_id):
-    """
+    """This function
     Retrieves the list of all Review objects of a Place
+    It will be called when the route /places/<place_id>/reviews is requested
     """
     obj_place = storage.get(Place, place_id)
     if not obj_place:
@@ -22,7 +29,9 @@ def review(place_id):
 
 @app_views.route('/reviews/<review_id>', methods=['GET'], strict_slashes=False)
 def single_review(review_id):
-    """
+    """This function
+    It will be called when the route /reviews/<review_id> is requested
+    ITS used to 
     Retrieves a Review object
     """
     obj = storage.get(Review, review_id)
@@ -34,7 +43,9 @@ def single_review(review_id):
 @app_views.route('/reviews/<review_id>',
                  methods=['DELETE'], strict_slashes=False)
 def del_review(review_id):
-    """
+    """This function
+    Deletes a Review object
+    It will be called when the route /reviews/<review_id> is requested with the DELETE method
     Deletes a Review object
     """
     obj = storage.get(Review, review_id)
@@ -48,8 +59,10 @@ def del_review(review_id):
 @app_views.route('/places/<place_id>/reviews',
                  methods=['POST'], strict_slashes=False)
 def push_review(place_id):
-    """
-    Creates a Review object
+    """This function
+    It will be called when the route /places/<place_id>/reviews is requested with the POST method
+    It is used to
+    Create a Review object
     """
     obj_place = storage.get(Place, place_id)
     if not obj_place:
@@ -77,8 +90,9 @@ def push_review(place_id):
 @app_views.route('/reviews/<review_id>',
                  methods=['PUT'], strict_slashes=False)
 def put_review(review_id):
-    """
+    """This function
     Updates a Review object
+    It will be called when the route /reviews/<review_id> is requested with the PUT method
     """
     obj = storage.get(Review, review_id)
     if not obj:
