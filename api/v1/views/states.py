@@ -63,12 +63,11 @@ def put_state_by_id(state_id):
         abort(400, 'Not a JSON')
     state = storage.get(State, state_id)
     if state:
-        obj = State(id=state_id)
         data_request = request.get_json()
         for k, v in data_request.items():
             if k != 'id' and k != 'created_at' and k != 'updated_at':
-                setattr(obj, k, v)
-        storage.save()
-        return jsonify(obj.to_dict()), 201
+                setattr(state, k, v)
+                storage.save()
+        return jsonify(state.to_dict()), 201
     else:
         abort(404)
