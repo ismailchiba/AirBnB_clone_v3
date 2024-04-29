@@ -154,6 +154,6 @@ EOF  all  create  destroy  help  quit  show  update
 No known bugs at this time. 
 
 ## Authors
-Brian Chege - [Github](https://github.com/CHEGEBB)
-Wanyama Sheilah - [Github](https://github.com/Wanyamasheilah)
+- Brian Chege - [Github](https://github.com/CHEGEBB)
+- Wanyama Sheilah - [Github](https://github.com/Wanyamasheilah)
 
