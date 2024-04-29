@@ -4,7 +4,7 @@ from api.v1.views import app_views
 from flask import make_response, jsonify
 
 
-@app_views.route("/status", methods=['GET'])
+@app_views.route("/status", methods=['GET'], strict_slashes=False)
 def rt_ok():
     """ return api response status"""
     return jsonify({"status": "OK"})
