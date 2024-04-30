@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""create a new view for City objects that handles all default RESTFul API"""
 
 from models.city import City
 from flask import jsonify, request, abort, make_response
