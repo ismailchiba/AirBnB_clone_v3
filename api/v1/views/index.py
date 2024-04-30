@@ -31,7 +31,7 @@ def status():
       200:
         description: Status of the application.
     """
-    return jsonify({'status': 'OK'})
+    return jsonify({})
 
 
 @app_views.route("/stats", methods=["GET"], strict_slashes=False)
