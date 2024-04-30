@@ -64,14 +64,14 @@ def places_with_id(place_id=None):
 @app_views.route("/places_search", methods=['POST'])
 def search_places():
     """Search for places based on the request body"""
-    json = request.get_json()
+    json = request.get_json(silent=True)
     if json is None:
         abort(400, "Not a JSON")
 
     places = [p for p in storage.all(Place).values()]
-    states_ids = json.get('states')
-    cities_ids = json.get('cities')
-    amenities_ids = json.get('amenities')
+    states_ids = json.get('states', None)
+    cities_ids = json.get('cities', None)
+    amenities_ids = json.get('amenities', None)
 
     if states_ids and len(states_ids) > 0:
         cities = storage.all(City)
