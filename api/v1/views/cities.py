@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Creatte the cities function"""
+"""Create the cities function"""
 
 from api.v1.views import app_views
 from flask import jsonify, abort, request
@@ -24,7 +24,7 @@ def get_all_cities(state_id):
 
 @app_views.route('cities/<city_id>', methods=['GET'])
 def get_a_city_with_id(city_id):
-    """get a city using id"""
+    """returns a city using id"""
     answer = models.storage.get("City", city_id)
     if answer:
         return jsonify(answer.to_dict())
@@ -33,7 +33,7 @@ def get_a_city_with_id(city_id):
 
 @app_views.route('cities/<city_id>', methods=['DELETE'])
 def delete_a_city_with_id(city_id):
-    """delete a state using id"""
+    """deletes a state using id"""
     answer = models.storage.get("City", city_id)
     if answer:
         answer.delete()
@@ -44,7 +44,7 @@ def delete_a_city_with_id(city_id):
 
 @app_views.route('/states/<state_id>/cities', methods=['POST'])
 def add_a_city(state_id):
-    """create a city"""
+    """creates a city"""
     if not request.json:
         return jsonify({"error": "Not a JSON"}), 400
     if 'name' not in request.json:
@@ -61,14 +61,14 @@ def add_a_city(state_id):
 
 @app_views.route('cities/<city_id>', methods=['PUT'])
 def update_a_city_with_id(city_id):
-    """get a city using id"""
+    """returns city using id"""
     answer = models.storage.get("City", city_id)
     if answer:
         if not request.json:
             return jsonify({"error": "Not a JSON"}), 400
-        for k, v in request.get_json().items():
+        for k, r in request.get_json().items():
             if k not in ['id', 'created_at', 'updated_at', 'state_id']:
-                setattr(answer, k, v)
+                setattr(answer, k, r)
         answer.save()
         return jsonify(answer.to_dict()), 200
     abort(404)
