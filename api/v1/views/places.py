@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """index """
 
-from models import storage
+from models import storage, storage_t
 from flask import jsonify, request, abort
 from api.v1.views import app_views
 from models.place import Place
@@ -82,10 +82,11 @@ def search_places():
 
     if cities_ids and len(cities_ids) > 0:
         cities_ids = set([c_id for c_id in cities_ids
-                          if storage.get(City, c_id)]).union(state_cities)
+                          if storage.get(City, c_id)])
+        state_cities = state_cities.union(cities_ids)
 
-    if cities_ids and len(cities_ids) > 0:
-        places = [p for p in places if p.city_id in cities_ids]
+    if len(state_cities) > 0:
+        places = [p for p in places if p.city_id in state_cities]
 
     result = []
     if amenities_ids and len(amenities_ids) > 0:
@@ -93,9 +94,13 @@ def search_places():
                              if storage.get(Amenity, a_id)])
 
         for place in places:
-            a_ids = [a.id for a in place.amenities]
-            if a_ids and all([a_id in a_ids for a_id in amenities_ids]):
+            a_ids = None
+            if storage_t == "db" and place.amenities:
+                a_ids = [a.id for a in place.amenities]
                 del place.amenities
+            elif (place.amenities) > 0:
+                a_ids = p.amenity_ids
+            if a_ids and all([a_id in a_ids for a_id in amenities_ids]):
                 result.append(place.to_dict())
     else:
         result = [p.to_dict() for p in places]
