@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+
 """
 This is a view for User object that handles all default
 RESTFul API actions (CRUD operations)
