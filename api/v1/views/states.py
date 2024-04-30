@@ -22,7 +22,7 @@ def state_id(state_id):
     st_value = storage.get(State, state_id)
     if st_value is None:
         return abort(404)
-    return make_response(jsonify(st_value.to_dict))
+    return make_response(jsonify(st_value.to_dict()))
 
 
 @app_views.route('/states/<state_id>',
@@ -46,7 +46,7 @@ def add_post():
         return make_response(jsonify({"error": "Missing name"}), 400)
     new_state = State(**request.get_json())
     new_state.save()
-    return make_response(jsonify(new_state.to_dict()), 201)
+    return jsonify(new_state.to_dict()), 201
 
 
 @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
@@ -61,4 +61,4 @@ def st_update(state_id):
         if key not in ['id', 'created_at', 'updated_at']:
             setattr(st_id, key, val)
     st_id.save()
-    return make_response(jsonify(st_id.to_dict()), 200)
+    return jsonify(st_id.to_dict()), 200
