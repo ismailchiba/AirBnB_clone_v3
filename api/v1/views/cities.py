@@ -33,7 +33,7 @@ def get_cities_of_state(state_id):
     abort(404)
 
 
-@app_views.route('/cities/<string:city_id>',
+@app_views.route('/cities/<city_id>',
                  methods=["GET"], strict_slashes=False)
 def get_city(city_id):
     """
@@ -48,7 +48,7 @@ def get_city(city_id):
     abort(404)
 
 
-@app_views.route('/cities/<string:city_id>', methods=["DELETE"],
+@app_views.route('/cities/<city_id>', methods=["DELETE"],
                  strict_slashes=False)
 def delete_city(city_id):
     """
@@ -66,7 +66,7 @@ def delete_city(city_id):
     abort(404)
 
 
-@app_views.route('/states/<string:state_id>/cities', methods=["POST"],
+@app_views.route('/states/<state_id>/cities', methods=["POST"],
                  strict_slashes=False)
 def create_city(state_id):
     """
@@ -93,7 +93,7 @@ def create_city(state_id):
     abort(404)
 
 
-@app_views.route('/cities/<string:city_id>',
+@app_views.route('/cities/<city_id>',
                  methods=["PUT"], strict_slashes=False)
 def update_city(city_id):
     """
