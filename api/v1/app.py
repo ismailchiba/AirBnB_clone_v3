@@ -1,14 +1,19 @@
-import models
-import os
+#!/usr/bin/python3
+"""
+Creating app using flask
+"""
+
 from flask import Flask
-from models.engine import storage
+from models import storage
 from api.v1.views import app_views
+import os
+
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
 
 @app.teardown_appcontext
-def teardown_component(exception):
+def teardown_component(exception=None):
     """closing storage"""
     storage.close()
 
