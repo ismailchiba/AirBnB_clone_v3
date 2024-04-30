@@ -64,26 +64,50 @@ curl -X GET http://0.0.0.0:5000/api/v1/status
 
 - Create a folder ``api`` at the root of the project with an empty file ``__init__.py``
 - Create a folder ``v1`` inside ``api``:
-    - create an empty file __init__.py
-    - create a file ``app.py``:
-        - create a variable ``app``, instance of ``Flask``
-        - import ``storage`` from ``models``
-        - import ``app_views`` from ``api.v1.views``
-        - register the blueprint ``app_views`` to your Flask instance ``app``
-        - declare a method to handle ``@app.teardown_appcontext`` that calls ``storage.close()``
-        - inside if ``__name__ == "__main__"``:, run your Flask server (variable ``app``) with:
-            - ``host`` = environment variable ``HBNB_API_HOST`` or ``0.0.0.0`` if not defined
-            - ``port`` = environment variable ``HBNB_API_PORT`` or ``5000`` if not defined
-            - ``threaded``=``True``
+	- create an empty file __init__.py
+	- create a file ``app.py``:
+		- create a variable ``app``, instance of ``Flask``
+		- import ``storage`` from ``models``
+		- import ``app_views`` from ``api.v1.views``
+		- register the blueprint ``app_views`` to your Flask instance ``app``
+		- declare a method to handle ``@app.teardown_appcontext`` that calls ``storage.close()``
+		- inside if ``__name__ == "__main__"``:, run your Flask server (variable ``app``) with:
+			- ``host`` = environment variable ``HBNB_API_HOST`` or ``0.0.0.0`` if not defined
+			- ``port`` = environment variable ``HBNB_API_PORT`` or ``5000`` if not defined
+			- ``threaded``=``True``
 - Create a folder ``views`` inside ``v1``:
-    - create a file ``__init__.py``:
-        - import ``Blueprint`` from flask ``doc``
-        - create a variable ``app_views`` which is an instance of Blueprint (url prefix must be ``/api/v1``)
-        - wildcard import of everything in the package ``api.v1.views.index`` => ``PEP8`` will complain about it, don’t worry, it’s normal and this file (``v1/views/__init__.py``) won’t be check.
-    - create a file ``index.py``
-        - import ``app_views`` from ``api.v1.views``
-        - create a route /status on the object ``app_views`` that returns a JSON: ``"status": "OK"`` (see example)
+	- create a file ``__init__.py``:
+		- import ``Blueprint`` from flask ``doc``
+		- create a variable ``app_views`` which is an instance of Blueprint (url prefix must be ``/api/v1``)
+		- wildcard import of everything in the package ``api.v1.views.index`` => ``PEP8`` will complain about it, don’t worry, it’s normal and this file (``v1/views/__init__.py``) won’t be check.
+	- create a file ``index.py``
+	- import ``app_views`` from ``api.v1.views``
+	- create a route /status on the object ``app_views`` that returns a JSON: ``"status": "OK"`` (see example)
 
 __File__
 
 ``api/__init__.py``, ``api/v1/__init__.py``, ``api/v1/views/__init__.py``, ``api/v1/views/index.py``, ``api/v1/app.py``
+
+### 4. Some stats?
+
+Create an endpoint that retrieves the ``number`` of each objects by ``type``:
+
+- In ``api/v1/views/index.py``
+- Route: ``/api/v1/stats``
+- You must use the newly added ``count()`` method from ``storage``
+
+```bash
+curl -X GET http://0.0.0.0:5000/api/v1/stats
+#RESPONSE
+{
+  "amenities": 47, 
+  "cities": 36, 
+  "places": 154, 
+  "reviews": 718, 
+  "states": 27, 
+  "users": 31
+}
+```
+
+__File__
+``api/v1/views/index.py``
