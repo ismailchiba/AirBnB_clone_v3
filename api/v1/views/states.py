@@ -54,9 +54,9 @@ def st_update(state_id):
     """ update state object"""
     st_id = storage.get(State, state_id)
     if st_id is None:
-        return make_response(jsonify({"error": "Not found"}), 404)
+        return abort(404)
     if not request.get_json():
-        return make_response(jsonify({"error": "Not a JSON"}), 400)
+        return abort(400, description="Not a JSON")
     for key, val in request.get_json().items():
         if key not in ['id', 'created_at', 'updated_at']:
             setattr(st_id, key, val)
