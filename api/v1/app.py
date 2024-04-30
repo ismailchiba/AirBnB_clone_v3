@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-
+"""
+designig a flask app by importing the necessities
+"""
 from flask import Flask, jsonify
 from flask_cors import CORS
 from models import storage
@@ -16,10 +18,14 @@ app.register_blueprint(app_views)
 def teardown(Exception):
     storage.close()
 
+
 @app.errorhandler(404)
 def detect_issue(error):
     response = show_response(jsonify({'error': 'Not found'}), 404)
     return response
 
+
 if __name__ == "__main__":
-    app.run(host=getenv("HBNB_API_HOST", "0.0.0.0"), port=getenv("HBNB_API_PORT", 5000), threaded=True)
+    host = getenv("HBNB_API_HOST", "0.0.0.0")
+    port = getenv("HBNB_API_PORT", 5000)
+    app.run(host=host, port=port, threaded=True)
