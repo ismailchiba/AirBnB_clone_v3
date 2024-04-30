@@ -95,7 +95,6 @@ def search_places():
         for place in places:
             a_ids = [a.id for a in place.amenities]
             if a_ids and all([a_id in a_ids for a_id in amenities_ids]):
-                del place.amenities
                 result.append(place.to_dict())
     else:
         result = [p.to_dict() for p in places]
