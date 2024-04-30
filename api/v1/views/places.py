@@ -63,7 +63,7 @@ def delete_place(place_id):
     storage.delete(place)
     storage.save()
 
-    return make_response({}, 200)
+    return make_response(jsonify({}), 200)
 
 
 @app_views.route('/cities/<city_id>/places', methods=["POST"], strict_slashes=False)
@@ -125,4 +125,4 @@ def update_place(place_id):
 
     place.save()
 
-    return make_response(place.to_dict(), 200)
+    return jsonify(place.to_dict())
