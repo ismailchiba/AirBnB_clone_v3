@@ -80,10 +80,19 @@ class DBStorage:
         """commit all changes of the current database session"""
         self.__session.commit()
 
-    def delete(self, obj=None):
+    def delete(self, obj):
         """delete from the current database session obj if not None"""
-        if obj is not None:
-            self.__session.delete(obj)
+        try:
+            # Retrieve the state by ID
+            if obj is not None:
+                self.__session.delete(obj)
+                self.__session.commit()
+            else:
+                pass
+        except sqlalchemy.exc.InvalidRequestError as e:
+            pass
+        finally:
+            self.__session.close()
 
     def reload(self):
         """reloads data from the database"""
