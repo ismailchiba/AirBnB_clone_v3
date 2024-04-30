@@ -5,7 +5,7 @@ This file handles all the default  RESTFul API
 actions (CRUD)
 """
 
-from flask import abort, json, jsonify, make_response, request
+from flask import abort, jsonify, make_response, request
 from models import storage
 from models.city import City
 from api.v1.views import app_views
@@ -80,7 +80,7 @@ def create_city(state_id):
         if 'name' not in request_body:
             abort(404, description='Missing name')
 
-        request_body['state_id'] = state_id
+        # request_body['state_id'] = state_id
         new_city = City(**request_body)
         storage.new(new_city)
         storage.save()
