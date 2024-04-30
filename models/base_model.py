@@ -70,6 +70,18 @@ class BaseModel:
             del new_dict["_sa_instance_state"]
         return new_dict
 
+    def update(self, **kwarg):
+        """Update the object attributes"""
+
+        ignored = ['id', 'created_at', 'updated_at', 'user_id', 'city_id']
+
+        for key in ignored:
+            kwarg.pop(key, None)
+
+        for k, v in kwarg.items():
+            setattr(self, k, v)
+        self.save()
+
     def delete(self):
         """delete the current instance from the storage"""
         models.storage.delete(self)
