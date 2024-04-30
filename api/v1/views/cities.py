@@ -20,12 +20,12 @@ def get_cities_of_state(state_id):
     state = storage.get("State", state_id)
 
     if state is not None:
-        # all_cities = storage.all("City")
-        cities_obj = [city.to_dict() for city in state.cities]
+        all_cities = storage.all("City")
+        cities_obj = []
 
-        # for val in all_cities.values():
-        #     if val.state_id == state_id:
-        #         cities_obj.append(val.to_dict())
+        for val in all_cities.values():
+            if val.state_id == state_id:
+                cities_obj.append(val.to_dict())
 
         return jsonify(cities_obj)
 
