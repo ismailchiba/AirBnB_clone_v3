@@ -24,18 +24,6 @@ def page_not_found(error):
     return make_response(jsonify({"error": "Not found"}), 404)
 
 
-@app.errorhandler(400)
-def bad_request(error):
-    """
-    Returns a 'Not a JSON' error response.
-    ---
-    responses:
-      400:
-        description: The requested resource was not found.
-    """
-    return jsonify({"message": "Not a JSON"}), 400
-
-
 @app.teardown_appcontext
 def teardown_db(exception):
     """closes the storage on teardown"""
@@ -47,7 +35,7 @@ def launch():
     # Retrieve host and port from environment variables
     host = os.getenv("HBNB_API_HOST", "0.0.0.0")
     port = os.getenv("HBNB_API_PORT", "5000")
-    app.run(host=host, port=int(port), threaded=True)
+    app.run(host=host, port=int(port), threaded=True, debug=True)
 
 
 if __name__ == "__main__":
