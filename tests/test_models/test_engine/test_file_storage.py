@@ -1,4 +1,3 @@
-
 #!/usr/bin/python3
 """
 Contains the TestFileStorageDocs classes
@@ -115,51 +114,27 @@ class TestFileStorage(unittest.TestCase):
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
 
-
-import unittest
-from models import storage, State, City, FileStorage
-
-@unittest.skipIf(storage._type != 'db', "not testing db storage")
-class TestStorage(unittest.TestCase):
-
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_get(self):
-        """Test that get retrieves an object from the database"""
-        storage = FileStorage()
-        storage.reload()
+        """Test the get method in FileStorage"""
+        state = State(name="Victoria")
+        state.save()
+        state_id = state.id
+        get_state = models.storage.get(State, state_id)
+        self.assertIsNotNone(get_state)
+        self.assertEqual(state.name, get_state.name)
+        self.assertIsNone(models.storage.get(State, "weee"))
+        state.delete()
 
-        state_data = {"name": "Berlin"}
-        state_instance = State(**state_data)
-        storage.new(state_instance)
-        storage.save()
-
-        retrieved_state = storage.get(State, state_instance.id)
-        self.assertEqual(retrieved_state, state_instance)
-
-        fake_state_id = 'fake_id'
-        fake_state = storage.get(State, fake_state_id)
-        self.assertIsNone(fake_state)
-
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_count(self):
-        """Test that count returns the correct number of objects"""
-        storage = FileStorage()
-        storage.reload()
-
-        state_data = {"name": "Nairobi"}
-        state_instance = State(**state_data)
-        storage.new(state_instance)
-
-        city_data = {"name": "Sam", "state_id": state_instance.id}
-        city_instance = City(**city_data)
-        storage.new(city_instance)
-
-        storage.save()
-
-        state_occurrence = storage.count(State)
-        self.assertEqual(state_occurrence, len(storage.all(State)))
-
-        all_occurrence = storage.count()
-        self.assertEqual(all_occurrence, len(storage.all()))
-
-if __name__ == "__main__":
-    unittest.main()
-
+        """Test the count method in DBStorage"""
+        initial_count_all = models.storage.count()
+        initial_count_states = models.storage.count(State)
+        state = State("Toronto")
+        state.save()
+        new_count_all = models.storage.count()
+        new_count_states = models.storage.count(State)
+        self.assertEqual(new_count_all, initial_count_all + 1)
+        self.assertEqual(new_count_states, initial_count_states + 1)
+        state.delete()
