@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """The flask web application"""
 import os
-from flask import Flask
+from flask import Flask, make_response
 from flask import jsonify
 from models import storage
 from api.v1.views import app_views
@@ -22,8 +22,7 @@ def error_404(error):
     """handler for 404 errors that returns a JSON-formatted
     404 status code response
     """
-    response = ({"error": "Not found"})
-    return jsonify(response), 404
+    return make_response(jsonify({"error": "Not found"}), 404)
 
 
 if __name__ == "__main__":
