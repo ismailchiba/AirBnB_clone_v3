@@ -23,9 +23,12 @@ def get_cities_of_state(state_id):
         all_cities = storage.all("City")
         cities_obj = []
 
-        for val in all_cities.values():
-            if val.state_id == state_id:
-                cities_obj.append(val.to_dict())
+        for city in state.cities:
+            cities_obj.append(city.to_dict())
+
+        # for val in all_cities.values():
+        #     if val.state_id == state_id:
+        #         cities_obj.append(val.to_dict())
 
         return jsonify(cities_obj)
 
@@ -85,7 +88,7 @@ def create_city(state_id):
         storage.new(new_city)
         storage.save()
 
-        return make_response(jsonify(new_city.to_dict()), 201)
+        return make_response(new_city.to_dict(), 201)
 
     abort(404)
 
@@ -109,6 +112,6 @@ def update_city(city_id):
                 setattr(city, k, v)
 
         city.save()
-        return make_response(jsonify(city.to_dict()), 200)
+        return make_response(city.to_dict(), 200)
 
     abort(404)
