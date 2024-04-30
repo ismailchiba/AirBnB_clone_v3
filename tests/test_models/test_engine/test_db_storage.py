@@ -123,7 +123,33 @@ class TestFileDb(unittest.TestCase):
         storage.reload()
         state_data = {"name": "Spokane"}
         state_ins = State(**state_data)
-        get_state = storage.get(State, state_ins).id
+
+        storage.new(state_ins)
+        storage.save()
+
+        get_state = storage.get(State, state_ins.id)
         self.assertEqual(state_ins, get_state)
         null_id = storage.get(State, 'null_id')
         self.assertEqual(null_id, None)
+
+
+@unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+def test_count(self):
+    """Obtaining count of db storage test"""
+    storge = models.storage
+    storge.reload()
+    get_state_data = {"name": "Juba"}
+    state_ins = State(**get_state_data)
+    storge.new(state_ins)
+
+    """city count"""
+    get_city_data = {"name": "Joburg", "state_id": state_ins.id}
+    city_ins = City(**get_city_data)
+    storge.new(city_ins)
+
+    storge.save()
+    count_state = storge.count(State)
+    self.assertEqual(count_state, len(storge.all(State)))
+
+    count_all = storge.count(State)
+    self.assertEqual(count_all, len(storge.all()))
