@@ -13,7 +13,7 @@ def get_state():
     if st is None:
         return abort(404)
     lst_state = [i.to_dict() for i in st]
-    return make_response(jsonify(lst_state))
+    return jsonify(lst_state)
 
 
 @app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
@@ -22,7 +22,7 @@ def state_id(state_id):
     st_value = storage.get(State, state_id)
     if st_value is None:
         return abort(404)
-    return make_response(jsonify(st_value.to_dict()))
+    return jsonify(st_value.to_dict())
 
 
 @app_views.route('/states/<state_id>',
@@ -34,7 +34,7 @@ def rm_state(state_id):
         return abort(404)
     storage.delete(st_value)
     storage.save()
-    return make_response(jsonify({}), 200)
+    return jsonify({}), 200
 
 
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
