@@ -24,6 +24,18 @@ def page_not_found(error):
     return make_response(jsonify({"error": "Not found"}), 404)
 
 
+@app.errorhandler(400)
+def page_error(error):
+    """
+    Returns a 'Not Found' error response.
+    ---
+    responses:
+      400:
+        description: The requested resource was not found.
+    """
+    return make_response(jsonify({"error": "Not a JSON"}), 400)
+
+
 @app.teardown_appcontext
 def teardown_db(exception):
     """closes the storage on teardown"""
