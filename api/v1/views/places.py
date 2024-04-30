@@ -68,44 +68,36 @@ def search_places():
     if json is None:
         abort(400, "Not a JSON")
 
+    places = [p for p in storage.all(Place).values()]
     states_ids = json.get('states', [])
     cities_ids = json.get('cities', [])
     amenities_ids = json.get('amenities', [])
 
-    places = []
-    if (json == {} or
-            (states_ids == [] and cities_ids == [] and amenities_ids == [])):
-        places = [p for p in storage.all(Place).values()]
+    if states_ids:
+        cities = storage.all(City)
+        state_cities = set([city.id for city in cities.values()
+                            if city.state_id in state_ids])
+    else:
+        state_cities = set()
 
-    cities = set()
+    if cities_ids:
+        cities_ids = set([c_id for c_id in cities_ids
+                          if storage.get(City, c_id)]).union(state_cities)
 
-    for state_id in states_ids:
-        state = storage.get(State, state_id)
-        if state is None:
-            continue
-        if state.cities:
-            cities = cities.union(set(state.cities))
+    if len(cities_ids) > 0:
+        places = [p for p in places if p.city_id in cities_ids]
 
-    for city_id in cities_ids:
-        city = storage.get(City, city_id)
-        if city:
-            cities.add(city)
+    result = []
+    if amenities_ids:
+        amenities_ids = set([a_id for a_id in amenities_ids
+                             if storage.get(Amenity, a_id)])
 
-    for city in cities:
-        places += city.places
+        for place in places:
+            a_ids = [a.id for a in place.amenities]
+            if a_ids and all([a_id in a_ids for a_id in amenities_ids]):
+                del place.amenities
+                result.append(place.to_dict())
+    else:
+        result = [p.to_dict() for p in places]
 
-    amenities = []
-    for amenity_id in amenities_ids:
-        amenity = storage.get(Amenity, amenity_id)
-        if amenity:
-            amenities.append(amenity)
-
-    if amenities:
-        for place in places[:]:
-            for amenity in amenities:
-                if amenity not in place.amenities:
-                    places.remove(place)
-                    break
-
-    places = [place.to_dict() for place in places]
-    return jsonify(places)
+    return jsonify(result)
