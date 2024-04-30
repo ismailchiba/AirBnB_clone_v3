@@ -71,10 +71,12 @@ class FileStorage:
 
     def get(self, cls, id):
         """ A method to retrieve one object """
-        key = f"{cls}.{id}"
-        for k, v in self.__objects().items():
-            if k == key:
-                return v
+        if cls in classes:
+            objs = self.all(cls)
+            key = f"{cls}.{id}"
+            for k, v in objs.items():
+                if k == key:
+                    return v
         return None
 
     def count(self, cls=None):

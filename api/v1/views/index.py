@@ -12,15 +12,6 @@ def check_status():
 @app_views.route('/stats', strict_slashes=False)
 def get_stats():
     " Retrieves the number of each objects by type """
-    from models.amenity import Amenity
-    from models.city import City
-    from models.user import User
-    from models.place import Place
-    from models.state import State
-    from models.review import Review
-
-    classes = {"Amenity": Amenity, "City": City, "Place": Place,
-               "Review": Review, "State": State, "User": User}
     all_cls = {}
     for classs in classes:
         value = storage.count(classs)
