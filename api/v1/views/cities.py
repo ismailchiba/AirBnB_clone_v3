@@ -11,7 +11,7 @@ from models.city import City
 from api.v1.views import app_views
 
 
-@app_views.route('/states/<state_id>/cities', strict_slashes=False)
+@app_views.route('/states/<state_id>/cities', methods=['GET'], strict_slashes=False)
 def get_cities_of_state(state_id):
     """
     Retrieves the list of all City objects of a State
@@ -20,25 +20,25 @@ def get_cities_of_state(state_id):
     state = storage.get("State", state_id)
 
     if state is not None:
-        all_cities = storage.all("City")
-        cities_obj = []
+        # all_cities = storage.all("City")
+        cities_obj = [city.to_dict() for city in state.cities]
 
-        for val in all_cities.values():
-            if val.state_id == state_id:
-                cities_obj.append(val.to_dict())
+        # for val in all_cities.values():
+        #     if val.state_id == state_id:
+        #         cities_obj.append(val.to_dict())
 
         return jsonify(cities_obj)
 
     abort(404)
 
 
-@app_views.route('/cities/<city_id>', strict_slashes=False)
+@app_views.route('/cities/<city_id>', methods=['GET'], strict_slashes=False)
 def get_city(city_id):
     """
     Retrieves a City object
     """
 
-    city = storage.get(City, city_id)
+    city = storage.get("City", city_id)
 
     if city is not None:
         return jsonify(city.to_dict())
@@ -52,7 +52,7 @@ def delete_city(city_id):
     Deletes a City object given the city id
     """
 
-    city = storage.get(City, city_id)
+    city = storage.get("City", city_id)
 
     if city is not None:
         storage.delete(city)
@@ -75,10 +75,10 @@ def create_city(state_id):
     if state is not None:
         request_body = request.get_json()
         if not request.is_json:
-            abort(404, description='Not a JSON')
+            abort(400, description='Not a JSON')
 
         if 'name' not in request_body:
-            abort(404, description='Missing name')
+            abort(400, description='Missing name')
 
         request_body['state_id'] = state_id
         new_city = City(**request_body)
