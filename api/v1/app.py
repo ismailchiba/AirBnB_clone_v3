@@ -11,6 +11,7 @@ import os
 app = Flask(__name__)
 app.register_blueprint(app_views)
 
+
 @app.errorhandler(404)
 def page_not_found(error):
     """
@@ -20,7 +21,8 @@ def page_not_found(error):
       404:
         description: The requested resource was not found.
     """
-    return make_response(jsonify({'error': 'Not found'}), 404)
+    return make_response(jsonify({"error": "Not found"}), 404)
+
 
 @app.teardown_appcontext
 def teardown_db(exception):
@@ -31,8 +33,8 @@ def teardown_db(exception):
 def launch():
     """App Launcher"""
     # Retrieve host and port from environment variables
-    host = os.getenv('HBNB_API_HOST', '0.0.0.0')
-    port = os.getenv('HBNB_API_PORT', '5000')
+    host = os.getenv("HBNB_API_HOST", "0.0.0.0")
+    port = os.getenv("HBNB_API_PORT", "5000")
     app.run(host=host, port=int(port), threaded=True)
 
 
