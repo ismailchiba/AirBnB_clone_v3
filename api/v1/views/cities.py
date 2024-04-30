@@ -1,11 +1,10 @@
 #!/usr/bin/python3
-"""cities"""
-
+"""create cities"""
 from api.v1.views import app_views
 from flask import jsonify, abort, request
 from models import storage
-from models.state import State
 from models.city import City
+from models.state import State
 from datetime import datetime
 import uuid
 
@@ -43,9 +42,9 @@ def create_city(state_id):
     return jsonify(cities[0]), 201
 
 
-@app_views.route('/cities/<cities_id>', methods=['GET'])
+@app_views.route('/cities/<city_id>', methods=['GET'])
 def get_city(city_id):
-    """Retrieves a city object"""
+    '''Retrieves a City object'''
     all_cities = storage.all("City").values()
     city_obj = [obj.to_dict() for obj in all_cities if obj.id == city_id]
     if city_obj == []:
@@ -53,9 +52,9 @@ def get_city(city_id):
     return jsonify(city_obj[0])
 
 
-@app_views.route('/cities/<city_id>', methods=["DELETE"])
+@app_views.route('/cities/<city_id>', methods=['DELETE'])
 def delete_city(city_id):
-    """Deletes a City object"""
+    '''Deletes a City object'''
     all_cities = storage.all("City").values()
     city_obj = [obj.to_dict() for obj in all_cities if obj.id == city_id]
     if city_obj == []:
@@ -68,19 +67,18 @@ def delete_city(city_id):
     return jsonify({}), 200
 
 
-@app_views.route('/cities/<city_id>', methods=["PUT"])
-def update_city(city_id):
-    """updates a city"""
+@app_views.route('/cities/<city_id>', methods=['PUT'])
+def updates_city(city_id):
+    '''Updates a City object'''
     all_cities = storage.all("City").values()
     city_obj = [obj.to_dict() for obj in all_cities if obj.id == city_id]
-    if city_id == []:
+    if city_obj == []:
         abort(404)
     if not request.get_json():
         abort(400, 'Not a JSON')
-    
     city_obj[0]['name'] = request.json['name']
     for obj in all_cities:
         if obj.id == city_id:
             obj.name = request.json['name']
-     storage.save()
-     return jsonify(states[0]), 200
+    storage.save()
+    return jsonify(city_obj[0]), 200
