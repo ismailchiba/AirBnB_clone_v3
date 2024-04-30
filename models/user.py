@@ -6,8 +6,7 @@ from os import getenv
 import sqlalchemy
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
-import hashlib
-
+from hashlib import md5
 
 class User(BaseModel, Base):
     """Representation of a user """
