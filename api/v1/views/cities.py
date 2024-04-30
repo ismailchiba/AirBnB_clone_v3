@@ -20,17 +20,13 @@ def get_cities_of_state(state_id):
 
     state = storage.get("State", state_id)
 
-    if state is not None:
-        all_cities = storage.all("City")
-        cities_obj = []
+    if state is None:
+        abort(404)
 
-        for val in all_cities.values():
-            if val.state_id == state_id:
-                cities_obj.append(val.to_dict())
+    cities = [city.to_dict() for city in state.cities]
+    print("from cities.py file:::", state.name)
 
-        return jsonify(cities_obj)
-
-    abort(404)
+    return jsonify(cities)
 
 
 @app_views.route('/cities/<city_id>',

@@ -18,20 +18,13 @@ def get_places(city_id):
 
     city = storage.get("City", city_id)
 
-    print(city)
-
     if city is None:
         abort(404)
 
-    all_places = storage.all("Place")
+    places = [place.to_dict() for place in city.places]
+    print("FROM places.py FILE::", places)
 
-    places_obj = []
-
-    for value in all_places.values():
-        if value.city_id == city_id:
-            places_obj.append(value.to_dict())
-
-    return jsonify(places_obj)
+    return jsonify(places)
 
 
 @app_views.route('/places/<place_id>', strict_slashes=False)
@@ -66,7 +59,8 @@ def delete_place(place_id):
     return make_response(jsonify({}), 200)
 
 
-@app_views.route('/cities/<city_id>/places', methods=["POST"], strict_slashes=False)
+@app_views.route('/cities/<city_id>/places',
+                 methods=["POST"], strict_slashes=False)
 def create_place(city_id):
     """
     Creates a Place object
