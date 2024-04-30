@@ -92,16 +92,17 @@ def update_user(state_id):
 
     user = storage.get("User", state_id)
 
-    if user is None:
-        abort(404)
+    if user is not None:
+        if not request.is_json:
+            abort(404, description='Not a JSON')
 
-    if not request.is_json:
-        abort(404, description='Not a JSON')
+        request_body = request.get_json()
 
-    request_body = request.get_json()
+        for key, val in request_body.items():
+            if key not in ['id', 'email', 'created_at', 'updated_at']:
+                setattr(user, key, val)
 
-    for key, val in request_body.items():
-        if key not in ['id', 'email', 'created_at', 'updated_at']:
-            setattr(user, key, val)
+        user.save()
+        return make_response(user.to_dict(), 200)
 
-    return make_response(user.to_dict(), 200)
+    abort(404)
