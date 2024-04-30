@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Creatte the states function"""
+"""Create the states function"""
 
 from api.v1.views import app_views
 from flask import jsonify, abort, request
@@ -18,7 +18,7 @@ def get_all_users():
 
 @app_views.route('/users/<user_id>', methods=['GET'])
 def get_a_user_with_id(user_id):
-    """get a user using id"""
+    """return a user using id"""
     answer = models.storage.get("User", user_id)
     if answer:
         return jsonify(answer.to_dict())
