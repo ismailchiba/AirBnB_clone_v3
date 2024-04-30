@@ -38,7 +38,7 @@ def get_city(city_id):
     Retrieves a City object
     """
 
-    city = storage.get("City", city_id)
+    city = storage.get(City, city_id)
 
     if city is not None:
         return jsonify(city.to_dict())
@@ -52,7 +52,7 @@ def delete_city(city_id):
     Deletes a City object given the city id
     """
 
-    city = storage.get("City", city_id)
+    city = storage.get(City, city_id)
 
     if city is not None:
         storage.delete(city)
@@ -96,7 +96,7 @@ def update_city(city_id):
     Updates a city object with the given city_id
     """
 
-    city = storage.get("City", city_id)
+    city = storage.get(City, city_id)
 
     if city is not None:
         request_body = request.get_json()
