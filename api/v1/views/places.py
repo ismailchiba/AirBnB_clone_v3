@@ -69,26 +69,26 @@ def search_places():
         abort(400, "Not a JSON")
 
     places = [p for p in storage.all(Place).values()]
-    states_ids = json.get('states', [])
-    cities_ids = json.get('cities', [])
-    amenities_ids = json.get('amenities', [])
+    states_ids = json.get('states')
+    cities_ids = json.get('cities')
+    amenities_ids = json.get('amenities')
 
-    if states_ids:
+    if states_ids and len(states_ids) > 0:
         cities = storage.all(City)
         state_cities = set([city.id for city in cities.values()
                             if city.state_id in state_ids])
     else:
         state_cities = set()
 
-    if cities_ids:
+    if cities_ids and len(cities_ids) > 0:
         cities_ids = set([c_id for c_id in cities_ids
                           if storage.get(City, c_id)]).union(state_cities)
 
-    if len(cities_ids) > 0:
+    if cities_ids and len(cities_ids) > 0:
         places = [p for p in places if p.city_id in cities_ids]
 
     result = []
-    if amenities_ids:
+    if amenities_ids and len(amenities_ids) > 0:
         amenities_ids = set([a_id for a_id in amenities_ids
                              if storage.get(Amenity, a_id)])
 
