@@ -85,12 +85,17 @@ class FileStorage:
 
         Returns: Object based on classs and it's id or None.
         """
-        if (cls not in self.__models_available.keys()) or (id_ is None):
+        if not isinstance(cls, str):
+            cls = cls.__name__
+        if (cls not in classes.keys()) or (id_ is None):
             return None
         obj_count = self.all(cls)
-        for key in all_objs.keys():
-            if key == id_:
-                return obj_count[key]
+        
+        for obj_key, obj_value in obj_count.items():
+            # Extract object ID from the key by splitting on '.'
+            class_name, obj_id = obj_key.split('.')
+            if obj_id.strip() == id_.strip():
+                return obj_value
         return None
 
     def count(self, cls=None):
@@ -103,6 +108,10 @@ class FileStorage:
         """
         if cls is None:
             return len(self.__objects)
-        if cls in self.__models_available:
+        
+        if isinstance(cls, type):
+            cls = cls.__name__
+
+        if cls in classes:
             return len(self.all(cls))
         return -1

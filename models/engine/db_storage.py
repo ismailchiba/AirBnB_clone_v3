@@ -37,10 +37,6 @@ class DBStorage:
                                              HBNB_MYSQL_PWD,
                                              HBNB_MYSQL_HOST,
                                              HBNB_MYSQL_DB))
-        self.__models_available = {"User": User,
-                                   "Amenity": Amenity, "City": City,
-                                   "Place": Place, "Review": Review,
-                                   "State": State}
 
         if HBNB_ENV == "test":
             Base.metadata.drop_all(self.__engine)
