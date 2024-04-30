@@ -155,7 +155,7 @@ No known bugs at this time.
 
 ## Authors
 Ifeanyi Zion Chidiebere - [Github](https://github.com/ify-zi) / [Twitter](https://twitter.com/ify_zi)  
-Abdesattar Ghabi - [Github](https://github.com/ghabi1602) / [Twitter](https://twitter.com/)
+Abdesattar Ghabi - [Github](https://github.com/ghabi1602) / [Twitter](https://twitter.com/GhabiAm1602)
 
 Second part of Airbnb: Joann Vuong
 ## License
