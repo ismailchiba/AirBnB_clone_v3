@@ -11,11 +11,13 @@ app = Flask(__name__)
 
 app.register_blueprint(app_views)
 
+
 @app.teardown_appcontext
 def teardown_engine(exception):
     """
     """
     storage.close()
+
 
 @app.errorhandler(404)
 def not_found(error):
