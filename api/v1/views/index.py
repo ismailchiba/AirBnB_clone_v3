@@ -8,8 +8,8 @@ from models.place import Place
 from models.review import Review
 from models.user import User
 from models.city import City
-from flask import jsonify
-
+from flask import jsonify, Response
+import json
 
 # Dictionary mapping model classes to their names
 model_classes = {
@@ -31,7 +31,8 @@ def status():
       200:
         description: Status of the application.
     """
-    return jsonify({"status": "OK"})
+    pretty_printed_json = json.dumps({"status": "OK"}, indent=4)
+    return Response(pretty_printed_json, mimetype="application/json")
 
 
 @app_views.route("/stats", methods=["GET"], strict_slashes=False)
