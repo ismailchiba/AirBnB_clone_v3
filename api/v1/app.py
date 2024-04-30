@@ -25,15 +25,15 @@ def page_not_found(error):
 
 
 @app.errorhandler(400)
-def page_error(error):
+def bad_request(error):
     """
-    Returns a 'Not Found' error response.
+    Returns a 'Not a JSON' error response.
     ---
     responses:
       400:
         description: The requested resource was not found.
     """
-    return make_response(jsonify({"error": "Not a JSON"}), 400)
+    return jsonify({"message": "Not a JSON"}), 400
 
 
 @app.teardown_appcontext
