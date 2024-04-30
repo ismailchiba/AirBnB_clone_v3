@@ -103,6 +103,6 @@ def update_user(state_id):
                 setattr(user, key, val)
 
         user.save()
-        return make_response(user.to_dict(), 200)
+        return user.to_dict()
 
     abort(404)
