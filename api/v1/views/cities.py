@@ -23,7 +23,7 @@ def citys_without_id(state_id=None):
         return jsonify(cities_list), 200
 
     if request.method == 'POST':
-        json = request.get_json()
+        json = request.get_json(silent=True)
         if json is None:
             abort(400, "Not a JSON")
         if json.get('name') is None:
@@ -50,7 +50,7 @@ def citys_with_id(city_id=None):
         return jsonify({}), 200
 
     if request.method == 'PUT':
-        json = request.get_json()
+        json = request.get_json(silent=True)
         if json is None:
             abort(400, "Not a JSON")
         city.update(**json)

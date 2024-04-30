@@ -44,7 +44,7 @@ def states_with_id(state_id=None):
         return jsonify({})
 
     if request.method == 'PUT':
-        json = request.get_json()
+        json = request.get_json(silent=True)
         if json is None:
             abort(400, "Not a JSON")
         state.update(**json)
