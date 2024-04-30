@@ -80,7 +80,7 @@ def create_city(state_id):
         if 'name' not in request_body:
             abort(404, description='Missing name')
 
-        # request_body['state_id'] = state_id
+        request_body['state_id'] = state_id
         new_city = City(**request_body)
         storage.new(new_city)
         storage.save()
