@@ -72,8 +72,13 @@ class FileStorage:
     def get(self, cls, id):
         if cls is None or id is None:
             return None
-        key = "{}.{}".format(cls.__name__, id)
-        return self.__objects.get(key, None)
+        for clss in classes:
+            if cls is classes[clss]:
+                obj = self.__session.query(classes[clss]).get(id)
+                if obj is not None:
+                    return obj
+
+        return None
 
     def count(self, cls=None):
         return len(self.all(cls))
