@@ -6,6 +6,7 @@ from models.state import State
 from api.v1.views import app_views
 import logging
 
+
 @app_views.route("/states", methods=["GET"], strict_slashes=False)
 @app_views.route("/states/<state_id>", methods=["GET"], strict_slashes=False)
 def get_state(state_id=None):
@@ -49,7 +50,6 @@ def create_state():
     storage.new(new_state)
     storage.save()
     return jsonify(new_state.to_dict()), 201
-
 
 
 @app_views.route("/states/<state_id>", methods=["PUT"], strict_slashes=False)
