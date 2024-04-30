@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-routing app views
+routing app views status
 """
 from flask import jsonify
 from api.v1.views import app_views
