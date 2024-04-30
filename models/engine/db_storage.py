@@ -88,10 +88,13 @@ class DBStorage:
 
         Returns: Object based on classs and it's id or None.
         """
-        if (cls not in self.__models_available) or (id_ is None):
-            return None
-        return self.__session.query(
-                self.__models_available[cls]).get(id_)
+        if not isinstance(cls, str):
+            cls = cls.__name__
+        objects = self.__session.query(classes[cls])
+        for obj in objects:
+            if obj.id == id_:
+                return obj
+        return None
 
     def count(self, cls=None):
         """
@@ -101,11 +104,8 @@ class DBStorage:
         Returns: Number of objects in storage or count of all
         storage objects if no class name parameter.
         """
-        if cls is None:
-            obj_count = 0
-            for val in self.__models_available.values():
-                obj_count += self.__session.query(val).count()
-            return obj_count
-        if cls in self.__models_available.keys():
-            return self.__session.query(self.__models_available[cls]).count()
-        return -1
+        count = 0
+        for obj in classes:
+            if cls is None or cls is classes[obj] or cls is obj:
+                count += len(self.__session.query(classes[obj]).all())
+        return count
