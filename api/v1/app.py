@@ -2,7 +2,7 @@
 """
 starts a Flask web application
 """
-from flask import Flask
+from flask import Flask, jsonify, make_response
 from models import storage
 from api.v1.views import app_views
 import os
@@ -11,6 +11,16 @@ import os
 app = Flask(__name__)
 app.register_blueprint(app_views)
 
+@app.errorhandler(404)
+def page_not_found(error):
+    """
+    Returns a 'Not Found' error response.
+    ---
+    responses:
+      404:
+        description: The requested resource was not found.
+    """
+    return make_response(jsonify({'error': 'Not found'}), 404)
 
 @app.teardown_appcontext
 def teardown_db(exception):
