@@ -18,7 +18,7 @@ def amenities_without_id():
         return jsonify(amenities_list)
 
     if request.method == 'POST':
-        json = request.get_json()
+        json = request.get_json(silent=True)
         if json is None:
             abort(400, "Not a JSON")
         if json.get('name') is None:
@@ -44,7 +44,7 @@ def amenities_with_id(amenity_id=None):
         return jsonify({})
 
     if request.method == 'PUT':
-        json = request.get_json()
+        json = request.get_json(silent=True)
         if json is None:
             abort(400, "Not a JSON")
         amenity.update(**json)
