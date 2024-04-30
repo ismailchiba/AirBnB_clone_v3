@@ -12,17 +12,17 @@ app.register_blueprint(app_views)
 
 
 @app.teardown_appcontext
-def teardown_flask():
+def teardown_flask(exc):
     """closing the sqlalchemy session"""
     storage.close()
 
 
-@app.error_handler(404)
+@app.errorhandler(404)
 def error_404(error):
     """handler for 404 errors that returns a JSON-formatted
     404 status code response
     """
-    response = {"error": "Not found"}
+    response = ({"error": "Not found"})
     return jsonify(response), 404
 
 
