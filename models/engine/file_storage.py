@@ -78,7 +78,7 @@ class FileStorage:
                id (str)  : object ID
            Returns: Object based on ID or None
         """
-        objs = models.self.all(cls)
+        objs = self.all(cls)
         for key, val in objs.items():
             query_string = cls + '.' + id
             if key == query_string:
@@ -90,7 +90,7 @@ class FileStorage:
         """
             Args:
                 cls (str) : class name, defaults to None
-            Returns: Count of Class items if exists/ Items in all classes
+            Returns: Number of items if class exists/ Items in all classes
         """
-        objs = models.self.all(cls)
+        objs = self.all(cls)
         return (len(objs))
