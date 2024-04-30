@@ -165,32 +165,4 @@ Second part of Airbnb: Joann Vuong
 ## License
 Public Domain. No copy write protection. 
 
-This is a project for learning purposes. We have forked this project to explore its codebase, understand its functionality, and practice our development skills.
-
-## Purpose
-
-The purpose of this project is to [briefly describe the main goals or objectives].
-
-## Getting Started
-
-To get started with this project, follow these steps:
-
-1. Clone the repository to your local machine.
-2. Install the necessary dependencies.
-3. Run the project locally or deploy it to a server.
-
-## Contributing
-
-We welcome contributions from the community! If you have any ideas for improvements or would like to report a bug, please open an issue or submit a pull request.
-
-## License
-
-This project is licensed under the [license name] License - see the [LICENSE](LICENSE) file for details.
-
-## Acknowledgements
-
-We would like to acknowledge the original creators of this project for their hard work and contributions.
-
-## Disclaimer
-
-This project is for educational purposes only. We do not claim ownership of the original project and are using it solely for learning and practice. All rights belong to the original creators.
+This is a project for learning purposes
