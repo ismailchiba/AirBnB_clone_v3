@@ -55,7 +55,7 @@ def create_state():
     kwargs = request.get_json()
 
     if 'name' not in kwargs:
-        abort(400, 'Missing name')
+        return abort(400, 'Missing name')
 
     state = State(**kwargs)
     state.save()
@@ -75,10 +75,9 @@ def update_state(state_id):
             return abort(400, 'Not a JSON')
         data = request.get_json()
         ignore_keys = {'id', 'created_at', 'updated_at'}
-
         for key, value in data.items():
             if key not in ignore_keys:
-                setattr(stae, key, value)
+                setattr(state, key, value)
         state.save()
         return jsonify(state.to_dict()), 200
     else:
