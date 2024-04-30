@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 '''
-    All the test for the base_model are implemented here.
+   script for all the test for the base_model are implemented here.
 '''
 
 import unittest
@@ -16,7 +16,7 @@ storage = getenv("HBNB_TYPE_STORAGE", "fs")
 
 class TestBase(unittest.TestCase):
     '''
-        Testing the base class model.
+       script Testing the base class model.
     '''
     def setUp(self):
         '''
@@ -28,7 +28,7 @@ class TestBase(unittest.TestCase):
 
     def TearDown(self):
         '''
-            Removing instance.
+            script Removing instance.
         '''
         del self.my_model
 

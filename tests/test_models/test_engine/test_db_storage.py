@@ -1,133 +1,126 @@
 #!/usr/bin/python3
 '''
-    Testing the file_storage module.
+    script for testing the file_storage module.
 '''
-
-import os
 import time
-import json
 import unittest
-import models
+import sys
+from models.engine.db_storage import DBStorage
 from models import storage
-from models.base_model import BaseModel
+from models.user import User
 from models.state import State
-from models.engine.file_storage import FileStorage
+from models import storage
+from console import HBNBCommand
+from os import getenv
+from io import StringIO
 
-db = os.getenv("HBNB_TYPE_STORAGE")
+db = getenv("HBNB_TYPE_STORAGE")
 
 
-@unittest.skipIf(db == 'db', "Testing DBstorage only")
-class testFileStorage(unittest.TestCase):
+@unittest.skipIf(db != 'db', "Testing DBstorage only")
+class test_DBStorage(unittest.TestCase):
     '''
-        Testing the FileStorage class
+        Testing the DB_Storage class
     '''
-
-    def setUp(self):
+    @classmethod
+    def setUpClass(cls):
         '''
             Initializing classes
         '''
-        self.storage = FileStorage()
-        self.my_model = BaseModel()
+        cls.dbstorage = DBStorage()
+        cls.output = StringIO()
+        sys.stdout = cls.output
 
-    def tearDown(self):
+    @classmethod
+    def tearDownClass(cls):
         '''
-            Cleaning up.
+            delete variables
         '''
+        del cls.dbstorage
+        del cls.output
 
-        try:
-            os.remove("file.json")
-        except FileNotFoundError:
-            pass
+    def create(self):
+        '''
+            Create HBNBCommand()
+        '''
+        return HBNBCommand()
 
-    def test_all_return_type(self):
+    def test_new(self):
         '''
-            Tests the data type of the return value of the all method.
+            Test DB new
         '''
-        storage_all = self.storage.all()
-        self.assertIsInstance(storage_all, dict)
+        new_obj = State(name="California")
+        self.assertEqual(new_obj.name, "California")
 
-    def test_new_method(self):
+    def test_dbstorage_user_attr(self):
         '''
-            Tests that the new method sets the right key and value pair
-            in the FileStorage.__object attribute
+            Testing User attributes
         '''
-        self.storage.new(self.my_model)
-        key = str(self.my_model.__class__.__name__ + "." + self.my_model.id)
-        self.assertTrue(key in self.storage._FileStorage__objects)
+        new = User(email="melissa@hbtn.com", password="hello")
+        self.assertTrue(new.email, "melissa@hbtn.com")
 
-    def test_objects_value_type(self):
+    def test_dbstorage_check_method(self):
         '''
-            Tests that the type of value contained in the FileStorage.__object
-            is of type obj.__class__.__name__
+            Check methods exists
         '''
-        self.storage.new(self.my_model)
-        key = str(self.my_model.__class__.__name__ + "." + self.my_model.id)
-        val = self.storage._FileStorage__objects[key]
-        self.assertIsInstance(self.my_model, type(val))
+        self.assertTrue(hasattr(self.dbstorage, "all"))
+        self.assertTrue(hasattr(self.dbstorage, "__init__"))
+        self.assertTrue(hasattr(self.dbstorage, "new"))
+        self.assertTrue(hasattr(self.dbstorage, "save"))
+        self.assertTrue(hasattr(self.dbstorage, "delete"))
+        self.assertTrue(hasattr(self.dbstorage, "reload"))
 
-    def test_save_file_exists(self):
+    def test_dbstorage_all(self):
         '''
-            Tests that a file gets created with the name file.json
+            Testing all function
         '''
-        self.storage.save()
-        self.assertTrue(os.path.isfile("file.json"))
+        storage.reload()
+        result = storage.all("")
+        self.assertIsInstance(result, dict)
+        self.assertEqual(len(result), 0)
+        new = User(email="adriel@hbtn.com", password="abc")
+        console = self.create()
+        console.onecmd("create State name=California")
+        result = storage.all("State")
+        self.assertTrue(len(result) > 0)
 
-    def test_save_file_read(self):
+    def test_dbstorage_new_save(self):
         '''
-            Testing the contents of the files inside the file.json
+           Testing save method
         '''
-        self.storage.save()
-        self.storage.new(self.my_model)
+        new_state = State(name="NewYork")
+        storage.new(new_state)
+        save_id = new_state.id
+        result = storage.all("State")
+        temp_list = []
+        for k, v in result.items():
+            temp_list.append(k.split('.')[1])
+            obj = v
+        self.assertTrue(save_id in temp_list)
+        self.assertIsInstance(obj, State)
 
-        with open("file.json", encoding="UTF8") as fd:
-            content = json.load(fd)
-
-        self.assertTrue(type(content) is dict)
-
-    def test_the_type_file_content(self):
+    def test_dbstorage_delete(self):
         '''
-            testing the type of the contents inside the file.
+            Testing delete method
         '''
-        self.storage.save()
-        self.storage.new(self.my_model)
-
-        with open("file.json", encoding="UTF8") as fd:
-            content = fd.read()
-
-        self.assertIsInstance(content, str)
-
-    def test_reaload_without_file(self):
-        '''
-            Tests that nothing happens when file.json does not exists
-            and reload is called
-        '''
-
-        try:
-            self.storage.reload()
-            self.assertTrue(True)
-        except:
-            self.assertTrue(False)
-
-    def test_delete(self):
-        '''
-            Test delete method
-        '''
-        fs = FileStorage()
-        new_state = State()
-        fs.new(new_state)
-        state_id = new_state.id
-        fs.save()
-        fs.delete(new_state)
-        with open("file.json", encoding="UTF-8") as fd:
-            state_dict = json.load(fd)
-        for k, v in state_dict.items():
-            self.assertFalse(state_id == k.split('.')[1])
+        new_user = User(email="haha@hehe.com", password="abc",
+                        first_name="Adriel", last_name="Tolentino")
+        storage.new(new_user)
+        save_id = new_user.id
+        key = "User.{}".format(save_id)
+        self.assertIsInstance(new_user, User)
+        storage.save()
+        old_result = storage.all("User")
+        del_user_obj = old_result[key]
+        storage.delete(del_user_obj)
+        new_result = storage.all("User")
+        self.assertNotEqual(len(old_result), len(new_result))
 
     def test_model_storage(self):
         '''
-            Test State model in Filestorage
+            Test to check if storage is an instance for DBStorage
         '''
-        self.assertTrue(isinstance(storage, FileStorage))
+        self.assertTrue(isinstance(storage, DBStorage))
 
     def test_get(self):
         '''
@@ -144,6 +137,7 @@ class testFileStorage(unittest.TestCase):
         '''
             Test if count method returns expected number of objects
         '''
+        storage.reload()
         old_count = storage.count("State")
         new_state1 = State(name="NewYork")
         storage.new(new_state1)
