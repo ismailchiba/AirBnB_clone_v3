@@ -154,8 +154,12 @@ EOF  all  create  destroy  help  quit  show  update
 No known bugs at this time. 
 
 ## Authors
- folu Ibitola
- Ayomitan Omotayo
+Alexa Orrico - [Github](https://github.com/alexaorrico) / [Twitter](https://twitter.com/alexa_orrico)  
+Jennifer Huang - [Github](https://github.com/jhuang10123) / [Twitter](https://twitter.com/earthtojhuang)
+Ogofoluwa Ibitola - [Github](https://github.com/folujam) / [Twitter](https://twitter.com/ogofoluwa)
+Ayomitan Omotayo - [Github](https://github.com/Ayormitan)
 Second part of Airbnb: Joann Vuong
+third part of Airbnb: Ogofoluwa ibitola && Ayomitan Omotayo
+
 ## License
 Public Domain. No copy write protection. 
