@@ -5,7 +5,7 @@ This file handles all the default  RESTFul API
 actions (CRUD)
 """
 
-from flask import abort, jsonify, make_response, request
+from flask import abort, json, jsonify, make_response, request
 from models import storage
 from models.city import City
 from api.v1.views import app_views
@@ -19,17 +19,17 @@ def get_cities_of_state(state_id):
 
     state = storage.get("State", state_id)
 
-    if not state:
-        abort(404)
+    if state is not None:
+        all_cities = storage.all("City")
+        cities_obj = []
 
-    all_cities = storage.all("City")
-    cities = []
+        for val in all_cities.values():
+            if val.state_id == state_id:
+                cities_obj.append(val.to_dict())
 
-    for value in all_cities.values():
-        if value.state_id == state_id:
-            cities.append(value.to_dict())
+        return jsonify(cities_obj)
 
-    return jsonify(cities)
+    abort(404)
 
 
 @app_views.route('/cities/<city_id>', strict_slashes=False)
@@ -41,7 +41,7 @@ def get_city(city_id):
     city = storage.get(City, city_id)
 
     if city is not None:
-        return city.to_dict()
+        return jsonify(city.to_dict())
 
     abort(404)
 
