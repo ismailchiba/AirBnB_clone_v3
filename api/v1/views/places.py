@@ -12,7 +12,6 @@ from models.user import User
 from api.v1.views import app_views
 
 
-
 @app_views.route('/cities/<city_id>/places', strict_slashes=False)
 def get_places(city_id):
     """
