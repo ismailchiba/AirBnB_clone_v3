@@ -34,7 +34,7 @@ def status():
       200:
         description: Status of the application.
     """
-    pretty_response = json.dumps({'status': 'OK'}, indent=4) + "\n"
+    pretty_response = json.dumps({'status': 'OK'}, indent=2) + "\n"
     return Response(pretty_response, mimetype='application/json')
 
 
