@@ -125,4 +125,4 @@ def update_place(place_id):
 
     place.save()
 
-    return make_response(place.to_dict(), 200)
+    return place.to_dict()
