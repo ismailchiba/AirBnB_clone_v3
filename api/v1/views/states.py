@@ -4,7 +4,7 @@ from flask import jsonify, abort, request, redirect, url_for, make_response
 from models import storage
 from models.state import State
 from api.v1.views import app_views
-import logging
+from werkzeug.exceptions import BadRequest
 
 
 @app_views.route("/states", methods=["GET"], strict_slashes=False)
@@ -37,15 +37,13 @@ def delete(state_id):
 
 
 @app_views.route("/states", methods=["POST"], strict_slashes=False)
-def create_state():
+def create():
     """Creates a State."""
-    try:
-        data = request.get_json()
-    except BadRequest:
+    data = request.get_json()
+    if not data:
         abort(400, description="Not a JSON")
     if "name" not in data:
         abort(400, description="Missing name")
-
     new_state = State(**data)
     storage.new(new_state)
     storage.save()
