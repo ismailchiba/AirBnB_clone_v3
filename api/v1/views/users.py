@@ -2,7 +2,7 @@
 """create users"""
 
 
-from flask import abort, request, jsonofy
+from flask import abort, request, jsonify
 from api.v1.views import app_views
 from models import storage
 from models.user import User
