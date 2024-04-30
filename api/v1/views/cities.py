@@ -11,7 +11,7 @@ from models.city import City
 from api.v1.views import app_views
 
 
-@app_views.route('/states/<state_id>/cities', methods=['GET'], strict_slashes=False)
+@app_views.route('/states/<state_id>/cities', strict_slashes=False)
 def get_cities_of_state(state_id):
     """
     Retrieves the list of all City objects of a State
@@ -32,7 +32,7 @@ def get_cities_of_state(state_id):
     abort(404)
 
 
-@app_views.route('/cities/<city_id>', methods=['GET'], strict_slashes=False)
+@app_views.route('/cities/<city_id>', strict_slashes=False)
 def get_city(city_id):
     """
     Retrieves a City object
@@ -75,10 +75,10 @@ def create_city(state_id):
     if state is not None:
         request_body = request.get_json()
         if not request.is_json:
-            abort(404, description='Not a JSON')
+            abort(400, description='Not a JSON')
 
         if 'name' not in request_body:
-            abort(404, description='Missing name')
+            abort(400, description='Missing name')
 
         request_body['state_id'] = state_id
         new_city = City(**request_body)
