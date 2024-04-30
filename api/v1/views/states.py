@@ -6,12 +6,6 @@ from models.state import State
 from api.v1.views import app_views
 
 
-@app_views.errorhandler(404)
-def not_found(error):
-    """Custom error handler for 404 errors."""
-    return make_response(jsonify({"error": "Not found"}), 404)
-
-
 @app_views.route("/states", methods=["GET"], strict_slashes=False)
 @app_views.route("/states/<state_id>", methods=["GET"], strict_slashes=False)
 def get_state(state_id=None):
