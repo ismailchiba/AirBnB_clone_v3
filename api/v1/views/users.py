@@ -20,6 +20,7 @@ def get_all_users():
 
     all_users = storage.all("User")
 
+    print(all_users)
     user_obj = []
 
     for val in all_users.values():
@@ -77,6 +78,7 @@ def create_user():
     if 'password' not in request_body:
         abort(400, description='Missing password')
 
+    print(request_body)
     new_user = User(**request_body)
     storage.new(new_user)
     storage.save()
