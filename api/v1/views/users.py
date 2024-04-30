@@ -28,27 +28,26 @@ def get_all_users():
 
 
 @app_views.route('/users/<user_id>', strict_slashes=False)
-def get_user(state_id):
+def get_user(user_id):
     """
     Retrieves a User object  with the specified
-    state_id
+    user_id
+    """
+    user = storage.get("User", user_id)
+
+    if user is not None:
+        return user.to_dict()
+
+    abort(404)
+
+
+@app_views.route('/users/<user_id>', methods=["DELETE"], strict_slashes=False)
+def delete_user(user_id):
+    """
+    This deletes a user object with the specified user_id
     """
 
-    user = storage.get("User", state_id)
-
-    if user is None:
-        abort(404)
-
-    return user.to_dict()
-
-
-@app_views.route('/users/<state_id>', methods=["DELETE"], strict_slashes=False)
-def delete_user(state_id):
-    """
-    This deletes a user object with the specified states_id
-    """
-
-    user = storage.get("user", state_id)
+    user = storage.get("user", user_id)
 
     if user is None:
         abort(404)
@@ -85,12 +84,12 @@ def create_user():
 
 
 @app_views.route('/users/<state_id>', methods=["PUT"], strict_slashes=False)
-def update_user(state_id):
+def update_user(user_id):
     """
     Updates a User object with the specified state_id
     """
 
-    user = storage.get("User", state_id)
+    user = storage.get("User", user_id)
 
     if user is not None:
         if not request.is_json:
