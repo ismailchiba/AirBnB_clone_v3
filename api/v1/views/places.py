@@ -6,7 +6,9 @@ RESTFul API actions
 
 from flask import jsonify, make_response, request, abort
 from models import storage
+from models.city import City
 from models.place import Place
+from models.user import User
 from api.v1.views import app_views
 
 
@@ -56,7 +58,7 @@ def delete_place(place_id):
     place_id
     """
 
-    place = storage.get("Place", place_id)
+    place = storage.get(Place, place_id)
 
     if place is not None:
         storage.delete(place)
@@ -75,7 +77,7 @@ def create_place(city_id):
     the city_id
     """
 
-    city = storage.get("City", city_id)
+    city = storage.get(City, city_id)
 
     if city is not None:
         if not request.is_json:
@@ -86,7 +88,7 @@ def create_place(city_id):
         if 'user_id' not in request_body:
             abort(400, description='Missing user_id')
 
-        user = storage.get("User", request_body['user_id'])
+        user = storage.get(User, request_body['user_id'])
 
         if user is None:
             abort(404)
