@@ -31,11 +31,15 @@ def get_amenity(amenity_id):
 def delete_amenity(amenity_id):
     """Deletes an Amenity object"""
     all_amenities = storage.all("Amenity").values()
-    amenity_obj = next((obj for obj in all_amenities if obj.id == amenity_id), None)
-    if amenity_obj is None:
+    amenity_obj = [obj.to_dict() for obj in all_amenities
+                   if obj.id == amenity_id]
+    if amenity_obj == []:
         abort(404)
-    storage.delete(amenity_obj)
-    storage.save()
+    amenity_obj.remove(amenity_obj[0])
+    for obj in all_amenities:
+        if obj.id == amenity_id:
+            storage.delete(obj)
+            storage.save()
     return jsonify({}), 200
 
 
