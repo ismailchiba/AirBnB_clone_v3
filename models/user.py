@@ -8,6 +8,7 @@ from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 from hashlib import md5
 
+
 class User(BaseModel, Base):
     """Representation of a user """
     if models.storage_t == 'db':
@@ -32,5 +33,5 @@ class User(BaseModel, Base):
                 hasher = hashlib.md5()
                 hasher.update(find_pwd.encode('utf-8'))
                 encrypted_pwd = hasher.hexdigest()
-                kwargs['password'] = encrypted_pwd 
+                kwargs['password'] = encrypted_pwd
             super().__init__(*args, **kwargs)
