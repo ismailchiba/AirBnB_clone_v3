@@ -10,7 +10,7 @@ from models import storage
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
 def every_state():
     """ get all by id """
-    all_states = storage.all(State)
+    all_states = storage.all(State).values()
     return jsonify([state.to_dict() for state in all_states])
 
 
