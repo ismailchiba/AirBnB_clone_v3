@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 """creates the app_views Blueprint here"""
 
 
