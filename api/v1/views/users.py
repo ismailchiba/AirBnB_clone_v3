@@ -42,7 +42,7 @@ def get_user(state_id):
     return user.to_dict()
 
 
-@app_views('/users/<state_id>', methods=["DELETE"], strict_slashes=False)
+@app_views.route('/users/<state_id>', methods=["DELETE"], strict_slashes=False)
 def delete_user(state_id):
     """
     This deletes a user object with the specified states_id
@@ -59,7 +59,7 @@ def delete_user(state_id):
     return make_response({}, 200)
 
 
-@app_views('/users', methods=["POST"], strict_slashes=False)
+@app_views.route('/users', methods=["POST"], strict_slashes=False)
 def create_user():
     """
     Creates a User object and returns the new user object
@@ -84,7 +84,7 @@ def create_user():
     return make_response(new_user.to_dict(), 201)
 
 
-@app_views('/users/<state_id>', methods=["PUT"], strict_slashes=False)
+@app_views.route('/users/<state_id>', methods=["PUT"], strict_slashes=False)
 def update_user(state_id):
     """
     Updates a User object with the specified state_id
