@@ -85,7 +85,7 @@ def create_city(state_id):
         storage.new(new_city)
         storage.save()
 
-        return make_response(new_city.to_dict(), 201)
+        return make_response(jsonify(new_city.to_dict()), 201)
 
     abort(404)
 
@@ -109,6 +109,6 @@ def update_city(city_id):
                 setattr(city, k, v)
 
         city.save()
-        return make_response(city.to_dict(), 200)
+        return make_response(jsonify(city.to_dict()), 200)
 
     abort(404)
