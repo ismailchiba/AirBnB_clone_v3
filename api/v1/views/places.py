@@ -98,7 +98,7 @@ def search_places():
             if storage_t == "db" and place.amenities:
                 a_ids = [a.id for a in place.amenities]
                 del place.amenities
-            elif (place.amenities) > 0:
+            elif len(place.amenities) > 0:
                 a_ids = p.amenity_ids
             if a_ids and all([a_id in a_ids for a_id in amenities_ids]):
                 result.append(place.to_dict())
