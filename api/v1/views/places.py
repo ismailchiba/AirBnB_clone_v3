@@ -76,7 +76,7 @@ def search_places():
     if states_ids and len(states_ids) > 0:
         cities = storage.all(City)
         state_cities = set([city.id for city in cities.values()
-                            if city.state_id in state_ids])
+                            if city.state_id in states_ids])
     else:
         state_cities = set()
 
