@@ -38,7 +38,7 @@ def del_state(state_id):
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
 def create_state():
     """ create new instance """
-    data = request.get_json()
+    data = request.get_json(silent=True)
     if data is None:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
     if 'name' not in data:
