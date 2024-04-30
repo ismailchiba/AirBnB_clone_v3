@@ -84,7 +84,7 @@ def create_user():
     return make_response(new_user.to_dict(), 201)
 
 
-@app_views('/users/<state_id>' methods=["PUT"], strict_slashes=False)
+@app_views('/users/<state_id>', methods=["PUT"], strict_slashes=False)
 def update_user(state_id):
     """
     Updates a User object with the specified state_id
