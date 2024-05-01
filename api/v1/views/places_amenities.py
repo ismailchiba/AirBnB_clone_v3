@@ -1,9 +1,6 @@
 #!/usr/bin/python3
-<<<<<<< HEAD
 
-=======
->>>>>>> 6e6b784f8744e0630b80c062bbc68f66cf7ade6b
-"""places_amenities"""
+"""script for places_amenities"""
 from api.v1.views import app_views
 from flask import jsonify, abort, request
 from models import storage
@@ -32,7 +29,7 @@ if getenv('HBNB_TYPE_STORAGE') == 'db':
     @app_views.route('/places/<place_id>/amenities/<amenity_id>',
                      methods=['POST'])
     def create_place_amenity(place_id, amenity_id):
-        '''Creates a Amenity'''
+        '''script that Creates a Amenity'''
         all_places = storage.all("Place").values()
         place_obj = [obj.to_dict() for obj in all_places if obj.id == place_id]
         if place_obj == []:
@@ -58,7 +55,7 @@ if getenv('HBNB_TYPE_STORAGE') == 'db':
     @app_views.route('/places/<place_id>/amenities/<amenity_id>',
                      methods=['DELETE'])
     def delete_place_amenity(place_id, amenity_id):
-        '''Deletes a Amenity object'''
+        '''script that Deletes a Amenity object'''
         all_places = storage.all("Place").values()
         place_obj = [obj.to_dict() for obj in all_places if obj.id == place_id]
         if place_obj == []:
@@ -100,7 +97,7 @@ else:
     @app_views.route('/places/<place_id>/amenities/<amenity_id>',
                      methods=['POST'])
     def create_place_amenity(place_id, amenity_id):
-        '''Creates a Amenity'''
+        '''script that Creates a Amenity'''
         all_places = storage.all("Place").values()
         place_obj = [obj.to_dict() for obj in all_places if obj.id == place_id]
         if place_obj == []:
@@ -153,7 +150,7 @@ else:
 
 @app_views.route('/amenities/<amenity_id>', methods=['GET'])
 def get_place_amenity(amenity_id):
-    '''Retrieves a Amenity object '''
+    '''script that Retrieves a Amenity object '''
     all_amenities = storage.all("Amenity").values()
     amenity_obj = [obj.to_dict() for obj in all_amenities
                    if obj.id == amenity_id]
