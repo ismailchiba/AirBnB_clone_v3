@@ -26,15 +26,20 @@ class User(BaseModel, Base):
 
     def __init__(self, *args, **kwargs):
         """initializes user"""
+        if kwargs:
+            __password = kwargs.pop('password', None)
+            if __password:
+                User.__password = ""
+                hashed_pwd = self._hash_password()
+                setattr(self, "password", hashed_pwd)
         super().__init__(*args, **kwargs)
         # Ensure that the password is hashed upon object creation
-        self._hashed_password = self._hash_password()
 
     def _hash_password(self):
-        """Hashes the user's password using SHA-256."""
-        return hashlib.md5(self.password.encode('utf-8')).hexdigest()
+        """Hashes the user's password using md5."""
+        return hashlib.md5(self.__password.encode('utf-8')).hexdigest()
 
     @property
     def hashed_pwd(self):
         """Returns the hashed password."""
-        return self._hashed_password
+        return self.__password
