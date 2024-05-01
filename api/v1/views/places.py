@@ -10,6 +10,45 @@ from models.user import User
 from werkzeug.exceptions import BadRequest
 
 
+@app_views.route("/places_search", methods=["POST"])
+def places_search():
+    """Retrieves all Place objects based
+    on the JSON in the body of the request."""
+    try:
+        req_data = request.get_json()
+        if not req_data:
+            # If the JSON body is empty or each list of all keys are empty
+            places = storage.all(Place).values()
+        else:
+            places = []
+            # If states list is not empty
+            if "states" in req_data and req_data["states"]:
+                for state_id in req_data["states"]:
+                    state = storage.get("State", state_id)
+                    for city in state.cities:
+                        places.extend(city.places)
+            # If cities list is not empty
+            if "cities" in req_data and req_data["cities"]:
+                for city_id in req_data["cities"]:
+                    city = storage.get("City", city_id)
+                    if city not in places:  # Avoid duplicates
+                        places.extend(city.places)
+            # If amenities list is not empty
+            if "amenities" in req_data and req_data["amenities"]:
+                places = [
+                    place
+                    for place in places
+                    if all(
+                        amenity in place.amenities
+                        for amenity in req_data["amenities"]
+                    )
+                ]
+    except TypeError:
+        # If the HTTP request body is not valid JSON
+        abort(400, description="Not a JSON")
+    return jsonify([place.to_dict() for place in places])
+
+
 @app_views.route(
     "/cities/<city_id>/places", methods=["GET"], strict_slashes=False
 )
