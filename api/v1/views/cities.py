@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-route for handling State objects and operations
+route for handling City objects and operations
 """
 from api.v1.views import app_views, storage
 from flask import jsonify, abort, request, make_response
@@ -134,4 +134,5 @@ def update(city_id):
         if key not in keys_ignored:
             setattr(city, key, val)
     storage.save()
-    return jsonify(city.to_dict())
+    res = jsonify(city.to_dict())
+    return make_response(res, 200)

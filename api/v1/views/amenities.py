@@ -18,7 +18,7 @@ def get_all_amenities():
     """
 
     amenities_lst = []
-    amenities = storage.all("Amenity")
+    amenities = storage.all(Amenity)
     for obj in amenities.values():
         amenities_lst.append(obj.to_json())
 
@@ -39,7 +39,7 @@ def get_amenity(amenity_id):
         json: A JSON-formatted representation of the Amenity
         object with the specified ID, or an error message if not found.
     """
-    amenity = storage.get("Amenity", str(amenity_id))
+    amenity = storage.get(Amenity, str(amenity_id))
     if not amenity:
         abort(404)
     return jsonify(amenity.to_dict())
@@ -50,12 +50,23 @@ def get_amenity(amenity_id):
 )
 def delete(amenity_id):
     """
-    Create a new Amenity object.
+    Delete an Amenity object by its ID.
+
+    This function retrieves an Amenity object from the database using the
+    provided ID. If the object exists,
+    it is deleted and the changes
+    are saved to the database.
+    It returns an empty JSON response to indicate successful deletion.
+
+    Parameters:
+    - amenity_id (str): The unique identifier
+    of the Amenity object to be deleted.
+
     Returns:
-        json: A JSON-formatted representation of
-        the newly created Amenity object.
+    - json: An empty JSON object,
+    signifying the successful deletion of the Amenity object.
     """
-    amenity = storage.get("Amenity", str(amenity_id))
+    amenity = storage.get(Amenity, str(amenity_id))
     if not amenity:
         abort(404)
     storage.delete(amenity)
@@ -103,8 +114,8 @@ def update(amenity_id):
     - response: A response object containing the updated
     Amenity object and the HTTP status code.
     """
-    amenity = storage.get("Amenity", str(amenity_id))
-    if amenity is None:
+    amenity = storage.get(Amenity, str(amenity_id))
+    if not amenity:
         abort(404)
     try:
         data = request.get_json(silent=True)
@@ -115,4 +126,5 @@ def update(amenity_id):
         if key not in ignore_keys:
             setattr(amenity, key, val)
     amenity.save()
-    return jsonify(amenity.to_dict())
+    res = jsonify(amenity.to_dict())
+    return make_response(res, 200)
