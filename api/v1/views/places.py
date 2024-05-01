@@ -40,6 +40,9 @@ def places_search():
                     city = storage.get(City, city_id)
                     if city and city.places not in places:  # Avoid duplicates
                         places.extend(city.places)
+            if not places:
+                places = storage.all(Place)
+                places = [place for place in places.values()]
             # If amenities list is not empty
             if "amenities" in req_data and req_data["amenities"]:
                 places = [
