@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """create a variable app, instance of Flask"""
 from os import getenv
-ifrom flask import Flask, jsonify
+from flask import Flask, jsonify
 from flask_cors import CORS
 from models import storage
 from api.v1.views import app_views
