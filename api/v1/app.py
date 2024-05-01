@@ -25,10 +25,9 @@ def teardown_db(code):
     storage.close()
 
 
-"""
 @app.errorhandler(Exception)
 def handle_all_errors(error):
-    \""" Handle global errors using HTTPException- Task 3 \"""
+    """ Handle global errors using HTTPException- Task 5 """
     if isinstance(error, HTTPException):
         if type(error).__name__ == 'NotFound':
             error.description = "Not found"
@@ -41,11 +40,11 @@ def handle_all_errors(error):
 
 
 def init_errors():
-    \""" Initialise handling errors for all sub classes \"""
+    """ Initialise handling errors for all sub classes """
     for single in HTTPException.__subclasses__():
         app.register_error_handler(single, handle_all_errors)
 
-"""
+
 app.register_blueprint(AV)
 
 

@@ -111,3 +111,21 @@ curl -X GET http://0.0.0.0:5000/api/v1/stats
 
 __File__
 ``api/v1/views/index.py``
+
+### 5. Not found
+
+In ``api/v1/app.py``, create a handler for ``404`` errors that returns a JSON-formatted ``404`` status code response. The content should be: ``"error": "Not found"``.
+
+```bash
+curl -X GET http://0.0.0.0:5000/api/v1/nop
+
+#RESPONSE
+{
+  "error": "Not found"
+}
+curl -X GET http://0.0.0.0:5000/api/v1/nop -vvv
+```
+
+__File__
+
+``api/v1/app.py``
