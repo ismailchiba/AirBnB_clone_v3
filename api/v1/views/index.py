@@ -8,7 +8,7 @@ from models.place import Place
 from models.review import Review
 from models.user import User
 from models.city import City
-from flask import jsonify,  Response
+from flask import jsonify, Response
 import json
 
 from flask import Response
@@ -34,8 +34,8 @@ def status():
       200:
         description: Status of the application.
     """
-    pretty_response = json.dumps({'status': 'OK'}, indent=2) + "\n"
-    return Response(pretty_response, mimetype='application/json')
+    pretty_response = json.dumps({"status": "OK"}, indent=2) + "\n"
+    return Response(pretty_response, mimetype="application/json")
 
 
 @app_views.route("/stats", methods=["GET"], strict_slashes=False)
