@@ -124,7 +124,7 @@ class TestDBStorage(unittest.TestCase):
         self.assertIsNone(retrieved_state)
 
         @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    def test_get(self):
+        def test_get(self):
         """ Tests method for obtaining an instance db storage"""
         storage = models.storage
 
@@ -160,7 +160,7 @@ class TestDBStorage(unittest.TestCase):
         storage.new(city_instance)
 
         storage.save()
-         
+       
         state_occurrence = storage.count(State)
         self.assertEqual(state_occurence, len(storage.all(State)))
 

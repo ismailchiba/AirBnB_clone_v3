@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # api/v1/app.py
 
-from flask import Flask
+from flask import Flask, jsonify
 from models import storage
 from api.v1.views import app_views
 
@@ -11,6 +11,14 @@ app = Flask(__name__)
 app.register_blueprint(app_views)
 
 # Handle teardown for database connections
+# 404 Error Handler
+@app.errorhandler(404)
+def not_found(error):
+    """
+    Returns a JSON response with a 404 status code.
+    """
+    return jsonify({"error": "Not found"}), 404
+
 @app.teardown_appcontext
 def close_storage(exc):
     """Close the storage on teardown."""
