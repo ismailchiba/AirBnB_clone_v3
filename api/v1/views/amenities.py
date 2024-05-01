@@ -1,8 +1,10 @@
 #!/usr/bin/python3
 """Amenity"""
+
 from api.v1.views import app_views
 from flask import jsonify, request, abort, make_response
 from models import storage
+from models.state import State
 from models.amenity import Amenity
 
 
@@ -11,11 +13,11 @@ from models.amenity import Amenity
     methods=['GET'],
     strict_slashes=False
 )
-def get_amenities():
+def get_all_amenitie():
     """get all amenities"""
     all_amenity = []
-    for amenity in storage.all('Amenity').values():
-        all_amenity.append(amenity.to_dict())
+    for x in storage.all(Amenity).values():
+        all_amenity.append(x.to_dict())
     return jsonify(all_amenity)
 
 
@@ -24,12 +26,12 @@ def get_amenities():
     methods=['GET'],
     strict_slashes=False
 )
-def get_amenity(amenity_id):
+def get_each_amenity(amenity_id):
     """get amenity from id"""
-    amenity = storage.get(Amenity, amenity_id)
-    if amenity is None:
+    x = storage.get(Amenity, amenity_id)
+    if x is None:
         abort(404)
-    return jsonify(amenity.to_dict())
+    return jsonify(x.to_dict())
 
 
 @app_views.route(
@@ -39,12 +41,12 @@ def get_amenity(amenity_id):
 )
 def delete_amenity(amenity_id):
     """delete amenity from id"""
-    amenity = storage.get(Amenity, amenity_id)
-    if amenity is None:
+    x = storage.get(Amenity, amenity_id)
+    if x is None:
         abort(404)
-    storage.delete(amenity)
+    storage.delete(x)
     storage.save()
-    return make_response(jsonify({}), 200)
+    return jsonify({}), 200
 
 
 @app_views.route(
