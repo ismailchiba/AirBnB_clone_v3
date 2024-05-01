@@ -1,8 +1,5 @@
 #!/usr/bin/python3
-<<<<<<< HEAD
 
-=======
->>>>>>> 6e6b784f8744e0630b80c062bbc68f66cf7ade6b
 """amenities"""
 from api.v1.views import app_views
 from flask import jsonify, abort, request
@@ -28,13 +25,8 @@ def get_amenity(amenity_id):
     if amenity_obj == []:
         abort(404)
     return jsonify(amenity_obj[0])
-<<<<<<< HEAD
 
 
-=======
-
-
->>>>>>> 6e6b784f8744e0630b80c062bbc68f66cf7ade6b
 @app_views.route('/amenities/<amenity_id>', methods=['DELETE'])
 def delete_amenity(amenity_id):
     '''Deletes an Amenity object'''
