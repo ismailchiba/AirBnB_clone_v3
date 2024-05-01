@@ -57,7 +57,7 @@ def city_by_id(city_id):
 
 
 @app_views.route("/cities/<city_id>", methods=["DELETE"], strict_slashes=False)
-def city_delete_by_id(city_id):
+def delete_city(city_id):
     """
     Delete a City object by its ID.
 
@@ -80,7 +80,7 @@ def city_delete_by_id(city_id):
 @app_views.route(
     "/states/<state_id>/cities", methods=["POST"], strict_slashes=False
 )
-def create(state_id):
+def create_city(state_id):
     """
     Create a new City object associated with a State.
     Args:
@@ -109,7 +109,7 @@ def create(state_id):
 
 
 @app_views.route("cities/<city_id>", methods=["PUT"], strict_slashes=False)
-def update(city_id):
+def update_city(city_id):
     """
     Create a new City object associated with a State.
 

@@ -48,7 +48,7 @@ def get_amenity(amenity_id):
 @app_views.route(
     "/amenities/<amenity_id>", methods=["DELETE"], strict_slashes=False
 )
-def delete(amenity_id):
+def delete_amenity(amenity_id):
     """
     Delete an Amenity object by its ID.
 
@@ -75,7 +75,7 @@ def delete(amenity_id):
 
 
 @app_views.route("/amenities", methods=["POST"], strict_slashes=False)
-def create():
+def create_amenity():
     """
     Create a new Amenity object.
 
@@ -97,7 +97,7 @@ def create():
 @app_views.route(
     "/amenities/<amenity_id>", methods=["PUT"], strict_slashes=False
 )
-def update(amenity_id):
+def update_amenity(amenity_id):
     """
     Update an Amenity object identified by its unique ID.
 

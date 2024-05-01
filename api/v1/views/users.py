@@ -55,7 +55,7 @@ def get_user(user_id):
 
 
 @app_views.route("/users/<user_id>", methods=["DELETE"], strict_slashes=False)
-def delete(user_id):
+def delete_user(user_id):
     """
     Delete a User object from the database by its unique ID.
 
@@ -87,7 +87,7 @@ def delete(user_id):
 
 
 @app_views.route("/users", methods=["POST"], strict_slashes=False)
-def create():
+def create_user():
     """
     Create a new User object and store it in the database.
 
@@ -115,7 +115,7 @@ def create():
 
 
 @app_views.route("/users/<user_id>", methods=["PUT"], strict_slashes=False)
-def user_put(user_id):
+def update_user(user_id):
     """
     updates specific User object by ID
     :param user_id: user object ID
