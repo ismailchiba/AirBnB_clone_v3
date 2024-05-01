@@ -13,12 +13,12 @@ from werkzeug.exceptions import BadRequest
 
 @app_views.route("/places_search", methods=["POST"], strict_slashes=False)
 def places_search():
-    """Retrieves all Place objects based
-    on the JSON in the body of the request."""
+    """Retrieves all Place objects based on
+    the JSON in the body of the request."""
     try:
         req_data = request.get_json()
         if not req_data:
-            # If the JSON body is empty or each list of all keys are empty
+            # If the JSON body is empty, retrieve all Place objects
             places = storage.all(Place).values()
         else:
             places = []
@@ -26,13 +26,15 @@ def places_search():
             if "states" in req_data and req_data["states"]:
                 for state_id in req_data["states"]:
                     state = storage.get(State, state_id)
-                    for city in state.cities:
-                        places.extend(city.places)
+                    if state:
+                        for city in state.cities:
+                            if city.places not in places:  # Avoid duplicates
+                                places.extend(city.places)
             # If cities list is not empty
             if "cities" in req_data and req_data["cities"]:
                 for city_id in req_data["cities"]:
                     city = storage.get(City, city_id)
-                    if city not in places:  # Avoid duplicates
+                    if city and city.places not in places:  # Avoid duplicates
                         places.extend(city.places)
             # If amenities list is not empty
             if "amenities" in req_data and req_data["amenities"]:
