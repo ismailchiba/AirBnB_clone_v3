@@ -24,10 +24,11 @@ def get_states():
 )
 def get_state(state_id):
     """get a state"""
-    i = storage.get(State, state_id)
-    if i is None:
+    try:
+        i = storage.get('State', state_id)
+        return jsonify(i.to_dict())
+    except Exception:
         abort(404)
-    return jsonify(i.to_dict())
 
 
 @app_views.route(
