@@ -4,12 +4,8 @@ from api.v1.views import app_views
 from flask import jsonify, abort, request
 from models import storage
 from models.city import City
-from models.state import State
-from datetime import datetime
-import uuid
 
 
-@app_views.route('/states/<state_id>/cities', methods=['GET'])
 @app_views.route('/states/<state_id>/cities/', methods=['GET'])
 def list_cities_of_state(state_id):
     """Retrieves a list of all City objects"""
@@ -22,7 +18,6 @@ def list_cities_of_state(state_id):
     return jsonify(list_cities)
 
 
-@app_views.route('/states/<state_id>/cities', methods=['POST'])
 @app_views.route('/states/<state_id>/cities/', methods=['POST'])
 def create_city(state_id):
     """Creates a City"""
