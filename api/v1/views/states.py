@@ -1,7 +1,11 @@
 #!/usr/bin/python3
-""" this area is for learning purpose"""
+"""
+this area is for learning purpose
+this file is about to create a view for state
+and create views
+"""
 
-from flask import jsonify, make_response, request, abort
+from flask import jsonify, request, abort, make_response
 from models import storage
 from api.v1.views import app_views
 from models.state import State
@@ -35,7 +39,7 @@ def rm_state(state_id):
         abort(404)
     storage.delete(st_value)
     storage.save()
-    return make_response(jsonify({}), 200)
+    return jsonify({}), 200
 
 
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
@@ -47,7 +51,7 @@ def add_post():
         return make_response(jsonify({"error": "Missing name"}), 400)
     new_state = State(**request.get_json())
     new_state.save()
-    return make_response(jsonify(new_state.to_dict()), 201)
+    return jsonify(new_state.to_dict()), 201
 
 
 @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
