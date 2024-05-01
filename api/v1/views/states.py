@@ -4,7 +4,6 @@ this area is for learning purpose
 this file is about to create a view for state
 and create views
 """
-
 from flask import jsonify, request, abort, make_response
 from models import storage
 from api.v1.views import app_views
