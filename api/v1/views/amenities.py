@@ -122,6 +122,8 @@ def update_amenity(amenity_id):
         abort(404)
     try:
         data = request.get_json(silent=True)
+        if not data:
+            abort(400, description="Not a JSON")
     except BadRequest:
         abort(400, "Not a JSON")
     ignore_keys = ["id", "created_at", "updated_at"]
