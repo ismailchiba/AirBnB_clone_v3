@@ -20,7 +20,7 @@ def get_all_amenities():
     amenities_lst = []
     amenities = storage.all(Amenity)
     for obj in amenities.values():
-        amenities_lst.append(obj.to_json())
+        amenities_lst.append(obj.to_dict())
 
     return jsonify(amenities_lst)
 
