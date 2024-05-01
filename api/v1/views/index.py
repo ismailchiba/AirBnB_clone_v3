@@ -1,3 +1,4 @@
+from models import storage
 @app_view.route('/status')
 def get_status():
     """
