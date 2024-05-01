@@ -65,11 +65,13 @@ def update_state(state_id):
     if state is None:
         abort(404)
     try:
-        data = request.get_json()
+        data = request.get_json(silent=True)
+        if not data:
+            abort(400, description="Not a JSON")
     except BadRequest:
         abort(400, description="Not a JSON")
     ignore_keys = ["id", "created_at", "updated_at"]
-    for key, value in request.get_json().items():
+    for key, value in data.items():
         if key not in ignore_keys:
             setattr(state, key, value)
     storage.save()
