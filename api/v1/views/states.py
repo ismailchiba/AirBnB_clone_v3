@@ -58,4 +58,14 @@ def create_state():
     return response
 
 
+@app_views.route("/states/<state_id>", methods=["PUT"], strict_slashes=False)
+def update_state(state_id):
+    """Updates a State object."""
+    state = storage.get(State, state_id)
 
+    ignore_keys = ["id", "created_at", "updated_at"]
+    for key, value in request.get_json().items():
+        if key not in ignore_keys:
+            setattr(state, key, value)
+    storage.save()
+    return jsonify(state.to_dict()), 200
