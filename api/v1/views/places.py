@@ -138,16 +138,23 @@ def update_place(place_id):
     """
     Update a specific Place object in the database by its unique ID.
 
-    This function locates a Place object using the provided ID and updates its information with the data received from the request.
-    If the update is successful, the function returns the updated Place object along with a 200 HTTP status code.
-    If the update fails due to invalid data, a 400 HTTP status code is returned. If the Place object with the specified ID does not exist, a 404 HTTP status code is returned.
+    This function locates a Place object using the provided ID and updates
+    its information with the data received from the request.
+    If the update is successful, the function returns the updated Place object
+    along with a 200 HTTP status code.
+    If the update fails due to invalid data,
+    a 400 HTTP status code is returned.
+    If the Place object with the specified ID does not exist,
+    a 404 HTTP status code is returned.
 
     Parameters:
-    - place_id (int or str): The unique identifier of the Place object to be updated.
+    - place_id (int or str):
+        The unique identifier of the Place object to be updated.
 
     Returns:
     - place: The updated Place object if the update is successful.
-    - int: An HTTP status code of 200 for a successful update, 400 for invalid data, or 404 if the Place object is not found.
+    - int: An HTTP status code of 200 for a successful update,
+    400 for invalid data, or 404 if the Place object is not found.
     """
     try:
         data = request.get_json(silent=True)

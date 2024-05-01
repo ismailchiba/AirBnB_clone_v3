@@ -2,9 +2,10 @@
 """
 route for handling place and amenities linking
 """
-from flask import jsonify, abort
+from flask import jsonify, abort, make_response
 from os import getenv
-
+from models.amenity import Amenity
+from models.place import Place
 from api.v1.views import app_views, storage
 
 
@@ -13,21 +14,26 @@ from api.v1.views import app_views, storage
 )
 def amenity_by_place(place_id):
     """
-    get all amenities of a place
-    :param place_id: amenity id
-    :return: all amenities
+    Retrieve all amenities associated with a specific place by its unique ID.
+
+    This function queries the database for all amenities linked to
+    the given place ID. It returns a list of amenities,
+    providing a comprehensive view of what the place has to offer.
+
+    Parameters:
+    - place_id (int or str):
+    The unique identifier of the place whose amenities are to be retrieved.
+
+    Returns:
+    - list: A list of all amenities associated with the specified place.
     """
-    fetched_obj = storage.get("Place", str(place_id))
-
-    all_amenities = []
-
-    if fetched_obj is None:
+    place = storage.get(Place, str(place_id))
+    if not place:
         abort(404)
-
-    for obj in fetched_obj.amenities:
-        all_amenities.append(obj.to_json())
-
-    return jsonify(all_amenities)
+    amenities_lst = []
+    for amenity in place.amenities:
+        amenities_lst.append(amenity.to_dict())
+    return jsonify(amenities_lst)
 
 
 @app_views.route(
@@ -35,37 +41,44 @@ def amenity_by_place(place_id):
     methods=["DELETE"],
     strict_slashes=False,
 )
-def unlink_amenity_from_place(place_id, amenity_id):
+def unlink_amenity(place_id, amenity_id):
     """
-    unlinks an amenity in a place
-    :param place_id: place id
-    :param amenity_id: amenity id
-    :return: empty dict or error
+    Unlink an amenity from a specific place by their unique IDs.
+
+    This function removes the association between a
+    place and an amenity in the database. If the operation is successful,
+    it returns an empty dictionary to signify that the amenity has been
+    successfully unlinked from the place.
+    If the operation fails, an error message is returned,
+    indicating the reason for the failure.
+
+    Parameters:
+    - place_id (int or str): The unique identifier of the place.
+    - amenity_id (int or str):
+        The unique identifier of the amenity to be unlinked.
+
+    Returns:
+    - dict: An empty dictionary if the unlinking is successful.
+    - error: An error message if the unlinking operation fails.
     """
-    if not storage.get("Place", str(place_id)):
-        abort(404)
-    if not storage.get("Amenity", str(amenity_id)):
+    place = storage.get(Place, place_id)
+    amenity = storage.get(Amenity, str(amenity_id))
+    print(place)
+    if not place or not amenity:
         abort(404)
 
-    fetched_obj = storage.get("Place", place_id)
-    found = 0
-
-    for obj in fetched_obj.amenities:
-        if str(obj.id) == amenity_id:
-            if getenv("HBNB_TYPE_STORAGE") == "db":
-                fetched_obj.amenities.remove(obj)
-            else:
-                fetched_obj.amenity_ids.remove(obj.id)
-            fetched_obj.save()
-            found = 1
-            break
-
-    if found == 0:
-        abort(404)
+    if getenv("HBNB_TYPE_STORAGE") == "db":
+        if amenity in place.amenities:
+            place.amenities.remove(amenity)
+        else:
+            abort(404)
     else:
-        resp = jsonify({})
-        resp.status_code = 201
-        return resp
+        if amenity.id in place.amenity_ids:
+            place.amenity_ids.remove(amenity.id)
+        else:
+            abort(404)
+    place.save()
+    return make_response(jsonify({}), 200)
 
 
 @app_views.route(
@@ -75,35 +88,38 @@ def unlink_amenity_from_place(place_id, amenity_id):
 )
 def link_amenity_to_place(place_id, amenity_id):
     """
-    links a amenity with a place
-    :param place_id: place id
-    :param amenity_id: amenity id
-    :return: return Amenity obj added or error
+    Link an amenity to a specific place using their unique IDs.
+
+    This function establishes a relationship between a placeand an amenity
+    in the database. If the linking is successful,
+    it returns the Amenity object that was added to the place.
+    If the operation fails, an error message is returned,
+    indicating the reason for the failure.
+
+    Parameters:
+    - place_id (int or str): The unique identifier of the place.
+    - amenity_id (int or str):
+        The unique identifier of the amenity to be linked.
+
+    Returns:
+    - Amenity: The Amenity object that was linked to the
+    place if the operation is successful.
+    - error: An error message if the linking operation fails.
     """
-
-    fetched_obj = storage.get("Place", str(place_id))
-    amenity_obj = storage.get("Amenity", str(amenity_id))
-    found_amenity = None
-
-    if not fetched_obj or not amenity_obj:
+    place = storage.get(Place, str(place_id))
+    amenity = storage.get(Amenity, str(amenity_id))
+    if not place or not amenity:
         abort(404)
-
-    for obj in fetched_obj.amenities:
-        if str(obj.id) == amenity_id:
-            found_amenity = obj
-            break
-
-    if found_amenity is not None:
-        return jsonify(found_amenity.to_json())
-
     if getenv("HBNB_TYPE_STORAGE") == "db":
-        fetched_obj.amenities.append(amenity_obj)
+        if amenity in place.amenities:
+            return make_response(jsonify(amenity.to_dict()), 200)
+        else:
+            place.amenities.append(amenity)
     else:
-        fetched_obj.amenities = amenity_obj
-
-    fetched_obj.save()
-
-    resp = jsonify(amenity_obj.to_json())
-    resp.status_code = 201
-
-    return resp
+        if amenity.id in place.amenity_ids:
+            return make_response(jsonify(amenity.to_dict()), 200)
+        else:
+            place.amenity_ids.append(amenity.id)
+    place.save()
+    res = jsonify(amenity.to_dict())
+    return make_response(res, 201)
