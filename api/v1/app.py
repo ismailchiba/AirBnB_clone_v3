@@ -3,7 +3,7 @@
 Createw Flask app; and register the blueprint app_views to Flask instance app.
 ...
 from os import getenv
-from flas import Flask
+from flask import Flask
 from models import storage
 from api.v1.views import app_views
 
