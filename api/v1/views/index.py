@@ -16,19 +16,16 @@ classes = {"amenities": "Amenity",
            "users": "User"}
 
 
-@app_views.route('/status')
+@app_views.route('/status', methods=['GET'])
 def status():
-    """
-        Flask route at /status.
-        Displays the status of the API.
-    """
-    return {"status": "OK"}
+    ''' routes to status page '''
+    return jsonify({'status': 'OK'})
 
 
-@app_views.route('/stats')
-def stats():
-    """
-        Flask route at /stats.
-        Displays the number of each objects by type.
-    """
-    return {k: storage.count(v) for k, v in classes.items()}
+@app_views.route('/stats', methods=['GET'])
+def count():
+    '''retrieves the number of each objects by type'''
+    count_dict = {}
+    for cls in classes:
+        count_dict[cls] = storage.count(classes[cls])
+    return jsonify(count_dict)
