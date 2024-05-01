@@ -113,3 +113,13 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+
+    @unittest.kipIF(models.storage == 'db', "not testing file storage")
+    def test_get(self):
+        """A method to retrieve one object"""
+        pass
+
+    @unittest.kipIF(models.storage == 'db', "not testing file storage")
+    def test_count(self):
+        """A method to count the number of objects in storage"""
+        pass
