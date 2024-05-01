@@ -22,7 +22,7 @@ def get_cities_by_states(state_id):
 
 
 @app_views.route('/cities/<city_id>', strict_slashes=False)
-def get_state(city_id):
+def get_citys(city_id):
     """
     retireves a city
     """
@@ -34,7 +34,7 @@ def get_state(city_id):
 
 
 @app_views.route('/states/<state_id>', methods=['DELETE'], strict_slashes=False)
-def delete_citys(state_id):
+def delete_citys(city_id):
     """
     """
     city = storage.get(City, city_id)
@@ -43,7 +43,7 @@ def delete_citys(state_id):
         storage.save()
         return jsonify({}), 200
     else:
-        abort(404)
+        return abort(404)
 
 
 @app_views.route('/states/<state_id>/cities', methods=['POST'], strict_slashes=False)
@@ -53,10 +53,9 @@ def create_citys(state_id):
     """
     if request.content_type != 'application/json':
         return abort(404, 'Not a JSON')
-
     state = storage.get(State, state_id)
     if not state:
-        return abort (404)
+        return abort(404)
     if not request.get_json():
         return abort(400, 'Not a JSON')
     data = request.get_json()
@@ -84,6 +83,7 @@ def update_citys(city_id):
 
         data = request.get_json()
         ignore_keys = {'id', 'created_at', 'updated_at'}
+
         for key, value in data.items():
             if key not in ignore_keys:
                 setattr(city, key, value)
