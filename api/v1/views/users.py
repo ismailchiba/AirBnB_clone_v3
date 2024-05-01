@@ -21,7 +21,7 @@ def read_users():
 # GET REQUEST
 
 
-@app_views.route('users/<user_id>', methods=['GET'])
+@app_views.route('/users/<user_id>', methods=['GET'])
 def read_user(user_id):
     """ This retrieves a user object from users"""
     user_obj = storage.get(User, user_id)
@@ -35,7 +35,7 @@ def read_user(user_id):
 # DELETE REQUEST
 
 
-@app_views.route('users/<user_id>', methods=['DELETE'], strict_slashes=False)
+@app_views.route('/users/<user_id>', methods=['DELETE'], strict_slashes=False)
 def delete_user(user_id):
     """ This deletes a user """
     user_obj = storage.get(User, user_id)
