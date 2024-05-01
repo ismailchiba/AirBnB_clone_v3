@@ -122,7 +122,7 @@ def update_user(user_id):
     Update a specific User object in the database by its unique ID.
 
     This function locates a User object using the provided ID and updates
-    its information with the data received from the request. 
+    its information with the data received from the request.
     If the update is successful, the function returns the updated User
     object along with a 200 HTTP status code. 
     If the update fails due to invalid data,
