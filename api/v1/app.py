@@ -12,7 +12,7 @@ from os import getenv
 app = Flask(__name__)
 app.url_map.strict_slashes = False
 app.register_blueprint(app_views)
-CORS(app, resources={r"/*": {"origins": "0.0.0.0"}})
+CORS(app, resources={r"/*": {"origins": "3.85.54.100"}})
 
 
 @app.teardown_appcontext
@@ -28,6 +28,6 @@ def error_404(exception):
 
 
 if __name__ == "__main__":
-    host = getenv("HBNB_API_HOST", "0.0.0.0")
+    host = getenv("HBNB_API_HOST", "3.85.54.100")
     port = getenv("HBNB_API_PORT", "5000")
     app.run(host=host, port=port, threaded=True, debug=True)
