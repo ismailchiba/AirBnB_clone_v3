@@ -13,7 +13,7 @@ from models.state import State
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
 def get_state():
     """ retrive list of all states """
-    st = storage.all("State").values()
+    st = storage.all(State).values()
     if st is None:
         abort(404)
     lst_state = [i.to_dict() for i in st]
@@ -23,7 +23,7 @@ def get_state():
 @app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
 def state_id(state_id):
     """ get state by id """
-    st_value = storage.get("State", state_id)
+    st_value = storage.get(State, state_id)
     if st_value is None:
         abort(404)
     return jsonify(st_value.to_dict())
@@ -57,7 +57,7 @@ def add_post():
 def st_update(state_id):
     """ update state object"""
 
-    st_id = storage.get("State", state_id)
+    st_id = storage.get(State, state_id)
     if st_id is None:
         return make_response(jsonify({"error": "Not found"}), 404)
     if not request.get_json():
