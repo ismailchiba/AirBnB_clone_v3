@@ -83,7 +83,7 @@ class FileStorage:
 
     def count(self, cls=None):
         """
-        this counts objects
+        this counts objects by id
         """
         res = 0
         if cls:
