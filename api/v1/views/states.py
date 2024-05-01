@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""HolbertonBnB State view."""
+"""API State view."""
 from api.v1.views import app_views
 from flask import abort, jsonify, request
 from models import storage
@@ -8,11 +8,7 @@ from models.state import State
 
 @app_views.route("/states", methods=["GET", "POST"])
 def states():
-    """Defines GET and POST methods for the states route.
-
-    GET - Retrives a list of all State objects.
-    POST - Creates a State.
-    """
+    """Defines GET and POST methods for the states route."""
 
     if request.method == "GET":
         return jsonify([s.to_dict() for s in storage.all("State").values()])
@@ -29,12 +25,7 @@ def states():
 
 @app_views.route("/states/<state_id>", methods=["GET", "DELETE", "PUT"])
 def state_id(state_id):
-    """Defines GET, DELETE and PUT methods for a specific ID on states.
-
-    GET - Retrieves a State object with the given id.
-    DELETE - Deletes the State object with the given id.
-    PUT - Updates the State object with a given JSON object of key/value pairs.
-    """
+    """Defines GET, DELETE and PUT methodS"""
     state = storage.get("State", state_id)
     if state is None:
         abort(404)

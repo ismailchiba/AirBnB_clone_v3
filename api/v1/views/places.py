@@ -15,11 +15,9 @@ def places(city_id):
     if city is None:
         abort(404)
 
-    # GET method
     if request.method == "GET":
         return jsonify([p.to_dict() for p in city.places])
 
-    # POST method
     data = request.get_json(silent=True)
     if data is None:
         return "Not a JSON", 400

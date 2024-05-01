@@ -8,16 +8,10 @@ from models.amenity import Amenity
 
 @app_views.route("/amenities", methods=["GET", "POST"])
 def amenities():
-    """Defines GET and POST methods for the /amenities route.
-
-    GET - Retrieves a list of all Amenity objects.
-    POST - Creates a Amenity.
-    """
-    # GET method
+    """Defines GET and POST methods for the /amenities"""
     if request.method == "GET":
         return jsonify([a.to_dict() for a in storage.all("Amenity").values()])
 
-    # POST method
     data = request.get_json(silent=True)
     if data is None:
         return "Not a JSON", 400
@@ -30,12 +24,7 @@ def amenities():
 
 @app_views.route("/amenities/<amenity_id>", methods=["GET", "DELETE", "PUT"])
 def amenity_id(amenity_id):
-    """Defines GET, PUT and DELETE methods for a specific ID on /amenities.
-
-    GET - Retrieves an Amenity object with the given id.
-    PUT - Updates an Amenity object with the given id using JSON key/values.
-    DELETE - Deletes an Amenity object with the given id.
-    """
+    """Defines GET, PUT and DELETE methods"""
     amenity = storage.get("Amenity", amenity_id)
     if amenity is None:
         abort(404)
