@@ -11,7 +11,7 @@ from models.state import State
     methods=['GET'],
     strict_slashes=False
 )
-def get_states():
+def get_all_states():
     """get all states"""
     all_state = [i.to_dict() for i in storage.all(State).values()]
     return jsonify(all_state)
@@ -22,10 +22,10 @@ def get_states():
     methods=['GET'],
     strict_slashes=False
 )
-def get_state(state_id):
+def get_each_state(state_id):
     """get a state"""
     try:
-        i = storage.get('State', state_id)
+        i = storage.get(State, state_id)
         return jsonify(i.to_dict())
     except Exception:
         abort(404)
