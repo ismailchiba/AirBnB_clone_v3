@@ -8,6 +8,49 @@ The console is the first segment of the AirBnB project at Holberton School that 
 * Update attributes of an object
 * Destroy an object
 
+## Tasks
+0. Restart from scratch!
+No no no! We are already too far in the project to restart everything.
+
+But once again, let’s work on a new codebase.
+
+For this project you will fork this codebase:
+
+Update the repository name to AirBnB_clone_v3
+Update the README.md:
+Add yourself as an author of the project
+Add new information about your new contribution
+Make it better!
+If you’re the owner of this codebase, create a new repository called AirBnB_clone_v3 and copy over all files from AirBnB_clone_v2
+
+# 1. Never fail!
+Since the beginning we’ve been using the unittest module, but do you know why unittests are so important? Because when you add a new feature, you refactor a piece of code, etc… you want to be sure you didn’t break anything.
+
+At Holberton, we have a lot of tests, and they all pass! Just for the Intranet itself, there are:
+
+5,213 assertions (as of 08/20/2018)
+13,061 assertions (as of 01/25/2021)
+The following requirements must be met for your project:
+
+all current tests must pass (don’t delete them…)
+add new tests as much as you can (tests are mandatory for some tasks)
+
+# 2. Improve storage
+Update DBStorage and FileStorage, adding two new methods. All changes should be done in the branch storage_get_count:
+
+A method to retrieve one object:
+
+Prototype: def get(self, cls, id):
+cls: class
+id: string representing the object ID
+Returns the object based on the class and its ID, or None if not found
+A method to count the number of objects in storage:
+
+Prototype: def count(self, cls=None):
+cls: class (optional)
+Returns the number of objects in storage matching the given class. If no class is passed, returns the count of all objects in storage.
+Don’t forget to add new tests for these 2 methods on each storage engine.
+
 ## Table of Content
 * [Environment](#environment)
 * [Installation](#installation)
