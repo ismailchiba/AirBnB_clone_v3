@@ -17,7 +17,11 @@ def places_search():
     the JSON in the body of the request."""
     try:
         req_data = request.get_json()
-        if not req_data:
+        if req_data is None:
+            abort(404)
+        if not req_data or\
+            all(not req_data.get(key)
+                for key in ['states', 'cities', 'amenities']):
             # If the JSON body is empty, retrieve all Place objects
             places = storage.all(Place).values()
         else:
