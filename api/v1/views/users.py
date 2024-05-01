@@ -102,12 +102,14 @@ def create_user():
     """
     try:
         data = request.get_json(silent=True)
-        if "email" not in data:
-            abort(400, "Missing email")
-        if "password" not in data:
-            abort(400, "Missing password")
+        if not data:
+            abort(400, "Not a JSON")
     except BadRequest:
         abort(400, "Not a JSON")
+    if "email" not in data:
+        abort(400, "Missing email")
+    if "password" not in data:
+        abort(400, "Missing password")
     new_user = User(**data)
     new_user.save()
     res = jsonify(new_user.to_dict())
