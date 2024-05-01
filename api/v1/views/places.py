@@ -18,7 +18,7 @@ def places_search():
         req_data = request.get_json()
         if not req_data:
             # If the JSON body is empty or each list of all keys are empty
-            places = storage.all(Place)
+            places = storage.all(Place).values()
         else:
             places = []
             # If states list is not empty
