@@ -22,7 +22,6 @@ def get_places(city_id):
         abort(404)
 
     places = [place.to_dict() for place in city.places]
-    print("FROM places.py FILE::", places)
 
     return jsonify(places)
 
@@ -42,7 +41,7 @@ def get_place(place_id):
 
 
 @app_views.route('/places/<place_id>', methods=['DELETE'],
-                 strict_slashes="False")
+                 strict_slashes=False)
 def delete_place(place_id):
     """
     Deletes  Place object with the specified place_id
