@@ -14,7 +14,7 @@ from models.state import State
 @app_views.route('/states/<state_id>/cities', methods=['GET', 'POST'])
 @app_views.route('/cities/<city_id>', methods=['GET', 'DELETE', 'PUT'])
 def handle_cities(state_id=None, city_id=None):
-    '''these are the function
+    '''this is the endpoint
     '''
     handlers = {
         'GET': get_cities,
