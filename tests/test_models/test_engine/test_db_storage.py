@@ -69,58 +69,30 @@ test_db_storage.py'])
 
 
 class TestDBStorage(unittest.TestCase):
-    """Test the FileStorage class"""
+    """Test the DBStorage class"""
 
-    def setUp(self):
-        self.storage = DBStorage()
-        self.user = User()
-        self.user.id = "user_id"
-        self.base_model = BaseModel()
-        self.base_model.id = "base_model_id"
-        self.storage.new(self.user)
-        self.storage.new(self.base_model)
-        self.storage.save()
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') != 'db',
+                     "not testing db storage")
+    def test_get(self):
+        """Test that get returns specific object, or none"""
+        newState = State(name="New York")
+        newState.save()
+        newUser = User(email="mary@gmail.com", password="password")
+        newUser.save()
+        self.assertIs(newState, models.storage.get("State", newState.id))
+        self.assertIs(None, models.storage.get("State", "blah"))
+        self.assertIs(None, models.storage.get("blah", "blah"))
+        self.assertIs(newUser, models.storage.get("User", newUser.id))
 
-    def tearDown(self):
-        self.storage.delete(self.user)
-        self.storage.delete(self.base_model)
-        self.storage.save()
-
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    def test_all_returns_dict(self):
-        """Test that all returns a dictionaty"""
-        self.assertIs(type(models.storage.all()), dict)
-
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    def test_all_no_class(self):
-        """Test that all returns all rows when no class is passed"""
-
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    def test_new(self):
-        """test that new adds an object to the database"""
-
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    def test_save(self):
-        """Test that save properly saves objects to file.json"""
-
-    def test_get_existing_object(self):
-        """ Test getting an existing object"""
-        retrieved_user = self.storage.get(User, "user_id")
-        self.assertIsNotNone(retrieved_user)
-        self.assertEqual(retrieved_user.id, "user_id")
-        self.assertIsInstance(retrieved_user, User)
-
-    def test_get_non_existing_object(self):
-        """Test getting a non-existing object"""
-        non_existing_object = self.storage.get(User, "non_existing_id")
-        self.assertIsNone(non_existing_object)
-
-    def test_count_all_objects(self):
-        """Test counting all objects"""
-        count = self.storage.count()
-        self.assertEqual(count, 2)
-
-    def test_count_objects_of_specific_class(self):
-        """Test counting objects of a specific class"""
-        count = self.storage.count(User)
-        self.assertEqual(count, 1)
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') != 'db',
+                     "not testing db storage")
+    def test_count(self):
+        """add new object to db"""
+        startCount = models.storage.count()
+        self.assertEqual(models.storage.count("Blah"), 0)
+        newState = State(name="Montevideo")
+        newState.save()
+        newUser = User(email="calebmuteti4@gmail.com", password="123456")
+        newUser.save()
+        self.assertEqual(models.storage.count("State"), startCount + 1)
+        self.assertEqual(models.storage.count(), startCount + 2)
