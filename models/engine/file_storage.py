@@ -4,53 +4,51 @@ Contains the FileStorage class
 """
 
 import json
-from models.amenity import Amenity
-from models.base_model import BaseModel
-from models.city import City
-from models.place import Place
-from models.review import Review
-from models.state import State
-from models.user import User
+from models import base_model, amenity, city, place, review, state, user
+from datetime import datetime
 
-classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
-           "Place": Place, "Review": Review, "State": State, "User": User}
+strptime = datetime.strptime
+to_json = base_model.BaseModel.to_json
 
 
 class FileStorage:
     """serializes instances to a JSON file & deserializes back to instances"""
-
+    classes = {
+        'BaseModel': base_model.BaseModel,
+        'Amenity': amenity.Amenity,
+        'City': city.City,
+        'Place': place.Place,
+        'Review': review.Review,
+        'State': state.State,
+        'User': user.User
+    }
     # string - path to the JSON file
-    __file_path = "file.json"
+    __file_path = './dev/file.json'
     # dictionary - empty but will store all objects by <class name>.id
     __objects = {}
 
     def all(self, cls=None):
         """returns the dictionary __objects"""
-        if cls is not None:
+        if cls:
             new_dict = {}
-            for key, value in self.__objects.items():
-                if cls == value.__class__ or cls == value.__class__.__name__:
-                    new_dict[key] = value
+            for class_id, obj in FileStorage.__objects.items():
+                if type(obj).__name__ == cls:
+                    new_dict[class_id] = obj
             return new_dict
-        return self.__objects
+        return FileStorage.__objects
+
     def get(self, cls, id):
         """Retrieve one object by class and ID"""
-        all_objects = self.all(cls)
-        for obj_id, obj in all_objects.items():
-            if obj.id == id:
+        all_class = self.all(cls)
+        for obj in all_class.values():
+            if id == str(obj.id):
                 return obj
+
         return None
 
     def count(self, cls=None):
         """Count the number of objects in storage"""
-        if cls:
-            all_objects = self.all(cls)
-            return len(all_objects)
-        else:
-            total_count = 0
-            for clss in classes.values():
-                total_count += len(self.all(clss))
-            return total_count
+        return len(self.all(cls))
 
     def new(self, obj):
         """sets in __objects the obj with key <obj class name>.id"""
