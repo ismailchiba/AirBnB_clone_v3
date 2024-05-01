@@ -97,14 +97,8 @@ class DBStorage:
         Returns:
             number of objects in storage matching the given class or all objs
         """
-        if not cls:
-         inst_of_all_cls=self.all()
-        return len(inst_of_all_cls)
-        for cls, value in classes.items():
-            
-         if clas==cls or clas==value:
+        if cls:
             if cls in classes.values():
-              return len(self.all(cls))
+                return len(self.all(cls))
         else:
             return len(self.all())
-            
