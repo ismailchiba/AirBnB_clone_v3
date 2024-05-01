@@ -42,8 +42,7 @@ def delete_state(state_id):
     if i is None:
         abort(404)
     storage.delete(i)
-    storage.save()
-    return jsonify({})
+    return jsonify({}), 200
 
 
 @app_views.route(
@@ -81,5 +80,5 @@ def update_state(state_id):
     for k, v in data.items():
         if k not in ['id', 'created_at', 'updated_at']:
             setattr(state, k, v)
-    storage.save()
+    state.save()
     return jsonify(state.to_dict())
