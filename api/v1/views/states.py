@@ -13,8 +13,11 @@ from models.state import State
 )
 def get_all_states():
     """get all states"""
-    all_state = [i.to_dict() for i in storage.all(State).values()]
-    return jsonify(all_state)
+    states = storage.all(State)
+    all_states = []
+    for state in states.values():
+        all_states.append(state.to_dict())
+    return jsonify(all_states)
 
 
 @app_views.route(
@@ -24,11 +27,10 @@ def get_all_states():
 )
 def get_each_state(state_id):
     """get a state"""
-    try:
-        i = storage.get(State, state_id)
-        return jsonify(i.to_dict())
-    except Exception:
+    state = storage.get(State, state_id)
+    if state is None:
         abort(404)
+    return jsonify(state.to_dict())
 
 
 @app_views.route(
@@ -38,11 +40,12 @@ def get_each_state(state_id):
 )
 def delete_state(state_id):
     """delete a state"""
-    i = storage.get(State, state_id)
-    if i is None:
+    state = storage.get(State, state_id)
+    if state is None:
         abort(404)
-    storage.delete(i)
-    return jsonify({}), 200
+    state.delete()
+    storage.save()
+    return jsonify({})
 
 
 @app_views.route(
@@ -52,12 +55,11 @@ def delete_state(state_id):
 )
 def create_state():
     """create a state"""
-    data = request.get_json()
     if not request.json:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
-    if 'name' not in data:
+    if 'name' not in request.json:
         return make_response(jsonify({"error": "Missing name"}), 400)
-    new_state = State(**data)
+    new_state = State(**request.get_json())
     new_state.save()
     return make_response(jsonify(new_state.to_dict()), 201)
 
@@ -69,15 +71,14 @@ def create_state():
 )
 def update_state(state_id):
     """update a state"""
-    data = request.get_json()
-    if not data:
-        return make_response(
-            jsonify({"error": "Not a JSON"}), 400
-        )
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
-    for k, v in data.items():
+    if not request.json:
+        return make_response(
+            jsonify({"error": "Not a JSON"}), 400
+        )
+    for k, v in request.get_json().items():
         if k not in ['id', 'created_at', 'updated_at']:
             setattr(state, k, v)
     state.save()
