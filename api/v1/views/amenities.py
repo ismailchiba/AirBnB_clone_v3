@@ -13,12 +13,7 @@ from models.amenity import Amenity
     strict_slashes=False
 )
 def get_all_amenitie():
-    """
-    Get all amenities
-
-    Returns:
-        all amenity
-    """
+    """get all amenities"""
     all_amenity = []
     for x in storage.all(Amenity).values():
         all_amenity.append(x.to_dict())
@@ -31,12 +26,7 @@ def get_all_amenitie():
     strict_slashes=False
 )
 def get_each_amenity(amenity_id):
-    """
-    get amenity from id
-
-    Returns:
-        each amenity by id
-    """
+    """get amenity from id"""
     x = storage.get(Amenity, amenity_id)
     if x is None:
         abort(404)
@@ -49,12 +39,7 @@ def get_each_amenity(amenity_id):
     strict_slashes=False
 )
 def delete_amenity(amenity_id):
-    """
-    delete amenity from id
-
-    Returns:
-        delete amenity
-    """
+    """delete amenity from id"""
     x = storage.get(Amenity, amenity_id)
     if x is None:
         abort(404)
@@ -69,12 +54,7 @@ def delete_amenity(amenity_id):
     strict_slashes=False
 )
 def create_amenity():
-    """
-    create amenity
-
-    Returns:
-        post a new amenity
-    """
+    """create amenity"""
     data = request.get_json()
     if not data:
         abort(400, 'Not a JSON')
@@ -91,12 +71,7 @@ def create_amenity():
     strict_slashes=False
 )
 def update_amenity(amenity_id):
-    """
-    update amenity
-
-    Returns:
-        put amenity
-    """
+    """update amenity"""
     data = request.get_json()
     if not data:
         abort(400, 'Not a JSON')
