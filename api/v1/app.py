@@ -24,6 +24,7 @@ def teardown_db(code):
     """ Close db storage - Task 3 """
     storage.close()
 
+
 """
 @app.errorhandler(Exception)
 def handle_all_errors(error):

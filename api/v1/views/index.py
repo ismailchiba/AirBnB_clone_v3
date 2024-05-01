@@ -22,7 +22,7 @@ def get_status():
 def get_stats():
     stats = {}
     if RQ.method == 'GET':
-        plurals ={
+        plurals = {
             'Amenity': 'amenities',
             'City': 'cities',
             'Place': 'places',
@@ -32,5 +32,5 @@ def get_stats():
         }
         for key, value in plurals.items():
             stats[value] = storage.count(key)
-            
+
     return jsonify(stats)
