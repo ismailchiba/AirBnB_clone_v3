@@ -31,7 +31,7 @@ def handle_404(exception):
     """
     code = exception.__str__().split()[0]
     description = exception.description
-    message = {'error': description}
+    message = {"error": description}
     return make_response(jsonify(message), code)
 
 
