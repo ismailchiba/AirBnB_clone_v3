@@ -40,24 +40,16 @@ def delete_stat(state_id):
 
 @app_views.route('/states/<state_id>', strict_slashes=False, methods=['PUT'])
 def update_stat(state_id):
-    cur_state = storage.get(State, state_id)
-    if not cur_state:
+    s = storage.get(State, state_id)
+    if not s:
         abort(404)
-    new_state = request.get_json()
-    if not new_state:
-        return make_response("Not a JSON", 400)
-    setattr(cur_state, 'name', new_state.get('name'))
+    res_body = request.get_json(silent=True)
+    if not res_body:
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
+    if 'name' in res_body:
+        setattr(s, 'name', res_body['name'])
     storage.save()
-    return make_response(cur_state.to_dict(), 200)
-    # s = storage.get(State, state_id)
-    # if not s:
-    #     abort(404)
-    # res_body = request.get_json(silent=True)
-    # if not res_body:
-    #     return make_response(jsonify({"error": "Not a JSON"}), 400)
-    # setattr(s, 'name', res_body.get('name'))
-    # storage.save()
-    # return jsonify(s.to_dict(), 200)
+    return jsonify(s.to_dict(), 200)
 
 
 @app_views.route('/states', strict_slashes=False, methods=['POST'])
