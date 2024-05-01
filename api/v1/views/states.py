@@ -40,6 +40,8 @@ def delete_stat(state_id):
 
 @app_views.route('/states/<state_id>', strict_slashes=False, methods=['PUT'])
 def update_stat(state_id):
+    if not state_id:
+        abort(404)
     s = storage.get(State, state_id)
     if not s:
         abort(404)
