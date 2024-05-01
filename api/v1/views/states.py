@@ -58,19 +58,19 @@ def create_state():
     return response
 
 
-@app_views.route("/states/<state_id>", methods=["PUT"], strict_slashes=False)
-def update_state(state_id):
-    """Updates a State object."""
-    state = storage.get(State, state_id)
-    if state is None:
+@app_views.route('/states/<state_id>', methods=['PUT'])
+def updates_state(state_id):
+    '''Updates a State object'''
+    all_states = storage.all("State").values()
+    state_obj = [obj.to_dict() for obj in all_states if obj.id == state_id]
+    if state_obj == []:
         abort(404)
-    try:
-        data = request.get_json()
-    except BadRequest:
-        abort(400, description="Not a JSON")
-    ignore_keys = ["id", "created_at", "updated_at"]
-    for key, value in request.get_json().items():
-        if key not in ignore_keys:
-            setattr(state, key, value)
+    if not request.get_json():
+        abort(400, 'Not a JSON')
+    state_obj[0]['name'] = request.json['name']
+    for obj in all_states:
+        if obj.id == state_id:
+            obj.name = request.json['name']
     storage.save()
-    return jsonify(state.to_dict()), 200
+    return jsonify(state_obj[0]), 200
+
