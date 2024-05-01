@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+
 """app"""
 from flask import Flask, make_response, jsonify
 from models import storage
@@ -23,7 +24,7 @@ def tear(self):
 
 @app.errorhandler(404)
 def not_found(error):
-    ''' handles 404 error and gives json formatted response '''
+    '''script that handles 404 error and gives json formatted response'''
     return make_response(jsonify({'error': 'Not found'}), 404)
 
 if __name__ == '__main__':
