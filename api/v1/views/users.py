@@ -43,22 +43,21 @@ def delete_user(user_id):
     return jsonify({}), 200
 
 
-@app_views.route('/users/<user_id>/users', methods=['POST'],
-                 strict_slashes=False)
-def post_user(user_id):
+@app_views.route('/users', methods=['POST'], strict_slashes=False)
+def post_user():
     """
-    Creates a User
+    Creates a user
     """
-    user = storage.get(User, user_id)
-    if not user:
-        abort(404)
-    post_data = request.get_json()
-    if not post_data:
+    if not request.get_json():
         abort(400, description="Not a JSON")
-    if 'name' not in post_data:
-        abort(400, description="Missing name")
 
-    new_user = User(**post_data)
+    if 'email' not in request.get_json():
+        abort(400, description="Missing email")
+    if 'password' not in request.get_json():
+        abort(400, description="Missing password")
+
+    data = request.get_json()
+    new_user = User(**data)
     new_user.save()
     return jsonify(new_user.to_dict()), 201
 
@@ -76,7 +75,7 @@ def put_user(user_id):
     if not data:
         abort(400, description="Not a JSON")
 
-    ignore = ['id', 'user_id', 'created_at', 'updated_at']
+    ignore = ['id', 'email', 'created_at', 'updated_at']
 
     for key, value in data.items():
         if key not in ignore:
