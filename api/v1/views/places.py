@@ -6,6 +6,7 @@ from api.v1.views import app_views, storage
 from flask import jsonify, abort, request, make_response
 from models.city import City
 from models.place import Place
+from models.state import State
 from models.user import User
 from werkzeug.exceptions import BadRequest
 
@@ -24,13 +25,13 @@ def places_search():
             # If states list is not empty
             if "states" in req_data and req_data["states"]:
                 for state_id in req_data["states"]:
-                    state = storage.get("State", state_id)
+                    state = storage.get(State, state_id)
                     for city in state.cities:
                         places.extend(city.places)
             # If cities list is not empty
             if "cities" in req_data and req_data["cities"]:
                 for city_id in req_data["cities"]:
-                    city = storage.get("City", city_id)
+                    city = storage.get(City, city_id)
                     if city not in places:  # Avoid duplicates
                         places.extend(city.places)
             # If amenities list is not empty
