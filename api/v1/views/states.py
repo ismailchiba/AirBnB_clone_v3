@@ -40,6 +40,7 @@ def delete_stat(state_id):
 
 @app_views.route('/states/<state_id>', strict_slashes=False, methods=['PUT'])
 def update_stat(state_id):
+    """Updates a State object"""
     if not state_id:
         abort(404)
     s = storage.get(State, state_id)
@@ -48,9 +49,23 @@ def update_stat(state_id):
     res_body = request.get_json(silent=True)
     if not res_body:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
-    setattr(s, 'name', res_body.get('name'))
+    for key, value in res_body.items():
+        if key not in ['id', 'created_at', 'updated_at']:
+            setattr(s, key, value)
     storage.save()
-    return jsonify(s.to_dict(), 200)
+    return jsonify(s.to_dict())
+
+    # if not state_id:
+    #     abort(404)
+    # s = storage.get(State, state_id)
+    # if not s:
+    #     abort(404)
+    # res_body = request.get_json(silent=True)
+    # if not res_body:
+    #     return make_response(jsonify({"error": "Not a JSON"}), 400)
+    # setattr(s, 'name', res_body.get('name'))
+    # storage.save()
+    # return jsonify(s.to_dict(), 200)
 
 
 @app_views.route('/states', strict_slashes=False, methods=['POST'])
@@ -64,3 +79,12 @@ def create_stat():
     obj = State(**res_body)
     obj.save()
     return make_response(jsonify(obj.to_dict()), 201)
+
+    # res_body = request.get_json(silent=True)
+    # if not res_body:
+    #     return make_response(jsonify({"error": "Not a JSON"}), 400)
+    # if 'name' not in res_body:
+    #     return make_response(jsonify({"error": "Missing name"}), 400)
+    # obj = State(**res_body)
+    # obj.save()
+    # return make_response(jsonify(obj.to_dict()), 201)
