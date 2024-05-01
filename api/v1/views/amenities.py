@@ -83,14 +83,15 @@ def create_amenity():
         json: A JSON-formatted representation
         of the newly created Amenity object.
     """
-    data = request.get_json(silent=True)
-    if data is None:
+    try:
+        data = request.get_json(silent=True)
+        if "name" not in data:
+            abort(400, "Missing name")
+    except BadRequest:
         abort(400, "Not a JSON")
-    if "name" not in data:
-        abort(400, "Missing name")
-    new_am = Amenity(**data)
-    new_am.save()
-    res = jsonify(new_am.to_dict())
+    new_amenity = Amenity(**data)
+    new_amenity.save()
+    res = jsonify(new_amenity.to_dict())
     return make_response(res, 201)
 
 
