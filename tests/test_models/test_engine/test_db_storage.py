@@ -9,6 +9,7 @@ import unittest
 import pep8
 import models
 from models.engine import db_storage
+from models import storage
 from models.amenity import Amenity
 from models.city import City
 from models.place import Place
@@ -70,7 +71,6 @@ class TestDBtorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_all_returns_dict(self):
         """Test that all returns a dictionaty"""
-        storage = DBStorage()
         self.assertIs(type(storage.all()), dict)
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
