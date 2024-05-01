@@ -11,7 +11,7 @@ def list_cities_of_state(state_id):
     """Retrieves a list of all City objects"""
     all_states = storage.all("State").values()
     state_obj = [obj.to_dict() for obj in all_states if obj.id == state_id]
-    if not state_obj:
+    if state_obj == []:
         abort(404)
     list_cities = [obj.to_dict() for obj in storage.all("City").values()
                    if state_id == obj.state_id]
