@@ -19,12 +19,12 @@ def read_cities(state_id):
     if not state_obj:
         abort(404)
 
+    list_cities = []
     # Retrieves city based on state Id
-    all_cities = storage.all(City)
-    city_list = [city.to_dict() for city in all_cities.values()
-                 if city.state_id == state_id]
+    for city in state_obj.cities:
+        list_cities.append(city.to_dict())
 
-    return jsonify(city_list)
+    return jsonify(list_cities)
 
 
 @app_views.route('/cities/<city_id>', methods=['GET'], strict_slashes=False)
