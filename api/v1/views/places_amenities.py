@@ -1,7 +1,8 @@
 #!/usr/bin/python3
-"""API defines the view for places amenities."""
+"""defines the view for places amenities Api calls"""
 import os
 from flask import abort, jsonify, request
+from flasgger import swag_from
 from models import storage
 from models.amenity import Amenity
 from api.v1.views import app_views
@@ -9,7 +10,7 @@ from api.v1.views import app_views
 
 @app_views.route("/places/<place_id>/amenities", methods=["GET"])
 def show_place_amenities(place_id):
-    """defines the GET method for getting a list of amenities"""
+    """Defines the GET method for getting a list of amenities"""
     place = storage.get("Place", place_id)
 
     if place is None:
@@ -22,10 +23,10 @@ def show_place_amenities(place_id):
     methods=["POST", "DELETE"]
 )
 def manage_place_amenities(place_id, amenity_id):
-    """defines the POST and DELETE methods for a Amenity object"""
-    place = storage.get("Place", place_id)
-    amenity = storage.get("Amenity", amenity_id)
+    """Defines the POST and DELETE methods for a Amenity object."""
     exists = False
+    amenity = storage.get("Amenity", amenity_id)
+    place = storage.get("Place", place_id)
     if place is None or amenity is None:
         abort(404)
 
