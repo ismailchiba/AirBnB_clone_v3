@@ -74,11 +74,7 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_all_returns_dict(self):
         """Test that all returns a dictionaty"""
-<<<<<<< HEAD
         self.assertIs(type(storage.all()), dict)
-=======
-        self.assertIs(type(models.storage.all()), dict)
->>>>>>> parent of 8e0e17c (pycodestyle fix)
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_all_no_class(self):
