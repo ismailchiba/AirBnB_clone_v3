@@ -119,15 +119,33 @@ def create_user():
 @app_views.route("/users/<user_id>", methods=["PUT"], strict_slashes=False)
 def update_user(user_id):
     """
-    updates specific User object by ID
-    :param user_id: user object ID
-    :return: user object and 200 on success, or 400 or 404 on failure
+    Update a specific User object in the database by its unique ID.
+
+    This function locates a User object using the provided ID and updates
+    its information with the data received from the request. 
+    If the update is successful, the function returns the updated User
+    object along with a 200 HTTP status code. 
+    If the update fails due to invalid data,
+    a 400 HTTP status code is returned.
+    If the User object with the specified ID does not exist,
+    a 404 HTTP status code is returned.
+
+    Parameters:
+    - user_id (int or str): The unique identifier
+    of the User object to be updated.
+
+    Returns:
+    - user: The updated User object if the update is successful.
+    - int: An HTTP status code of 200 for a successful update,
+    400 for invalid data, or 404 if the User object is not found.
     """
     user = storage.get(User, str(user_id))
     if not user:
         abort(404)
     try:
         data = request.get_json(silent=True)
+        if not data:
+            abort(400, "Not a JSON")
     except BadRequest:
         abort(400, "Not a JSON")
 
