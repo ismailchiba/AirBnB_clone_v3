@@ -20,6 +20,7 @@ def get_all_state():
 @app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
 def get_state(state_id):
     """Retrieves a State objects"""
+    print("State ID:", state_id)
     state_obj = storage.get(State, state_id)
     if not state_obj:
         return abort(404)
