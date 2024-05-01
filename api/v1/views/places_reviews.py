@@ -1,8 +1,5 @@
 #!/usr/bin/python3
-<<<<<<< HEAD
 
-=======
->>>>>>> 6e6b784f8744e0630b80c062bbc68f66cf7ade6b
 """places_reviews"""
 from api.v1.views import app_views
 from flask import jsonify, abort, request
@@ -24,13 +21,8 @@ def list_reviews_of_place(place_id):
     list_reviews = [obj.to_dict() for obj in storage.all("Review").values()
                     if place_id == obj.place_id]
     return jsonify(list_reviews)
-<<<<<<< HEAD
 
 
-=======
-
-
->>>>>>> 6e6b784f8744e0630b80c062bbc68f66cf7ade6b
 @app_views.route('/places/<place_id>/reviews', methods=['POST'])
 def create_review(place_id):
     '''Creates a Review'''
@@ -70,7 +62,7 @@ def get_review(review_id):
 
 @app_views.route('/reviews/<review_id>', methods=['DELETE'])
 def delete_review(review_id):
-    '''Deletes a Review object'''
+    '''script that Deletes a Review object'''
     all_reviews = storage.all("Review").values()
     review_obj = [obj.to_dict() for obj in all_reviews if obj.id == review_id]
     if review_obj == []:
@@ -85,7 +77,7 @@ def delete_review(review_id):
 
 @app_views.route('/reviews/<review_id>', methods=['PUT'])
 def updates_review(review_id):
-    '''Updates a Review object'''
+    '''script that Updates a Review object'''
     all_reviews = storage.all("Review").values()
     review_obj = [obj.to_dict() for obj in all_reviews if obj.id == review_id]
     if review_obj == []:
