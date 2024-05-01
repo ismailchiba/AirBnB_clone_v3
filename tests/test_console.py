@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+
 ''' Test suite for the console'''
 
 
@@ -68,7 +69,7 @@ class test_console(unittest.TestCase):
     @unittest.skipIf(db == "db", "Testing database storage only")
     def test_show_class_name(self):
         '''
-            Testing the error messages for class name missing.
+            script for Testing the error messages for class name missing.
         '''
         console = self.create()
         console.onecmd("create User")
@@ -117,7 +118,7 @@ class test_console(unittest.TestCase):
 
     def test_create(self):
         '''
-            Test that create works
+            script Test that create works
         '''
         console = self.create()
         console.onecmd("create User email=adriel@hbnb.com password=abc")
@@ -134,7 +135,7 @@ class test_console(unittest.TestCase):
 
     def test_class_name_doest_exist(self):
         '''
-            Testing the error messages for class name missing.
+            script for Testing the error messages for class name missing.
         '''
         console = self.create()
         console.onecmd("create Binita")
