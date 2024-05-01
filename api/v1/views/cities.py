@@ -66,9 +66,9 @@ def update_a_city_with_id(city_id):
     if answer:
         if not request.json:
             return jsonify({"error": "Not a JSON"}), 400
-        for k, r in request.get_json().items():
+        for k, v in request.get_json().items():
             if k not in ['id', 'created_at', 'updated_at', 'state_id']:
-                setattr(answer, k, r)
+                setattr(answer, k, v)
         answer.save()
         return jsonify(answer.to_dict()), 200
     abort(404)

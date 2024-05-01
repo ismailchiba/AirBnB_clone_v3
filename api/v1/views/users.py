@@ -58,9 +58,9 @@ def update_a_user_with_id(user_id):
     if answer:
         if not request.json:
             return jsonify({"error": "Not a JSON"}), 400
-        for k, v in request.get_json().items():
+        for k, r in request.get_json().items():
             if k not in ['id', 'email', 'created_at', 'updated_at']:
-                setattr(answer, k, v)
+                setattr(answer, k, r)
         answer.save()
         return jsonify(answer.to_dict()), 200
     abort(404)

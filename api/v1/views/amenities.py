@@ -26,7 +26,7 @@ def get_a_amenity_with_id(amenity_id):
 
 
 @app_views.route('/amenities/<amenity_id>', methods=['DELETE'])
-def delete_a_ameniity_with_id(amenity_id):
+def delete_a_amenity_with_id(amenity_id):
     """delete an amenity using id"""
     answer = models.storage.get("Amenity", amenity_id)
     if answer:
@@ -56,9 +56,9 @@ def update_a_amenity_with_id(amenity_id):
     if answer:
         if not request.json:
             return jsonify({"error": "Not a JSON"}), 400
-        for k, r in request.get_json().items():
+        for k, v in request.get_json().items():
             if k not in ['id', 'created_at', 'updated_at']:
-                setattr(answer, k, r)
+                setattr(answer, k, v)
         answer.save()
         return jsonify(answer.to_dict()), 200
     abort(404)
