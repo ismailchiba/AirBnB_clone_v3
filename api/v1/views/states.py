@@ -46,8 +46,7 @@ def update_stat(state_id):
     res_body = request.get_json(silent=True)
     if not res_body:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
-    if 'name' in res_body:
-        setattr(s, 'name', res_body['name'])
+    setattr(s, 'name', res_body.get('name'))
     storage.save()
     return jsonify(s.to_dict(), 200)
 
