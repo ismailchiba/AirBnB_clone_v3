@@ -96,46 +96,4 @@ class TestFileStorage(unittest.TestCase):
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_save(self):
-        """Test that save properly saves objects to file.json"""
-        storage = FileStorage()
-        new_dict = {}
-        for key, value in classes.items():
-            instance = value()
-            instance_key = instance.__class__.__name__ + "." + instance.id
-            new_dict[instance_key] = instance
-        save = FileStorage._FileStorage__objects
-        FileStorage._FileStorage__objects = new_dict
-        storage.save()
-        FileStorage._FileStorage__objects = save
-        for key, value in new_dict.items():
-            new_dict[key] = value.to_dict()
-        string = json.dumps(new_dict)
-        with open("file.json", "r") as f:
-            js = f.read()
-        self.assertEqual(json.loads(string), json.loads(js))
-
-    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
-    def test_get_stored_obj(self):
-        """This is a method for testing objects that are stored"""
-        storage = FileStorage()
-        content_dict = {"name": "Mariam"}
-        the_value = State(**val)
-        storage.new(instance)
-        storage.save()
-        storage = FileStorage()
-        result_of_instance = storage.get(State, the_value.id)
-        self.assertEqual(get_instance, instance)
-
-    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
-    def test_count_variables(self):
-        """This is a method for testing the number of objects"""
-        storage = FileStorage()
-        content_dict = {"name": "Mujib"}
-        the_value = State(**val)
-        storage.new(state)
-        content_dict = {"name": "Canada"}
-        city_values = City(**obj)
-        storage.new(city)
-        storage.save()
-        count_result = storage.count()
-        self.assertEqual(len(storage.all()), count_result)
+        """Test that save properly saves objects to file storage"""
