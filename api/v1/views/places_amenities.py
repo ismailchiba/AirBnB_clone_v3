@@ -9,7 +9,7 @@ from models.place import Place
 
 
 @app_views.route(
-    '/places/<string:place_id>/amenities',
+    '/places/<place_id>/amenities',
     methods=['GET'],
     strict_slashes=False
 )
@@ -30,7 +30,7 @@ def route_get_place_amenities(place_id):
 
 
 @app_views.route(
-    '/places/<string:place_id>/amenities/<string:amenity_id>',
+    '/places/<place_id>/amenities/<amenity_id>',
     methods=['DELETE'],
     strict_slashes=False
 )
@@ -53,7 +53,7 @@ def route_delete_place_amenity(place_id, amenity_id):
 
 
 @app_views.route(
-    '/places/<string:place_id>/amenities/<string:amenity_id>',
+    '/places/<place_id>/amenities/<amenity_id>',
     methods=['POST'],
     strict_slashes=False
 )
