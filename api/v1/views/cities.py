@@ -34,7 +34,7 @@ def get_state(city_id):
 
 
 @app_views.route('/states/<state_id>', methods=['DELETE'], strict_slashes=False)
-def delete_citys(city_id):
+def delete_citys(state_id):
     """
     """
     city = storage.get(City, city_id)
@@ -53,6 +53,7 @@ def create_citys(state_id):
     """
     if request.content_type != 'application/json':
         return abort(404, 'Not a JSON')
+
     state = storage.get(State, state_id)
     if not state:
         return abort (404)
