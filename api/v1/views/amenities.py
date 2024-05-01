@@ -1,10 +1,9 @@
 #!/usr/bin/python3
-"""Amenity"""
+"""Amenity functions"""
 
 from api.v1.views import app_views
 from flask import jsonify, request, abort, make_response
 from models import storage
-from models.state import State
 from models.amenity import Amenity
 
 
@@ -58,12 +57,12 @@ def create_amenity():
     """create amenity"""
     data = request.get_json()
     if not data:
-        return make_response(jsonify({'error': 'Not a JSON'}), 400)
-    if 'name' not in data:
-        return make_response(jsonify({'error': 'Missing name'}), 400)
+        abort(400, 'Not a JSON')
+    if "name" not in data:
+        abort(400, 'Missing name')
     i = Amenity(**data)
     i.save()
-    return make_response(jsonify(i.to_dict()), 201)
+    return jsonify(i.to_dict()), 201
 
 
 @app_views.route(
@@ -75,12 +74,12 @@ def update_amenity(amenity_id):
     """update amenity"""
     data = request.get_json()
     if not data:
-        return make_response(jsonify({'error': 'Not a JSON'}), 400)
+        abort(400, 'Not a JSON')
     amenity = storage.get(Amenity, amenity_id)
     if amenity is None:
         abort(404)
     for k, v in data.items():
         if k not in ['id', 'created_at', 'updated_at']:
             setattr(amenity, k, v)
-    storage.save()
-    return jsonify(amenity.to_dict())
+    amenity.save()
+    return jsonify(amenity.to_dict()), 200
