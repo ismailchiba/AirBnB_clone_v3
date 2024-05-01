@@ -7,8 +7,8 @@ from models import storage
 from models.state import State
 
 
-@app_views.route('/status', methods=['GET'], strict_slashes=False)
-def state_list():
+@app_views.route('/states', methods=['GET'], strict_slashes=False)
+def get_all_state():
     """Retrieves the list of all State objects"""
     state_list = storage.all(State).values()
     list_of_states = []
@@ -17,17 +17,17 @@ def state_list():
     return jsonify(list_of_states)
 
 
-@app_views.route('/status/<state_id>', methods=['GET'], strict_slashes=False)
+@app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
 def get_state(state_id):
     """Retrieves a State objects"""
     state_obj = storage.get(State, state_id)
     if not state_obj:
         return abort(404)
     else:
-        return jsonify(state_obj)
+        return jsonify(state_obj.to_dict())
 
 
-@app_views.route('/status/<state_id>', methods=['DELETE'],
+@app_views.route('/states/<state_id>', methods=['DELETE'],
                  strict_slashes=False)
 def delete_state(state_id):
     """Deletes a State object"""
@@ -37,7 +37,7 @@ def delete_state(state_id):
     else:
         storage.delete(state_obj)
         storage.save()
-        return jsonify({"status": 200})
+        return jsonify({"states": 200})
 
 
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
@@ -55,11 +55,11 @@ def create_state():
     return jsonify(new_state.to_dict()), 201
 
 
-@app_views.route('/states/<state_id>', methods=['PUT'], strictslashes=False)
+@app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
 def update_state_by_id(state_id):
     """Updates state"""
     state = storage.get(State, state_id)
-    if not state:
+    if state is None:
         abort(404)
 
     data = request.get_json()
