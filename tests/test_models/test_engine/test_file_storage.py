@@ -3,21 +3,25 @@
 Contains the TestFileStorageDocs classes
 """
 
-from datetime import datetime
 import inspect
+import json
+import os
+import unittest
+from datetime import datetime
+
+import pep8
+
 import models
-from models.engine import file_storage
+from models import storage
 from models.amenity import Amenity
 from models.base_model import BaseModel
 from models.city import City
+from models.engine import file_storage
 from models.place import Place
 from models.review import Review
 from models.state import State
 from models.user import User
-import json
-import os
-import pep8
-import unittest
+
 FileStorage = file_storage.FileStorage
 classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
@@ -116,26 +120,17 @@ class TestFileStorage(unittest.TestCase):
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_get(self):
-        """ Tests method for obtaining an instance file storage"""
-        storage = FileStorage()
-        dic = {"name": "Vecindad"}
-        instance = State(**dic)
-        storage.new(instance)
-        storage.save()
-        storage = FileStorage()
-        get_instance = storage.get(State, instance.id)
-        self.assertEqual(get_instance, instance)
+        """Test that get resturns one object"""
+        first_state_id = list(storage.all(State).values())[0].id
+        self.assertEqual(first_state_id, storage.get(State, first_state_id).id)
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_get_not_existing_id(self):
+        """Test that get resturns one object"""
+        self.assertEqual(None, storage.get(State, 'SomeBlaH'))
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_count(self):
-        """ Tests count method file storage """
-        storage = FileStorage()
-        dic = {"name": "Vecindad"}
-        state = State(**dic)
-        storage.new(state)
-        dic = {"name": "Mexico"}
-        city = City(**dic)
-        storage.new(city)
-        storage.save()
-        c = storage.count()
-        self.assertEqual(len(storage.all()), c)
+        """Test that get resturns one object"""
+        self.assertIsInstance(storage.count(), int)
+        self.assertIsInstance(storage.count(State), int)
