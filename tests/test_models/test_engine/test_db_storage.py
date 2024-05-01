@@ -86,3 +86,47 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get(self):
+        """Test that get returns the correct object"""
+        new_state = State(name="Utah")
+        new_state.save()
+        self.assertIs(models.storage.get(State, new_state.id), new_state)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_count(self):
+        """Test that count returns the number of objects in storage"""
+        self.assertEqual(models.storage.count(), 0)
+        new_state = State(name="Nevada")
+        new_state.save()
+        self.assertEqual(models.storage.count(), 1)
+        new_state = State(name="california")
+        new_state.save()
+        self.assertEqual(models.storage.count(), 2)
+        new_state = State(name="New Mexico")
+        new_state.save()
+        self.assertEqual(models.storage.count(), 3)
+        new_state = State(name="Utah")
+        new_state.save()
+        self.assertEqual(models.storage.count(), 4)
+        new_state = State(name="Nebraska")
+        new_state.save()
+        self.assertEqual(models.storage.count(), 5)
+        new_state = State(name="Texas")
+        new_state.save()
+        self.assertEqual(models.storage.count(), 6)
+        new_state = State(name="Kansas")
+        new_state.save()
+        self.assertEqual(models.storage.count(), 7)
+        new_state = State(name="Washington")
+        new_state.save()
+        self.assertEqual(models.storage.count(), 8)
+        new_state = State(name="Colorado")
+        new_state.save()
+        self.assertEqual(models.storage.count(), 9)
+        new_state = State(name="Montana")
+        new_state.save()
+        self.assertEqual(models.storage.count(), 10)
+        new_state = State(name="Wyoming")
+        new_state.save()
