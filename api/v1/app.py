@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """Status of your API"""
 
+from flask_cors import CORS
 from flask import Flask, render_template, make_response, jsonify
 from models import storage
 from api.v1.views import app_views
