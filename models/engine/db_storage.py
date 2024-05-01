@@ -77,7 +77,7 @@ class DBStorage:
 
     def get(self, cls, id):
         """
-        function that gets objects
+        function that get objects
         """
         if id and isinstance(id, str):
             if cls and (cls in classes.keys() or cls in classes.values()):
