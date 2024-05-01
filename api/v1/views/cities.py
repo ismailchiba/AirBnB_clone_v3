@@ -24,7 +24,6 @@ def get_cities_of_state(state_id):
         abort(404)
 
     cities = [city.to_dict() for city in state.cities]
-    print("from cities.py file:::", state.name)
 
     return jsonify(cities)
 
