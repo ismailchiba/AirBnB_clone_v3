@@ -1,15 +1,14 @@
 #!/usr/bin/python3
 """ holds class User"""
+import hashlib
 import models
 from models.base_model import BaseModel, Base
-from os import getenv
-import sqlalchemy
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 
 
 class User(BaseModel, Base):
-    """Representation of a user"""
+    """Representation of a user."""
 
     if models.storage_t == "db":
         __tablename__ = "users"
@@ -28,3 +27,14 @@ class User(BaseModel, Base):
     def __init__(self, *args, **kwargs):
         """initializes user"""
         super().__init__(*args, **kwargs)
+        # Ensure that the password is hashed upon object creation
+        self._hashed_password = self._hash_password()
+
+    def _hash_password(self):
+        """Hashes the user's password using SHA-256."""
+        return hashlib.md5(self.password.encode('utf-8')).hexdigest()
+
+    @property
+    def hashed_pwd(self):
+        """Returns the hashed password."""
+        return self._hashed_password
