@@ -30,8 +30,8 @@ def get_amenity(amenity_id):
 
     if amenity_obj is None:
         abort(404)
-    else:
-        return jsonify(amenity_obj.to_dict())
+
+    return jsonify(amenity_obj.to_dict())
 
 
 @app_views.route("/amenities/<amenity_id>", methods=["DELETE"],

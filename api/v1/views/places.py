@@ -22,8 +22,7 @@ def read_places(city_id):
     if not city_obj:
         abort(404)
 
-    places_list = [place.to_dict() for place in storage.all(Place).values()
-                   if place.city_id == city_id]
+    places_list = [place.to_dict() for place in city_obj.places]
     return jsonify(places_list)
 
 
@@ -38,7 +37,7 @@ def read_place(place_id):
     if not place_obj:
         abort(404)
 
-    return jsonify(place_obj)
+    return jsonify(place_obj.to_dict())
 
 
 # DELETE REQUEST
@@ -49,12 +48,7 @@ def read_place(place_id):
 def delete_place(place_id):
     """ This deletes a place object"""
 
-    place_obj = storage.get(City, place_id)
-
-    if not place_obj:
-        abort(404)
-
-    # deletes a place
+    place_obj = storage.get(Place, place_id)
     storage.delete(place_obj)
     storage.save()
     return jsonify({}), 200
@@ -72,12 +66,12 @@ def create_place(city_id):
         abort(404)
 
     if not request.get_json():
-        abort(400, "Not a JSON")
+        abort(400, description="Not a JSON")
 
     http_to_dict = request.get_json()
 
     if 'user_id' not in http_to_dict:
-        abort(400, "Missing user_id")
+        abort(400, description="Missing user_id")
 
     user_obj = storage.get(User, http_to_dict['user_id'])
 
@@ -85,13 +79,12 @@ def create_place(city_id):
         abort(404)
 
     if 'name' not in http_to_dict:
-        abort(400, "Missing name")
+        abort(400, description="Missing name")
 
     # Add the city Id into the dictionary if not exist
     http_to_dict['city_id'] = city_id
-    new_place_obj = City(**http_to_dict)
-    storage.new(new_place_obj)
-    storage.save()  # add the object to the storage
+    new_place_obj = Place(**http_to_dict)
+    new_place_obj.save()
 
     return jsonify(new_place_obj.to_dict()), 201  # return the new object
 
@@ -108,7 +101,7 @@ def update_place(place_id):
         abort(404)
 
     if not request.get_json():
-        abort(400, "Not a JSON")
+        abort(400, description="Not a JSON")
 
     http_to_json = request.get_json()
 

@@ -1,9 +1,9 @@
 #!/usr/bin/python3
-
 """REST API routes for User objects"""
 
+
 from models.user import User
-from flask import Flask, jsonify, abort, request, make_response
+from flask import jsonify, abort, request
 from models import storage
 from api.v1.views import app_views
 
@@ -55,19 +55,18 @@ def delete_user(user_id):
 def create_user():
     """ This route creates an object"""
     if not request.get_json():
-        abort(400, "Not a JASON")
+        abort(400, description="Not a JASON")
 
     http_to_dict = request.get_json()
 
     if 'email' not in http_to_dict:
-        abort(400, "Missing email")
+        abort(400, description="Missing email")
 
     if 'password' not in http_to_dict:
-        abort(400, "Missing password")
+        abort(400, description="Missing password")
 
     new_user = User(**http_to_dict)
-    storage.new(new_user)
-    storage.save()
+    new_user.save()
     return jsonify(new_user.to_dict()), 201
 
 
@@ -83,7 +82,7 @@ def update_user(user_id):
         abort(404)
 
     if not request.get_json():
-        abort(400, "Not a JSON")
+        abort(400, description="Not a JSON")
 
     http_to_dict = request.get_json()
     for key, value in http_to_dict.items():
