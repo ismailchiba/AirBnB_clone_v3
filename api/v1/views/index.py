@@ -8,9 +8,12 @@ from api.v1.views import app_views
 from os import getenv
 from flask_cors import CORS
 
-classes = {"users": "User", "places": "Place", "states": "State",
-           "cities": "City", "amenities": "Amenity",
-           "reviews": "Review"}
+classes = {"amenities": "Amenity",
+           "cities": "City",
+           "places": "Place",
+           "reviews": "Review",
+           "states": "State",
+           "users": "User"}
 
 
 @app_views.route('/status', methods=['GET'])
