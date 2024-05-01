@@ -6,6 +6,7 @@ from flask import jsonify, abort, request, make_response
 from api.v1.views import app_views, storage
 from models.place import Place
 from models.review import Review
+from models.user import User
 from werkzeug.exceptions import BadRequest
 
 
@@ -122,6 +123,9 @@ def create_review(place_id):
         abort(400, "Missing user_id")
     if "text" not in data:
         abort(400, "Missing text")
+    user = storage.get(User, data["user_id"])
+    if not user:
+        abort(404)
     data["place_id"] = place_id
     new_review = Review(**data)
     new_review.save()
