@@ -100,7 +100,6 @@ def create_city(state_id):
             abort(400, description="Not a JSON")
     except BadRequest:
         abort(400, "Not a JSON")
-
     if "name" not in data:
         abort(400, "Missing name")
     data["state_id"] = state_id
