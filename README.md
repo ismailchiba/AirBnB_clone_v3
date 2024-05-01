@@ -126,6 +126,7 @@ TestBaseModel class:
 * `def test_user_module_docstring(self)` - Test for the user.py module docstring
 * `def test_user_class_docstring(self)` - Test for the User class docstring
 
+## RESTful API (Addition to Forked Repo)
 
 ## Examples of use
 ```
@@ -156,7 +157,8 @@ No known bugs at this time.
 ## Authors
 Alexa Orrico - [Github](https://github.com/alexaorrico) / [Twitter](https://twitter.com/alexa_orrico)  
 Jennifer Huang - [Github](https://github.com/jhuang10123) / [Twitter](https://twitter.com/earthtojhuang)
+Olutunmibi Iseoluwa - [Github](https://github.com/Olatunde16) / [Twitter](https://twitter.com/thevictorsmight)
 
-Second part of Airbnb: Joann Vuong
+Third part of Airbnb: Joann Vuong
 ## License
 Public Domain. No copy write protection. 
