@@ -17,11 +17,16 @@ classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
 
 
 class FileStorage:
-    """serializes instances to a JSON file & deserializes back to instances"""
+    """
+    This class serializes instances to a JSON file
 
-    # string - path to the JSON file
+    Attributes:
+        __file_path (str): The path to the JSON file.
+        __objects (dict): A dictionary that stores all objects
+        by <class name>.id.
+    """
+
     __file_path = "file.json"
-    # dictionary - empty but will store all objects by <class name>.id
     __objects = {}
 
     def all(self, cls=None):
@@ -55,7 +60,7 @@ class FileStorage:
                 jo = json.load(f)
             for key in jo:
                 self.__objects[key] = classes[jo[key]["__class__"]](**jo[key])
-        except:
+        except Exception:
             pass
 
     def delete(self, obj=None):
@@ -68,3 +73,33 @@ class FileStorage:
     def close(self):
         """call reload() method for deserializing the JSON file to objects"""
         self.reload()
+
+    def count(self, cls=None) -> int:
+        """
+        Returns the number of objects in the storage.
+
+        Args:
+            cls (optional): The class name of the objects to count.
+                If not provided, counts all objects.
+
+        Returns:
+            int: The number of objects in the storage.
+        """
+        return len(self.all(cls))
+
+    def get(self, cls=None, cls_id=None) -> object:
+        """
+        Returns the instance object that has the specified class name and id.
+
+        Args:
+            cls (optional): The class name of the object to retrieve.
+            cls_id(optional): The ID of the object
+
+        Returns:
+            int: The number of objects in the storage.
+        """
+        if None in [cls, cls_id]:
+            return None
+
+        key = f"{cls.__name__}.{cls_id}"
+        return self.__objects.get(key)
