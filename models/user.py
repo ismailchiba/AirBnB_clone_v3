@@ -30,10 +30,10 @@ class User(BaseModel, Base):
             __password = kwargs.pop('password', None)
             if __password:
                 User.__password = ""
+                # Ensure that the password is hashed upon object  creation
                 hashed_pwd = self._hash_password()
                 setattr(self, "password", hashed_pwd)
         super().__init__(*args, **kwargs)
-        # Ensure that the password is hashed upon object creation
 
     def _hash_password(self):
         """Hashes the user's password using md5."""
