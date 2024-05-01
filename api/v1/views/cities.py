@@ -1,22 +1,15 @@
 #!/usr/bin/python3
 """
-State objects that handles all default RESTFul API actions
+cities objects that handles all default RESTFul API actions
 """
 from flask import jsonify, request, abort
 from models.state import State
+from models.city import City
 from api.v1.views import app_views
 from models import storage
 
 
-@app_views.route('/states', strict_slashes=False)
-def get_states():
-    """Get states instances"""
-    states = storage.all(State).values()
-    lst_state = [state.to_dict() for state in states]
-    return jsonify(lst_state)
-
-
-@app_views.route('/states/<state_id>', strict_slashes=False)
+@app_views.route('/states/<state_id>/cities', strict_slashes=False)
 def get_state(state_id):
     """getting state depending on the given id"""
     state = storage.get(State, state_id)
@@ -51,7 +44,7 @@ def create_state():
     element = request.get_json()
 
     if 'name' not in element:
-        abort(400, "Missing name")
+        abort(400, "Missing Name")
 
     state = State(**element)
     state.save()
