@@ -10,7 +10,7 @@ from models.user import User
 from werkzeug.exceptions import BadRequest
 
 
-@app_views.route("/places_search", methods=["POST"])
+@app_views.route("/places_search", methods=["POST"], strict_slashes=False)
 def places_search():
     """Retrieves all Place objects based
     on the JSON in the body of the request."""
@@ -18,7 +18,7 @@ def places_search():
         req_data = request.get_json()
         if not req_data:
             # If the JSON body is empty or each list of all keys are empty
-            places = storage.all(Place).values()
+            places = storage.all(Place)
         else:
             places = []
             # If states list is not empty
@@ -43,7 +43,7 @@ def places_search():
                         for amenity in req_data["amenities"]
                     )
                 ]
-    except TypeError:
+    except BadRequest:
         # If the HTTP request body is not valid JSON
         abort(400, description="Not a JSON")
     return jsonify([place.to_dict() for place in places])
