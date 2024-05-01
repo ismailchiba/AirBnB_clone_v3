@@ -10,28 +10,21 @@ from models import storage
 from api.v1.views import app_views
 
 
-@app_views.route('/states', methods=['GET'],
-                 strict_slashes=False)
-def get_all_states():
-    """
-    Get all states
-    """
-    states = storage.all(State).values()
-    state_list = [state.to_dict() for state in states]
-    return jsonify(state_list)
+@app_views.route('/states/', methods=['GET'])
+def list_states():
+    """Retrieves a list of all State objects"""
+    list_states = [obj.to_dict() for obj in storage.all("State").values()]
+    return jsonify(list_states)
 
 
-@app_views.route('/state/<state_id>', methods=['GET'],
-                 strict_slashes=False)
-def get_state_by_id(state_id):
-    """
-    Get state by id
-    """
-    try:
-        state = storage.get(State, state_id)
-        return jsonify(state.to_dict())
-    except Exception:
+@app_views.route('/states/<state_id>', methods=['GET'])
+def get_state(state_id):
+    """Retrieves a State object"""
+    all_states = storage.all("State").values()
+    state_obj = [obj.to_dict() for obj in all_states if obj.id == state_id]
+    if not state_obj:
         abort(404)
+    return jsonify(state_obj[0])
 
 
 @app_views.route('/state/<state_id>', methods=['DELETE'],
