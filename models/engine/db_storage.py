@@ -2,6 +2,7 @@
 """
 Contains the class DBStorage
 """
+import urllib.parse
 
 import models
 from models.amenity import Amenity
@@ -39,6 +40,24 @@ class DBStorage:
                                              HBNB_MYSQL_DB))
         if HBNB_ENV == "test":
             Base.metadata.drop_all(self.__engine)
+
+    def get(self, cls, id: str):
+        """
+        Get Object By Id
+        :param cls:
+        :param id:
+        :return:
+        """
+        if not cls or not cls:
+            return None
+        return self.__session.query(cls).filter_by(id=id).first()
+
+    def count(self, cls=None):
+        """count the number of objects in storage"""
+        if cls:
+            return self.__session.query(cls).count()
+        return sum(map(lambda c: self.__session.query(c).count(),
+                       classes.values()))
 
     def all(self, cls=None):
         """query on the current database session"""
