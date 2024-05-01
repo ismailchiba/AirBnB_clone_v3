@@ -24,6 +24,17 @@ def page_not_found(error):
     return make_response(jsonify({"error": "Not found"}), 404)
 
 
+@app.errorhandler(400)
+def handle_404(exception):
+    """
+    handles 400 errros
+    """
+    code = exception.__str__().split()[0]
+    description = exception.description
+    message = {'error': description}
+    return make_response(jsonify(message), code)
+
+
 @app.teardown_appcontext
 def teardown_db(exception):
     """closes the storage on teardown"""
