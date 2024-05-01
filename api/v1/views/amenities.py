@@ -85,10 +85,12 @@ def create_amenity():
     """
     try:
         data = request.get_json(silent=True)
-        if "name" not in data:
-            abort(400, "Missing name")
+        if not data:
+            abort(400, "Not a JSON")
     except BadRequest:
         abort(400, "Not a JSON")
+    if "name" not in data:
+        abort(400, "Missing name")
     new_amenity = Amenity(**data)
     new_amenity.save()
     res = jsonify(new_amenity.to_dict())
