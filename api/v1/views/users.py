@@ -24,7 +24,7 @@ def get_all():
     users_lst = []
     users = storage.all(User)
     for obj in users.values():
-        users_lst.append(obj.to_json())
+        users_lst.append(obj.to_dict())
 
     return jsonify(users_lst)
 
@@ -124,7 +124,7 @@ def update_user(user_id):
     This function locates a User object using the provided ID and updates
     its information with the data received from the request.
     If the update is successful, the function returns the updated User
-    object along with a 200 HTTP status code. 
+    object along with a 200 HTTP status code.
     If the update fails due to invalid data,
     a 400 HTTP status code is returned.
     If the User object with the specified ID does not exist,
