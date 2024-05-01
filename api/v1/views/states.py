@@ -62,6 +62,8 @@ def create_state():
 def update_state(state_id):
     """Updates a State object."""
     state = storage.get(State, state_id)
+    if state is None:
+        abort(404)
 
     ignore_keys = ["id", "created_at", "updated_at"]
     for key, value in request.get_json().items():
