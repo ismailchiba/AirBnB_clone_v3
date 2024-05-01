@@ -1,6 +1,3 @@
-pp views for AirBnB_clone_v3
-"""
-
 from flask import jsonify
 from models import storage
 from api.v1.views import app_views
