@@ -11,7 +11,7 @@ from api.v1.views import app_views
 
 @app_views.route('/cities/<city_id>/places',
                  methods=['GET'], strict_slashes=False)
-def gets_places(city_id):
+def get_places(city_id):
     """Retrieves the list of all Place objects of a City"""
     city = storage.get(City, city_id)
     if not city:
@@ -21,7 +21,7 @@ def gets_places(city_id):
 
 
 @app_views.route('/places/<place_id>', methods=['GET'], strict_slashes=False)
-def one_place(place_id):
+def get_place(place_id):
     """Retrieves a Place object"""
     place = storage.get(Place, place_id)
     if not place:
@@ -32,7 +32,7 @@ def one_place(place_id):
 @app_views.route('/places/<place_id>',
                  methods=['DELETE'],
                  strict_slashes=False)
-def del_place(place_id):
+def delete_place(place_id):
     """Deletes a Place object"""
     place = storage.get(Place, place_id)
     if not place:
@@ -44,7 +44,7 @@ def del_place(place_id):
 
 @app_views.route('/cities/<city_id>/places',
                  methods=['POST'], strict_slashes=False)
-def creates_place(city_id):
+def create_place(city_id):
     """Creates a Place"""
     city = storage.get(City, city_id)
     if not city:
@@ -70,7 +70,7 @@ def creates_place(city_id):
 
 
 @app_views.route('/places/<place_id>', methods=['PUT'], strict_slashes=False)
-def updates_place(place_id):
+def update_place(place_id):
     """Updates a Place object"""
     place = storage.get(Place, place_id)
     if not place:
