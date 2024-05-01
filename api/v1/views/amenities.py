@@ -58,9 +58,9 @@ def create_amenity():
     """create amenity"""
     data = request.get_json()
     if not data:
-        return make_response(jsonify({"error": "Not a JSON"}), 400)
+        return make_response(jsonify({'error': 'Not a JSON'}), 400)
     if 'name' not in data:
-        return make_response(jsonify({"error": "Missing name"}), 400)
+        return make_response(jsonify({'error': 'Missing name'}), 400)
     i = Amenity(**data)
     i.save()
     return make_response(jsonify(i.to_dict()), 201)
@@ -75,7 +75,7 @@ def update_amenity(amenity_id):
     """update amenity"""
     data = request.get_json()
     if not data:
-        return make_response(jsonify({"error": "Not a JSON"}), 400)
+        return make_response(jsonify({'error': 'Not a JSON'}), 400)
     amenity = storage.get(Amenity, amenity_id)
     if amenity is None:
         abort(404)
