@@ -40,36 +40,22 @@ def delete_stat(state_id):
 
 @app_views.route('/states/<state_id>', strict_slashes=False, methods=['PUT'])
 def update_stat(state_id):
-    """Update states"""
-    if not state_id:
+    cur_state = storage.get(State, state_id)
+    if not cur_state:
         abort(404)
-
-    if not request.is_json:
-        abort(400, 'Not a JSON')
-    data = request.get_json()
-    state = storage.get(State, state_id)
-    for key, value in data.items():
-        if key not in ['id', 'created_at', 'updated_at']:
-            setattr(state, key, value)
-
-    return jsonify(state.__dict__), 200
-
+    new_state = request.get_json()
+    if not new_state:
+        return make_response("Not a JSON", 400)
+    setattr(cur_state, 'name', new_state.get('name'))
+    storage.save()
+    return make_response(cur_state.to_dict(), 200)
     # s = storage.get(State, state_id)
     # if not s:
     #     abort(404)
-    # data = request.get_json(silent=True)
-    # state = states[state_id]
-    # for key, value in data.items():
-    #     if key not in ['id', 'created_at', 'updated_at']:
-    #         setattr(state, key, value)
-    # # if not res_body:
-    # #     return make_response(jsonify({"error": "Not a JSON"}), 400)
-    # # setattr(s, 'name', res_body.get('name'))
-
-    # # for k, v in dict(res_body).items():
-    # #     if k == "id" or k == "created_at" or k == "updated_at":
-    # #         continue
-    # #     setattr(s, k, v)
+    # res_body = request.get_json(silent=True)
+    # if not res_body:
+    #     return make_response(jsonify({"error": "Not a JSON"}), 400)
+    # setattr(s, 'name', res_body.get('name'))
     # storage.save()
     # return jsonify(s.to_dict(), 200)
 
