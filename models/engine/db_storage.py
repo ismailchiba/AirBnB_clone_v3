@@ -55,6 +55,17 @@ class DBStorage:
         """add the object to the current database session"""
         self.__session.add(obj)
 
+    def get(self, cls, id):
+        """A method to retrieve one object"""
+        return self.__session.query(cls).get(id)
+
+    def count(self, cls=None):
+        """A method to count the number of objects in storage"""
+        if cls:
+            return self.__session.query(cls).count()
+        return sum(self.__session.query(cls).count()
+                   for cls in classes.values())
+
     def save(self):
         """commit all changes of the current database session"""
         self.__session.commit()
