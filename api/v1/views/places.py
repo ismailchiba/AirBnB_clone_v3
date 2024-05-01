@@ -18,7 +18,7 @@ def places_search():
     try:
         req_data = request.get_json()
         if req_data is None:
-            abort(404)
+            abort(400, "Not a JSON")
         if not req_data or\
             all(not req_data.get(key)
                 for key in ['states', 'cities', 'amenities']):
