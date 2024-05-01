@@ -100,7 +100,7 @@ class DBStorage:
         Args:
             cls (str): class name
         Returns:
-            number of objects in class, if no class name given
+            number of objects in class,
             return total number of objects in database
         '''
         obj_dict = models.storage.all(cls)
