@@ -9,6 +9,7 @@ from models.place import Place
 from models.amenity import Amenity
 from models import storage
 
+
 @app_views.route('/places/<place_id>/amenities', methods=['GET'],
                  strict_slashes=False)
 def get_place_amenities(place_id):
@@ -18,7 +19,7 @@ def get_place_amenities(place_id):
         abort(404)
 
     list_amenities_json = []
-    
+
     if models.storage_t == 'db':
         list_amenities = place_obj.amenities
         for amenity in list_amenities:
@@ -60,7 +61,7 @@ def delete_place_amenity(place_id, amenity_id):
 
 
 @app_views.route('/places/<place_id>/amenities/<amenity_id>',
-                  methods=['POST'], strict_slashes=False)
+                 methods=['POST'], strict_slashes=False)
 def post_place_amenity(place_id, amenity_id):
     """ Link a Amenity object to a Place """
     place_obj = storage.get(Place, place_id)
