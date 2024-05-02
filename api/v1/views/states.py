@@ -47,7 +47,7 @@ def create_state():
     if request.content_type != 'application/json':
         return abort(400, 'Not a JSON')
     if not request.get_json():
-        return (404, 'Not a JSON')
+        return abort(400, 'Not a JSON')
     element = request.get_json()
 
     if 'name' not in element:
