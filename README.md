@@ -155,7 +155,7 @@ EOF  all  create  destroy  help  quit  show  update
 ```
 
 ## Bugs
-No known bugs at this time. 
+No known bugs at this time (others will be written) 
 
 ## Authors
 ayoub mohammed essbai - [Github](https://github.com/ayoub22222222) / [Twitter](https://twitter.com/ayoub34120329)
