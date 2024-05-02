@@ -78,7 +78,6 @@ def create_user():
     if 'password' not in request_body:
         abort(400, description='Missing password')
 
-    print(request_body)
     new_user = User(**request_body)
     storage.new(new_user)
     storage.save()
