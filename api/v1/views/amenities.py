@@ -15,7 +15,10 @@ from models.amenity import Amenity
 def get_all_amenitie():
     """get all amenities"""
     all_amenity = []
-    for x in storage.all(Amenity).values():
+    all_data = storage.all(Amenity).values()
+    if all_data is None:
+        abort(404)
+    for x in all_data:
         all_amenity.append(x.to_dict())
     return jsonify(all_amenity)
 
