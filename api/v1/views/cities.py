@@ -55,9 +55,9 @@ def get_del_put_city(city_id=None):
         RQ_json = RQ.get_json()
         if RQ_json is None:
             abort(400, 'Not a JSON')
-        if RQ_json.get('name') == None:
+        if RQ_json.get('name') is None:
             abort(400, 'Missing name')
-         
+
         ccityy = City.db_update(RQ_json)
         ccityy.save()   # type: ignore
         response = ccityy.to_dict()   # type: ignore
