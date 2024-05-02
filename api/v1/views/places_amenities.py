@@ -8,7 +8,6 @@ from api.v1.views import app_views
 from models import storage, storage_t
 
 
-
 @app_views.route('/places/<string:place_id>/amenities', methods=['GET'],
                  strict_slashes=False)
 def get_place_amenities(place_id):
