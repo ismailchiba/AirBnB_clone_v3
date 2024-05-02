@@ -64,6 +64,27 @@ class DBStorage:
         if obj is not None:
             self.__session.delete(obj)
 
+    def get(self, cls, id):
+        """ retrieve one object """
+        if cls is not None and type(cls) is str and id is not None and\
+                type(id) is str and cls in classes:
+            cls = classes[cls]
+            result = self.__session.query(cls).filter(cls.id == id).first()
+            return result
+        else:
+            return None
+
+    def count(self, cls=None):
+        """count the number of objects in storage"""
+        total = 0
+        if type(cls) is str and cls in classes:
+            cls = classes[cls]
+            total = self.__session.query(cls).count()
+        elif cls is None:
+            for cls in classes.values():
+                total += self.__session.query(cls).count()
+        return total
+
     def reload(self):
         """reloads data from the database"""
         Base.metadata.create_all(self.__engine)
