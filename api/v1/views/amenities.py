@@ -38,7 +38,7 @@ def get_or_create_amenities():
 
 
 @AV.route('/amenities/<amenity_id>', methods=['GET', 'PUT', 'DELETE'])
-def get_del_put_city(amenity_id=None):
+def get_del_put_amenity(amenity_id=None):
     """Get, delete or update a Amenity object w a given identifier"""
     response = {}
     amenity = storage.get('Amenity', amenity_id)
