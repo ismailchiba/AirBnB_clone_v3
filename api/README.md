@@ -337,3 +337,43 @@ Updates a ``Amenity`` object: ``PUT /api/v1/amenities/<amenity_id>``
 __File__
 ``api/v1/views/amenities.py``, ``api/v1/views/__init__.py``
 
+### 9. User
+
+Create a new view for ``User`` objects that handles all default RESTFul API actions:
+
+- In the file ``api/v1/views/users.py``
+- You must use ``to_dict()`` to retrieve an object into a valid JSON
+- Update ``api/v1/views/__init__.py`` to import this new file
+
+Retrieves the list of all ``User`` objects: ``GET /api/v1/users``
+
+Retrieves a ``User`` object: ``GET /api/v1/users/<user_id>``
+
+- If the ``user_id`` is not linked to any ``User`` object, raise a ``404`` error
+
+Deletes a ``User`` object:: ``DELETE /api/v1/users/<user_id>``
+
+- If the ``user_id`` is not linked to any ``User`` object, raise a ``404`` error
+- Returns an empty dictionary with the status code ``200``
+
+Creates a ``User``: ``POST /api/v1/users``
+
+- You must use ``request.get_json`` from Flask to transform the HTTP body request to a dictionary
+- If the HTTP body request is not valid JSON, raise a ``400`` error with the message ``Not a JSON``
+- If the dictionary doesn’t contain the key ``email``, raise a ``400`` error with the message ``Missing email``
+- If the dictionary doesn’t contain the key ``password``, raise a ``400`` error with the message ``Missing password``
+- Returns the new ``User`` with the status code ``201``
+
+Updates a ``User`` object: ``PUT /api/v1/users/<user_id>``
+
+- If the ``user_id`` is not linked to any ``User`` object, raise a ``404`` error
+- You must use ``request.get_json`` from Flask to transform the HTTP body request to a dictionary
+- If the HTTP body request is not valid JSON, raise a ``400`` error with the message ``Not a JSON``
+- If the dictionary doesn’t contain the key ``email``, raise a ``400`` error with the message ``Missing email``
+- If the dictionary doesn’t contain the key ``password``, raise a ``400`` error with the message ``Missing password``
+- Update the ``User`` object with all key-value pairs of the dictionary.
+- Ignore keys: ``id``, ``email``, ``created_at`` and ``updated_at``
+- Returns the ``User`` object with the status code ``200``
+
+__File__
+``api/v1/views/users.py``, ``api/v1/views/__init__.py``
