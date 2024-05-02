@@ -11,7 +11,7 @@ from models.state import State
     methods=['GET'],
     strict_slashes=False
 )
-def get_states():
+def get_all_states():
     """get all states"""
     all_state = [i.to_dict() for i in storage.all(State).values()]
     return jsonify(all_state)
@@ -22,7 +22,7 @@ def get_states():
     methods=['GET'],
     strict_slashes=False
 )
-def get_state(state_id):
+def get_each_state(state_id):
     """get a state"""
     i = storage.get(State, state_id)
     if i is None:
@@ -54,9 +54,9 @@ def create_state():
     """create a state"""
     data = request.get_json()
     if not data:
-        return make_response(jsonify({"error": "Not a JSON"}), 400)
+        abort(400, 'Not a JSON')
     if 'name' not in data:
-        return make_response(jsonify({"error": "Missing name"}), 400)
+        abort(400, 'Missing name')
     new_state = State(**data)
     new_state.save()
     return make_response(jsonify(new_state.to_dict()), 201)
