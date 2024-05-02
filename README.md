@@ -157,7 +157,7 @@ No known bugs at this time.
 Alexa Orrico - [Github](https://github.com/alexaorrico) / [Twitter](https://twitter.com/alexa_orrico)  
 Jennifer Huang - [Github](https://github.com/jhuang10123) / [Twitter](https://twitter.com/earthtojhuang)
 
-Mthabisi Ndlovu - [Github](https://github.com/blvckroot) / [Twitter](https://twitter.com/blvck_root)
+Mthabisi Ndlovu - [Github](https://github.com/blvck-root) / [Twitter](https://twitter.com/blvck_root)
 
 Second part of Airbnb: Joann Vuong
 Third part of Airbnb: Mthabisi Ndlovu
