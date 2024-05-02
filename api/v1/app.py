@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 """ A module that contains the flask app"""
-from flask import Flask
-from models import storage
 from api.v1.views import app_views
-import os
+from flask import Flask
 from flask import jsonify
+from models import storage
+import os
 
 
 app = Flask(__name__)
