@@ -45,13 +45,13 @@ def delete_state(state_id):
 def create_state():
     """creating a state """
     if request.content_type != 'application/json':
-        return abort(404, 'Not a JSON')
+        return abort(400, 'Not a JSON')
     if not request.get_json():
         return (400, 'Not a JSON')
     element = request.get_json()
 
     if 'name' not in element:
-        abort(400, "Missing name")
+        return abort(400, "Missing name")
 
     state = State(**element)
     state.save()
