@@ -99,7 +99,7 @@ class DBStorage:
             cls (str): Default (None) else String representing the class name
 
         Returns:
-            `count` all the objects in the database if cls is None,
+            `count` all  the objects in the database if cls is None,
             else `count` for a specific objects if cls is a valid model
         """
         if cls is None:
