@@ -11,7 +11,7 @@ from api.v1.views import app_views
 
 
 @app_views.route('/places/<place_id>/amenities', strict_slashes=False)
-def get_amenities(place_id):
+def get_place_amenities(place_id):
     """
     Retrieves tha list of all Amenity objects of Place with the
     specified place_id
@@ -38,9 +38,9 @@ def get_amenities(place_id):
         return jsonify(place_obj)
 
 
-@app_views.rout('/places/<place_id>/amenities/<amenity_id>',
+@app_views.route('/places/<place_id>/amenities/<amenity_id>',
                 methods=["DELETE"], strict_slashes=False)
-def delete_amenity(place_id, amenity_id):
+def delete_place_amenity(place_id, amenity_id):
     """
     Deletes a Amenity object to a Place
     """
