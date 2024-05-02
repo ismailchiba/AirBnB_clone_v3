@@ -3,7 +3,6 @@
 Contains the TestFileStorageDocs classes
 """
 
-from datetime import datetime
 import inspect
 import models
 from models.engine import file_storage
@@ -15,7 +14,6 @@ from models.review import Review
 from models.state import State
 from models.user import User
 import json
-import os
 import pep8
 import unittest
 FileStorage = file_storage.FileStorage
@@ -113,3 +111,49 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_get(self):
+        """Test that get retrieves objects stored in file.json"""
+        storage = FileStorage()
+
+        storage.reload()
+
+        state_data = {"name": "Maldives"}
+
+        state_instance = State(**state_data)
+
+        storage.new(state_instance)
+
+        storage.save()
+
+        retrieved_state = storage.get(State, state_instance.id)
+
+        self.assertEqual(state_instance, retrieved_state)
+
+        fake_state_id = storage.get(State, 'fake_id')
+
+        self.assertEqual(fake_state_id, None)
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_count(self):
+        """Test that count returns the right number of objects in file.json"""
+        storage = FileStorage()
+        storage.reload()
+        state_data = {"name": "Sudan"}
+        state_instance = State(**state_data)
+        storage.new(state_instance)
+
+        city_data = {"name": "Rocky", "state_id": state_instance.id}
+
+        city_instance = City(**city_data)
+
+        storage.new(city_instance)
+
+        storage.save()
+
+        state_occurrence = storage.count(State)
+        self.assertEqual(state_occurrence, len(storage.all(State)))
+
+        all_occurrence = storage.count()
+        self.assertEqual(all_occurrence, len(storage.all()))
