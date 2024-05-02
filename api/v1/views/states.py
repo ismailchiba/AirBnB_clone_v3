@@ -53,22 +53,10 @@ def delete_state(state_id):
 def create_state():
     """create a state"""
     data = request.get_json()
-    if isinstance(data, dict):
-        pass
-    else:
-        return (jsonify({"error": "Not a JSON"}), 400)
-    if not data or not request.json:
+    if not data:
         abort(400, 'Not a JSON')
-    if 'name' not in data or
-    'name' not in request.json or
-    'name' not in data.keys():
+    if 'name' not in data:
         abort(400, 'Missing name')
-    if 'id' in data.keys():
-        data.pop("id")
-    if 'created_at' in data.keys():
-        data.pop("created_at")
-    if 'updated_at' in data.keys():
-        data.pop("updated_at")
     new_state = State(**data)
     new_state.save()
     return make_response(jsonify(new_state.to_dict()), 201)
