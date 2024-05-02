@@ -15,7 +15,7 @@ def get_place_amenities(place_id):
     if place is None:
         abort(404)
     amenities = []
-    if storage_t == 'db':
+    if os.getenv('HBNB_TYPE_STORAGE') == 'db':
         amenity_objects = place.amenities
     else:
         amenity_objects = place.amenity_ids
@@ -45,13 +45,13 @@ def delete_place_amenity(place_id, amenity_id):
 
 @app_views.route('/places/<string:place_id>/amenities/<string:amenity_id>',
                  methods=['POST'], strict_slashes=False)
-def add_place_amenity(place_id, amenity_id):
+def post_place_amenity(place_id, amenity_id):
     """adds an amenity object to a place"""
     place = storage.get("Place", place_id)
     amenity = storage.get("Amenity", amenity_id)
     if place is None or amenity is None:
         abort(404)
-    if storage_t == 'db':
+    if os.getenv('HBNB_TYPE_STORAGE') == 'db':
         place_amenities = place.amenities
     else:
         place_amenities = place.amenity_ids
