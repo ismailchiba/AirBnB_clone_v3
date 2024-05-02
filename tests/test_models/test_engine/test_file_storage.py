@@ -3,7 +3,7 @@
 Contains the TestFileStorageDocs classes
 """
 
-from datetime import datetime
+from datetime import datetime, timedelta
 import inspect
 import models
 from models.engine import file_storage
@@ -16,6 +16,7 @@ from models.state import State
 from models.user import User
 import json
 import os
+import pycodestyle
 import pep8
 import unittest
 FileStorage = file_storage.FileStorage
@@ -116,12 +117,12 @@ class TestFileStorage(unittest.TestCase):
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_get(self):
-         """ Tests method for obtaining an instance db storage."""
+        """ Tests method for obtaining an instance db storage."""
         storage = FileStorage()
 
         storage.reload()
 
-        state_data = {"name": "NewYork"}
+        state_data = {"name": "Maldives"}
 
         state_instance = State(**state_data)
         storage.new(state_instance)
@@ -133,14 +134,14 @@ class TestFileStorage(unittest.TestCase):
 
         fake_state_id = storage.get(State, 'fake_id')
 
-        self.assertEqual(Fake_state_id, None)
+        self.assertEqual(fake_state_id, None)
 
-     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-     def test_count(self):
-         """ Tests method for obtaining an instance db storage"""
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_count(self):
+        """ Tests method for obtaining an instance db storage"""
         storage = FileStorage()
         storage.reload()
-        state_data {"name": "Sudan"}
+        state_data = {"name": "Sudan"}
         state_instance = State(**state_data)
         storage.new(state_instance)
 
@@ -155,9 +156,5 @@ class TestFileStorage(unittest.TestCase):
         state_occurrence = storage.count(State)
         self.assertEqual(state_occurence, len(storage.all(State)))
 
-        all_occurrence = storage.count()
-        self.assertEqual(all_occurence, len(storage.all()))
-
-
-
-
+        all_occurance = storage.count(State)
+        self.assertEqual(all_occurrence, len(storage.all(State)))
