@@ -420,3 +420,42 @@ __File__
 
 ### 11. Reviews
 
+Create a new view for ``Review`` objects that handles all default RESTFul API actions:
+
+- In the file ``api/v1/views/reviews.py``
+- You must use ``to_dict()`` to retrieve an object into a valid JSON
+- Update ``api/v1/views/__init__.py`` to import this new file
+
+Retrieves the list of all ``Review`` objects: ``GET /api/v1/places/<place_id>/reviews``
+- If the ``place_id`` is not linked to any ``Place`` object, raise a ``404`` error
+
+Retrieves a ``Review`` object: ``GET /api/v1/reviews/<review_id>``
+
+- If the ``review_id`` is not linked to any ``Review`` object, raise a ``404`` error
+
+Deletes a ``Review`` object:: ``DELETE /api/v1/reviews/<review_id>``
+
+- If the ``review_id`` is not linked to any ``Review`` object, raise a ``404`` error
+- Returns an empty dictionary with the status code ``200``
+
+Creates a ``Review``: ``POST /api/v1/places/<place_id>/reviews``
+
+- You must use ``request.get_json`` from Flask to transform the HTTP body request to a dictionary
+- If the HTTP body request is not valid JSON, raise a ``400`` error with the message ``Not a JSON``
+- If the dictionary doesn’t contain the key ``user_id``, raise a ``400`` error with the message ``Missing user_id``
+- If the ``user_id`` is not linked to any ``User`` object, raise a ``404`` error
+- If the dictionary doesn’t contain the key ``name``, raise a ``400`` error with the message ``Missing name``
+- Returns the new ``Review`` with the status code ``201``
+
+Updates a ``Review`` object: ``PUT /api/v1/reviews/<review_id>``
+
+- If the ``review_id`` is not linked to any ``Review`` object, raise a ``404`` error
+- You must use ``request.get_json`` from Flask to transform the HTTP body request to a dictionary
+- If the HTTP body request is not valid JSON, raise a ``400`` error with the message ``Not a JSON``
+- Update the ``Review`` object with all key-value pairs of the dictionary.
+- Ignore keys: ``id``, ``user_id``, ``place_id``, ``created_at`` and ``updated_at``
+- Returns the ``Review`` object with the status code ``200``
+
+__File__
+``api/v1/views/reviews.py``, ``api/v1/views/__init__.py``
+
