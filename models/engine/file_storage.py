@@ -77,7 +77,7 @@ class FileStorage:
         else:
             total_classes = models.storage.all(cls)
             for ind in total_classes.values():
-                if ind.id == id:
+                if (ind.id == id):
                     return ind
                 else:
                     return None
