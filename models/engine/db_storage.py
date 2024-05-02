@@ -77,11 +77,10 @@ class DBStorage:
 
     def get(self, cls, id):
         """Returns the object based on the class and ID,or None if not found"""
-        if cls in classes.values() and type(id) == str and id:
-            all_obj = self.all(cls)
-            for k, v in all_obj.items():
-                if k.split(".")[1] == id:
-                    return v
+        all_args = self.__session.query(eval(cls)).all()
+        for i in all_args:
+            if i.id == str(id):
+                return i
         return None
 
     def count(self, cls=None):
