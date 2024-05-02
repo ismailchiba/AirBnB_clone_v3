@@ -165,4 +165,4 @@ Second part of Airbnb: Joann Vuong
 ## License
 Public Domain. No copy write protection. 
 
-This is a project for learning purposes . 
+This is a project for learning purposes with ALX africa  . 
