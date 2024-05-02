@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """View for the link between Place and Amenity objects"""
 from api.v1.views import app_views
-from flask import abort, jsonify, make_response, request
+from flask import abort, jsonify, make_response
 from models import storage, storage_t
 
 
