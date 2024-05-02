@@ -82,8 +82,8 @@ Run the console: `./console`
 
  ## Authors
 
- # **inganathi ndinga**  <inganathi2001@gmail.com>
- # **sumaila sudais ballah**  <sudais2408@gmail.com>
+ ### **inganathi ndinga**  <inganathi2001@gmail.com>
+ ### **sumaila sudais ballah**  <sudais2408@gmail.com>
 
 ## Example Usage
 
