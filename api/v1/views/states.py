@@ -8,7 +8,7 @@ from api.v1.views import app_views
 from models import storage
 
 
-@app_views.route('/states', methods=['GET'], strict_slashes=False)
+@app_views.route('/states', strict_slashes=False)
 def get_states():
     """Get states instances"""
     states = storage.all(State).values()
