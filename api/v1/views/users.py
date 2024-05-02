@@ -23,7 +23,7 @@ def get_user(user_id):
     """ A route on the endpoint that returns a user """
     all_users = storage.all(User).values()
     users_obj = [obj.to_dict() for obj in all_users if
-                   obj.id == user_id]
+                 obj.id == user_id]
     if users_obj == []:
         abort(404)
     return jsonify(users_obj), 200
@@ -35,7 +35,7 @@ def delete_user(user_id):
     """ A route that deletes a user based on the user id"""
     all_users = storage.all(User).values()
     users_obj = [obj.to_dict() for obj in all_users if
-                   obj.id == user_id]
+                 obj.id == user_id]
     if users_obj == []:
         abort(404)
     users_obj.remove(users_obj[0])
@@ -71,7 +71,7 @@ def update_user(user_id):
     """ A route to update a specific user based on the user id"""
     all_users = storage.all(User).values()
     users_obj = [obj.to_dict() for obj in all_users if
-                   obj.id == user_id]
+                 obj.id == user_id]
     if user_obj == []:
         abort(404)
     if not request.get_json():

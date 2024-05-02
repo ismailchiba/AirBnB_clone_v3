@@ -7,6 +7,7 @@ from flask import request
 from models import storage
 from models.state import State
 
+
 @app_views.route('/states', strict_slashes=False, methods=['GET'])
 def get_states():
     """ A route on the endpoint that returns all the states """
@@ -74,4 +75,3 @@ def update_state(state_id):
             obj.name = request.json['name']
     storage.save()
     return jsonify(state_obj[0]), 200
-
