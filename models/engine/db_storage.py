@@ -2,8 +2,7 @@
 """
 Contains the class DBStorage
 """
-import pycodestyle
-import pep8
+
 import models
 from models.amenity import Amenity
 from models.base_model import BaseModel, Base
@@ -77,28 +76,31 @@ class DBStorage:
         self.__session.remove()
 
     def get(self, cls, id):
-        '''get:
-        retrieve an object from the file storage by class and id.
-        '''
-        if cls and id:
-            if cls in classes.values() and isinstance(id, str):
-                all_object = self.all(cls)
-                for key, value in all_objects.items():
-                    if key.split('.')[1] == id:
-                        return value
-            else:
-                return
-        return
+        """
+        Returns the object based on the class name and its ID, or
+        None if not found
+        """
+        if cls not in classes.values():
+            return None
+
+        all_cls = models.storage.all(cls)
+        for value in all_cls.values():
+            if (value.id == id):
+                return value
+
+        return None
 
     def count(self, cls=None):
-        '''count:
-        count the number of objects in storage matching the given class.
-        '''
+        """
+        count the number of objects in storage
+        """
+        all_class = classes.values()
+
         if not cls:
-            inst_of_all_cls = sell.all()
-            return len(inst_of_cls)
-        if cls in classes.values():
-            all_inst_of_prov_cls = self.all(cls)
-            return len(all_inst_of_prov_cls)
-        if cls not in classes.values():
-            return
+            count = 0
+            for clas in all_class:
+                count += len(models.storage.all(clas).values())
+        else:
+            count = len(models.storage.all(cls).values())
+
+        return count
