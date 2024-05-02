@@ -5,6 +5,8 @@ from api.v1.views import app_views
 from models.city import City
 from models.place import Place
 from models.user import User
+from models.base_model import BaseModel
+
 
 @app_views.route('/cities/<city_id>/places', methods=['GET'])
 def get_city_places(city_id):
@@ -16,6 +18,7 @@ def get_city_places(city_id):
         abort(404)
     return jsonify([place.to_dict() for place in city.places])
 
+
 @app_views.route('/places/<place_id>', methods=['GET'])
 def get_place(place_id):
     """
@@ -25,6 +28,7 @@ def get_place(place_id):
     if place is None:
         abort(404)
     return jsonify(place.to_dict())
+
 
 @app_views.route('/places/<place_id>', methods=['DELETE'])
 def delete_place(place_id):
@@ -37,6 +41,7 @@ def delete_place(place_id):
     storage.delete(place)
     storage.save()
     return jsonify({}), 200
+
 
 @app_views.route('/cities/<city_id>/places', methods=['POST'])
 def create_place(city_id):
@@ -61,6 +66,7 @@ def create_place(city_id):
     new_place = Place(**data)
     new_place.save()
     return jsonify(new_place.to_dict()), 201
+
 
 @app_views.route('/places/<place_id>', methods=['PUT'])
 def update_place(place_id):
