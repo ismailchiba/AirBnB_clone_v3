@@ -13,11 +13,9 @@ from models import storage
 def get_cities_in_state(state_id):
     """Gets all cities in specified state, using the states id"""
     state = storage.get(State, state_id)
-    get_city = []
     if not state:
         return abort(404)
-    for city in state.get_city:
-        get_city.append(city.to_dict())
+    get_city = [city.to_dict() for city in state.cities]
     return jsonify(get_city)
 
 
