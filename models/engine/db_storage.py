@@ -40,6 +40,28 @@ class DBStorage:
         if HBNB_ENV == "test":
             Base.metadata.drop_all(self.__engine)
 
+    def create(self, cls, **dict_new):
+        """ return a same obj with modify __dict__ """
+        if cls is None or len(dict_new) == 0:
+            return None
+        if cls in classes.keys():
+            cls = classes[cls]
+        if cls in classes.values():
+            obj = cls(**dict_new)
+        return obj
+
+    def update(self, obj, **dict_new):
+        """ return a same obj with modify __dict__ """
+        dict_ignore = {"id": 1, "user_id": 1, "place_id": 1,
+                       "city_id": 1, "email": 1, "state_id": 1,
+                       "created_at": 1, "updated_at": 1}
+        if obj is None:
+            return None
+        for k, v in dict_new.items():
+            if dict_ignore.get(k, None) != 1:
+                obj.__dict__.update({k: v})
+        return obj
+
     def all(self, cls=None):
         """query on the current database session"""
         new_dict = {}
@@ -50,6 +72,29 @@ class DBStorage:
                     key = obj.__class__.__name__ + '.' + obj.id
                     new_dict[key] = obj
         return (new_dict)
+
+    def get(self, cls, id):
+        """method to retrieve one object"""
+        new_dict = {}
+        if cls is None or id is None:
+            return
+        if type(id) != str:
+            id = str(id)
+        if cls in classes.keys():
+            cls = classes[cls]
+        if cls in classes.values():
+            objs = self.__session.query(cls).all()
+            for obj in objs:
+                if id == obj.id:
+                    # key = obj.__class__.__name__ + '.' + obj.id
+                    # new_dict[key] = str(obj)
+                    return (obj)
+        return None
+
+    def count(self, cls=None):
+        """ method to count the number of objects in storage """
+        count = len(self.all(cls))
+        return count
 
     def new(self, obj):
         """add the object to the current database session"""
