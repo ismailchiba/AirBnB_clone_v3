@@ -88,17 +88,31 @@ Run the console: `./console`
 ## Example Usage
 
 (hbnb) create BaseModel
+
 bd04e85a-dcff-4567-ab9e-59db2242ac8d
+
 (hbnb) update BaseModel bd04e85a-dcff-4567-ab9e-59db2242ac8d
+
 ** attribute name missing **
+
 (hbnb) update BaseModel bd04e85a-dcff-4567-ab9e-59db2242ac8d number_rooms
+
 ** value missing **
+
 (hbnb) update BaseModel bd04e85a-dcff-4567-ab9e-59db2242ac8d number_rooms 7
+
 (hbnb) show BaseModel
+
 ** instance id missing **
+
 (hbnb) show BaseModel bd04e85a-dcff-4567-ab9e-59db2242ac8d
-[BaseModel] (bd04e85a-dcff-4567-ab9e-59db2242ac8d) {'id': 'bd04e85a-dcff-4567-ab9e-59db2242ac8d', 'created_at': datetime.datetime(2024, 5, 2, 22, 48, 0, 357643), 'updated_at': datetime.datetime(2024, 5, 2, 22, 49, 12, 654890), 'number_rooms': '7'}
+
+[BaseModel] (bd04e85a-dcff-4567-ab9e-59db2242ac8d) {'id': 
+'bd04e85a-dcff-4567-ab9e-59db2242ac8d', 'created_at': datetime.datetime(2024, 5, 2, 22, 
+48, 0, 357643), 'updated_at': datetime.datetime(2024, 5, 2, 22, 49, 12, 654890), 'number_rooms': '7'}
+
 (hbnb) all
+
 [[Amenity] (d25630f0-896d-4ec0-aca1-756eb111f8a9) {'id': 'd25630f0-896d-4ec0-aca1-756eb111f8a9', 'created_at': datetime.datetime(2024, 4, 26, 19, 31, 58, 66045), 'updated_at': datetime.datetime(2024, 4, 26, 19, 31, 58, 66045)}, [BaseModel] (8e0be3ea-4d3a-4346-a5d6-d35de7b24452) {'id': '8e0be3ea-4d3a-4346-a5d6-d35de7b24452', 'created_at': datetime.datetime(2024, 4, 26, 19, 31, 58, 66055), 'updated_at': datetime.datetime(2024, 4, 26, 19, 31, 58, 66055)}, [City] (adce53f2-8223-455f-82a4-37fe62978bbe) {'id': 'adce53f2-8223-455f-82a4-37fe62978bbe', 'created_at': datetime.datetime(2024, 4, 26, 19, 31, 58, 66067), 'updated_at': datetime.datetime(2024, 4, 26, 19, 31, 58, 66067)}, [Place] (e242befa-1b0a-4f89-baa0-97436d8e66c1) {'id': 'e242befa-1b0a-4f89-baa0-97436d8e66c1', 'created_at': datetime.datetime(2024, 4, 26, 19, 31, 58, 66077), 'updated_at': datetime.datetime(2024, 4, 26, 19, 31, 58, 66077)}, [Review] (67df5204-b98e-4376-ba3b-521fd58cc83c) {'id': '67df5204-b98e-4376-ba3b-521fd58cc83c', 'created_at': datetime.datetime(2024, 4, 26, 19, 31, 58, 66087), 'updated_at': datetime.datetime(2024, 4, 26, 19, 31, 58, 66087)}, [State] (aeeec64f-fecd-473c-a47f-5a39da87c055) {'id': 'aeeec64f-fecd-473c-a47f-5a39da87c055', 'created_at': datetime.datetime(2024, 4, 26, 19, 31, 58, 66098), 'updated_at': datetime.datetime(2024, 4, 26, 19, 31, 58, 66098)}, [User] (a097bba3-f3b4-4dff-85c7-f6fe6cfebe87) {'id': 'a097bba3-f3b4-4dff-85c7-f6fe6cfebe87', 'created_at': datetime.datetime(2024, 4, 26, 19, 31, 58, 66107), 'updated_at': datetime.datetime(2024, 4, 26, 19, 31, 58, 66107)}, [BaseModel] (bd04e85a-dcff-4567-ab9e-59db2242ac8d) {'id': 'bd04e85a-dcff-4567-ab9e-59db2242ac8d', 'created_at': datetime.datetime(2024, 5, 2, 22, 48, 0, 357643), 'updated_at': datetime.datetime(2024, 5, 2, 22, 49, 12, 654890), 'number_rooms': '7'}]
 (hbnb) 
 
