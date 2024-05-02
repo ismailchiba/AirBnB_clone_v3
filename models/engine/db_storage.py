@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 '''
-    Define class DatabaseStorage
+   script that  Define class DatabaseStorage
 '''
 from os import getenv
 from sqlalchemy import create_engine, MetaData
@@ -13,14 +13,14 @@ from models.base_model import Base
 
 class DBStorage:
     '''
-        Create SQLalchemy database
+        script that Create SQLalchemy database
     '''
     __engine = None
     __session = None
 
     def __init__(self):
         '''
-            Create engine and link to MySQL databse (hbnb_dev, hbnb_dev_db)
+           script that Create engine and link to MySQL databse (hbnb_dev, hbnb_dev_db)
         '''
         user = getenv("HBNB_MYSQL_USER")
         pwd = getenv("HBNB_MYSQL_PWD")
