@@ -4,8 +4,8 @@ View for the link between Place and Amenity objects
 """
 
 from flask import abort, jsonify, make_response
-from models import storage, storage_t
 from api.v1.views import app_views
+from models import storage, storage_t
 
 
 
