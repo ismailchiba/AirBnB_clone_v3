@@ -129,3 +129,135 @@ curl -X GET http://0.0.0.0:5000/api/v1/nop -vvv
 __File__
 
 ``api/v1/app.py``
+
+### 6. State
+
+Create a new view for ``State`` objects that handles all default RESTFul API actions:
+
+- In the file ``api/v1/views/states.py``
+- You must use ``to_dict()`` to retrieve an object into a valid JSON
+- Update ``api/v1/views/__init__.py`` to import this new file
+
+Retrieves the list of all ``State`` objects: ``GET /api/v1/states``
+
+Retrieves a ``State`` object: ``GET /api/v1/states/<state_id>``
+
+- If the ``state_id`` is not linked to any ``State`` object, raise a ``404`` error
+
+Deletes a ``State`` object:: ``DELETE /api/v1/states/<state_id>``
+
+- If the ``state_id`` is not linked to any ``State`` object, raise a ``404`` error
+- Returns an empty dictionary with the status code ``200``
+
+Creates a ``State``: ``POST /api/v1/states``
+
+- You must use ``request.get_json`` from Flask to transform the HTTP body request to a dictionary
+- If the HTTP body request is not valid JSON, raise a ``400`` error with the message ``Not a JSON``
+- If the dictionary doesn’t contain the key name, raise a ``400`` error with the message ``Missing name``
+- Returns the new ``State`` with the status code ``201``
+
+Updates a ``State`` object: ``PUT /api/v1/states/<state_id>``
+
+- If the ``state_id`` is not linked to any ``State`` object, raise a ``404`` error
+- You must use ``request.get_json`` from Flask to transform the HTTP body request to a dictionary
+- If the HTTP body request is not valid JSON, raise a ``400`` error with the message ``Not a JSON``
+- Update the ``State`` object with all key-value pairs of the dictionary.
+- Ignore keys: ``id``, ``created_at`` and ``updated_at``
+- Returns the ``State`` object with the status code ``200``
+
+```bash
+curl -X GET http://0.0.0.0:5000/api/v1/states/
+#RESPONSE
+[
+  {
+    "__class__": "State", 
+    "created_at": "2017-04-14T00:00:02", 
+    "id": "8f165686-c98d-46d9-87d9-d6059ade2d99", 
+    "name": "Louisiana", 
+    "updated_at": "2017-04-14T00:00:02"
+  }, 
+  {
+    "__class__": "State", 
+    "created_at": "2017-04-14T16:21:42", 
+    "id": "1a9c29c7-e39c-4840-b5f9-74310b34f269", 
+    "name": "Arizona", 
+    "updated_at": "2017-04-14T16:21:42"
+  }, 
+...
+]
+
+curl -X GET http://0.0.0.0:5000/api/v1/states/8f165686-c98d-46d9-87d9-d6059ade2d99
+#RESPONSE
+{
+  "__class__": "State", 
+  "created_at": "2017-04-14T00:00:02", 
+  "id": "8f165686-c98d-46d9-87d9-d6059ade2d99", 
+  "name": "Louisiana", 
+  "updated_at": "2017-04-14T00:00:02"
+}
+
+curl -X POST http://0.0.0.0:5000/api/v1/states/ -H "Content-Type: application/json" -d '{"name": "California"}' -vvv
+#RESPONSE
+*   Trying 0.0.0.0...
+* TCP_NODELAY set
+* Connected to 0.0.0.0 (127.0.0.1) port 5000 (#0)
+> POST /api/v1/states/ HTTP/1.1
+> Host: 0.0.0.0:5000
+> User-Agent: curl/7.51.0
+> Accept: */*
+> Content-Type: application/json
+> Content-Length: 22
+> 
+* upload completely sent off: 22 out of 22 bytes
+* HTTP 1.0, assume close after body
+< HTTP/1.0 201 CREATED
+< Content-Type: application/json
+< Content-Length: 195
+< Server: Werkzeug/0.12.1 Python/3.4.3
+< Date: Sat, 15 Apr 2017 01:30:27 GMT
+< 
+{
+  "__class__": "State", 
+  "created_at": "2017-04-15T01:30:27.557877", 
+  "id": "feadaa73-9e4b-4514-905b-8253f36b46f6", 
+  "name": "California", 
+  "updated_at": "2017-04-15T01:30:27.558081"
+}
+* Curl_http_done: called premature == 0
+* Closing connection 0
+
+curl -X PUT http://0.0.0.0:5000/api/v1/states/feadaa73-9e4b-4514-905b-8253f36b46f6 -H "Content-Type: application/json" -d '{"name": "California is so cool"}'
+#RESPONSE
+{
+  "__class__": "State", 
+  "created_at": "2017-04-15T01:30:28", 
+  "id": "feadaa73-9e4b-4514-905b-8253f36b46f6", 
+  "name": "California is so cool", 
+  "updated_at": "2017-04-15T01:51:08.044996"
+}
+
+curl -X GET http://0.0.0.0:5000/api/v1/states/feadaa73-9e4b-4514-905b-8253f36b46f6
+#RESPONSE
+{
+  "__class__": "State", 
+  "created_at": "2017-04-15T01:30:28", 
+  "id": "feadaa73-9e4b-4514-905b-8253f36b46f6", 
+  "name": "California is so cool", 
+  "updated_at": "2017-04-15T01:51:08"
+}
+
+curl -X DELETE http://0.0.0.0:5000/api/v1/states/feadaa73-9e4b-4514-905b-8253f36b46f6
+#RESPONSE
+{}
+
+curl -X GET http://0.0.0.0:5000/api/v1/states/feadaa73-9e4b-4514-905b-8253f36b46f6
+#RESPONSE
+{
+  "error": "Not found"
+}
+```
+
+__File__
+
+``api/v1/views/states.py``, ``api/v1/views/__init__.py``
+
