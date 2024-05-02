@@ -164,4 +164,4 @@ Zineb ZID - [Github](https://github.com/Zinebb12) /[Twitter](https://twitter.com
 Second part of Airbnb: Joann Vuong
 ## License
 Public Domain. No copy write protection. 
-This is a project for learning purposes with ALX africA. 
+This is a project for learning purposes with ALX africa. 
