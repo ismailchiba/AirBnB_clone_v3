@@ -73,7 +73,7 @@ def update_city(city_id):
     city = storage.get(City, city_id)
     if city:
         if not request.get_json():
-            return abort(400, "Not a JSON")
+            return abort(400, 'Not a JSON')
         get_data = request.get_json()
         not_key = ['id', 'created_at', 'updated_at']
 
