@@ -3,7 +3,7 @@ from flask import jsonify, request, abort
 from models import storage
 from api.v1.views import app_views
 from models.user import User
-from models.base_model import *
+from models.base_model import BaseModel
 
 
 @app_views.route('/users', methods=['GET'])
