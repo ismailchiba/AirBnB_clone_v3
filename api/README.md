@@ -377,3 +377,46 @@ Updates a ``User`` object: ``PUT /api/v1/users/<user_id>``
 
 __File__
 ``api/v1/views/users.py``, ``api/v1/views/__init__.py``
+
+### 10. Place
+
+Create a new view for ``Place`` objects that handles all default RESTFul API actions:
+
+- In the file ``api/v1/views/places.py``
+- You must use ``to_dict()`` to retrieve an object into a valid JSON
+- Update ``api/v1/views/__init__.py`` to import this new file
+
+Retrieves the list of all ``Place`` objects: ``GET /api/v1/cities/<city_id>/places``
+
+Retrieves a ``Place`` object: ``GET /api/v1/places/<place_id>``
+
+- If the ``place_id`` is not linked to any ``Place`` object, raise a ``404`` error
+
+Deletes a ``Place`` object:: ``DELETE /api/v1/places/<place_id>``
+
+- If the ``place_id`` is not linked to any ``Place`` object, raise a ``404`` error
+- Returns an empty dictionary with the status code ``200``
+
+Creates a ``Place``: ``POST /api/v1/cities/<city_id>/places``
+
+- You must use ``request.get_json`` from Flask to transform the HTTP body request to a dictionary
+- If the HTTP body request is not valid JSON, raise a ``400`` error with the message ``Not a JSON``
+- If the dictionary doesn’t contain the key ``user_id``, raise a ``400`` error with the message ``Missing user_id``
+- If the ``user_id`` is not linked to any ``User`` object, raise a ``404`` error
+- If the dictionary doesn’t contain the key ``name``, raise a ``400`` error with the message ``Missing name``
+- Returns the new ``Place`` with the status code ``201``
+
+Updates a ``Place`` object: ``PUT /api/v1/places/<place_id>``
+
+- If the ``place_id`` is not linked to any ``Place`` object, raise a ``404`` error
+- You must use ``request.get_json`` from Flask to transform the HTTP body request to a dictionary
+- If the HTTP body request is not valid JSON, raise a ``400`` error with the message ``Not a JSON``
+- Update the ``Place`` object with all key-value pairs of the dictionary.
+- Ignore keys: ``id``, ``user_id``, ``city_id``, ``created_at`` and ``updated_at``
+- Returns the ``Place`` object with the status code ``200``
+
+__File__
+``api/v1/views/places.py``, ``api/v1/views/__init__.py``
+
+### 11. Reviews
+
