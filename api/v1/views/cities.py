@@ -34,12 +34,9 @@ def get_city(city_id):
     """
     Retrieves a City object
     """
-
     city = storage.get("City", city_id)
-
     if city is not None:
         return jsonify(city.to_dict())
-
     abort(404)
 
 
@@ -47,16 +44,16 @@ def get_city(city_id):
                  strict_slashes=False)
 def delete_city(city_id):
     """
-    Deletes a City object given the city id
+    Deletes a City object with the specified city_id
     """
 
-    city = storage.get(City, city_id)
+    city = storage.get("City", city_id)
 
     if city is not None:
         city.delete()
         storage.save()
 
-        return make_response({}, 200)
+        return make_response(jsonify({}), 200)
 
     abort(404)
 
@@ -80,9 +77,7 @@ def create_city(state_id):
 
         request_body['state_id'] = state_id
         new_city = City(**request_body)
-        storage.new(new_city)
-        storage.save()
-
+        new_city.save()
         return make_response(jsonify(new_city.to_dict()), 201)
 
     abort(404)
@@ -108,6 +103,6 @@ def update_city(city_id):
                 setattr(city, k, v)
 
         city.save()
-        return make_response(jsonify(city.to_dict()), 200)
+        return jsonify(city.to_dict())
 
     abort(404)
