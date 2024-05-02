@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 '''
-    Define the class Place.
+    Script that Define the class Place.
 '''
 from os import getenv
 from sqlalchemy import Column, String, Integer, Float, ForeignKey, Table
@@ -19,7 +19,7 @@ place_amenity = Table('place_amenity', Base.metadata,
 
 class Place(BaseModel, Base):
     '''
-        Define the class Place that inherits from BaseModel.
+        script that Define the class Place that inherits from BaseModel.
     '''
     __tablename__ = "places"
     if getenv("HBNB_TYPE_STORAGE", "fs") == "db":
