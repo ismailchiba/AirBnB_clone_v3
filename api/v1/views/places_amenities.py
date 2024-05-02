@@ -1,9 +1,8 @@
 #!/usr/bin/python3
-"""places_amenities.py"""
-import os
+"""View for the link between Place and Amenity objects"""
 from api.v1.views import app_views
 from flask import abort, jsonify, make_response, request
-from models import storage
+from models import storage, storage_t
 
 
 @app_views.route('/places/<string:place_id>/amenities', methods=['GET'],
@@ -14,7 +13,7 @@ def get_place_amenities(place_id):
     if place is None:
         abort(404)
     amenities = []
-    if os.getenv('HBNB_TYPE_STORAGE') == 'db':
+    if storage_t == 'db':
         amenity_objects = place.amenities
     else:
         amenity_objects = place.amenity_ids
@@ -31,7 +30,7 @@ def delete_place_amenity(place_id, amenity_id):
     amenity = storage.get("Amenity", amenity_id)
     if place is None or amenity is None:
         abort(404)
-    if os.getenv('HBNB_TYPE_STORAGE') == 'db':
+    if storage_t == 'db':
         place_amenities = place.amenities
     else:
         place_amenities = place.amenity_ids
@@ -50,7 +49,7 @@ def post_place_amenity(place_id, amenity_id):
     amenity = storage.get("Amenity", amenity_id)
     if place is None or amenity is None:
         abort(404)
-    if os.getenv('HBNB_TYPE_STORAGE') == 'db':
+    if storage_t == 'db':
         place_amenities = place.amenities
     else:
         place_amenities = place.amenity_ids
