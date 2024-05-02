@@ -8,7 +8,7 @@ from models import storage, storage_t
 from api.v1.views import app_views
 
 
-@app_views.route('/places/<string:place_id>/amenities', methods=['GET'],
+@app_views.route('/places/<place_id>/amenities', methods=['GET'],
                  strict_slashes=False)
 def get_place_amenities(place_id):
     """get amenity information for a specified place"""
@@ -25,7 +25,7 @@ def get_place_amenities(place_id):
     return jsonify(amenities)
 
 
-@app_views.route('/places/<string:place_id>/amenities/<string:amenity_id>',
+@app_views.route('/places/<place_id>/amenities/<amenity_id>',
                  methods=['DELETE'], strict_slashes=False)
 def delete_place_amenity(place_id, amenity_id):
     """deletes an amenity object from a place"""
@@ -44,9 +44,9 @@ def delete_place_amenity(place_id, amenity_id):
     return jsonify({})
 
 
-@app_views.route('/places/<string:place_id>/amenities/<string:amenity_id>',
+@app_views.route('/places/<place_id>/amenities/<amenity_id>',
                  methods=['POST'], strict_slashes=False)
-def post_place_amenity(place_id, amenity_id):
+def add_place_amenity(place_id, amenity_id):
     """adds an amenity object to a place"""
     place = storage.get("Place", place_id)
     amenity = storage.get("Amenity", amenity_id)
