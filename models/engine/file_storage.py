@@ -11,6 +11,8 @@ from models.place import Place
 from models.review import Review
 from models.state import State
 from models.user import User
+import pycodestyle
+import pep8
 
 classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
@@ -68,16 +70,16 @@ class FileStorage:
     def close(self):
         """call reload() method for deserializing the JSON file to objects"""
         self.reload()
-    
+
     def get(self, cls, id):
         '''get:
         retrieve an object from the file storage by class and id.
         '''
         if cls and id:
             if cls in classes.values():
-                all_object = self.all(cls)
+                all_objects = self.all(cls)
 
-                for value in all_object.values():
+                for value in all_objects.values():
                     if value.id == id:
                         return value
             return
