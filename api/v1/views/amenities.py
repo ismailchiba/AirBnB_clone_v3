@@ -19,12 +19,9 @@ def get_amenities():
     """
 
     all_amenities = storage.all("Amenity")
-
     amenities = []
-
     for value in all_amenities.values():
         amenities.append(value.to_dict())
-
     return jsonify(amenities)
 
 
@@ -35,10 +32,8 @@ def get_amenity(amenity_id):
     """
 
     amenity = storage.get("Amenity", amenity_id)
-
     if amenity is None:
         abort(404)
-
     return jsonify(amenity.to_dict())
 
 
@@ -50,13 +45,10 @@ def delete_amenity(amenity_id):
     """
 
     amenity = storage.get("Amenity", amenity_id)
-
     if amenity is None:
         abort(404)
-
     storage.delete(amenity)
     storage.save()
-
     return make_response({}, 200)
 
 
@@ -69,16 +61,12 @@ def create_amenity():
 
     if not request.is_json:
         abort(400, description="Not a JSON")
-
     request_body = request.get_json()
-
     if 'name' not in request_body:
         abort(400, description='Missing name')
-
     amenity = Amenity(**request_body)
     storage.new(amenity)
     storage.save()
-
     return make_response(amenity.to_dict(), 201)
 
 
@@ -89,19 +77,13 @@ def update_amenity(amenity_id):
     Updates a Amenity object with the given amenity_id
     """
     amenity = storage.get("Amenity", amenity_id)
-
     if amenity is None:
         abort(404)
-
     request_body = request.get_json()
-
     if not request.is_json:
         abort(400, description="Not a JSON")
-
     for key, value in request_body.items():
         if key not in ['id', 'created_at', 'updated_at']:
             setattr(amenity, key, value)
-
     amenity.save()
-
     return make_response(amenity.to_dict(), 200)
