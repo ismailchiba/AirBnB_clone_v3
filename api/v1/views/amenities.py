@@ -9,7 +9,7 @@ from models import storage
 
 
 @app_views.route('/amenities', strict_slashes=False)
-def get_amenity():
+def get_all_amenity():
     """Get amenities instances"""
     amenity = storage.all(Amenity).items()
     lst_amenity = []
