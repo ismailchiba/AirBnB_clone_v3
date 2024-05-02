@@ -24,6 +24,28 @@ class FileStorage:
     # dictionary - empty but will store all objects by <class name>.id
     __objects = {}
 
+    def create(self, cls, **dict_new):
+        """ return a new obj instance of input class """
+        if cls is None or len(dict_new) == 0:
+            return None
+        if cls in classes.keys():
+            cls = classes[cls]
+        if cls in classes.values():
+            obj = cls(**dict_new)
+        return obj
+
+    def update(self, obj, **dict_new):
+        """ return a same obj with modify __dict__ """
+        dict_ignore = {"id": 1, "user_id": 1, "place_id": 1,
+                       "city_id": 1, "email": 1, "state_id": 1,
+                       "created_at": 1, "updated_at": 1}
+        if obj is None:
+            return None
+        for k, v in dict_new.items():
+            if dict_ignore.get(k, None) != 1:
+                obj.__dict__.update({k: v})
+        return obj
+
     def all(self, cls=None):
         """returns the dictionary __objects"""
         if cls is not None:
@@ -33,6 +55,25 @@ class FileStorage:
                     new_dict[key] = value
             return new_dict
         return self.__objects
+
+    def get(self, cls, id):
+        """returns specific object"""
+        if cls is None or id is None:
+            return None
+        if type(id) != str:
+            id = str(id)
+        if cls in classes.values():
+            cls = cls.__name__
+        if cls in classes.keys():
+            key = "{}.{}".format(cls, id)
+            if self.__objects.get(key, None):
+                obj = self.__objects[key]
+                return obj
+        return None
+
+    def count(self, cls=None):
+        count_file = len(self.all(cls))
+        return count_file
 
     def new(self, obj):
         """sets in __objects the obj with key <obj class name>.id"""
