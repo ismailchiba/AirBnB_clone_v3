@@ -8,7 +8,7 @@ from api.v1.views import app_views
 from models import storage
 
 
-@app_views.route('/states', strict_slashes=False)
+@app_views.route('/states', methods=['GET'], strict_slashes=False)
 def get_states():
     """Get states instances"""
     states = storage.all(State).values()
@@ -16,7 +16,7 @@ def get_states():
     return jsonify(lst_state)
 
 
-@app_views.route('/states/<state_id>', strict_slashes=False)
+@app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
 def get_state(state_id):
     """getting state depending on the given id"""
     state = storage.get(State, state_id)
