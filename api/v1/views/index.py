@@ -8,12 +8,12 @@ from flask import jsonify
 from models import storage
 
 
-@app_view.rout("/status", method=['GET'])
+@app_view.route("/status", method=['GET'])
 def status():
     return jsonify({"status": "OK"})
 
 
-@app_view.rout("/status", method=['GET'])
+@app_view.route("/status", method=['GET'])
 def all_state():
     class_object = {
         "amenities": storage.count("Amenities"),
