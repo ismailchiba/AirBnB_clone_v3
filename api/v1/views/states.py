@@ -52,11 +52,20 @@ def delete_state(state_id):
 )
 def create_state():
     """create a state"""
-    if not request.get_json() or not request.json:
+    data = request.get_json()
+    if not data or not request.json:
         abort(400, 'Not a JSON')
-    if 'name' not in request.get_json() or 'name' not in request.json:
+    if 'name' not in data or
+    'name' not in request.json or
+    'name' not in data.keys():
         abort(400, 'Missing name')
-    new_state = State(**request.get_json())
+    if 'id' in data.keys():
+        data.pop("id")
+    if 'created_at' in data.keys():
+        data.pop("created_at")
+    if 'updated_at' in data.keys():
+        data.pop("updated_at")
+    new_state = State(**data)
     new_state.save()
     return make_response(jsonify(new_state.to_dict()), 201)
 
