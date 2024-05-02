@@ -18,6 +18,7 @@ import json
 import os
 import pep8
 import unittest
+
 DBStorage = db_storage.DBStorage
 classes = {"Amenity": Amenity, "City": City, "Place": Place,
            "Review": Review, "State": State, "User": User}
@@ -70,57 +71,18 @@ test_db_storage.py'])
 
 class TestDBStorage(unittest.TestCase):
     """Test the DBStorage class"""
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+
     def test_all_returns_dict(self):
-        """Test that all returns a dictionaty"""
+        """Test that all returns a dictionary"""
         self.assertIs(type(models.storage.all()), dict)
 
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    def test_all_no_class(self):
-        """Test that all returns all rows when no class is passed"""
+    def test_get(self):
+        """Test the get method"""
+        pass
 
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    def test_new(self):
-        """test that new adds an object to the database"""
-
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    def test_save(self):
-        """Test that save properly saves objects to file.json"""
-
-    def get(self, cls, id):
-        """
-        Retrieve one object.
-
-        Args:
-            cls (class): The class of the object.
-            id (str): The ID of the object.
-
-        Returns:
-            obj: The object based on the class and its ID, or None if not found.
-        """
-        all_objects = self.all()
-        key = "{}.{}".format(cls.__name__, id)
-        return all_objects.get(key)
-
-    def count(self, cls=None):
-        """
-        Count the number of objects in storage.
-
-        Args:
-            cls (class, optional): The class of objects to count.
-
-        Returns:
-            int: The number of objects in storage matching the given class. 
-                 If no class is passed, returns the count of all objects in storage.
-        """
-        all_objects = self.all()
-        if cls is None:
-            return len(all_objects)
-        else:
-            class_name = cls.__name__
-            count = sum(1 for obj_key in all_objects.keys()
-                        if obj_key.startswith(class_name + "."))
-            return count
+    def test_count(self):
+        """Test the count method"""
+        pass
 
 
 if __name__ == "__main__":

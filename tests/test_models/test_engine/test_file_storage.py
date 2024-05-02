@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+
 """
 Contains the TestFileStorageDocs classes
 """
@@ -113,42 +114,3 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
-
-    def get(self, cls, id):
-        """
-        Retrieve one object.
-
-        Args:
-            cls (class): The class of the object.
-            id (str): The ID of the object.
-
-        Returns:
-            obj: The object based on the class and its ID, or None if not found.
-        """
-        all_objects = self.all()
-        key = "{}.{}".format(cls.__name__, id)
-        return all_objects.get(key)
-
-    def count(self, cls=None):
-        """
-        Count the number of objects in storage.
-
-        Args:
-            cls (class, optional): The class of objects to count.
-
-        Returns:
-            int: The number of objects in storage matching the given class. 
-                 If no class is passed, returns the count of all objects in storage.
-        """
-        all_objects = self.all()
-        if cls is None:
-            return len(all_objects)
-        else:
-            class_name = cls.__name__
-            count = sum(1 for obj_key in all_objects.keys()
-                        if obj_key.startswith(class_name + "."))
-            return count
-
-
-if __name__ == "__main__":
-    unittest.main()
