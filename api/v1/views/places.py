@@ -45,7 +45,8 @@ def places_search():
 
             if places == []:
                 places_clses = storage.all(Place)
-                places = [place for place in places_clses]
+                for place in places_clses.values():
+                    places.append(place)
             # If amenities list is not empty
             if "amenities" in req_data and req_data["amenities"]:
                 amenities = req_data["amenities"]
