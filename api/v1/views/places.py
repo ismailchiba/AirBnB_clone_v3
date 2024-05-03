@@ -55,8 +55,9 @@ def places_search():
                     place
                     for place in places
                     if all(
-                        amenity in place.amenities
-                        for amenity in amenities
+                        any(amenity.id == required_amenity
+                            for amenity in place.amenities)
+                        for required_amenity in amenities
                     )
                 ]
     except BadRequest:
