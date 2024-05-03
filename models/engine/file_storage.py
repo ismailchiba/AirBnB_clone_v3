@@ -73,7 +73,7 @@ class FileStorage:
         """ A method to retrieve one object """
         if cls in classes:
             objs = self.all(cls)
-            key = f"{cls}.{id}"
+            key = cls + '.' + id
             for k, v in objs.items():
                 if k == key:
                     return v
