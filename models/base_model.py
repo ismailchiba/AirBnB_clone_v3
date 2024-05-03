@@ -5,6 +5,7 @@ Contains class BaseModel
 
 from datetime import datetime
 import models
+import hashlib
 from os import getenv
 import sqlalchemy
 from sqlalchemy import Column, String, DateTime
@@ -77,19 +78,19 @@ class BaseModel:
         models.storage.delete(self)
 
     def update(self, **kwargs):
-            """Update the object attributes"""
+        """Update the object attributes"""
 
-            ignored = ['id', 'created_at', 'updated_at', 'user_id', 'city_id']
+        ignored = ['id', 'created_at', 'updated_at', 'user_id', 'city_id']
 
-            for key in ignored:
-                kwargs.pop(key, None)
+        for key in ignored:
+            kwargs.pop(key, None)
 
-            if kwargs:
-                password = kwargs.get('password')
-            if password is not None:
-                m = hashlib.md5()
-                m.update(bytes(password, 'utf-8'))
-                kwargs['password'] = m.hexdigest()
-            for k, v in kwargs.items():
-                setattr(self, k, v)
-            self.save()
+        if kwargs:
+            password = kwargs.get('password')
+        if password is not None:
+            m = hashlib.md5()
+            m.update(bytes(password, 'utf-8'))
+            kwargs['password'] = m.hexdigest()
+        for k, v in kwargs.items():
+            setattr(self, k, v)
+        self.save()
