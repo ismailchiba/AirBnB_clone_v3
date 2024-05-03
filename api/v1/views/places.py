@@ -47,6 +47,19 @@ def places_search():
                 places_clses = storage.all(Place)
                 for place in places_clses.values():
                     places.append(place)
+            if "amenities" in req_data and req_data["amenities"]:
+                amenities = req_data["amenities"]
+                # filter places missing even one amenity
+                filtered_places = [
+                    place
+                    for place in places
+                    if all(
+                        any(amenity.id == required_amenity
+                            for amenity in place.amenities)
+                        for required_amenity in amenities
+                    )
+                ]
+                places = filtered_places if filtered_places else places
 
     except BadRequest:
         # If the HTTP request body is not valid JSON
