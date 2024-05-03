@@ -4,6 +4,7 @@ route for handling Place objects and operations
 """
 from api.v1.views import app_views, storage
 from flask import jsonify, abort, request, make_response
+from models.amenity import Amenity
 from models.city import City
 from models.place import Place
 from models.state import State
@@ -19,9 +20,9 @@ def places_search():
         req_data = request.get_json()
         if req_data is None:
             abort(400, description="Not a JSON")
-        if not req_data or\
-            all(not req_data.get(key)
-                for key in ['states', 'cities', 'amenities']):
+        if not req_data or all(
+            not req_data.get(key) for key in ["states", "cities", "amenities"]
+        ):
             # If the JSON body is empty, retrieve all Place objects
             places = storage.all(Place).values()
         else:
@@ -49,18 +50,17 @@ def places_search():
                     places.append(place)
             if "amenities" in req_data and req_data["amenities"]:
                 amenities = req_data["amenities"]
-                # filter places missing even one amenity
-                filtered_places = [
-                    place
-                    for place in places
-                    if all(
-                        any(amenity.id == required_amenity
-                            for amenity in place.amenities)
-                        for required_amenity in amenities
-                    )
-                ]
-                places = filtered_places if filtered_places else places
-
+                if amenities:
+                    if not places:
+                        places = storage.all(Place).values()
+                    amenities_obj = [
+                        storage.get(Amenity, a_id) for a_id in amenities
+                    ]
+                    places = [
+                        place
+                        for place in places
+                        if all([am in place.amenities for am in amenities_obj])
+                    ]
     except BadRequest:
         # If the HTTP request body is not valid JSON
         abort(400, description="Not a JSON")
