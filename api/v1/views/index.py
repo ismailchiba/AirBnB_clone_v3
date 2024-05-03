@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """define the router of the app_views blueprint"""
 
-from . import app_views
+from api.v1.views import app_views
 from flask import jsonify
 import models
 
