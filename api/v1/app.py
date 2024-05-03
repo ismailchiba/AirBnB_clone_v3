@@ -3,7 +3,7 @@
 from flask import Flask, jsonify
 from api.v1.views import app_views
 from models import storage
-import os
+from os import getenv
 
 
 app = Flask(__name__)

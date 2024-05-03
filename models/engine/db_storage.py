@@ -79,7 +79,7 @@ class DBStorage:
         """ A method to retrieve one object"""
         obj_dict = models.storage.all(cls)
         for k, v in obj_dict.items():
-            key = f"{cls}.{id}"
+            key = cls +'.' + id
             if k == key:
                 return v
         return None
