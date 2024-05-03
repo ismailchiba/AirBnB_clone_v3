@@ -28,18 +28,19 @@ def places_search():
             places = []
             # If states list is not empty
             if "states" in req_data and req_data["states"]:
-                for state_id in req_data["states"]:
+                states = req_data["states"]
+                for state_id in states:
                     state = storage.get(State, state_id)
                     if state:
                         for city in state.cities:
                             if city.places not in places:  # Avoid duplicates
-                                places.extend(city.places)
+                                places.append(city.places)
             # If cities list is not empty
             if "cities" in req_data and req_data["cities"]:
                 for city_id in req_data["cities"]:
                     city = storage.get(City, city_id)
                     if city and city.places not in places:  # Avoid duplicates
-                        places.extend(city.places)
+                        places.append(city.places)
             if not places:
                 places = storage.all(Place)
                 places = [place for place in places.values()]
