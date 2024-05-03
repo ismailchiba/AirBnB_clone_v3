@@ -44,6 +44,7 @@ def post_place_amenities(place_id, amenity_id):
     myjson = amenity.to_dict()
     return make_response(jsonify(myjson), (200 if exists else 201))
 
+
 @app_views.route(
     "/places/<place_id>/amenities/<amenity_id>",
     methods=["DELETE"]
