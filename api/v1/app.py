@@ -35,7 +35,7 @@ def error_400(error):
     msg = 'Bad request'
     if isinstance(error, Exception) and hasattr(error, 'description'):
         msg = error.description
-    return jsonify(error=msg), 400
+    return jsonify(error=msg), 400)
 
 if __name__ == '__main__':
     app_host = os.getenv("HBNB_API_HOST", "0.0.0.0")
