@@ -46,25 +46,6 @@ def places_search():
                     if city and city.places not in places:  # Avoid duplicates
                         places.extend(city.places)
 
-            if "amenities" in req_data and req_data["amenities"]:
-                amenity_ids = req_data["amenities"]
-                if amenity_ids:
-                    if not places:
-                        places = storage.all(Place).values()
-                    lst_places = []
-                    for place in places:
-                        all_prsnt = True
-                        for id in amenity_ids:
-                            amenity = storage.get(Amenity, id)
-                            if amenity and amenity not in place.amenities:
-                                all_prsnt = False
-                                break
-                        if all_prsnt:
-                            place_dict = place.to_dict()
-                            place_dict.pop("amenities")
-                            lst_places.append(place_dict)
-                    places = lst_places
-
     except BadRequest:
         # If the HTTP request body is not valid JSON
         abort(400, description="Not a JSON")
