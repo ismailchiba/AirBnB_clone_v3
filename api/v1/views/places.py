@@ -44,10 +44,6 @@ def places_search():
                     if city and city.places not in places:  # Avoid duplicates
                         places.extend(city.places)
 
-            if not places:
-                places_clses = storage.all(Place)
-                for place in places_clses.values():
-                    places.append(place)
             if "amenities" in req_data and req_data["amenities"]:
                 amenities = req_data["amenities"]
                 if amenities:
