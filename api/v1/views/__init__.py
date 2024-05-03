@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 """ A module that initialises the views model with a blueprint app_views"""
 from flask import Blueprint
 
