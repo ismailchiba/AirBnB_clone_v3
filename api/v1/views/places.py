@@ -63,6 +63,9 @@ def places_search():
                             place_dict.pop("amenities")
                             lst_places.append(place_dict)
                     places = lst_places
+                    return make_response(
+                        jsonify([place for place in places]), 200
+                    )
     except BadRequest:
         # If the HTTP request body is not valid JSON
         abort(400, description="Not a JSON")
