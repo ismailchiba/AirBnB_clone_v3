@@ -27,4 +27,4 @@ def get_stats():
     for classs in classes:
         value = storage.count(classs)
         all_cls[classs] = value
-    return jsonify(all_cls)
+    return all_cls
