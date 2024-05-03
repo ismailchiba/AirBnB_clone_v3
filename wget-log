@@ -1,0 +1,11 @@
+--2024-04-27 08:09:08--  https://onedrive.live.com/?cid=8989F2EC8C9F66DC
+Resolving onedrive.live.com (onedrive.live.com)... 13.107.139.11, 13.107.137.11
+Connecting to onedrive.live.com (onedrive.live.com)|13.107.139.11|:443... connected.
+HTTP request sent, awaiting response... 302 Found
+Location: https://www.microsoft.com/microsoft-365/onedrive/online-cloud-storage [following]
+--2024-04-27 08:09:08--  https://www.microsoft.com/microsoft-365/onedrive/online-cloud-storage
+Resolving www.microsoft.com (www.microsoft.com)... 23.45.150.50, 2600:1408:ec00:1086::356e, 2600:1408:ec00:1084::356e
+Connecting to www.microsoft.com (www.microsoft.com)|23.45.150.50|:443... connected.
+HTTP request sent, awaiting response... 403 Forbidden
+2024-04-27 08:10:36 ERROR 403: Forbidden.
+

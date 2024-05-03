@@ -35,5 +35,5 @@ class User(BaseModel, Base):
             if type(__value) is str:
                 m = hashlib.md5(bytes(__value, 'utf-8'))
                 super().__setattr__(__name, m.hexdigest())
-        else:
-            super().__setattr__(__name, __value)
+            else:
+                super().__setattr__(__name, __value)
