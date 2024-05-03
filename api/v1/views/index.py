@@ -24,7 +24,7 @@ def get_stats():
     classes = {"Amenity": Amenity, "City": City, "Place": Place,
                "Review": Review, "State": State, "User": User}
     all_cls = {}
-    for classs in classes:
-        value = storage.count(classs)
-        all_cls[classs] = value
-    return all_cls
+    for key, classs_name in classes.items():
+        value = storage.count(classs_name)
+        all_cls[key] = value
+    return jsonify(all_cls)
