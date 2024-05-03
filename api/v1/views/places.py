@@ -9,6 +9,7 @@ from models.city import City
 from models.place import Place
 from models.state import State
 from models.user import User
+import models
 from werkzeug.exceptions import BadRequest
 
 
@@ -24,7 +25,8 @@ def places_search():
             not req_data.get(key) for key in ["states", "cities", "amenities"]
         ):
             # If the JSON body is empty, retrieve all Place objects
-            places = storage.all(Place).values()
+            places_lst = storage.all(Place).values()
+            places = [place.to_dict() for place in places_lst]
         else:
             places = []
             # If states list is not empty
@@ -45,22 +47,28 @@ def places_search():
                         places.extend(city.places)
 
             if "amenities" in req_data and req_data["amenities"]:
-                amenities = req_data["amenities"]
-                if amenities:
+                amenity_ids = req_data["amenities"]
+                if amenity_ids:
                     if not places:
                         places = storage.all(Place).values()
-                    amenities_obj = [
-                        storage.get(Amenity, a_id) for a_id in amenities
-                    ]
-                    places = [
-                        place
-                        for place in places
-                        if all([am in place.amenities for am in amenities_obj])
-                    ]
+                    lst_places = []
+                    for place in places:
+                        all_prsnt = True
+                        for id in amenity_ids:
+                            amenity = storage.get(Amenity, id)
+                            if amenity and amenity not in place.amenities:
+                                all_prsnt = False
+                                break
+                        if all_prsnt:
+                            place_dict = place.to_dict()
+                            place_dict.pop("amenities")
+                            lst_places.append(place_dict)
+                    places = lst_places
+
     except BadRequest:
         # If the HTTP request body is not valid JSON
         abort(400, description="Not a JSON")
-    return make_response(jsonify([place.to_dict() for place in places]))
+    return make_response(jsonify([place for place in places]), 200)
 
 
 @app_views.route(
