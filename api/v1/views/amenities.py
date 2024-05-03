@@ -12,10 +12,10 @@ from models.amenity import Amenity
     methods=['GET'],
     strict_slashes=False
 )
-def get_all_amenities():
+def get_all_amenitie():
     """get all amenities"""
     all_amenity = []
-    for x in storage.all("Amenity").values():
+    for x in storage.all(Amenity).values():
         all_amenity.append(x.to_dict())
     return jsonify(all_amenity)
 
@@ -27,8 +27,8 @@ def get_all_amenities():
 )
 def get_each_amenity(amenity_id):
     """get amenity from id"""
-    x = storage.get("Amenity", amenity_id)
-    if not x:
+    x = storage.get(Amenity, amenity_id)
+    if x is None:
         abort(404)
     return jsonify(x.to_dict())
 
@@ -40,7 +40,7 @@ def get_each_amenity(amenity_id):
 )
 def delete_amenity(amenity_id):
     """delete amenity from id"""
-    x = storage.get("Amenity", amenity_id)
+    x = storage.get(Amenity, amenity_id)
     if x is None:
         abort(404)
     storage.delete(x)
@@ -58,13 +58,10 @@ def create_amenity():
     data = request.get_json()
     if not data:
         abort(400, 'Not a JSON')
-    if 'name' not in data:
+    if "name" not in data:
         abort(400, 'Missing name')
-    # i = Amenity(**data)
-    # i.save()
-    i = Amenity(name=data['name'])
-    storage.new(i)
-    storage.save()
+    i = Amenity(**data)
+    i.save()
     return jsonify(i.to_dict()), 201
 
 
@@ -75,18 +72,14 @@ def create_amenity():
 )
 def update_amenity(amenity_id):
     """update amenity"""
-    amenity = storage.get("Amenity", amenity_id)
-    if amenity is None:
-        abort(404)
     data = request.get_json()
     if not data:
         abort(400, 'Not a JSON')
-    # for k, v in data.items():
-    #     if k not in ['id', 'created_at', 'updated_at']:
-    #         setattr(amenity, k, v)
-    # amenity.save()
-    if 'name' not in data:
-        abort(400, 'Missing name')
-    amenity.name = data['name']
-    storage.save()
+    amenity = storage.get(Amenity, amenity_id)
+    if amenity is None:
+        abort(404)
+    for k, v in data.items():
+        if k not in ['id', 'created_at', 'updated_at']:
+            setattr(amenity, k, v)
+    amenity.save()
     return jsonify(amenity.to_dict()), 200
