@@ -1,6 +1,5 @@
-
 #!/usr/bin/python3
-'''testing the index route'''
+''' used in testing the index route'''
 import unittest
 import pep8
 from os import getenv
