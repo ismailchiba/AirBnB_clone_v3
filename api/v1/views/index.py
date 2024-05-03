@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """define the router of the app_views blueprint"""
 
-from api.v1.views import app_views
+from . import app_views
 from flask import jsonify
 import models
 
@@ -16,10 +16,12 @@ def get_status():
 def status_page():
     """return the status of each model"""
     model = models.storage
-    stats = {'amenities': model.count("Amenity"),
-           'cities': model.count("City"),
-           'places': model.count("Place"),
-           'reviews': model.count("Review"),
-           'states': model.count("State"),
-           'users': model.count("User")}
+    stats = {
+        'amenities': model.count("Amenity"),
+        'cities': model.count("City"),
+        'places': model.count("Place"),
+        'reviews': model.count("Review"),
+        'states': model.count("State"),
+        'users': model.count("User")
+    }
     return jsonify(stats)
