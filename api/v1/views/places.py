@@ -43,7 +43,7 @@ def places_search():
                     if city and city.places not in places:  # Avoid duplicates
                         places.extend(city.places)
 
-            if places == []:
+            if not places:
                 places_clses = storage.all(Place)
                 for place in places_clses.values():
                     places.append(place)
@@ -60,10 +60,12 @@ def places_search():
                         for required_amenity in amenities
                     )
                 ]
+            if places == []:
+                return make_response(jsonify([{}]))
     except BadRequest:
         # If the HTTP request body is not valid JSON
         abort(400, description="Not a JSON")
-    return jsonify([place.to_dict() for place in places])
+    return make_response(jsonify([place.to_dict() for place in places]))
 
 
 @app_views.route(
