@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-"""create flask app"""
+"""create flask app
+"""
 from flask import jsonify
 from api.v1.views import app_views
 from models import storage
