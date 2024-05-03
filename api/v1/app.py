@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" A module that contains the flask app """
+"""app"""
 from api.v1.views import app_views
 from flask import Flask
 from flask import jsonify
