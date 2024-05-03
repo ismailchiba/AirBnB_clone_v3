@@ -4,15 +4,16 @@ from flask import abort, jsonify, request, make_response
 from models import storage
 from models.amenity import Amenity
 from api.v1.views import app_views
+import os
 
 
 @app_views.route("/places/<place_id>/amenities", methods=["GET"])
 def place_amenities(place_id):
-    """Getting a list of amenities for a place."""
+    """getting a list of amenities"""
     place = storage.get("Place", place_id)
     if place is None:
         abort(404)
-    return jsonify([amenity.to_dict() for amenity in place.amenities])
+    return jsonify([a.to_dict() for a in place.amenities])
 
 
 @app_views.route(
@@ -20,34 +21,49 @@ def place_amenities(place_id):
     methods=["POST"]
 )
 def post_place_amenities(place_id, amenity_id):
-    """Link an amenity to a place."""
+    """delete amenity object"""
+    myenv = os.getenv("HBNB_TYPE_STORAGE")
     place = storage.get("Place", place_id)
     amenity = storage.get("Amenity", amenity_id)
+    exists = False
     if place is None or amenity is None:
         abort(404)
 
-    if amenity in place.amenities:
-        return make_response(jsonify(amenity.to_dict()), 200)
+    if myenv == "db":
+        if amenity in place.amenities:
+            exists = True
+        else:
+            place.amenities.append(amenity)
+    else:
+        if amenity.id in place.amenity_ids:
+            exists = True
+        else:
+            place.amenity_ids.append(amenity.id)
 
-    place.amenities.append(amenity)
     place.save()
-    return make_response(jsonify(amenity.to_dict()), 201)
-
+    myjson = amenity.to_dict()
+    return jsonify(myjson), (200 if exists else 201)
 
 @app_views.route(
     "/places/<place_id>/amenities/<amenity_id>",
     methods=["DELETE"]
 )
-def delete_place_amenity(place_id, amenity_id):
-    """Unlink an amenity from a place."""
+def my_delete_place_amenities(place_id, amenity_id):
+    """create Amenity object"""
+    myenv = os.getenv("HBNB_TYPE_STORAGE")
     place = storage.get("Place", place_id)
     amenity = storage.get("Amenity", amenity_id)
+    exists = False
     if place is None or amenity is None:
         abort(404)
 
-    if amenity not in place.amenities:
-        abort(404)
-
-    place.amenities.remove(amenity)
+    if myenv == "db":
+        if amenity not in place.amenities:
+            abort(404)
+        place.amenities.remove(amenity)
+    else:
+        if amenity.id not in place.amenity_ids:
+            abort(404)
+        place.amenity_ids.remove(amenity.id)
     place.save()
     return jsonify({}), 200
