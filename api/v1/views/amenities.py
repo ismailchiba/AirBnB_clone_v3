@@ -12,7 +12,7 @@ from models.amenity import Amenity
     methods=['GET'],
     strict_slashes=False
 )
-def get_all_amenitie():
+def get_all_amenities():
     """get all amenities"""
     all_amenity = []
     for x in storage.all(Amenity).values():
@@ -58,10 +58,13 @@ def create_amenity():
     data = request.get_json()
     if not data:
         abort(400, 'Not a JSON')
-    if "name" not in data:
+    if 'name' not in data:
         abort(400, 'Missing name')
-    i = Amenity(**data)
-    i.save()
+    # i = Amenity(**data)
+    # i.save()
+    i = Amenity(name=data['name'])
+    storage.new(i)
+    storage.save()
     return jsonify(i.to_dict()), 201
 
 
@@ -72,14 +75,18 @@ def create_amenity():
 )
 def update_amenity(amenity_id):
     """update amenity"""
-    data = request.get_json()
-    if not data:
-        abort(400, 'Not a JSON')
     amenity = storage.get(Amenity, amenity_id)
     if amenity is None:
         abort(404)
-    for k, v in data.items():
-        if k not in ['id', 'created_at', 'updated_at']:
-            setattr(amenity, k, v)
-    amenity.save()
+    data = request.get_json()
+    if not data:
+        abort(400, 'Not a JSON')
+    # for k, v in data.items():
+    #     if k not in ['id', 'created_at', 'updated_at']:
+    #         setattr(amenity, k, v)
+    # amenity.save()
+    if 'name' not in data:
+        abort(400, 'Missing name')
+    amenity.name = data['name']
+    storage.save()
     return jsonify(amenity.to_dict()), 200
