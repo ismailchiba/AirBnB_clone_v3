@@ -17,8 +17,16 @@ class User(BaseModel, Base):
         password = Column(String(128), nullable=False)
         first_name = Column(String(128), nullable=True)
         last_name = Column(String(128), nullable=True)
-        places = relationship("Place", backref="user")
-        reviews = relationship("Review", backref="user")
+        places = relationship(
+            "Place",
+            cascade="all, delete, delete-orphan",
+            backref="user"
+        )
+        reviews = relationship(
+            "Review",
+            cascade="all, delete, delete-orphan",
+            backref="user"
+        )
     else:
         email = ""
         password = ""
@@ -35,5 +43,5 @@ class User(BaseModel, Base):
             if type(__value) is str:
                 m = hashlib.md5(bytes(__value, 'utf-8'))
                 super().__setattr__(__name, m.hexdigest())
-            else:
-                super().__setattr__(__name, __value)
+        else:
+            super().__setattr__(__name, __value)
