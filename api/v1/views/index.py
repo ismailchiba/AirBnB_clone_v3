@@ -10,7 +10,7 @@ from models import storage
 @app_views.route("/status", methods=['GET'],
                  strict_slashes=False)
 def status():
-    """send a 200 reponse to client 
+    """send a 200 reponse to client
     with format 'status': 'ok'"""
     return jsonify(status="OK")
 
