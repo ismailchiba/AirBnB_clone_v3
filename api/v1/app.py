@@ -27,7 +27,8 @@ def end_session(exception):
 @app.errorhandler(404)
 def not_found(err):
     """custom 404- not found error"""
-    return make_response(jsonify(error="Not found"), 404)
+    return make_response(jsonify(error="Not found"),
+                         404)
     
 
 if __name__ == '__main__':
