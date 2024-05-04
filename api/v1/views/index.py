@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-    index module
+index module
 """
 from flask import jsonify
 from api.v1.views import app_views
@@ -18,7 +18,7 @@ def status():
 @app_views.route('/stats', methods=['GET'],
                  strict_slashes=False)
 def stat():
-    """returns the number 
+    """returns the number
     of each objects by type"""
     return jsonify(
         amenities=storage.count('Amenity'),
