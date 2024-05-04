@@ -1,23 +1,16 @@
 #!/usr/bin/python3
 """
-Create Flask app
+Index module to handle the API status route
 """
 from flask import jsonify
 from api.v1.views import app_views
 from models import storage
 
-@app_views.route('/status')
-def api_status():
-    """
-    API status
-    """
-    response = {'status': "OK"}
-    return jsonify(response)
 
-@app_views.route('/stats')
+@app_views.route('/stats', methods=['GET'])
 def get_stats():
     """
-    Create flask
+    Retrieves the number of each object type
     """
     stats = {
         "amenities": storage.count('Amenity'),
@@ -25,8 +18,6 @@ def get_stats():
         "places": storage.count('Place'),
         "reviews": storage.count('Review'),
         "states": storage.count('State'),
-        "users": storage.count('User'),
+        "users": storage.count('User')
     }
-
     return jsonify(stats)
-
