@@ -81,17 +81,17 @@ class DBStorage:
             if cls in classes.values() and isinstance(id, str):
                 all_objects = self.all(cls)
                 for key, value in all_objects.items():
-                    if key.split()[1] == id:
+                    if key.split('.')[1] == id:
                         return value
             else:
-                return
-        return
-
+                return None
+        return None
 
     def count(self, cls=None):
         """Returns the number of objects in storage matching"""
-        objct = 0
-        for clss in classes:
-            if cls is None or cls is classes[clss] or cls is clss:
-                objct += len(self.__session.query(classes[clss]).all())
-        return objct
+        if not cls:
+            return len(self.all())
+        if cls in classes.values():
+            return len(self.all(cls))
+        if cls not in classes.values():
+            return 0
