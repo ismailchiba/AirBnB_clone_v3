@@ -13,13 +13,13 @@ import uuid
 app = Flask(__name__)
 
 
-@app.route("/1-hbnb/", strict_slashes=False)
+@app.route("/3-hbnb/", strict_slashes=False)
 def hbnb():
     """Displays the main HBnB filters HTML page."""
     states = storage.all("State")
     amenities = storage.all("Amenity")
     places = storage.all("Place")
-    return render_template("1-hbnb.html", cache_id=uuid.uuid4(),
+    return render_template("3-hbnb.html", cache_id=uuid.uuid4(),
                            states=states, amenities=amenities, places=places)
 
 
