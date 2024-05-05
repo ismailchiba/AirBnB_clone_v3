@@ -52,11 +52,11 @@ class DBStorage:
         return (new_dict)
 
     def get(self, cls, id):
-        """retrieves an object of a class with id"""
-        obj = []
+        """Retrieves an object of a class with a given ID."""
         if cls is not None and issubclass(cls, BaseModel):
-            obj = self.__session.query(cls.id ==id).first()
-            return obj
+            obj = self.__session.query(cls).filter_by(id=id).first()
+        return obj
+
 
     def count(self, cls=None):
         """Returns the number of objects in storage matching the given class.

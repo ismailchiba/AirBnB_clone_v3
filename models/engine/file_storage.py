@@ -36,10 +36,10 @@ class FileStorage:
 
     def get(self, cls, id):
         """retrieves an object of a class with id"""
-        if cls is not None and cls in self.cls:
-            objects = self.cls[cls]
-            for obj in objects:
-                if obj['id'] == id:
+        if cls is not None and cls in classes:
+            objects = self.all(cls)
+            for obj in objects.values():
+                if obj.id == id:
                     return obj
         return None
 
