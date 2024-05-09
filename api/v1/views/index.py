@@ -1,14 +1,14 @@
 #!/usr/bin/python3
 """
-Docstring
+This module contains the status route
 """
-
-from api.v1.views import app_views
 from flask import jsonify
+from . import app_views
+from models import storage
 
 
 @app_views.route("/status", methods=["GET"], strict_slashes=False)
-def status():
+def get_status():
     """
     Return the status of the API
     """
