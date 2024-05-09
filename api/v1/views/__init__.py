@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+"""
+Docstring
+"""
 
 from flask import Blueprint
 
