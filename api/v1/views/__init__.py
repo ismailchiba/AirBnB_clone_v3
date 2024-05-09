@@ -1,4 +1,4 @@
-#!flask/bin/python
+#!/usr/bin/python3
 
 from flask import Blueprint
 
