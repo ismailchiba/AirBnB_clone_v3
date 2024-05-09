@@ -5,10 +5,6 @@ from models import storage
 from models.state import State, City
 
 
-stat = State()
-cit = City()
-cit.save()
-stat.save()
 print("All objects: {}".format(storage.count()))
 print("State objects: {}".format(storage.count(State)))
 
