@@ -108,6 +108,7 @@ git:
 	$(git)
 
 git-%:
+	rm -rf __pycache__ api/__pycache__ api/v1/__pycache__ api/v1/views/__pycache__
 	@$(MAKE) git NAME="$*"	
 
 echo:
