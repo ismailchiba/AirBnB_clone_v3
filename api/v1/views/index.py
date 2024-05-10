@@ -3,6 +3,7 @@
 This module contains the status route
 """
 from flask import jsonify
+import json
 from . import app_views
 from models import storage
 from models.amenity import Amenity
@@ -36,4 +37,4 @@ def get_stats():
         "users": storage.count(User)
     }
 
-    return jsonify(total_objects)
+    return json.dumps(total_objects, indent=2)
