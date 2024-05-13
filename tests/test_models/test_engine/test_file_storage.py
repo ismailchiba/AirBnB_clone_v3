@@ -3,7 +3,7 @@
 Contains the TestFileStorageDocs classes
 """
 
-from datetime import datetime
+from datetime import datetime, timedelta
 import inspect
 import models
 from models.engine import file_storage
@@ -16,6 +16,7 @@ from models.state import State
 from models.user import User
 import json
 import os
+import pycodestyle
 import pep8
 import unittest
 FileStorage = file_storage.FileStorage
@@ -113,3 +114,47 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get(self):
+        """ Tests method for obtaining an instance db storage."""
+        storage = FileStorage()
+
+        storage.reload()
+
+        state_data = {"name": "Maldives"}
+
+        state_instance = State(**state_data)
+        storage.new(state_instance)
+        storage.save()
+
+        retrieved_state = storage.get(State, state_instance.id)
+
+        self.assertEqual(state_instance, retrieved_state)
+
+        fake_state_id = storage.get(State, 'fake_id')
+
+        self.assertEqual(fake_state_id, None)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_count(self):
+        """ Tests method for obtaining an instance db storage"""
+        storage = FileStorage()
+        storage.reload()
+        state_data = {"name": "Sudan"}
+        state_instance = State(**state_data)
+        storage.new(state_instance)
+
+        city_data = {"name": "Rocky", "state_id": state_instance.id}
+
+        city_instance = City(**city_data)
+
+        storage.new(city_instance)
+
+        storage.save()
+
+        state_occurrence = storage.count(State)
+        self.assertEqual(state_occurence, len(storage.all(State)))
+
+        all_occurance = storage.count(State)
+        self.assertEqual(all_occurrence, len(storage.all(State)))
