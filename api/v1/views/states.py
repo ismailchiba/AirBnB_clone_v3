@@ -3,6 +3,7 @@
 the blueprint the handle app view and state view
 """
 
+
 from api.v1.views import app_views
 from models import storage
 from flask import jsonify
