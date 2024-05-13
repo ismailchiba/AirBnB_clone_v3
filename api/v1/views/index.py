@@ -17,7 +17,9 @@ from models.user import User
 def index():
     """This endpoint returns a JSON object
     with the status of the application."""
-    jsonstring = {"status": "OK"}
+    jsonstring = {
+        "status": "OK"
+        }
     return jsonify(jsonstring)
 
 
