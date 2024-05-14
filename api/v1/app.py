@@ -1,50 +1,45 @@
 #!/usr/bin/python3
-'''this is the api
-'''
-import os
+"""
+this the app application
+"""
+
 from flask import Flask, jsonify
 from flask_cors import CORS
+from os import getenv
 
-from models import storage
 from api.v1.views import app_views
+from models import storage
 
 
 app = Flask(__name__)
-'''this is the flask web app'''
-app_host = os.getenv('HBNB_API_HOST', '0.0.0.0')
-app_port = int(os.getenv('HBNB_API_PORT', '5000'))
-app.url_map.strict_slashes = False
+
+CORS(app, resources={r"/*": {"origins": "0.0.0.0"}})
+
 app.register_blueprint(app_views)
-CORS(app, resources={'/*': {'origins': app_host}})
 
 
 @app.teardown_appcontext
-def teardown_flask(exception):
-    '''this is the request'''
-    # print(exception)
+def teardown(exception):
+    """
+    this is the teardown function
+    """
     storage.close()
 
 
 @app.errorhandler(404)
-def error_404(error):
-    '''this is the error'''
-    return jsonify(error='Not found'), 404
+def handle_404(exception):
+    """
+    this handles 404 error
+    :return: returns 404 json
+    """
+    data = {
+        "error": "Not found"
+    }
 
+    resp = jsonify(data)
+    resp.status_code = 404
 
-@app.errorhandler(400)
-def error_400(error):
-    '''this i sthe error'''
-    msg = 'Bad request'
-    if isinstance(error, Exception) and hasattr(error, 'description'):
-        mesage = error.description
-    return jsonify(error=mesage), 400
+    return(resp)
 
-
-if __name__ == '__main__':
-    app_host = os.getenv('HBNB_API_HOST', '0.0.0.0')
-    app_port = int(os.getenv('HBNB_API_PORT', '5000'))
-    app.run(
-        host=app_host,
-        port=app_port,
-        threaded=True
-    )
+if __name__ == "__main__":
+    app.run(getenv("HBNB_API_HOST"), getenv("HBNB_API_PORT"))
