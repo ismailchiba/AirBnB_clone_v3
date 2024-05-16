@@ -85,6 +85,11 @@ class TestBaseModel(unittest.TestCase):
         tic = datetime.now()
         inst1 = BaseModel()
         toc = datetime.now()
+        # ============================================
+        # print("tic:", tic)
+        # print("inst1.created_at:", inst1.created_at)
+        # print("toc:", toc)
+        # -------------------------------------------
         self.assertTrue(tic <= inst1.created_at <= toc)
         time.sleep(1e-4)
         tic = datetime.now()
