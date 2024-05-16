@@ -1,86 +1,120 @@
 #!/usr/bin/python3
-"""places_amenities"""
-from api.v1.views import app_views
-from flask import jsonify, abort
-from models import storage
-from os import getenv
-
-if getenv('HBNB_TYPE_STORAGE') == 'db':
-    @app_views.route('/places/<place_id>/amenities/', methods=['GET'])
-    def list_amenities_of_place(place_id):
-        """ Retrieves a list of all Amenity objects of a Place """
-        all_places = storage.all("Place").values()
-        place_obj = [obj.to_dict() for obj in all_places if obj.id == place_id]
-        if not place_obj:
-            abort(404)
-        list_amenities = []
-        for obj in all_places:
-            if obj.id == place_id:
-                for amenity in obj.amenities:
-                    list_amenities.append(amenity.to_dict())
-        return jsonify(list_amenities)
+"""
+route for handling Review objects and operations
+"""
+from flask import jsonify, abort, request
+from api.v1.views import app_views, storage
+from models.review import Review
 
 
-    @app_views.route('/places/<place_id>/amenities/<amenity_id>',
-                     methods=['POST'])
-    def create_place_amenity(place_id, amenity_id):
-        """Creates a Amenity"""
-        all_places = storage.all("Place").values()
-        place_obj = [obj.to_dict() for obj in all_places if obj.id == place_id]
-        if not place_obj:
-            abort(404)
+@app_views.route("/places/<place_id>/reviews", methods=["GET"],
+                 strict_slashes=False)
+def reviews_by_place(place_id):
+    """
+    retrieves all Review objects by place
+    :return: json of all reviews
+    """
+    review_list = []
+    place_obj = storage.get("Place", str(place_id))
 
-        all_amenities = storage.all("Amenity").values()
-        amenity_obj = [obj.to_dict() for obj in all_amenities
-                       if obj.id == amenity_id]
-        if not amenity_obj:
-            abort(404)
-
-        amenities = []
-        for place in all_places:
-            if place.id == place_id:
-                for amenity in all_amenities:
-                    if amenity.id == amenity_id:
-                        place.amenities.append(amenity)
-                        storage.save()
-                        amenities.append(amenity.to_dict())
-                        return jsonify(amenities[0]), 200
-        return jsonify(amenities[0]), 201
-
-
-    @app_views.route('/places/<place_id>/amenities/<amenity_id>',
-                     methods=['DELETE'])
-    def delete_place_amenity(place_id, amenity_id):
-        """Deletes a Amenity object"""
-        all_places = storage.all("Place").values()
-        place_obj = [obj.to_dict() for obj in all_places if obj.id == place_id]
-        if not place_obj:
-            abort(404)
-
-        all_amenities = storage.all("Amenity").values()
-        amenity_obj = [obj.to_dict() for obj in all_amenities
-                       if obj.id == amenity_id]
-        if not amenity_obj:
-            abort(404)
-        amenity_obj.remove(amenity_obj[0])
-
-        for obj in all_places:
-            if obj.id == place_id:
-                if not obj.amenities:
-                    abort(404)
-                for amenity in obj.amenities:
-                    if amenity.id == amenity_id:
-                        storage.delete(amenity)
-                        storage.save()
-        return jsonify({}), 200
-
-
-@app_views.route('/amenities/<amenity_id>', methods=['GET'])
-def get_place_amenity(amenity_id):
-    """Retrieves a Amenity object """
-    all_amenities = storage.all("Amenity").values()
-    amenity_obj = [obj.to_dict() for obj in all_amenities
-                   if obj.id == amenity_id]
-    if not amenity_obj:
+    if place_obj is None:
         abort(404)
-    return jsonify(amenity_obj[0])
+
+    for obj in place_obj.reviews:
+        review_list.append(obj.to_json())
+
+    return jsonify(review_list)
+
+
+@app_views.route("/places/<place_id>/reviews", methods=["POST"],
+                 strict_slashes=False)
+def review_create(place_id):
+    """
+    create REview route
+    :return: newly created Review obj
+    """
+    review_json = request.get_json(silent=True)
+    if review_json is None:
+        abort(400, 'Not a JSON')
+    if not storage.get("Place", place_id):
+        abort(404)
+    if not storage.get("User", review_json["user_id"]):
+        abort(404)
+    if "user_id" not in review_json:
+        abort(400, 'Missing user_id')
+    if "text" not in review_json:
+        abort(400, 'Missing text')
+
+    review_json["place_id"] = place_id
+
+    new_review = Review(**review_json)
+    new_review.save()
+    resp = jsonify(new_review.to_json())
+    resp.status_code = 201
+
+    return resp
+
+
+@app_views.route("/reviews/<review_id>",  methods=["GET"],
+                 strict_slashes=False)
+def review_by_id(review_id):
+    """
+    gets a specific Review object by ID
+    :param review_id: place object id
+    :return: review obj with the specified id or error
+    """
+
+    fetched_obj = storage.get("Review", str(review_id))
+
+    if fetched_obj is None:
+        abort(404)
+
+    return jsonify(fetched_obj.to_json())
+
+
+@app_views.route("/reviews/<review_id>",  methods=["PUT"],
+                 strict_slashes=False)
+def review_put(review_id):
+    """
+    updates specific Review object by ID
+    :param review_id: Review object ID
+    :return: Review object and 200 on success, or 400 or 404 on failure
+    """
+    place_json = request.get_json(silent=True)
+
+    if place_json is None:
+        abort(400, 'Not a JSON')
+
+    fetched_obj = storage.get("Review", str(review_id))
+
+    if fetched_obj is None:
+        abort(404)
+
+    for key, val in place_json.items():
+        if key not in ["id", "created_at", "updated_at", "user_id",
+                       "place_id"]:
+            setattr(fetched_obj, key, val)
+
+    fetched_obj.save()
+
+    return jsonify(fetched_obj.to_json())
+
+
+@app_views.route("/reviews/<review_id>",  methods=["DELETE"],
+                 strict_slashes=False)
+def review_delete_by_id(review_id):
+    """
+    deletes Review by id
+    :param : Review object id
+    :return: empty dict with 200 or 404 if not found
+    """
+
+    fetched_obj = storage.get("Review", str(review_id))
+
+    if fetched_obj is None:
+        abort(404)
+
+    storage.delete(fetched_obj)
+    storage.save()
+
+    return jsonify({})
