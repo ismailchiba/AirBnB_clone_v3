@@ -45,17 +45,17 @@ class FileStorage:
         json_objects = {}
         for key in self.__objects:
             json_objects[key] = self.__objects[key].to_dict()
-        with open(self.__file_path, 'w', encoding='utf-8') as f:
-            json.dump(json_objects, f, indent=4)
+        with open(self.__file_path, 'w') as f:
+            json.dump(json_objects, f)
 
     def reload(self):
         """deserializes the JSON file to __objects"""
         try:
-            with open(self.__file_path, 'r', encoding='utf-8') as f:
+            with open(self.__file_path, 'r') as f:
                 jo = json.load(f)
             for key in jo:
                 self.__objects[key] = classes[jo[key]["__class__"]](**jo[key])
-        except FileNotFoundError:
+        except:
             pass
 
     def delete(self, obj=None):
@@ -70,34 +70,14 @@ class FileStorage:
         self.reload()
 
     def get(self, cls, id):
-        """
-        This method retrieves one object
-
-        args:
-            cls: class to retrieve object from
-            id: id of object to retrieve
-
-        Return: returns the object  based on the class and its Id
-        """
-        all_in_class = self.all(cls)
-        for value in all_in_class.values():
-            if value.id == id:
-                return value
+        '''object to get'''
+        if cls and id:
+            takeObj = '{}.{}'.format(cls, id)
+            everyObj = self.all(cls)
+            return everyObj.get(takeObj)
+        else:
+            return None
 
     def count(self, cls=None):
-        """
-        Counts the number of objects in storage
-
-        args:
-            cls: (optional) class to count the number of objects
-
-        Return: returns the number of objects in storage matching a
-            given class if specified else returns the count of all objects
-            in storage
-        """
-
-        if cls is not None:
-            class_objs = self.all(cls)
-            return len(class_objs)
-
-        return len(self.all())
+        '''class that is (optional)'''
+        return (len(self.all(cls)))

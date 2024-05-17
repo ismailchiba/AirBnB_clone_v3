@@ -1,44 +1,33 @@
 #!/usr/bin/python3
-"""
-Tihs file uses the created Blueprint to define routes
-"""
-from flask import jsonify
+"""index.py to connect to API"""
 from api.v1.views import app_views
+from flask import Flask, Blueprint, jsonify
 from models import storage
 
 
-classTexts = {
-  "amenities": "Amenity",
-  "cities": "City",
-  "places": "Place",
-  "reviews": "Review",
-  "states": "State",
-  "users": "User"
+hbnbText = {
+    "amenities": "Amenity",
+    "cities": "City",
+    "places": "Place",
+    "reviews": "Review",
+    "states": "State",
+    "users": "User"
 }
 
 
 @app_views.route('/status', strict_slashes=False)
-def status():
-    """
-    returns a status ok
-    """
-    json_data = {
-        "status": "OK"
-    }
-    return jsonify(json_data)
+def hbnbStatus():
+    """hbnbStatus"""
+    return jsonify({"status": "OK"})
 
 
 @app_views.route('/stats', strict_slashes=False)
-def objects_count():
-    """
-    This retrieves the number of each object by type
-    """
-    stats = {}
-    for key, value in classTexts.items():
-        stats[key] = storage.count(value)
-
-    return jsonify(stats)
-
+def hbnbStats():
+    """hbnbStats"""
+    return_dict = {}
+    for key, value in hbnbText.items():
+        return_dict[key] = storage.count(value)
+    return jsonify(return_dict)
 
 if __name__ == "__main__":
     pass
