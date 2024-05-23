@@ -2,8 +2,9 @@
 
 from flask import abort, jsonify
 
-from api.v1.views import app_views
-from models import storage
+from api.v1.views import app_views, storage
+
+# from models import storage
 from models.state import State
 
 
@@ -44,3 +45,28 @@ def get_state_by_id(state_id):
     response = jsonify(state), 200
 
     return response
+
+
+@app_views.route("/states/<state_id>", methods=["DELETE"], strict_slashes=False)
+def delete_state(state_id):
+    """
+    Delete a state by its ID.
+
+    Args:
+        state_id (str): The ID of the state to delete.
+
+    Returns:
+        tuple: An empty dictionary and the HTTP status code 200.
+
+    Raises:
+        404: If the state with the specified ID does not exist.
+    """
+    state = storage.get(State, str(state_id))
+
+    if state is None:
+        abort(404)
+
+    storage.delete(state)
+    storage.save()
+
+    return jsonify({})
