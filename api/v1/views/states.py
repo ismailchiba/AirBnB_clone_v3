@@ -102,3 +102,45 @@ def create_state():
     response = jsonify(new_state.to_dict()), 201
 
     return response
+
+@app_views.route("/states/<state_id>", methods=["PUT"], strict_slashes=False)
+def update_state(state_id):
+    """
+    Update a state by its ID.
+
+    Args:
+        state_id (str): The ID of the state to update.
+
+    Returns:
+        tuple: A tuple containing the JSON representation
+        of the updated state and the HTTP status code 200.
+
+    Raises:
+        404: If the state with the specified ID does not exist.
+    """
+    # Get the JSON data from the request body
+    body = request.get_json()
+
+    # Check if the request body is empty or not in JSON format
+    if body is None:
+        abort(400, "Not a JSON")
+
+    # Get the state object from the database
+    state = storage.get(State, str(state_id))
+
+    # Check if the state object exists
+    if state is None:
+        abort(404)
+
+    # Update the state object with the data from the request body
+    for key, value in body.items():
+        if key not in ["id", "created_at", "updated_at"]:
+            setattr(state, key, value)
+
+    # Save the updated state object to the database
+    state.save()
+
+    # Create a JSON response containing the data of the updated state
+    response = jsonify(state.to_dict()), 200
+
+    return response
