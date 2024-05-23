@@ -33,6 +33,56 @@ def get_state_cities(state_id):
     return response
 
 
+@app_views.route("/cities/<city_id>", methods=["GET"], strict_slashes=False)
+def get_city(city_id):
+    """
+    Retrieve a specific city by its ID.
+
+    Args:
+        city_id (str): The ID of the city to retrieve.
+
+    Returns:
+        tuple: A tuple containing the JSON representation of
+        the city and the HTTP status code.
+
+    Raises:
+        404: If the city with the specified ID does not exist.
+    """
+    city = storage.get(City, str(city_id)).to_dict()
+
+    if city is None:
+        abort(404)
+
+    response = jsonify(city), 200
+
+    return response
+
+
+@app_views.route("/cities/<city_id>", methods=["DELETE"], strict_slashes=False)
+def delete_city(city_id):
+    """
+    Delete a city by its ID.
+
+    Args:
+        city_id (str): The ID of the city to delete.
+
+    Returns:
+        tuple: An empty dictionary and the HTTP status code 200.
+
+    Raises:
+        404: If the city with the specified ID does not exist.
+    """
+    city = storage.get(City, str(city_id))
+
+    if city is None:
+        abort(404)
+
+    storage.delete(city)
+    storage.save()
+
+    return jsonify({})
+
+
 # @app_views.route("/states/<st_id>", methods=["DELETE"], strict_slashes=False)
 # def delete_state(st_id):
 #     """
