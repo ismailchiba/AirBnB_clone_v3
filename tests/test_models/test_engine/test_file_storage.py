@@ -113,3 +113,45 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+
+
+class TestGetFileStorage(unittest.TestCase):
+    """Test the get method of the FileStorage class"""
+    def setUp(self):
+        self.storage = FileStorage()
+        self.user = User()
+        self.user.first_name = 'John'
+        self.user.last_name = 'Doe'
+        self.user.email = 'john@gmail.com'
+
+    def test_get_valid(self):
+        self.storage.new(self.user)
+        self.storage.save()
+        result = self.storage.get('User', self.user.id)
+        self.assertEqual(result, self.user)
+
+    def test_get_invalid_id(self):
+        result = self.storage.get('User', '123')
+        self.assertIsNone(result)
+
+
+class TestCountFileStorage(unittest.TestCase):
+    """Test the count method of the FileStorage class"""
+    def setUp(self):
+        self.storage = FileStorage()
+        self.user = User()
+        self.user.first_name = 'John'
+        self.user.last_name = 'Doe'
+        self.user.email = 'hello@gmail.com'
+
+    def test_count_valid(self):
+        """Test that count method with a valid data"""
+        self.storage.new(self.user)
+        self.storage.save()
+        result = self.storage.count('User')
+        self.assertEqual(result, 1)
+
+    def test_count_invalid(self):
+        """Test that count method with an invalid data"""
+        result = self.storage.count('Invalid')
+        self.assertEqual(result, 0)
