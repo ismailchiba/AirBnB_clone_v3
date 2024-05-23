@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from flask import abort, jsonify
+from flask import abort, jsonify, request
 
 from api.v1.views import app_views, storage
 
@@ -47,13 +47,13 @@ def get_state_by_id(state_id):
     return response
 
 
-@app_views.route("/states/<state_id>", methods=["DELETE"], strict_slashes=False)
-def delete_state(state_id):
+@app_views.route("/states/<st_id>", methods=["DELETE"], strict_slashes=False)
+def delete_state(st_id):
     """
     Delete a state by its ID.
 
     Args:
-        state_id (str): The ID of the state to delete.
+        st_id (str): The ID of the state to delete.
 
     Returns:
         tuple: An empty dictionary and the HTTP status code 200.
@@ -61,7 +61,7 @@ def delete_state(state_id):
     Raises:
         404: If the state with the specified ID does not exist.
     """
-    state = storage.get(State, str(state_id))
+    state = storage.get(State, str(st_id))
 
     if state is None:
         abort(404)
@@ -70,3 +70,35 @@ def delete_state(state_id):
     storage.save()
 
     return jsonify({})
+
+
+@app_views.route("/states", methods=["POST"], strict_slashes=False)
+def create_state():
+    """
+    Create a new state.
+
+    Returns:
+        tuple: A tuple containing the JSON representation
+        of the new state and the HTTP status code 201.
+    """
+    # Get the JSON data from the request body
+    body = request.get_json()
+
+    # Check if the request body is empty or not in JSON format
+    if body is None:
+        abort(400, "Not a JSON")
+
+    # Check if the 'name' key is present in the request body
+    if "name" not in body:
+        abort(400, "Missing name")
+
+    # Create a new State object using the data from the request body
+    new_state = State(**body)
+
+    # Save the new state object to the database
+    new_state.save()
+
+    # Create a JSON response containing the data of the new state
+    response = jsonify(new_state.to_dict()), 201
+
+    return response
