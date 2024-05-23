@@ -77,6 +77,31 @@ class TestFileStorage(unittest.TestCase):
         new_dict = storage.all()
         self.assertEqual(type(new_dict), dict)
         self.assertIs(new_dict, storage._FileStorage__objects)
+    
+@unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+def test_get(self):
+    """Test that get retrieves the correct object."""
+    storage = FileStorage()
+    obj = State()
+    storage.new(obj)
+    key = f"{obj.__class__.__name__}.{obj.id}"
+    self.assertEqual(storage.get(State, obj.id), obj)  # Test by class and ID
+    self.assertEqual(storage.get(State, "nonexistent_id"), None)  # Test with invalid ID
+    self.assertEqual(storage.get("NonexistentClass", obj.id), None)  # Test with invalid class
+
+@unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+def test_count(self):
+    """Test that count returns the correct number of objects."""
+    storage = FileStorage()
+    initial_count = storage.count()
+    obj1 = State()
+    obj2 = City()
+    storage.new(obj1)
+    storage.new(obj2)
+    self.assertEqual(storage.count(), initial_count + 2)  # Test total count
+    self.assertEqual(storage.count(State), 1)  # Test count for specific class
+    self.assertEqual(storage.count(User), 0)  # Test count for non-existing objects of a class
+
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_new(self):
