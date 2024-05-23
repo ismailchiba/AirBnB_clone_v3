@@ -42,6 +42,7 @@ class DBStorage:
 
     def all(self, cls=None):
         """query on the current database session"""
+        #print(f"Calling all() method with cls={cls}")
         new_dict = {}
         for clss in classes:
             if cls is None or cls is classes[clss] or cls is clss:
@@ -70,7 +71,34 @@ class DBStorage:
         sess_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(sess_factory)
         self.__session = Session
+    def get(self, cls, id):
+        """Retrieve one object"""
+        if cls not in [State]:
+            return None
 
+        table_name = cls.__name__
+        key = "{}.{}".format(table_name, id)
+
+        try:
+            obj = self.__session.query(cls).get(id)
+            return obj
+        except:
+            return None
+
+    def count(self, cls=None):
+        """Count the number of objects in storage"""
+        #print(f"Calling count() method with cls={cls}")
+        try:
+            if cls is None:
+                count = self.__session.query(BaseModel).count()
+                #print(f"Total objects count: {count}")
+                return count
+            else:
+                count = self.__session.query(cls).count()
+                #print(f"{cls.__name__} objects count: {count}")
+                return count
+        except:
+            return 0
     def close(self):
         """call remove() method on the private session attribute"""
         self.__session.remove()
