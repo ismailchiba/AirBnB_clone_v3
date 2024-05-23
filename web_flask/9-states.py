@@ -1,48 +1,27 @@
 #!/usr/bin/python3
-"""
-    Sript that starts a Flask web application
-"""
+"""Flask app to generate html list of all states from storage"""
 from flask import Flask, render_template
 from models import storage
-import os
-app = Flask(__name__)
+app = Flask('web_flask')
+app.url_map.strict_slashes = False
+
+
+@app.route('/states/<id>')
+@app.route('/states', defaults={'id': None})
+def specific_state(id):
+    """Render as html alphabetical list of states or specific state entry
+    in `storage` if `id` is a valid identifier"""
+    states = storage.all('State')
+    if id:
+        id = 'State.' + id
+    return render_template('9-states.html', states=states, id=id)
 
 
 @app.teardown_appcontext
-def handle_teardown(self):
-    """
-        method to handle teardown
-    """
+def teardown_db(*args, **kwargs):
+    """Close database or file storage"""
     storage.close()
 
 
-@app.route('/states', strict_slashes=False)
-def state_list():
-    """
-        method to render states
-    """
-    states = storage.all('State').values()
-    return render_template(
-        "9-states.html",
-        states=states,
-        condition="states_list")
-
-
-@app.route('/states/<id>', strict_slashes=False)
-def states_id(id):
-    """
-        method to render state ids
-    """
-    state_all = storage.all('State')
-    try:
-        state_id = state_all[id]
-        return render_template(
-            '9-states.html',
-            state_id=state_id,
-            condition="state_id")
-    except:
-        return render_template('9-states.html', condition="not_found")
-
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)
