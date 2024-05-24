@@ -16,7 +16,7 @@ def tearContext(exception):
     """
     storage.close()
 
-app.errorhandler(404)
+@app.errorhandler(404)
 def not_found(error):
     """
     custom error handler
