@@ -105,6 +105,8 @@ class TestFileStorage(unittest.TestCase):
         storage.reload()
         key = new_state.__class__.__name__ + '.' + new_state.id
         self.assertIsNotNone(storage.all().get(key))
+        self.assertEqual(storage.get(key), new_state)
+
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_get(self):
