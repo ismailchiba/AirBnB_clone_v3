@@ -79,6 +79,8 @@ class DBStorage:
         """
         retrieves an object from the filestorage by class and id
         """
+        if type(cls) is str:
+            cls = eval(cls)
         if cls and id:
             if cls in classes.values() and isinstance(id, str):
                 all_objects = self.all(cls)
