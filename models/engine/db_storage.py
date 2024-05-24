@@ -59,6 +59,28 @@ class DBStorage:
         """commit all changes of the current database session"""
         self.__session.commit()
 
+    def get(self, cls, id):
+        """retrieves one object"""
+        if cls is not None and type(cls) is str and id is not None and\
+           type(id) is str and cls in classes:
+            cls = classes[cls]
+            result = self.__session.query(cls).filter(cls.id == id).first()
+            return result
+        else:
+            return None
+    def count(self, cls=None):
+        """ counts """
+        totalX = 0
+        if type(cls) == str and cls in classes:
+            cls = classes[cls]
+            totalX = self.__session.query(cls).count()
+        elif cls is None:
+            for cls in classes.values():
+                totalX += self.__session.query(cls).count()
+        return totalX
+        
+
+
     def delete(self, obj=None):
         """delete from the current database session obj if not None"""
         if obj is not None:
