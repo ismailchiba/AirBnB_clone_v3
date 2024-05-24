@@ -5,8 +5,10 @@
 
 from os import getenv
 from flask import Flask
-from app_views import api.v1.views
-from storage import models
+# from app_views import api.v1.views
+from api.v1.views import app_views
+# from storage import models
+from models import storage
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
