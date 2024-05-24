@@ -50,9 +50,11 @@ class DBStorage:
         if cls is None:
             objs = []
             for cls in classes:
-                objs.extend(self.__session.query(classes[cls]).all())
+                objs.extend(self.__session.query(
+                    classes[cls] if isinstance(cls, str) else cls).all())
         else:
-            objs = self.__session.query(classes[cls]).all()
+            objs = self.__session.query(
+                classes[cls] if isinstance(cls, str) else cls).all()
         return {"{}.{}".format(type(o).__name__, o.id): o for o in objs}
 
     def new(self, obj):
