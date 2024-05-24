@@ -2,6 +2,7 @@
 """Index file of the views module
 """
 from api.v1.views import app_views
+from flask import jsonify
 from models import storage
 
 
@@ -10,7 +11,7 @@ def getStatus():
     """function to return status of response
     """
     resp = {"status": "OK"}
-    return resp
+    return jsonify(resp)
 
 
 @app_views.route('/stats')
@@ -24,4 +25,4 @@ def getStats():
             "states": storage.count('State'),
             "users": storage.count('User')
             }
-    return resp
+    return jsonify(resp)
