@@ -155,6 +155,7 @@ No known bugs at this time.
 
 ## Authors
 Milton Kumirai ajaxmilton@hotmail.com
+George Claudio georgeclaudiofficiel@gmail.com
 
 ## License
 	Public Domain. No copy write protection. 
