@@ -113,3 +113,37 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+
+    def test_get(self):
+        """test to get an object of a class by id."""
+        st = State(name='Florida')
+        st.save()
+        self.assertEqual(st.id, models.storage.get(State, st.id).id)
+        self.assertEqual(st.name, models.storage.get(State,st.id).name)
+        self.assertIsNot(st, models.storage.get(State, st.id + '000'))
+        self.assertIsNone(models.storage.get(State, st.id + '000'))
+        self.assertIsNone(models.storage.get(None, st.id))
+        with self.assertRaises(TypeError):
+            models.storage.get(State, st.id, 'none')
+        with self.assertRaises(TypeError):
+            models.storage.get(State)
+        with self.assertRaises(TypeError):
+            models.storage.get()
+
+    def test_count(self):
+        """test count method in file storage"""
+        self.assertIs(type(models.storage.count()), int)
+        self.assertIs(type(models.storage.count(None)), int)
+        self.assertIs(type(models.storage.count(int)), int)
+        self.assertIs(type(models.storage.count(State)), int)
+        State(name='Tembisa').save()
+        self.assertGreater(models.storage.count(State), 0)
+        self.assertEqual(models.storage.count(), models.storage.count(None))
+        Amenity(name='No smoking').save()
+        self.assertGreater(models.storage.count(), models.storage.count(State))
+        with self.assertRaises(TypeError):
+            models.storage.count(State, "None")
+
+
+if __name__ == "__main__":
+    unittest.main()

@@ -5,7 +5,7 @@ Contains the TestDBStorageDocs and TestDBStorage classes
 
 from datetime import datetime
 import inspect
-# import models
+import models
 from models.engine import db_storage
 from models.amenity import Amenity
 from models.base_model import BaseModel
@@ -116,3 +116,7 @@ class TestDBStorage(unittest.TestCase):
         user_t.save()
         self.assertEqual(models.storage.count("State"), count + 1)
         self.assertEqual(models.storage.count(), count + 2)
+
+
+if __name__ == "__main__":
+    unittest.main()
