@@ -1,0 +1,13 @@
+footer {
+	background-color: var(--main-color);
+	height: 60px;
+	width: 100%;
+	text-align: center;
+	line-height: 60px;
+	position: absolute;
+	bottom: 0;
+	color: white;
+	font-size: 12px;
+	font-weight: bold;
+	border-top: solid 1px #CCCCCC;
+}

@@ -1,41 +1,48 @@
 #!/usr/bin/python3
-"""
-starts a Flask web application
-"""
+"""TASK 4 Simble flask app"""
+from flask import Flask, abort
 
-from flask import Flask
+# Create a new Flask web application
 app = Flask(__name__)
 
 
 @app.route('/', strict_slashes=False)
-def index():
-    """returns Hello HBNB!"""
-    return 'Hello HBNB!'
+def home():
+    """Define the main route and return a message"""
+    return "Hello HBNB!"
 
 
 @app.route('/hbnb', strict_slashes=False)
 def hbnb():
-    """returns HBNB"""
-    return 'HBNB'
+    """Define the hbnb route and return a message"""
+    return "HBNB"
 
 
 @app.route('/c/<text>', strict_slashes=False)
-def cisfun(text):
-    """display “C ” followed by the value of the text variable"""
-    return 'C ' + text.replace('_', ' ')
+def c_text(text):
+    """Define the c route and return a message"""
+    modified_text = text.replace('_', ' ')
+    return f'C {modified_text}'
 
 
 @app.route('/python', strict_slashes=False)
 @app.route('/python/<text>', strict_slashes=False)
-def pythoniscool(text='is cool'):
-    """display “Python ”, followed by the value of the text variable"""
-    return 'Python ' + text.replace('_', ' ')
+def python_text(text="is cool"):
+    """Define the python route and return a message"""
+    modified_text = text.replace('_', ' ')
+    return f'Python {modified_text}'
 
 
-@app.route('/number/<int:n>', strict_slashes=False)
-def imanumber(n):
-    """display “n is a number” only if n is an integer"""
-    return "{:d} is a number".format(n)
+@app.route('/number/<n>', strict_slashes=False)
+def number(n):
+    """Define the number route and return a message"""
+    try:
+        return f'{int(n)} is a number'
+    except Exception:
+        abort(404)
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port='5000')
+
+if __name__ == "__main__":
+    # Run the Flask application
+    app.run(host="0.0.0.0", port=5000)
+    # Run the Flask application

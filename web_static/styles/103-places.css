@@ -1,0 +1,167 @@
+.container .places {
+	padding: 20px;
+}
+.container .places h1 {
+	font-size: 30px;
+}
+.container .places ul {
+	margin-top: 20px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-evenly;
+	gap: 20px;
+}
+.container .places ul li {
+	width: 400px;
+}
+.container .places ul article {
+	border: solid 1px var(--main-color);
+	margin: auto;
+	width: 100%;
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+	position: relative;
+	box-shadow: 0 0px 0px var(--main-color);
+	transform: scale(1);
+	transition: transform 300ms, box-shadow 600ms;
+}
+.container .places ul article:hover {
+	transform: scale(1.05);
+	box-shadow: 0 1px 10px var(--main-color);
+}
+.container .places ul article > h2 {
+	font-size: 30px;
+	margin: 20px 0 30px;
+}
+.container .places ul article .price_by_night {
+	color: var(--main-color);
+	border: solid 4px var(--main-color);
+	min-width: 80px;
+	height: 80px;
+	font-size: 25px;
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transform: scale(1);
+	transition: transform 300ms;
+}
+.container .places ul article .price_by_night:hover {
+	transform: scale(1.1);
+}
+.container .places ul article .information {
+	height: 80px;
+	border: 1px var(--border-color);
+	border-style: solid none;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	padding: 10px 0;
+}
+.container .places ul article .information div {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	min-width: 20%;
+	height: 80%;
+	padding: 20px;
+	color: #2b2727;
+	font-weight: bold;
+	transform: scale(1);
+	transition: transform 300ms;
+}
+.container .places ul article .information div .icon {
+	filter: sepia(100%) hue-rotate(350deg) invert(1);
+}
+.container .places ul article .information div:hover {
+	transform: scale(1.1);
+}
+.container .places ul article .user {
+	margin: 20px 0 10px;
+	width: 100%;
+}
+.container .places ul article .user strong {
+	color: var(--main-color);
+}
+.container .places ul article .amenities,
+.container .places ul article .reviews
+{
+	width: 100%;
+}
+.container .places ul article .amenities h2,
+.container .places ul article .reviews h2
+{
+	color: var(--main-color);
+	margin: 20px 0 10px;
+	font-size: 16px;
+	border-bottom: solid 1px  var(--border-color);
+}
+.container .places ul article .amenities ul {
+	display: flex;
+	flex-direction: column;
+}
+.container .places ul article .amenities ul li {
+	display: flex;
+	align-items: center;
+	color: #2b2727;
+	font-weight: bold;
+	transform: scale(1);
+	transition: transform 300ms;
+}
+.container .places ul article .amenities ul li:hover {
+	transform: scale(1.05);
+}
+.container .places ul article .amenities ul li .icon {
+	background-size: contain;
+	filter: sepia(100%) hue-rotate(350deg) invert(1);
+	height: 25px;
+	margin-right: 10px;
+}
+.container .places ul article .reviews ul li {
+	width: 100%;
+	margin-bottom: 10px;
+}
+.container .places ul article .reviews ul li h3 {
+	font-size: 14px;
+}
+.container .places ul article .reviews ul li p {
+	font-size: 12px;
+}
+@media (max-width: 500px) {
+	.container .places ul li {
+		width: calc(100% - 80px);
+	}
+	.container .places ul article .price_by_night {
+		top: 10px;
+		right: 10px;
+		min-width: 70px;
+		height: 70px;
+		padding: 10px;
+		font-size: 20px;
+
+	}
+	.container .places ul article > h2 {
+		font-size: 20px;
+	}
+	.container .places ul article .information {
+		flex-wrap: wrap;
+		height: auto;
+	}
+	.container .places ul article .information div {
+		width: 45%;
+		font-size: 10px;
+		padding: 0;
+		height: auto;
+	}
+	.container .places ul article .information div .icon {
+		width: 50px;
+	}
+}

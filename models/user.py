@@ -1,29 +1,37 @@
 #!/usr/bin/python3
-""" holds class User"""
-import models
+"""Defines the User class."""
+
 from models.base_model import BaseModel, Base
-from os import getenv
-import sqlalchemy
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 
 
 class User(BaseModel, Base):
-    """Representation of a user """
-    if models.storage_t == 'db':
-        __tablename__ = 'users'
-        email = Column(String(128), nullable=False)
-        password = Column(String(128), nullable=False)
-        first_name = Column(String(128), nullable=True)
-        last_name = Column(String(128), nullable=True)
-        places = relationship("Place", backref="user")
-        reviews = relationship("Review", backref="user")
-    else:
-        email = ""
-        password = ""
-        first_name = ""
-        last_name = ""
+    """Represents a user in a lodging system.
 
-    def __init__(self, *args, **kwargs):
-        """initializes user"""
-        super().__init__(*args, **kwargs)
+    Inherits from BaseModel and links to the MySQL table 'users'.
+    It stores information about users, including their personal details,
+    places they own, and reviews they've written.
+
+    Attributes:
+        __tablename__ (str): The name of the MySQL table to store users.
+        email (sqlalchemy String): The email address of the user.
+        password (sqlalchemy String): The password of the user.
+        first_name (sqlalchemy String): The first name of the user.
+        last_name (sqlalchemy String): The last name of the user.
+        places (sqlalchemy relationship):
+        Relationship with Place class to represent
+            the places owned by the user.
+        reviews (sqlalchemy relationship):
+        Relationship with Review class to represent
+            the reviews written by the user.
+    """
+
+    __tablename__ = "users"
+
+    email = Column(String(128), nullable=False)
+    password = Column(String(128), nullable=False)
+    first_name = Column(String(128))
+    last_name = Column(String(128))
+    places = relationship("Place", backref="user", cascade="delete")
+    reviews = relationship("Review", backref="user", cascade="delete")
