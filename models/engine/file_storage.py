@@ -12,8 +12,15 @@ from models.review import Review
 from models.state import State
 from models.user import User
 
-classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
-           "Place": Place, "Review": Review, "State": State, "User": User}
+classes = {
+    "Amenity": Amenity,
+    "BaseModel": BaseModel,
+    "City": City,
+    "Place": Place,
+    "Review": Review,
+    "State": State,
+    "User": User
+}
 
 
 class FileStorage:
@@ -33,6 +40,30 @@ class FileStorage:
                     new_dict[key] = value
             return new_dict
         return self.__objects
+
+    def get(self, cls, id):
+        """A method to retrieve one object:
+            Args:
+                cls: class
+                id: string representing object ID
+            Returns: object based on the class and its ID,
+            or None if not found
+         """
+        if cls:
+            objs = self.all(cls)
+            for obj in objs:
+                if objs[obj].id == id:
+                    return objs[obj]
+        return None
+
+    def count(self, cls=None):
+        """A method to count the number of objects in storage
+            Args:
+                cls: class(optional)
+            Returns: number of objects in storage matching the given class.
+            If no class is passed, returns the count of all objects in storage.
+        """
+        return len(self.all(cls))
 
     def new(self, obj):
         """sets in __objects the obj with key <obj class name>.id"""
@@ -55,7 +86,7 @@ class FileStorage:
                 jo = json.load(f)
             for key in jo:
                 self.__objects[key] = classes[jo[key]["__class__"]](**jo[key])
-        except:
+        except Exception:
             pass
 
     def delete(self, obj=None):
