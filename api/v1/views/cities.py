@@ -3,7 +3,6 @@
 A new view for City objects that handles
 all default RESTFul API actions
 """
-
 from api.v1.views import app_views
 from models import storage
 from models.city import City
