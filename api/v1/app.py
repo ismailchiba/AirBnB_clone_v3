@@ -1,11 +1,15 @@
 #!/usr/bin/python3
 """ a basic flask application """
 
+import sys
+import os
+
 from flask import Flask, jsonify
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 from models import storage
 from api.v1.views import app_views
 
-import os
+
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
