@@ -12,7 +12,7 @@ def state_all():
     state_l = []
     state_o = storage.all("State")
     for obj in state_o.values():
-        state_l.append(obj.to_json())
+        state_l.append(obj.to_dict())
 
     return jsonify(state_l)
 
@@ -22,7 +22,7 @@ def get_state(state_id):
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
-    return jsonify(state.to_dict())                       
+    return jsonify(state.to_dict())                    
 
 @app_views.route("/states/<state_id>", methods=["DELETE"], strict_slashes=False)
 def state_delete(state_id):
@@ -33,6 +33,7 @@ def state_delete(state_id):
 
     storage.delete(d_obj)
     storage.save()
+    return jsonify({}), 200
 
 @app_views.route("/states", methods=["POST"], strict_slashes=False)
 def state_create():
@@ -45,7 +46,7 @@ def state_create():
 
     new_state = State(**state_j)
     new_state.save()
-    repo = jsonify(new_state.to_json())
+    repo = jsonify(new_state.to_dict())
     repo.status_code = 201
 
     return repo
@@ -59,9 +60,9 @@ def state_update(state_id):
     d_obj = storage.get("State", str(state_id))
     if d_obj is None:
         abort(404)
-    for key, val in state_json.items():
+    for key, val in state_j.items():
         if key not in ["id", "created_at", "updated_at"]:
             setattr(d_obj, key, val)
     d_obj.save()
-    return jsonify(d_obj.to_json())
+    return jsonify(d_obj.to_dict())
 
