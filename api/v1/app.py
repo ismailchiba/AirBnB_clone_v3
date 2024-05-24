@@ -8,7 +8,7 @@ from models import storage
 from api.v1.views import app_views
 
 app = Flask(__name__)
-app.register_blueprint(app_views, url_prefix='/api/v1')
+app.register_blueprint(app_views)
 
 
 @app.teardown_appcontext
@@ -18,10 +18,7 @@ def tearContext(exception):
     """
     storage.close()
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 9318b187df510795d09b3d8b5f024c72ff651049
 @app.errorhandler(404)
 def not_found(error):
     """
