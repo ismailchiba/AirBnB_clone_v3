@@ -42,7 +42,7 @@ class FileStorage:
             
     def get(self, cls, id):
         """
-        get instance by id
+        CMNT
         :param cls: class
         :param id: id
         :return: instance of class with id
@@ -57,7 +57,7 @@ class FileStorage:
 
     def count(self, cls=None):
         """
-        count instances of class
+        CMNT
         :param cls: class
         :return: number of instances of class
         """
