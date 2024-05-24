@@ -39,6 +39,30 @@ class FileStorage:
         if obj is not None:
             key = obj.__class__.__name__ + "." + obj.id
             self.__objects[key] = obj
+            
+    def get(self, cls, id):
+        """
+        get instance by id
+        :param cls: class
+        :param id: id
+        :return: instance of class with id
+        """
+        all_class = self.all(cls)
+
+        for obj in all_class.values():
+            if id == str(obj.id):
+                return obj
+
+        return None
+
+    def count(self, cls=None):
+        """
+        count instances of class
+        :param cls: class
+        :return: number of instances of class
+        """
+
+        return len(self.all(cls))
 
     def save(self):
         """serializes __objects to the JSON file (path: __file_path)"""
