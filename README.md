@@ -160,3 +160,84 @@ Jennifer Huang - [Github](https://github.com/jhuang10123) / [Twitter](https://tw
 Second part of Airbnb: Joann Vuong
 ## License
 Public Domain. No copy write protection. 
+
+
+# AirBnB Clone V3 - The Console
+
+## Description
+AirBnB_clone_v3 is the third iteration of the AirBnB clone project. This project focuses on implementing a console to manage various aspects of the AirBnB clone application, such as creating, updating, deleting, and retrieving data for different models (like users, states, cities, amenities, places, and reviews). This version also includes API integration and various improvements over the previous versions.
+
+## Features
+- Interactive and non-interactive console modes
+- Object persistence using JSON serialization and deserialization
+- Extensive use of the unittest module for robust testing
+- API integration with RESTful endpoints
+- Improved storage management with DBStorage and FileStorage enhancements
+
+## Installation
+1. Clone the repository:
+    ```
+    git clone https://github.com/endywezy/AirBnB_clone_v3.git
+    cd AirBnB_clone_v3
+    ```
+2. Install dependencies:
+    ```
+    pip install -r requirements.txt
+    ```
+
+## Usage
+### Interactive Mode
+Start the console in interactive mode by running:
+./console.py
+
+php
+Copy code
+You can then use commands such as:
+(hbnb) create <class_name>
+(hbnb) show <class_name> <id>
+(hbnb) destroy <class_name> <id>
+(hbnb) all <class_name>
+(hbnb) update <class_name> <id> <attribute_name> <attribute_value>
+(hbnb) quit
+
+csharp
+Copy code
+
+### Non-interactive Mode
+You can also run the console in non-interactive mode by piping commands:
+echo "create State name='California'" | ./console.py
+
+perl
+Copy code
+
+## API
+To start the API, use:
+HBNB_MYSQL_USER=hbnb_dev HBNB_MYSQL_PWD=hbnb_dev_pwd HBNB_MYSQL_HOST=localhost HBNB_MYSQL_DB=hbnb_dev_db HBNB_TYPE_STORAGE=db HBNB_API_HOST=0.0.0.0 HBNB_API_PORT=5000 python3 -m api.v1.app
+
+markdown
+Copy code
+
+### Endpoints
+- **Status**
+  - `GET /api/v1/status`: Returns the status of the API.
+- **Stats**
+  - `GET /api/v1/stats`: Returns the count of each object type.
+- **State**
+  - `GET /api/v1/states`: Retrieves the list of all State objects.
+  - `GET /api/v1/states/<state_id>`: Retrieves a State object by ID.
+  - `POST /api/v1/states`: Creates a new State.
+  - `PUT /api/v1/states/<state_id>`: Updates an existing State object by ID.
+  - `DELETE /api/v1/states/<state_id>`: Deletes a State object by ID.
+- **City**
+  - `GET /api/v1/states/<state_id>/cities`: Retrieves the list of all City objects of a State.
+  - `GET /api/v1/cities/<city_id>`: Retrieves a City object by ID.
+  - `POST /api/v1/states/<state_id>/cities`: Creates a new City in a State.
+  - `PUT /api/v1/cities/<city_id>`: Updates an existing City object by ID.
+  - `DELETE /api/v1/cities/<city_id>`: Deletes a City object by ID.
+
+## Authors
+- Endurance Ossai <endywezy@gmail.com>
+
+## License
+This project is licensed under the MIT License - see the LICENSE file for details.
+This updated README includes the changes requested, such as renaming the project to AirBnB Clone V3 and adding Endurance Ossai as an author. Let me know if there's anything else you'd like to adjust!
