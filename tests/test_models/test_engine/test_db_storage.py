@@ -87,7 +87,7 @@ class TestDBStorage(unittest.TestCase):
 
         all_objects = session.query(State).all()
 
-        self.assertTrue(len(all_objects) >0)
+        self.assertTrue(len(all_objects) > 0)
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_new(self):
@@ -107,8 +107,7 @@ class TestDBStorage(unittest.TestCase):
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
-        """Test that save properly saves objects to database """        
-        state_data = {"name": "Casablanca"}
+        """Test that save properly saves objects to database """        state_data = {"name": "Casablanca"}
         new_state = State(**state_data)
 
         models.storage.new(new_state)
@@ -126,8 +125,7 @@ class TestDBStorage(unittest.TestCase):
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_get(self):
-        """ Tests method for obtaiming an instance db storage"""        
-        storage = models.storage
+        """ Tests method for obtaiming an instance db storage"""        storage = models.storage
 
         storage.reload()
 
@@ -147,8 +145,7 @@ class TestDBStorage(unittest.TestCase):
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_count(self):
-        """ Tests method for obtaining an instance db storage"""        
-        storage = models.storage
+        """ Tests method for obtaining an instance db storage"""        storage = models.storage
         storage.reload()
         state_data = {"name": "Sudan"}
         state_instance = State(**state_data)
