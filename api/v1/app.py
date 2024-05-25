@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """The app module"""
-from flask import Flask
+from flask import Flask, jsonify
 from models import storage
 from api.v1.views import app_views
 from os import getenv
@@ -15,6 +15,12 @@ app.register_blueprint(app_views)
 def teardown_appcontext(code):
     """Close storage in when flask app finish its process"""
     storage.close()
+
+
+@app.errorhandler(404)
+def not_found(e):
+    """Handle 404 not found page"""
+    return jsonify({'error': 'Not found'})
 
 
 if __name__ == "__main__":
