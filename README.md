@@ -156,7 +156,10 @@ No known bugs at this time.
 ## Authors
 Alexa Orrico - [Github](https://github.com/alexaorrico) / [Twitter](https://twitter.com/alexa_orrico)  
 Jennifer Huang - [Github](https://github.com/jhuang10123) / [Twitter](https://twitter.com/earthtojhuang)
+Aimad Kacem - [Github](https://github.com/kaai1003) / [Linkdin](linkedin.com/in/aimad-kacem-026082b1)
 
 Second part of Airbnb: Joann Vuong
 ## License
+Third part of Airbnb: Aimad Kacem
+## RESTful API
 Public Domain. No copy write protection. 
