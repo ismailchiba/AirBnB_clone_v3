@@ -1,6 +1,10 @@
+#!/usr/bin/python3
+"""
+Contains class BaseModel
+"""
+
 from datetime import datetime
 import sys
-import unittest
 import models
 from os import getenv
 import sqlalchemy
@@ -70,7 +74,3 @@ class BaseModel:
     def delete(self):
         """delete the current instance from the storage"""
         models.storage.delete(self)
-
-
-if __name__ == "__main__":
-    unittest.main()
