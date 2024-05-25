@@ -68,7 +68,7 @@ test_db_storage.py'])
                             "{:s} method needs a docstring".format(func[0]))
 
 
-class TestFileStorage(unittest.TestCase):
+class TestDBStorage(unittest.TestCase):
     """Test the FileStorage class"""
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_all_returns_dict(self):
@@ -86,6 +86,34 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_delete(self):
+        """Test that delete removes an object from the database"""
+        storage = DBStorage()
+        new_state = State(name="California")
+        storage.new(new_state)
+        storage.save()
+        storage.delete(new_state)
+        storage.save()
+        deleted_state = storage.get(State, new_state.id)
+        self.assertIsNone(deleted_state)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_reload(self):
+        """Test that reload loads objects from the database"""
+        storage = DBStorage()
+        storage.reload()
+        all_objs = storage.all()
+        self.assertIsInstance(all_objs, dict)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_close(self):
+        """Test that close removes the session"""
+        storage = DBStorage()
+        storage.reload()
+        storage.close()
+        self.assertIsNone(storage._DBStorage__session.registry().session())
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_get(self):
@@ -110,3 +138,15 @@ class TestFileStorage(unittest.TestCase):
         self.assertEqual(storage.count(), initial_count + 2)
         self.assertEqual(storage.count(State), initial_count + 2)
         self.assertEqual(storage.count(City), 0)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_count_all(self):
+        """Test that count returns the correct total number of objects"""
+        storage = DBStorage()
+        initial_count = storage.count()
+        new_state1 = State(name="California")
+        new_city = City(name="San Francisco", state_id=new_state1.id)
+        storage.new(new_state1)
+        storage.new(new_city)
+        storage.save()
+        self.assertEqual(storage.count(), initial_count + 2)
