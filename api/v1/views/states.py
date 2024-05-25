@@ -21,7 +21,7 @@ def get_states_id(states_id):
     return result
 
 
-@state_views.route('/states/<states_id>', methods=["Delete"], strict_slashes=False)
+@state_views.route('/states/<states_id>', methods=["DELETE"], strict_slashes=False)
 def delete_states_id(states_id):
     """Delete states specific to an id else return 404"""
     state = storage.get("State", states_id)
