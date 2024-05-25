@@ -115,7 +115,7 @@ class TestFileStorage(unittest.TestCase):
         self.assertEqual(json.loads(string), json.loads(js))
 
     def test_file_counter(self):
-        """Test that count file storage"""
+        """Testing that count file storage"""
         storage = FileStorage()
         jsonDATA = {"name": "vatican light rainbows"}
         state = State(**jsonDATA)
@@ -131,7 +131,7 @@ class TestFileStorage(unittest.TestCase):
         )
 
     def test_file_getter(self):
-        """Test to obtains a file storage instance"""
+        """Testing to obtains a file storage instance"""
         storage = FileStorage()
         jsonDATA = {"name": "powerrangers vatican HQ"}
         instObj = State(**jsonDATA)
