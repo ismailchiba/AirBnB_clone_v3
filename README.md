@@ -157,6 +157,5 @@ No known bugs at this time.
 Fawas Iwayemi - [Github](https://github.com/Addizz-cell) / [Twitter](https://x.com/Addizzmain)  
 Praise Afolabi  - [Github](https://github.com/officialpryz) /
 
-Second part of Airbnb: Joann Vuong
 ## License
 Public Domain. No copy write protection. 
