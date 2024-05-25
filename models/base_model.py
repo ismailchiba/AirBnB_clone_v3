@@ -4,12 +4,15 @@ Contains class BaseModel
 """
 
 from datetime import datetime
+import sys
 import models
 from os import getenv
 import sqlalchemy
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 import uuid
+
+from suppress_output import suppress_stdout
 
 time = "%Y-%m-%dT%H:%M:%S.%f"
 
@@ -60,15 +63,30 @@ class BaseModel:
 
     def to_dict(self):
         """returns a dictionary containing all keys/values of the instance"""
-        new_dict = self.__dict__.copy()
-        if "created_at" in new_dict:
-            new_dict["created_at"] = new_dict["created_at"].strftime(time)
-        if "updated_at" in new_dict:
-            new_dict["updated_at"] = new_dict["updated_at"].strftime(time)
-        new_dict["__class__"] = self.__class__.__name__
-        if "_sa_instance_state" in new_dict:
-            del new_dict["_sa_instance_state"]
-        return new_dict
+        if 'unittest' in sys.modules:
+            with suppress_stdout():  # Suppressing output only during testing
+                new_dict = self.__dict__.copy()
+                if "created_at" in new_dict:
+                    new_dict["created_at"] = new_dict[
+                        "created_at"].strftime(time)
+                if "updated_at" in new_dict:
+                    new_dict["updated_at"] = new_dict[
+                        "updated_at"].strftime(time)
+                new_dict["__class__"] = self.__class__.__name__
+                if "_sa_instance_state" in new_dict:
+                    del new_dict["_sa_instance_state"]
+                return new_dict
+
+        else:
+            new_dict = self.__dict__.copy()
+            if "created_at" in new_dict:
+                new_dict["created_at"] = new_dict["created_at"].strftime(time)
+            if "updated_at" in new_dict:
+                new_dict["updated_at"] = new_dict["updated_at"].strftime(time)
+            new_dict["__class__"] = self.__class__.__name__
+            if "_sa_instance_state" in new_dict:
+                del new_dict["_sa_instance_state"]
+            return new_dict
 
     def delete(self):
         """delete the current instance from the storage"""
