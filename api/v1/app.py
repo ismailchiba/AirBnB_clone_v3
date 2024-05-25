@@ -26,7 +26,7 @@ def not_found(e):
 @app.before_request
 def check_content_type():
     """Check if the request content type is not JSON"""
-    if request.content_type != 'application/json':
+    if request.content_type and request.content_type != 'application/json':
         abort(400, description="Content-Type must be application/json")
 
 if __name__ == "__main__":
