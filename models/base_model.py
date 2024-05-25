@@ -21,6 +21,11 @@ else:
 
 class BaseModel:
     """The BaseModel class from which future classes will be derived"""
+
+    # # Define the default datetime function
+    # def default_datetime():
+    #     """Create a callable function to define datetime dynamically."""
+
     if models.storage_t == "db":
         id = Column(String(60), primary_key=True)
         created_at = Column(DateTime, default=datetime.utcnow)
