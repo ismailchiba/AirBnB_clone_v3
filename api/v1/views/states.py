@@ -18,7 +18,7 @@ def get_states_id(states_id):
         "State").values() if state.id == states_id]
     if result == []:
         abort(404)
-    return result
+    return result[0]
 
 
 @state_views.route('/states/<states_id>', methods=["DELETE"], strict_slashes=False)
