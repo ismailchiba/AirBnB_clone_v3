@@ -1,4 +1,70 @@
 #!/usr/bin/python3
+"""The states module"""
+from api.v1.views import app_views
+from flask import abort, jsonify, make_response, request
+from models import storage
+from models.state import State
+
+
+@app_views.route('/states', methods=['GET'], strict_slashes=False)
+def state():
+    """Retrieves the list of all State objects"""
+    objs = storage.all(State)
+    return jsonify([obj.to_dict() for obj in objs.values()])
+
+
+@app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
+def single_state(state_id):
+    """Retrieves a State object"""
+    obj = storage.get(State, state_id)
+    if not obj:
+        abort(404)
+    return jsonify(obj.to_dict())
+
+
+@app_views.route('/states/<state_id>',
+                 methods=['DELETE'], strict_slashes=False)
+def del_state(state_id):
+    """Deletes a State object"""
+    obj = storage.get(State, state_id)
+    if not obj:
+        abort(404)
+    obj.delete()
+    storage.save()
+    return make_response(jsonify({}), 200)
+
+
+@app_views.route('/states/', methods=['POST'], strict_slashes=False)
+def post_state():
+    """create a new state"""
+    json_body = request.get_json()
+    if not json_body:
+        abort(400, "Not a JSON")
+    if 'name' not in json_body:
+        abort(400, "Missing name")
+    new_state = State(**json_body)
+    new_state.save()
+    return make_response(jsonify(new_state.to_dict()), 201)
+
+
+@app_views.route('/state/<string:state_id>', methods=['PUT'],
+                 strict_slashes=False)
+def put_state(state_id):
+    """update an exsist state"""
+    state = storage.get(State, state_id)
+    json_body = request.get_json()
+    if state is None:
+        abort(404)
+    if not json_body:
+        abort(400, "Not a JSON")
+    for key, value in json_body.items():
+        if key not in ['id', 'created_at', 'updated_at']:
+            setattr(state, key, value)
+    state.save()
+    return jsonify(state.to_dict())
+
+"""
+#!/usr/bin/python3
 '''Contains the states view for the API.'''
 from flask import abort, jsonify, make_response, request
 from api.v1.views import app_views
@@ -65,3 +131,8 @@ def put_state(state_id):
 
     storage.save()
     return make_response(jsonify(obj.to_dict()), 200)
+
+Keyword arguments:
+argument -- description
+Return: return_description
+"""
