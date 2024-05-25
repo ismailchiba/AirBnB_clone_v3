@@ -77,7 +77,8 @@ class DBStorage:
 
     def get(self, cls, id):
         """retrieve one object
-        Returns the object based on the class and its ID, or None if not found"""
+        Returns the object based on the class and its ID,
+        or None if not found"""
         if cls is None or id is None:
             return None
         with Session(DBStorage().__engine) as session:
@@ -91,4 +92,3 @@ class DBStorage:
             if cls is None:
                 return session.query().count()
             return session.query(cls).count()
-
