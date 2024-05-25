@@ -54,7 +54,7 @@ class DBStorage:
     def new(self, obj):
         """add the object to the current database session"""
         self.__session.add(obj)
-        
+   
     def get(self, cls, id):
         """
         fetches specific object
@@ -77,7 +77,6 @@ class DBStorage:
         :return: count of instances of a class
         """
         return len(self.all(cls))
-
 
     def save(self):
         """commit all changes of the current database session"""
