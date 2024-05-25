@@ -109,3 +109,5 @@ class TestFileStorage(unittest.TestCase):
         new_amenity.save()
         amenity_count = len(models.storage.all(Amenity))
         self.assertEqual(amenity_count, models.storage.count(Amenity))
+        self.assertEqual(
+            len(models.storage.all()), models.storage.count())
