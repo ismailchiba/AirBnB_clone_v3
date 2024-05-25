@@ -16,7 +16,7 @@ from models.state import State
 from models.user import User
 import json
 import os
-import pep8
+import pep8 # type: ignore
 import unittest
 FileStorage = file_storage.FileStorage
 classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
@@ -113,3 +113,35 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_get(self):
+        """Test that get returns the correct object or None"""
+        storage = FileStorage()
+        save = FileStorage._FileStorage__objects
+        FileStorage._FileStorage__objects = {}
+        
+        instance = State()
+        storage.new(instance)
+        storage.save()
+        self.assertEqual(storage.get(State, instance.id), instance)
+        self.assertIsNone(storage.get(State, "nonexistent_id"))
+        FileStorage._FileStorage__objects = save
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_count(self):
+        """Test that count returns the correct number of objects"""
+        storage = FileStorage()
+        save = FileStorage._FileStorage__objects
+        FileStorage._FileStorage__objects = {}
+        
+        instance1 = State()
+        instance2 = State()
+        storage.new(instance1)
+        storage.new(instance2)
+        storage.save()
+        
+        self.assertEqual(storage.count(), 2)
+        self.assertEqual(storage.count(State), 2)
+        self.assertEqual(storage.count(City), 0)
+        FileStorage._FileStorage__objects = save
