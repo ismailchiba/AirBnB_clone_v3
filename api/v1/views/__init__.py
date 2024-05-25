@@ -11,5 +11,5 @@ state_views = Blueprint("state_views", __name__, url_prefix="/api/v1")
 
 class Views:
     """TO stop importation Error"""
-    from api.v1.views.index import get_status
-    from api.v1.views.states import get_states, get_states_id, delete_states_id, post_states, put_state
+    from api.v1.views.index import get_status, get_stats
+    from api.v1.views.states import state, one_state, del_state, post_state, update_state
