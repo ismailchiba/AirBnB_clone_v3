@@ -76,10 +76,10 @@ class FileStorage:
             cls - class
             id (str) - string id
         """
-        key = cls + '.' + id
+        key = cls.__class__.__name__ + '.' + id
         if cls and id:
             if self.__objects[key]:
-                return self.__objects[key].to_dict()
+                return self.__objects[key]
             return None
 
     def count(self, cls=None):

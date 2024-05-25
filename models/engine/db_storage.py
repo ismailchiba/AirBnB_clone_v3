@@ -85,7 +85,7 @@ class DBStorage:
         Return:
             an object, else None
         """
-        if cls in classes.values():
+        if cls and cls in classes.values():
             obj = self.__session.query(cls).get(id)
             return obj
         return None
