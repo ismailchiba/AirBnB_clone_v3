@@ -5,13 +5,13 @@ from models import storage
 from flask import abort, request, jsonify
 
 
-@state_views.route('/states/', methods=["GET"])
+@state_views.route('/states', methods=["GET"], strict_slashes=False)
 def get_states():
     """Return all states"""
     return [state.to_dict() for state in storage.all("State").values()]
 
 
-@state_views.route('/states/<states_id>', methods=["GET"])
+@state_views.route('/states/<states_id>', methods=["GET"], strict_slashes=False)
 def get_states_id(states_id):
     """Return states specific to an id else return 404"""
     result = [state.to_dict() for state in storage.all(
@@ -21,7 +21,7 @@ def get_states_id(states_id):
     return result
 
 
-@state_views.route('/states/<states_id>', methods=["Delete"])
+@state_views.route('/states/<states_id>', methods=["Delete"], strict_slashes=False)
 def delete_states_id(states_id):
     """Delete states specific to an id else return 404"""
     state = storage.get("State", states_id)
@@ -32,7 +32,7 @@ def delete_states_id(states_id):
     return {}, 200
 
 
-@state_views.route('/states/', methods=["POST"])
+@state_views.route('/states', methods=["POST"], strict_slashes=False)
 def post_states():
     """Post states"""
     from models.state import State
@@ -45,7 +45,7 @@ def post_states():
     return state.to_dict(), 201
 
 
-@state_views.route('/states/<states_id>', methods=["PUT"])
+@state_views.route('/states/<states_id>', methods=["PUT"], strict_slashes=False)
 def put_state(states_id):
     """Put states"""
     state = storage.get("State", states_id)
