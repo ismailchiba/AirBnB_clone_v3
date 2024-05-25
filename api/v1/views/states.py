@@ -8,7 +8,7 @@ from models.state import State
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
 def get_states():
     """return all states information"""
-    states = [state.to_dict() for state in storage.all("State").values()]
+    states = [state.to_dict() for state in storage.all(State).values()]
     return jsonify(states)
 
 
@@ -16,7 +16,7 @@ def get_states():
                  strict_slashes=False)
 def get_state(state_id):
     """return information about a state by id"""
-    state = storage.get("State", state_id)
+    state = storage.get(State, state_id)
     if state is None:
         abort(404)
     return jsonify(state.to_dict())
@@ -26,7 +26,7 @@ def get_state(state_id):
                  strict_slashes=False)
 def delete_state(state_id):
     """deletes a state by its id"""
-    state = storage.get("State", state_id)
+    state = storage.get(State, state_id)
     if state is None:
         abort(404)
     state.delete()
@@ -51,7 +51,7 @@ def post_state():
                  methods=['PUT'], strict_slashes=False)
 def put_state(state_id):
     """update an exsist state"""
-    state = storage.get("State", state_id)
+    state = storage.get(State, state_id)
     json_body = request.get_json()
     if state is None:
         abort(404)
