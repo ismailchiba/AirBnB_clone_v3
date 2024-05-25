@@ -79,6 +79,17 @@ class TestFileStorage(unittest.TestCase):
         self.assertIs(new_dict, storage._FileStorage__objects)
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_all_with_class(self):
+        """Test that all returns objects of a specific class"""
+        storage = FileStorage()
+        new_state = State(name="California")
+        storage.new(new_state)
+        storage.save()
+        state_objs = storage.all(State)
+        self.assertIn("State." + new_state.id, state_objs)
+        self.assertIsInstance(state_objs["State." + new_state.id], State)
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_new(self):
         """test that new adds an object to the FileStorage.__objects attr"""
         storage = FileStorage()
@@ -113,6 +124,39 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_reload(self):
+        """Test that reload properly loads objects from file.json"""
+        storage = FileStorage()
+        new_dict = {}
+        for key, value in classes.items():
+            instance = value()
+            instance_key = instance.__class__.__name__ + "." + instance.id
+            new_dict[instance_key] = instance
+        save = FileStorage._FileStorage__objects
+        FileStorage._FileStorage__objects = new_dict
+        storage.save()
+        FileStorage._FileStorage__objects = {}
+        storage.reload()
+        for key, value in new_dict.items():
+            new_dict[key] = value.to_dict()
+        loaded_dict = FileStorage._FileStorage__objects
+        for key in new_dict:
+            self.assertIn(key, loaded_dict)
+            self.assertEqual(new_dict[key]["id"], loaded_dict[key].id)
+        FileStorage._FileStorage__objects = save
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_delete(self):
+        """Test that delete removes an object from the FileStorage.__objects attr"""
+        storage = FileStorage()
+        instance = State(name="California")
+        storage.new(instance)
+        storage.save()
+        self.assertIn("State." + instance.id, storage.all(State))
+        storage.delete(instance)
+        self.assertNotIn("State." + instance.id, storage.all(State))
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_get(self):
