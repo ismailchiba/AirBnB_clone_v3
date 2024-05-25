@@ -16,7 +16,7 @@ from models.state import State
 from models.user import User
 import json
 import os
-import pep8 # type: ignore
+import pep8  # type: ignore
 import unittest
 FileStorage = file_storage.FileStorage
 classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
@@ -149,7 +149,7 @@ class TestFileStorage(unittest.TestCase):
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_delete(self):
-        """Test that delete removes an object from the FileStorage.__objects attr"""
+        """Test removing object from FileStorage.__objects attr"""
         storage = FileStorage()
         instance = State(name="California")
         storage.new(instance)
@@ -164,7 +164,7 @@ class TestFileStorage(unittest.TestCase):
         storage = FileStorage()
         save = FileStorage._FileStorage__objects
         FileStorage._FileStorage__objects = {}
-        
+
         instance = State()
         storage.new(instance)
         storage.save()
@@ -178,13 +178,13 @@ class TestFileStorage(unittest.TestCase):
         storage = FileStorage()
         save = FileStorage._FileStorage__objects
         FileStorage._FileStorage__objects = {}
-        
+
         instance1 = State()
         instance2 = State()
         storage.new(instance1)
         storage.new(instance2)
         storage.save()
-        
+
         self.assertEqual(storage.count(), 2)
         self.assertEqual(storage.count(State), 2)
         self.assertEqual(storage.count(City), 0)
