@@ -75,21 +75,26 @@ class DBStorage:
         """call remove() method on the private session attribute"""
         self.__session.remove()
 
-    def get(self, cls, id):
-        """Returns the object based on the class and its ID,
-        or None if not found"""
-        if isinstance(cls, str):
-            cls = classes.get(cls, None)
-        if cls is None:
-            return None
-        return self.__session.query(cls).where(cls.id == id).first()
+    def test_get(self):
+        """Test that get returns specific object, or none"""
+        new_state = State(name="New York")
+        new_state.save()
+        new_user = User(email="bob@foobar.com", password="password")
+        new_user.save()
+        self.assertIs(new_state, models.storage.get("State", new_state.id))
+        self.assertIs(None, models.storage.get("State", "blah"))
+        self.assertIs(None, models.storage.get("blah", "blah"))
+        self.assertIs(new_user, models.storage.get("User", new_user.id))
 
-    def count(self, cls=None):
-        """"Returns the number of objects in storage matching the given class.
-        If no class is passed, returns the count of all objects in storage"""
-        if isinstance(cls, str):
-            cls = classes.get(cls, None)
-        if cls:
-            return len(self.all(cls))
-        else:
-            return len(self.all())
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') != 'db',
+                     "not testing db storage")
+    def test_count(self):
+        """test that new adds an object to the database"""
+        initial_count = models.storage.count()
+        self.assertEqual(models.storage.count("Blah"), 0)
+        new_state = State(name="Florida")
+        new_state.save()
+        new_user = User(email="bob@foobar.com", password="password")
+        new_user.save()
+        self.assertEqual(models.storage.count("State"), initial_count + 1)
+        self.assertEqual(models.storage.count(), initial_count + 2)
