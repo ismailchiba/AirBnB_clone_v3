@@ -104,4 +104,4 @@ class DBStorage:
         :param cls: class name
         return: count of instance of a class
         """
-        return len(:self.all(cls))
+        return len(self.all(cls))
