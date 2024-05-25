@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Contains the TestFileStorageDocs classes
+Contains the TestFileStorageDocs and TestFileStorage classes
 """
 
 from datetime import datetime
@@ -18,7 +18,6 @@ import json
 import os
 import pep8
 import unittest
-
 FileStorage = file_storage.FileStorage
 classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
@@ -118,23 +117,25 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_get(self):
         """Test that get retrieves an object by class and id"""
-        storage = FileStorage()
         state = State(name="California")
-        storage.new(state)
-        storage.save()
-        retrieved_state = storage.get("State", state.id)
+        models.storage.new(state)
+        models.storage.save()
+        retrieved_state = models.storage.get("State", state.id)
         self.assertEqual(state, retrieved_state)
+        fake_state = models.storage.get("State", "12345")
+        self.assertIsNone(fake_state)
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_count(self):
         """Test that count returns the correct number of objects"""
-        storage = FileStorage()
-        initial_count = storage.count("State")
+        initial_count = models.storage.count("State")
         state = State(name="Nevada")
-        storage.new(state)
-        storage.save()
-        new_count = storage.count("State")
+        models.storage.new(state)
+        models.storage.save()
+        new_count = models.storage.count("State")
         self.assertEqual(initial_count + 1, new_count)
+        all_count = models.storage.count(None)
+        self.assertGreater(all_count, 0)
 
 
 if __name__ == "__main__":
