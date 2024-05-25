@@ -16,7 +16,7 @@ from models.state import State
 from models.user import User
 import json
 import os
-import pep8
+import pep8 # type: ignore
 import unittest
 DBStorage = db_storage.DBStorage
 classes = {"Amenity": Amenity, "City": City, "Place": Place,
@@ -86,3 +86,27 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get(self):
+        """Test that get returns the correct object or None"""
+        storage = DBStorage()
+        new_state = State(name="California")
+        storage.new(new_state)
+        storage.save()
+        self.assertEqual(storage.get(State, new_state.id), new_state)
+        self.assertIsNone(storage.get(State, "nonexistent_id"))
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_count(self):
+        """Test that count returns the correct number of objects"""
+        storage = DBStorage()
+        initial_count = storage.count(State)
+        new_state1 = State(name="California")
+        new_state2 = State(name="Nevada")
+        storage.new(new_state1)
+        storage.new(new_state2)
+        storage.save()
+        self.assertEqual(storage.count(), initial_count + 2)
+        self.assertEqual(storage.count(State), initial_count + 2)
+        self.assertEqual(storage.count(City), 0)
