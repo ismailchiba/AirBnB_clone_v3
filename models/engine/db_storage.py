@@ -30,10 +30,11 @@ class DBStorage:
         HBNB_MYSQL_HOST = getenv('HBNB_MYSQL_HOST')
         HBNB_MYSQL_DB = getenv('HBNB_MYSQL_DB')
         HBNB_ENV = getenv('HBNB_ENV')
-        
+
         self.__models = {"Amenity": Amenity, "City": City,
-           "Place": Place, "Review": Review, "State": State, "User": User}
-        
+                         "Place": Place, "Review": Review,
+                         "State": State, "User": User}
+
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.
                                       format(HBNB_MYSQL_USER,
                                              HBNB_MYSQL_PWD,
@@ -90,9 +91,28 @@ class DBStorage:
             object: The object matching the class and ID, or None if no such
             object exists.
         """
+        if not id or not cls:
+            return None
         if isinstance(cls, str):
             for key in self.__models.keys():
                 if key == cls:
                     cls = self.__models[key]
-                
+        if cls not in self.__models.values():
+            return None
+
         return self.__session.query(cls).filter(cls.id == id).one_or_none()
+
+    def count(self, cls=None):
+        """
+        Retrieve the number of objects in the database of a specific class
+        or for all classes.
+
+        Args:
+            cls (type, optional): The class type of the objects to count.
+            Defaults to None.
+
+        Returns:
+            int: The number of objects of the specified class in the database.
+            If cls is None, returns the total number of objects in all classes.
+        """
+        return len(self.all(cls))
