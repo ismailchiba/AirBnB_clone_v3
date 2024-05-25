@@ -72,11 +72,13 @@ class DBStorage:
         self.__session = Session
 
     def get(self, cls, id):
+        """returns an object based on its ID"""
         if cls is None or id is None:
             return None
         return self.__session.query(cls).get(id)
 
     def count(self, cls=None):
+        """returns the count of all objects in storage"""
         if cls is None:
             return len(self.all())
         else:

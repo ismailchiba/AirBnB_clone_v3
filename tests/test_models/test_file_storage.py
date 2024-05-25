@@ -1,5 +1,19 @@
+'''
 import unittest
 from unittest.mock import patch
+from models.engine.file_storage import FileStorage
+'''
+import unittest
+from unittest.mock import patch
+import os
+import json
+from models.amenity import Amenity
+from models.base_model import BaseModel
+from models.city import City
+from models.place import Place
+from models.review import Review
+from models.state import State
+from models.user import User
 from models.engine.file_storage import FileStorage
 
 
@@ -103,4 +117,82 @@ class TestFileStorage(unittest.TestCase):
 if __name__ == '__main__':
     unittest.main()
 
+'''
 
+import unittest
+from unittest.mock import patch
+import os
+import json
+from models.amenity import Amenity
+from models.base_model import BaseModel
+from models.city import City
+from models.place import Place
+from models.review import Review
+from models.state import State
+from models.user import User
+from models.engine.file_storage import FileStorage
+
+
+class TestFileStorage(unittest.TestCase):
+
+    def setUp(self):
+        # Create an instance of FileStorage for each test
+        self.storage = FileStorage()
+
+    def tearDown(self):
+        # Remove the file.json created during tests
+        if os.path.exists("file.json"):
+            os.remove("file.json")
+
+    def test_all(self):
+        # Test all() method
+        self.assertEqual(self.storage.all(), {})
+        self.storage.new(BaseModel())
+        self.assertEqual(len(self.storage.all()), 1)
+
+    def test_new(self):
+        # Test new() method
+        obj = BaseModel()
+        self.storage.new(obj)
+        self.assertEqual(len(self.storage.all()), 1)
+
+    def test_save_reload(self):
+        # Test save() and reload() methods
+        obj = BaseModel()
+        obj.save()
+        self.storage.new(obj)
+        self.storage.save()
+        new_storage = FileStorage()
+        new_storage.reload()
+        self.assertEqual(len(new_storage.all()), 1)
+
+    def test_delete(self):
+        # Test delete() method
+        obj = BaseModel()
+        self.storage.new(obj)
+        self.storage.delete(obj)
+        self.assertEqual(len(self.storage.all()), 0)
+
+    def test_get(self):
+        # Test get() method
+        obj = BaseModel()
+        self.storage.new(obj)
+        retrieved_obj = self.storage.get(BaseModel, obj.id)
+        self.assertEqual(retrieved_obj, obj)
+
+    def test_count(self):
+        # Test count() method
+        self.assertEqual(self.storage.count(), 0)
+        self.storage.new(BaseModel())
+        self.assertEqual(self.storage.count(), 1)
+
+    def test_close(self):
+        # Test close() method
+        with patch('models.engine.file_storage.FileStorage.reload') as mock_reload:
+            self.storage.close()
+            mock_reload.assert_called_once()
+
+
+if __name__ == '__main__':
+    unittest.main()
+'''
