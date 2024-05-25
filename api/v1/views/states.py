@@ -5,6 +5,7 @@ from flask import abort, jsonify, make_response, request
 from models import storage
 from models.state import State
 
+
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
 def get_states():
     """return all states information"""
