@@ -61,8 +61,8 @@ def put_state(state_id):
     for key, value in json_body.items():
         if key not in ['id', 'created_at', 'updated_at']:
             setattr(state, key, value)
-    storage.save()
-    return make_response(jsonify(obj.to_dict()), 200)
+    state.save()
+    return make_response(jsonify(state.to_dict()), 200)
 
 
 # @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
