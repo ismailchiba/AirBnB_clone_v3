@@ -4,6 +4,7 @@ from api.v1.views import app_views
 from flask import jsonify
 from models import storage
 
+
 @app_views.route('/status', strict_slashes=False)
 def status_route():
     """status route function: return OK"""
@@ -14,12 +15,12 @@ def status_route():
 def hbnbStats():
     """stats route function"""
     res_model = {
-    "amenities": "Amenity",
-    "cities": "City",
-    "places": "Place",
-    "reviews": "Review",
-    "states": "State",
-    "users": "User"
+        "amenities": "Amenity",
+        "cities": "City",
+        "places": "Place",
+        "reviews": "Review",
+        "states": "State",
+        "users": "User"
     }
     res = {}
     for key, value in res_model.items():
