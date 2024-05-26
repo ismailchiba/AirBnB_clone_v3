@@ -68,6 +68,7 @@ test_db_storage.py'])
             self.assertTrue(len(func[1].__doc__) >= 1,
                             "{:s} method needs a docstring".format(func[0]))
 
+
 class TestDBStorage(unittest.TestCase):
     """Test the FileStorage class"""
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
@@ -86,27 +87,25 @@ class TestDBStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
-    
-    def setUp(self):
-        """Set up the test environment."""
-        self.user = User(username="HBNB_MYSQL_USER", email="", password="HBNB_MYSQL_PWD")
-        storage.new(self.user)
+
+
+class TestDBStorage_A(unittest.TestCase):
+    def test_get_db(self):
+        """Test get method for DBStorage"""
+        new_state = State(name="California")
+        storage.new(new_state)
         storage.save()
+        self.assertEqual(new_state, storage.get(State, new_state.id))
 
-    def tearDown(self):
-        """Tear down the test environment."""
-        storage.delete(self.user)
+    def test_count_db(self):
+        """Test count method for DBStorage"""
+        initial_count = storage.count()
+        new_state = State(name="California")
+        storage.new(new_state)
         storage.save()
+        self.assertEqual(storage.count(), initial_count + 1)
+        self.assertEqual(storage.count(State), initial_count + 1)
 
-    def test_get(self):
-        """Test that get retrieves an object correctly."""
-        user = storage.get(User, self.user.id)
-        self.assertEqual(user, self.user)
-
-    def test_count(self):
-        """Test that count returns the correct number of objects."""
-        self.assertEqual(storage.count(User), 1)
-        self.assertEqual(storage.count(), 1)
 
 if __name__ == '__main__':
     unittest.main()
