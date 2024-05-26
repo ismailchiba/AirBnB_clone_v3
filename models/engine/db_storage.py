@@ -101,4 +101,6 @@ class DBStorage:
         in storage
         """
         objs = self.all(cls)
+        if cls in classes.values():
+            objs = self.all(cls)
         return len(objs)
