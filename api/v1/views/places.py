@@ -165,7 +165,7 @@ def places_search():
     body = request.get_json()
 
     if not body:
-        return make_response(jsonify({"error": "Not a JSON"}), 400)
+        abort(400, description="Not a JSON")
 
     if body and len(body):
         states = body.get("states", None)
