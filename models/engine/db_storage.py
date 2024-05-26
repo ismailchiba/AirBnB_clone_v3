@@ -40,6 +40,28 @@ class DBStorage:
         if HBNB_ENV == "test":
             Base.metadata.drop_all(self.__engine)
 
+    """def __init__(self):
+        """Instantiates a new storage object"""
+        self.__engine = create_engine(getenv('HBNB_MYSQL_URL'))
+        Base.metadata.create_all(self.__engine)
+        Session = sessionmaker(bind=self.__engine)
+        self.__session = scoped_session(Session)
+    """
+
+    def get(self, cls, id):
+        """Retrieve an object by class and ID"""
+        if cls not in classes.values():
+            return None
+        return self.__session.query(cls).get(id)
+
+    def count(self, cls=None):
+        """Count the number of objects in storage"""
+        if cls:
+            if cls not in classes.values():
+                return 0
+            return self.__session.query(cls).count()
+        return sum(self.__session.query(cls).count() for cls in classes.values())
+
     def all(self, cls=None):
         """query on the current database session"""
         new_dict = {}
