@@ -8,14 +8,14 @@ from models import storage
 from api.v1.views import app_views
 
 
-@app_views.route("/states")
+@app_views.route("/states", strict_slashes=False, methods=["GET"])
 def state():
     """returns the list of state objs"""
     states = storage.all(State)
     return jsonify([state.to_dict() for state in states.values()])
 
 
-@app_views.route("/states/<state_id>")
+@app_views.route("/states/<state_id>", strict_slashes=False, methods=["GET"])
 def one_state(state_id):
     """Returns one state"""
     state = storage.get(State, state_id)
@@ -24,7 +24,7 @@ def one_state(state_id):
     return jsonify(state.to_dict())
 
 
-@app_views.route("/states/<state_id>")
+@app_views.route("/states/<state_id>", strict_slashes=False, methods=["DELETE"])
 def del_state(state_id):
     """Delete state"""
     state = storage.get(State, state_id)
@@ -35,7 +35,7 @@ def del_state(state_id):
     return make_response(jsonify({}), 200)
 
 
-@app_views.route("/states")
+@app_views.route("/states", strict_slashes=False, methods=["POST"])
 def post_state():
     """Return a new state"""
     new_state = request.getjson()
@@ -49,7 +49,7 @@ def post_state():
     return make_response(jsonify(state.to_dict()), 201)
 
 
-@app_views.route('/states/<state_id>')
+@app_views.route('/states/<state_id>', strict_slashes=False, methods=["PUT"])
 def update_state(state_id):
     """Updates a State object"""
     state = storage.get(State, state_id)
