@@ -48,20 +48,6 @@ class DBStorage:
         self.__session = scoped_session(Session)
     """
 
-    def get(self, cls, id):
-        """Retrieve an object by class and ID"""
-        if cls not in classes.values():
-            return None
-        return self.__session.query(cls).get(id)
-
-    def count(self, cls=None):
-        """Count the number of objects in storage"""
-        if cls:
-            if cls not in classes.values():
-                return 0
-            return self.__session.query(cls).count()
-        return sum(self.__session.query(cls).count() for cls in classes.values())
-
     def all(self, cls=None):
         """query on the current database session"""
         new_dict = {}
@@ -96,3 +82,19 @@ class DBStorage:
     def close(self):
         """call remove() method on the private session attribute"""
         self.__session.remove()
+
+    def get(self, cls, id):
+        """Retrieve one object based on class and ID"""
+        if cls not in classes.values():
+            return None
+        return self.__session.query(cls).get(id)
+
+    def count(self, cls=None):
+        """Count the number of objects in storage matching the given class"""
+        if cls:
+            return self.__session.query(cls).count()
+        else:
+            count = 0
+            for cls in classes.values():
+                count += self.__session.query(cls).count()
+            return count
