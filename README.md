@@ -156,7 +156,10 @@ No known bugs at this time.
 ## Authors
 Alexa Orrico - [Github](https://github.com/alexaorrico) / [Twitter](https://twitter.com/alexa_orrico)  
 Jennifer Huang - [Github](https://github.com/jhuang10123) / [Twitter](https://twitter.com/earthtojhuang)
+Brian Maiyo -  [Github](https://github.com/Brio-kchr)
+Caleb-kibe
 
 Second part of Airbnb: Joann Vuong
+Added api functionality using flask to the codebase: Brio Kchr & Caleb Kibe
 ## License
 Public Domain. No copy write protection. 
