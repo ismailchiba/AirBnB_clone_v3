@@ -8,17 +8,17 @@ from models import storage
 from models.state import State
 
 
-def handle_E(error, message="Not found", code=404):
+def handle_E(error=None, message="Not found", code=404):
     """Custom handler for 404 errors."""
     response = jsonify({"error": message})
-    response['status_code'] = code
+    response.status_code = code
     return response
 
 
 @app_views.route('/states', strict_slashes=False, methods=['GET', 'POST'])
 @app_views.route('/states/<state_id>', strict_slashes=False,
                  methods=['GET', 'DELETE', 'PUT'])
-def havdle_API(state_id=None):
+def handle_API(state_id=None):
     """
     returns a state if state_id provided, otherwise all states"""
     if request.method == 'GET':
