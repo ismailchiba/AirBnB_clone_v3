@@ -77,7 +77,7 @@ class DBStorage:
 
     def get(self, cls, id):
         "gets the object bassed on the class and its ID"
-        if cls not in classes.values():
+        if cls not in classes.keys():
             return None
 
         all_cls = models.storage.all(cls)
