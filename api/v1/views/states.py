@@ -17,7 +17,7 @@ def get_states():
 def handle_E(error, message="Not found", code=404):
     """Custom handler for 404 errors."""
     response = jsonify({"error": message})
-    response.status_code = code
+    response['status_code'] = code
     return response
 
 
@@ -75,7 +75,7 @@ def add_state(data=None):
     st = State(data.get('name'))
     storage.new(st)
     tmp = State.to_dict(st)
-    tmp.status_code = 201
+    tmp['status_code'] = 201
     return jsonify(tmp)
 
 
@@ -93,5 +93,5 @@ def update_state(state_id, data):
     st = State(data.get('name'))
     storage.new(st)
     tmp = State.to_dict(st)
-    tmp.status_code = 201
+    tmp['status_code'] = 201
     return jsonify(tmp)
