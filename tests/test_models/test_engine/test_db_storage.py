@@ -18,6 +18,7 @@ import json
 import os
 import pep8
 import unittest
+
 DBStorage = db_storage.DBStorage
 classes = {"Amenity": Amenity, "City": City, "Place": Place,
            "Review": Review, "State": State, "User": User}
@@ -67,8 +68,7 @@ test_db_storage.py'])
             self.assertTrue(len(func[1].__doc__) >= 1,
                             "{:s} method needs a docstring".format(func[0]))
 
-
-class TestFileStorage(unittest.TestCase):
+class TestDBStorage(unittest.TestCase):
     """Test the FileStorage class"""
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_all_returns_dict(self):
@@ -86,3 +86,27 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
+    
+    def setUp(self):
+        """Set up the test environment."""
+        self.user = User(username="testuser", email="test@example.com", password="password")
+        storage.new(self.user)
+        storage.save()
+
+    def tearDown(self):
+        """Tear down the test environment."""
+        storage.delete(self.user)
+        storage.save()
+
+    def test_get(self):
+        """Test that get retrieves an object correctly."""
+        user = storage.get(User, self.user.id)
+        self.assertEqual(user, self.user)
+
+    def test_count(self):
+        """Test that count returns the correct number of objects."""
+        self.assertEqual(storage.count(User), 1)
+        self.assertEqual(storage.count(), 1)
+
+if __name__ == '__main__':
+    unittest.main()

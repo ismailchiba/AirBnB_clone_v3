@@ -71,6 +71,27 @@ test_file_storage.py'])
 class TestFileStorage(unittest.TestCase):
     """Test the FileStorage class"""
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def setUp(self):
+        """Set up the test environment."""
+        self.user = User(username="testuser", email="test@example.com", password="password")
+        storage.new(self.user)
+        storage.save()
+
+    def tearDown(self):
+        """Tear down the test environment."""
+        storage.delete(self.user)
+        storage.save()
+
+    def test_get(self):
+        """Test that get retrieves an object correctly."""
+        user = storage.get(User, self.user.id)
+        self.assertEqual(user, self.user)
+
+    def test_count(self):
+        """Test that count returns the correct number of objects."""
+        self.assertEqual(storage.count(User), 1)
+        self.assertEqual(storage.count(), 1)
+
     def test_all_returns_dict(self):
         """Test that all returns the FileStorage.__objects attr"""
         storage = FileStorage()
