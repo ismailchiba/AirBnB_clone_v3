@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+""" creating  a flask application """
+
+
 from flask import Flask
 import os
 from models import storage
