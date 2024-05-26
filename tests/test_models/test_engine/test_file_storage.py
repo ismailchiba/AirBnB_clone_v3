@@ -73,12 +73,9 @@ test_file_storage.py"
 
     def test_file_storage_class_docstring(self):
         """Test for the FileStorage class docstring"""
-        self.assertIsNot(
-            FileStorage.__doc__, None, "FileStorage class needs a docstring"
-        )
-        self.assertTrue(
-            len(FileStorage.__doc__) >= 1, "FileStorage class needs a docstring"
-        )
+        msg = "FileStorage class needs a docstring"
+        self.assertIsNot(FileStorage.__doc__, None, msg)
+        self.assertTrue(len(FileStorage.__doc__) >= 1, msg)
 
     # def test_fs_func_docstrings(self):
     #     """Test for the presence of docstrings in FileStorage methods"""

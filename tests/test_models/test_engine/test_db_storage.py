@@ -63,22 +63,21 @@ test_db_storage.py"
 
     def test_db_storage_module_docstring(self):
         """Test for the db_storage.py module docstring"""
-        self.assertIsNot(db_storage.__doc__, None, "db_storage.py needs a docstring")
-        self.assertTrue(len(db_storage.__doc__) >= 1, "db_storage.py needs a docstring")
+        msg = "db_storage.py needs a docstring"
+        self.assertIsNot(db_storage.__doc__, None, msg)
+        self.assertTrue(len(db_storage.__doc__) >= 1, msg)
 
     def test_db_storage_class_docstring(self):
         """Test for the DBStorage class docstring"""
-        self.assertIsNot(DBStorage.__doc__, None, "DBStorage class needs a docstring")
-        self.assertTrue(
-            len(DBStorage.__doc__) >= 1, "DBStorage class needs a docstring"
-        )
+        msg = "DBStorage class needs a docstring"
+        self.assertIsNot(DBStorage.__doc__, None, msg)
+        self.assertTrue(len(DBStorage.__doc__) >= 1, msg)
 
     def test_dbs_func_docstrings(self):
         """Test for the presence of docstrings in DBStorage methods"""
         for func in self.dbs_f:
-            self.assertIsNot(
-                func[1].__doc__, None, "{:s} method needs a docstring".format(func[0])
-            )
+            msg = "{:s} method needs a docstring".format(func[0])
+            self.assertIsNot(func[1].__doc__, None, msg)
             self.assertTrue(
                 len(func[1].__doc__) >= 1,
                 "{:s} method needs a docstring".format(func[0]),

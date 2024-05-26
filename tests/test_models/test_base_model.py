@@ -24,7 +24,10 @@ class TestBaseModelDocs(unittest.TestCase):
 
     def test_pep8_conformance(self):
         """Test that models/base_model.py conforms to PEP8."""
-        for path in ["models/base_model.py", "tests/test_models/test_base_model.py"]:
+        path_1 = "models/base_model.py"
+        path_2 = "tests/test_models/test_base_model.py"
+        paths = [path_1, path_2]
+        for path in paths:
             with self.subTest(path=path):
                 errors = pycodestyle.Checker(path).check_all()
                 self.assertEqual(errors, 0)
@@ -36,10 +39,9 @@ class TestBaseModelDocs(unittest.TestCase):
 
     def test_class_docstring(self):
         """Test for the BaseModel class docstring"""
-        self.assertIsNot(BaseModel.__doc__, None, "BaseModel class needs a docstring")
-        self.assertTrue(
-            len(BaseModel.__doc__) >= 1, "BaseModel class needs a docstring"
-        )
+        msg = "BaseModel class needs a docstring"
+        self.assertIsNot(BaseModel.__doc__, None, msg)
+        self.assertTrue(len(BaseModel.__doc__) >= 1, msg)
 
     def test_func_docstrings(self):
         """Test for the presence of docstrings in BaseModel methods"""
