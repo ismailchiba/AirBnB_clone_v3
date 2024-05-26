@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 """the root of the project """
 from flask import Flask, jsonify
 from models import storage
