@@ -11,7 +11,7 @@ from models.state import State
 @app_views.route('/states', strict_slashes=False)
 def get_states():
     """Retrieves the list of all State objects"""
-    return jsonify(State.all())
+    return jsonify(storage.all(State))
 
 
 def handle_E(error, message="Not found", code=404):
@@ -35,14 +35,14 @@ def havdle_API(state_id=None):
         data = request.get_json(silent=True)
         if data is None:
             return handle_E(message="Not a JSON", code=400)
-        if data.get(name) is None:
+        if data.get('name') is None:
             return handle_E(message="Missing name", code=400)
         return add_state(data)
     if request.method == 'PUT':
         data = request.get_json(silent=True)
         if data is None:
             return handle_E(message="Not a JSON", code=400)
-        if data.get(name) is None:
+        if data.get('name') is None:
             return handle_E(message="Missing name", code=400)
         return update_state(state_id, data)
 
@@ -70,9 +70,9 @@ def delete_state(state_id=None):
 
 def add_state(data=None):
     """add new state object"""
-    if data.get(name) is None:
+    if data.get('name') is None:
         return handle_E(message="Missing name", code=400)
-    st = State(data.get(name))
+    st = State(data.get('name'))
     storage.new(st)
     tmp = State.to_dict(st)
     tmp.status_code = 201
@@ -88,9 +88,9 @@ def update_state(state_id, data):
     data = request.get_json(silent=True)
     if data is None:
         return handle_E(message="Not a JSON", code=400)
-    if data.get(name) is None:
+    if data.get('name') is None:
         return handle_E(message="Missing name", code=400)
-    st = State(data.get(name))
+    st = State(data.get('name'))
     storage.new(st)
     tmp = State.to_dict(st)
     tmp.status_code = 201
