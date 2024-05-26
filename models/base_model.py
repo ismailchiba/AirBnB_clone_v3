@@ -4,6 +4,7 @@ Contains class BaseModel
 """
 
 from datetime import datetime
+import sys
 import models
 from os import getenv
 import sqlalchemy
