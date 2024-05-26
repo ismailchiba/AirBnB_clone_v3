@@ -21,8 +21,32 @@ def handle_E(error, message="Not found", code=404):
     return response
 
 
-@app_views.route('/states/<state_id>', strict_slashes=False)
-@app_views.route('/states', strict_slashes=False)
+@app_views.route('/states', strict_slashes=False, methods=['GET', 'POST'])
+@app_views.route('/states/<state_id>', strict_slashes=False,
+                 methods=['GET', 'DELETE', 'PUT'])
+def havdle_API(state_id=None):
+    """
+    returns a state if state_id provided, otherwise all states"""
+    if request.method == 'GET':
+        return get_states(state_id)
+    if request.method == 'DELETE':
+        return delete_state(state_id)
+    if request.method == 'POST':
+        data = request.get_json(silent=True)
+        if data is None:
+            return handle_E(message="Not a JSON", code=400)
+        if data.get(name) is None:
+            return handle_E(message="Missing name", code=400)
+        return add_state(data)
+    if request.method == 'PUT':
+        data = request.get_json(silent=True)
+        if data is None:
+            return handle_E(message="Not a JSON", code=400)
+        if data.get(name) is None:
+            return handle_E(message="Missing name", code=400)
+        return update_state(state_id, data)
+
+
 def get_states(state_id=None):
     """
     returns a state if state_id provided, otherwise all states"""
@@ -34,8 +58,6 @@ def get_states(state_id=None):
         return handle_E()
 
 
-@app_views.route('/states/<state_id>', strict_slashes=False,
-                 methods=['DELETE'])
 def delete_state(state_id=None):
     """delete state object"""
     st = storage.get(State, state_id)
@@ -46,12 +68,8 @@ def delete_state(state_id=None):
         return handle_E()
 
 
-@app_views.route('/states', strict_slashes=Falsei, methods=['POST'])
-def add_state(state_id=None):
+def add_state(data=None):
     """add new state object"""
-    data = request.get_json(silent=True)
-    if data is None:
-        return handle_E(message="Not a JSON", code=400)
     if data.get(name) is None:
         return handle_E(message="Missing name", code=400)
     st = State(data.get(name))
@@ -61,8 +79,7 @@ def add_state(state_id=None):
     return jsonify(tmp)
 
 
-@app_views.route('/states/<state_id>', strict_slashes=Falsei, methods=['PUT'])i
-def update_state(state_id=None):
+def update_state(state_id, data):
     """add new state object"""
     st = storage.get(State, state_id)
     if st is None:
