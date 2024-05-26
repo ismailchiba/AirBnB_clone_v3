@@ -45,8 +45,13 @@ def get_states(state_id=None):
     """
     returns a state if state_id provided, otherwise all states"""
     try:
-        tmp = State.to_dict(storage.get(State, state_id)) if state_id else \
-                [State.to_dict(obj) for obj in storage.all(State).values()]
+        if state_id:
+            tmp = storage.get(State, state_id)
+            if tmp is None:
+                raise KeyError()
+            tmp = State.to_dict(tmp)
+        else:
+            tmp = [State.to_dict(obj) for obj in storage.all(State).values()]
         print(tmp)
         return jsonify(tmp)
     except KeyError:
