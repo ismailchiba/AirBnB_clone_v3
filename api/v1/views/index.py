@@ -1,3 +1,7 @@
+#!/usr/bin/python3
+"""
+API version 1 views
+"""
 from api.v1.views import app_views
 from flask import jsonify
 
