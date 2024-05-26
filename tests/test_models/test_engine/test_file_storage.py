@@ -71,27 +71,6 @@ test_file_storage.py'])
 class TestFileStorage(unittest.TestCase):
     """Test the FileStorage class"""
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
-    def setUp(self):
-        """Set up the test environment."""
-        self.user = User(username=HBNB_MYSQL_USER", email="", password="HBNB_MYSQL_PWD")
-        storage.new(self.user)
-        storage.save()
-
-    def tearDown(self):
-        """Tear down the test environment."""
-        storage.delete(self.user)
-        storage.save()
-
-    def test_get(self):
-        """Test that get retrieves an object correctly."""
-        user = storage.get(User, self.user.id)
-        self.assertEqual(user, self.user)
-
-    def test_count(self):
-        """Test that count returns the correct number of objects."""
-        self.assertEqual(storage.count(User), 1)
-        self.assertEqual(storage.count(), 1)
-
     def test_all_returns_dict(self):
         """Test that all returns the FileStorage.__objects attr"""
         storage = FileStorage()
@@ -134,3 +113,20 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+
+class TestFileStorage_A(unittest.TestCase):
+    def test_get_file(self):
+        """Test get method for FileStorage"""
+        new_state = State(name="California")
+        storage.new(new_state)
+        storage.save()
+        self.assertEqual(new_state, storage.get(State, new_state.id))
+
+    def test_count_file(self):
+        """Test count method for FileStorage"""
+        initial_count = storage.count()
+        new_state = State(name="California")
+        storage.new(new_state)
+        storage.save()
+        self.assertEqual(storage.count(), initial_count + 1)
+        self.assertEqual(storage.count(State), initial_count + 1)
