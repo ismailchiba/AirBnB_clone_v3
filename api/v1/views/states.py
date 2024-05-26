@@ -8,12 +8,6 @@ from models import storage
 from models.state import State
 
 
-@app_views.route('/states', strict_slashes=False)
-def get_states():
-    """Retrieves the list of all State objects"""
-    return jsonify(storage.all(State))
-
-
 def handle_E(error, message="Not found", code=404):
     """Custom handler for 404 errors."""
     response = jsonify({"error": message})
@@ -53,6 +47,7 @@ def get_states(state_id=None):
     try:
         tmp = State.to_dict(storage.get(State, state_id)) if state_id else \
                 [State.to_dict(obj) for obj in storage.all(State).values()]
+        print(tmp)
         return jsonify(tmp)
     except KeyError:
         return handle_E()
