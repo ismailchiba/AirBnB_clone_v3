@@ -2,7 +2,7 @@
 """View for State objects"""
 
 from api.v1.views import app_views
-from flask import jsonify, abort, request
+from flask import jsonify, abort, request, make_response
 from models import storage
 from models.state import State
 
@@ -91,3 +91,9 @@ def update_state(state_id):
     storage.save()
 
     return jsonify(state.to_dict()), 200
+
+
+@app_views.errorhandler(400)
+def response_not_json(err):
+    """Handles 400 errors and displays custom message"""
+    return make_response(jsonify({'error': err.description}), 400)
