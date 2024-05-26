@@ -172,9 +172,10 @@ def places_search():
         cities = data.get("cities", None)
         amenities = data.get("amenities", None)
 
-    is_list_keys_empty = not states and not cities and not amenities
-
-    if not data or not len(data) or is_list_keys_empty:
+    if not data or not len(data) or (
+            not states
+            and not cities
+            and not amenities):
         places = storage.all(Place).values()
         list_places = []
         for place in places:
