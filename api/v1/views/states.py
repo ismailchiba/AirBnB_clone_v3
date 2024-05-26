@@ -15,10 +15,10 @@ def get_states():
 
 
 def handle_E(error, message="Not found", code=404):
-  """Custom handler for 404 errors."""
-  response = jsonify({"error": message})
-  response.status_code = code
-  return response
+    """Custom handler for 404 errors."""
+    response = jsonify({"error": message})
+    response.status_code = code
+    return response
 
 
 @app_views.route('/states/<state_id>', strict_slashes=False)
@@ -27,14 +27,15 @@ def get_stats(state_id=None):
     """
     returns a state if state_id provided, otherwise all states"""
     try:
-        tmp = State.to_dict(storage.get(State, state_id)) if state_id \
-                else [State.to_dict(obj) for obj in storage.all(State).values()]
+        tmp = State.to_dict(storage.get(State, state_id)) if state_id else\
+                [State.to_dict(obj) for obj in storage.all(State).values()]
         return jsonify(tmp)
     except KeyError:
         return handle_E()
 
 
-@app_views.route('/states/<state_id>', strict_slashes=Falsei, methods=['DELETE'])
+@app_views.route('/states/<state_id>', strict_slashes=False,
+                 methods=['DELETE'])
 def get_stats(state_id=None):
     """delete state object"""
     st = storage.get(State, state_id)
