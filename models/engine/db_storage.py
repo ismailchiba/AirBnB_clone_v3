@@ -40,14 +40,6 @@ class DBStorage:
         if HBNB_ENV == "test":
             Base.metadata.drop_all(self.__engine)
 
-    """def __init__(self):
-        """Instantiates a new storage object"""
-        self.__engine = create_engine(getenv('HBNB_MYSQL_URL'))
-        Base.metadata.create_all(self.__engine)
-        Session = sessionmaker(bind=self.__engine)
-        self.__session = scoped_session(Session)
-    """
-
     def all(self, cls=None):
         """query on the current database session"""
         new_dict = {}
