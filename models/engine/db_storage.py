@@ -16,14 +16,19 @@ import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
-classes = {"Amenity": Amenity, "City": City,
-           "Place": Place, "Review": Review, "State": State, "User": User}
-
 
 class DBStorage:
     """interaacts with the MySQL database"""
     __engine = None
     __session = None
+    __classes = {
+        "Amenity": Amenity,
+        "City": City,
+        "Place": Place,
+        "Review": Review,
+        "State": State,
+        "User": User
+    }
 
     def __init__(self):
         """Instantiate a DBStorage object"""
@@ -43,9 +48,9 @@ class DBStorage:
     def all(self, cls=None):
         """query on the current database session"""
         new_dict = {}
-        for clss in classes:
-            if cls is None or cls is classes[clss] or cls is clss:
-                objs = self.__session.query(classes[clss]).all()
+        for clss in self.__classes:
+            if cls is None or cls is self.__classes[clss] or cls is clss:
+                objs = self.__session.query(self.__classes[clss]).all()
                 for obj in objs:
                     key = obj.__class__.__name__ + '.' + obj.id
                     new_dict[key] = obj
@@ -74,3 +79,24 @@ class DBStorage:
     def close(self):
         """call remove() method on the private session attribute"""
         self.__session.remove()
+
+    def get(self, cls, id):
+        """Retrieves one object from storage."""
+        obj = self.__session.query(cls).filter_by(id=id).first()
+
+        return obj
+
+    def count(self, cls=None):
+        "Counts number of objects"
+
+        if cls is not None:
+            count_class_objects = self.__session.query(cls).count()
+
+            return count_class_objects
+
+        count_all_objects = 0
+
+        for cls in self.__classes.values():
+            count_all_objects += self.__session.query(cls).count()
+
+        return count_all_objects
