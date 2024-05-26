@@ -16,7 +16,7 @@ app.register_blueprint(app_views)
 
 # Define the method to handle teardown
 @app.teardown_appcontext
-def teardown_db(exxception):
+def teardown_db(exception):
     """ calls storage.close() on eardown """
     storage.close()
 
