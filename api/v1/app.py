@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 <<<<<<< HEAD
+<<<<<<< HEAD
 """Module contains a flask server."""
 
 from flask import Flask, jsonify
@@ -16,6 +17,8 @@ app.url_map.strict_slashes = False
 def downtear(self):
     """A teardown method"""
 =======
+=======
+>>>>>>> dff4a60a4ac807bc9108c52bf6cb81f811eec8a5
 """
 API for AirBnB_clone_v3
 """
@@ -33,11 +36,15 @@ cors = CORS(app, resources={r"/*": {"origins": "0.0.0.0"}})
 @app.teardown_appcontext
 def teardown(self):
     """ handles teardown """
+<<<<<<< HEAD
+>>>>>>> dff4a60a4ac807bc9108c52bf6cb81f811eec8a5
+=======
 >>>>>>> dff4a60a4ac807bc9108c52bf6cb81f811eec8a5
     storage.close()
 
 
 @app.errorhandler(404)
+<<<<<<< HEAD
 <<<<<<< HEAD
 def page_not_found(error):
     """It handles errors."""
@@ -52,6 +59,8 @@ if __name__ == "__main__":
         port = "5000"
     app.run(host=host, port=port, threaded=True)
 =======
+=======
+>>>>>>> dff4a60a4ac807bc9108c52bf6cb81f811eec8a5
 def page_not_found(e):
     """ handles 404 errors """
     status = {"error": "Not found"}
@@ -70,4 +79,7 @@ if __name__ == '__main__':
         port = '5000'
 
     app.run(host=host, port=port)
+<<<<<<< HEAD
+>>>>>>> dff4a60a4ac807bc9108c52bf6cb81f811eec8a5
+=======
 >>>>>>> dff4a60a4ac807bc9108c52bf6cb81f811eec8a5

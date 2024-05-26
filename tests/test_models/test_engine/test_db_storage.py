@@ -45,8 +45,12 @@ class TestDBStorageDocs(unittest.TestCase):
         """Test tests/test_models/test_db_storage.py conforms to PEP8."""
         pep8s = pep8.StyleGuide(quiet=True)
 <<<<<<< HEAD
+<<<<<<< HEAD
         result = pep8s.check_files(['tests/test_models/test_engine/\
                                     test_db_storage.py'])
+=======
+        result = pep8s.check_files(['tests/test_models/test_engine/test_db_storage.py'])
+>>>>>>> dff4a60a4ac807bc9108c52bf6cb81f811eec8a5
 =======
         result = pep8s.check_files(['tests/test_models/test_engine/test_db_storage.py'])
 >>>>>>> dff4a60a4ac807bc9108c52bf6cb81f811eec8a5
@@ -100,6 +104,7 @@ class TestFileStorage(unittest.TestCase):
     def test_save(self):
         """Test that save properly saves objects to file.json"""
 <<<<<<< HEAD
+<<<<<<< HEAD
         pass
 
 class TestDBStorage(unittest.TestCase):
@@ -134,6 +139,8 @@ class TestDBStorage(unittest.TestCase):
         self.assertEqual(models.storage.count("State"), startCount + 1)
         self.assertEqual(models.storage.count(), startCount + 2)
 =======
+=======
+>>>>>>> dff4a60a4ac807bc9108c52bf6cb81f811eec8a5
         state = State(name="Washington")
         models.storage.new(state)
         models.storage.save()
@@ -188,4 +195,7 @@ class TestGetCountDB(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+<<<<<<< HEAD
+>>>>>>> dff4a60a4ac807bc9108c52bf6cb81f811eec8a5
+=======
 >>>>>>> dff4a60a4ac807bc9108c52bf6cb81f811eec8a5

@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 <<<<<<< HEAD
+<<<<<<< HEAD
 """places"""
 from api.v1.views import app_views
 from flask import jsonify, abort, request
@@ -123,6 +124,8 @@ def updates_place(place_id):
     storage.save()
     return jsonify(place_obj[0]), 200
 =======
+=======
+>>>>>>> dff4a60a4ac807bc9108c52bf6cb81f811eec8a5
 """
 View for Places that handles all RESTful API actions
 """
@@ -210,4 +213,7 @@ def place_put(place_id):
     place.save()
     place = place.to_json()
     return jsonify(place), 200
+<<<<<<< HEAD
+>>>>>>> dff4a60a4ac807bc9108c52bf6cb81f811eec8a5
+=======
 >>>>>>> dff4a60a4ac807bc9108c52bf6cb81f811eec8a5

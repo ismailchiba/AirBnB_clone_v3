@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 #!/usr/bin/python3xx
 """Script returns a JSON API status."""
 
@@ -25,6 +26,8 @@ def stuff():
         todos[key] = storage.count(todos[key])
     return jsonify(todos)
 =======
+=======
+>>>>>>> dff4a60a4ac807bc9108c52bf6cb81f811eec8a5
 #!/usr/bin/python3
 """
 App views for AirBnB_clone_v3
@@ -56,4 +59,7 @@ def count():
         count = storage.count(cls)
         total[classes.get(cls)] = count
     return jsonify(total)
+<<<<<<< HEAD
+>>>>>>> dff4a60a4ac807bc9108c52bf6cb81f811eec8a5
+=======
 >>>>>>> dff4a60a4ac807bc9108c52bf6cb81f811eec8a5
