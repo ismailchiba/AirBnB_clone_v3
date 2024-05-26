@@ -3,16 +3,14 @@
 Contains the class DBStorage
 """
 
-import models
 from models.amenity import Amenity
-from models.base_model import BaseModel, Base
+from models.base_model import Base
 from models.city import City
 from models.place import Place
 from models.review import Review
 from models.state import State
 from models.user import User
 from os import getenv
-import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
@@ -70,6 +68,37 @@ class DBStorage:
         sess_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(sess_factory)
         self.__session = Session
+
+    def get(self, cls, id):
+        """retrieves one object
+
+        Returns:
+            returns object if found
+        """
+
+        all_classes = classes.values()
+        if cls in all_classes:
+            obj_dict = self.all(cls)
+
+            for key in obj_dict.keys():
+                the_id = key.split(".")[1]
+                if the_id == id:
+                    d_obj = obj_dict[key]
+                    ret_dict = d_obj.__dict__
+                    return f"[{d_obj.__class__.__name__}] "
+                f"({d_obj.id}) {ret_dict}"
+
+        return None
+
+    def count(self, cls=None):
+        """Counts the number of objects in storage
+
+        Returns:
+            The number of objects in storage
+        """
+        if cls:
+            return len(self.all(cls))
+        return len(self.all())
 
     def close(self):
         """call remove() method on the private session attribute"""
