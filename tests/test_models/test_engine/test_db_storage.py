@@ -86,3 +86,51 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
+
+
+class TestDBStorageGet(unittest.TestCase):
+    """Test get method in DBStorage"""
+    @classmethod
+    def setUpClass(cls):
+        """Set up for the get tests"""
+        cls.db = DBStorage()
+        cls.test_obj = User(name="Test User", email="test@example.com")
+        cls.db.new(cls.test_obj)
+        cls.db.save()
+
+    def test_get_existing_object(self):
+        """Test getting an existing object by class and id"""
+        retrieved_obj = self.db.get(User, self.test_obj.id)
+        self.assertIsNotNone(retrieved_obj)
+        self.assertEqual(retrieved_obj.name, "Test User")
+        self.assertEqual(retrieved_obj.email, "test@example.com")
+
+    def test_get_nonexistent_object(self):
+        """Test getting a nonexistent object by class and id"""
+        nonexistent_obj = self.db.get(User, "nonexistent_id")
+        self.assertIsNone(nonexistent_obj)
+
+
+class TestDBStorageCount(unittest.TestCase):
+    """ test count method in DBStorage"""
+    @classmethod
+    def setUpClass(cls):
+        """ Set up for the count tests"""
+        cls.db = DBStorage()
+        cls.test_objs = [
+                User(name=f"Test User {i}", email=f"user{i}@example.com")
+                for i in range(5)
+        ]
+        for obj in cls.test_objs:
+            cls.db.new(obj)
+        cls.db.save()
+
+    def test_count_all_objects(self):
+        """test counting all objects in storage"""
+        count = self.db.count()
+        self.assertEqual(count, 5)
+
+    def test_count_specific_class(self):
+        """ test counting objects of a specific class"""
+        count = self.db.count(User)
+        self.assertEqual(count, 5)

@@ -113,3 +113,51 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+
+
+class TestFileStorageGet(unittest.TestCase):
+    """testing get method in FileStorage"""
+    @classmethod
+    def setUpClass(cls):
+        """Set up for the get tests"""
+        cls.file_storage = FileStorage()
+        cls.test_obj = User(name="Test User", email="test@example.com")
+        cls.file_storage.new(cls.test_obj)
+        cls.file_storage.save()
+
+    def test_get_existing_objects(self):
+        """tests getting an existing object by class and id"""
+        retrieved_obj = self.file_storage.get(User, self.test_obj.id)
+        self.assertIsNotNone(retrieved_obj)
+        self.assertEqual(retrieved_obj.name, "Test User")
+        self.assertEqual(retrieved_obj.email, "test@example.com")
+
+    def test_get_nonexistent_object(self):
+        """tests getting a nonexistent object by class and id"""
+        nonexistent_obj = self.file_storage.get(User, "nonexistent_id")
+        self.assertIsNone(nonexistent_obj)
+
+
+class TestFileStorageCount(unittest.TestCase):
+    """testing count method in FileStorage"""
+    @classmethod
+    def setUpClass(cls):
+        """set up for the count tests"""
+        cls.file_storage = FileStorage()
+        cls.test_objs = [
+                User(name=f"Test User {i}", email=f"user{i}@example.com")
+                for i in range(5)
+        ]
+        for obj in cls.test_objs:
+            cls.file_storage.new(obj)
+        cls.file_storage.save()
+
+    def test_count_all_objects(self):
+        """test counting all objects in storage"""
+        count = self.file_storage.count()
+        self.assertEqual(count, 5)
+
+    def test_count_specific_class(self):
+        """ test counting objects of a specific class"""
+        count = self.file_storage.count(User)
+        self.assertEqual(count, 5)
