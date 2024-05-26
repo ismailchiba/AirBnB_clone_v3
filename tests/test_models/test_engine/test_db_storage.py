@@ -46,6 +46,7 @@ class TestDBStorageDocs(unittest.TestCase):
         pep8s = pep8.StyleGuide(quiet=True)
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         result = pep8s.check_files(['tests/test_models/test_engine/\
                                     test_db_storage.py'])
 =======
@@ -54,6 +55,9 @@ class TestDBStorageDocs(unittest.TestCase):
 =======
         result = pep8s.check_files(['tests/test_models/test_engine/test_db_storage.py'])
 >>>>>>> dff4a60a4ac807bc9108c52bf6cb81f811eec8a5
+=======
+        result = pep8s.check_files(['tests/test_models/test_engine/test_db_storage.py'])
+>>>>>>> e281eb7ad864998aebfff49c6a8b9db91e799fe7
         self.assertEqual(result.total_errors, 0,
                          "Found code style errors (and warnings).")
 
@@ -105,6 +109,7 @@ class TestFileStorage(unittest.TestCase):
         """Test that save properly saves objects to file.json"""
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         pass
 
 class TestDBStorage(unittest.TestCase):
@@ -141,6 +146,8 @@ class TestDBStorage(unittest.TestCase):
 =======
 =======
 >>>>>>> dff4a60a4ac807bc9108c52bf6cb81f811eec8a5
+=======
+>>>>>>> e281eb7ad864998aebfff49c6a8b9db91e799fe7
         state = State(name="Washington")
         models.storage.new(state)
         models.storage.save()
@@ -196,6 +203,9 @@ class TestGetCountDB(unittest.TestCase):
 if __name__ == "__main__":
     unittest.main()
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> dff4a60a4ac807bc9108c52bf6cb81f811eec8a5
 =======
 >>>>>>> dff4a60a4ac807bc9108c52bf6cb81f811eec8a5
+=======
+>>>>>>> e281eb7ad864998aebfff49c6a8b9db91e799fe7
