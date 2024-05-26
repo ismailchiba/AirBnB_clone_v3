@@ -162,7 +162,7 @@ def places_search():
     of the request
     """
 
-    body = request.get_json(silent=True)
+    body = request.get_json()
 
     if not body:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
