@@ -1,9 +1,10 @@
 #!/usr/bin/python3
 """File"""
-from flask import Flask
+from flask import Flask, jsonify, make_reponse
 from models import storage
 from api.v1.views import app_views
 import os
+from flask_cors import CORS
 
 app = Flask(__name__)
 
