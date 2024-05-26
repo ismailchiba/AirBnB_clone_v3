@@ -10,4 +10,7 @@ from flask import jsonify
 
 @app_views.route("/status", strict_slashes=False)
 def stat():
+    '''
+    returns the status of the page in json format
+    '''
     return jsonify({"status": "OK"})
