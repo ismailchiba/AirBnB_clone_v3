@@ -1,21 +1,42 @@
 #!/usr/bin/python3
 """module"""
-from flask import Flask
+from flask import Flask, make_response
+from flask_cors import CORS
+import json
 from api.v1.views import app_views
-from models import storage
+from os import getenv
+
 
 app = Flask(__name__)
-
-
-app.register_blueprint(app_views, url_prefix='/api/v1')
+app.url_map.strict_slashes = False
+app.register_blueprint(app_views)
+host = getenv("HBNB_API_HOST")
+port = getenv("HBNB_API_PORT")
+cors = CORS(
+    app,
+    resources={r"/*": {"origins": "0.0.0.0"}}
+    )
 
 
 @app.teardown_appcontext
-def teardown_app_context(exception):
+def teardown(err):
+    """teardown"""
+    from models import storage
+
     storage.close()
 
 
+@app.errorhandler(404)
+def not_found(err):
+    """ 404 Error """
+    res = {'error': "Not found"}
+    response = make_response(json.dumps(res), 404)
+    response.headers['Content-Type'] = 'application/json'
+    return response
+
+
 if __name__ == "__main__":
-    host = os.environ.get('HBNB_API_HOST', '0.0.0.0')
-    port = int(os.environ.get('HBNB_API_PORT', 5000))
+    """good"""
+    host = "0.0.0.0" if host is None else host
+    port = "5000" if port is None else port
     app.run(host=host, port=port, threaded=True)
