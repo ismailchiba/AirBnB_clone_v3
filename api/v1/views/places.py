@@ -172,7 +172,7 @@ def places_search():
         cities = body.get("cities", None)
         amenities = body.get("amenities", None)
 
-    if not body or (not states and not cities and not amenities):
+    if not body or not len(body) or (not states and not cities and not amenities):
         places = storage.all(Place).values()
 
         places_list = []
