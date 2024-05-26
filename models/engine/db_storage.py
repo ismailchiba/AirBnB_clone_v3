@@ -85,8 +85,7 @@ class DBStorage:
                 if the_id == id:
                     d_obj = obj_dict[key]
                     ret_dict = d_obj.__dict__
-                    return f"[{d_obj.__class__.__name__}] "
-                f"({d_obj.id}) {ret_dict}"
+                    return f"[{d_obj.__class__.__name__}] ({d_obj.id}) {ret_dict}"
 
         return None
 
