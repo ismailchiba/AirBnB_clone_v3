@@ -62,12 +62,10 @@ def update_state(state_id):
         payload = request.get_json()
     except Exception as e:
         return make_response({'error': 'Not a JSON'}, 400)
-
-    if payload and 'name' not in payload:
-        return make_response({'error': 'Missing name'}, 400)
-
-    for key, value in payload.items():
-        if key not in ['id', 'created_at', 'updated_at']:
-            setattr(state, key, value)
-    state.save()
-    return make_response(state.to_dict(), 200)
+    if payload:
+        for key, value in payload.items():
+            if key not in ['id', 'created_at', 'updated_at']:
+                setattr(state, key, value)
+        state.save()
+        return make_response(state.to_dict(), 200)
+    return make_response({}, 200)
