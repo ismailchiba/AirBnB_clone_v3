@@ -18,5 +18,13 @@ def get_stats():
     """send the number of each objects by type:
     """
     from models.engine.file_storage import classes
-    tmp = {key.lower(): storage.count(value) for key, value in classes.items()}
+    tmp_dict = tmp_dict = {
+            "amenities":"Amenity",
+            "cities":"City",
+            "places":"Place",
+            "reviews":"Review",
+            "states":"State",
+            "users":"User"
+            }
+    tmp = {k: storage.count(classes.get(v)) for k, v in tmp_dict}
     return jsonify(tmp)
