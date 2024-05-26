@@ -47,13 +47,11 @@ class FileStorage:
         for obj in class_all.values():
             if id == str(obj.id):
                 return obj
-
         return None
-      def count(self, cls=None):
-        """count of instances"""
 
-        return len(self.all(cls))
-
+    def count(self, cls=None):
+       """count of instances"""
+       return len(self.all(cls))
 
 
     def save(self):
