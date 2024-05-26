@@ -44,6 +44,41 @@ def get_place_amenities(place_id):
     return response
 
 
+@app_views.route(api_route_2, methods=["DELETE"], strict_slashes=False)
+def delete_amenity(place_id, amenity_id):
+    """
+    Delete an amenity from a place.
+
+    Args:
+        place_id (str): The ID of the place.
+        amenity_id (str): The ID of the amenity to be deleted.
+
+    Returns:
+        dict: An empty dictionary.
+
+    Raises:
+        404: If the place or the amenity is not found.
+
+    """
+    place = storage.get(Place, place_id)
+
+    if place is None:
+        abort(404)
+
+    amenity = storage.get(Amenity, amenity_id)
+
+    if not amenity:
+        abort(404)
+
+    if amenity not in place.amenities:
+        abort(404)
+
+    place.amenities.remove(amenity)
+    storage.save()
+
+    return jsonify({})
+
+
 @app_views.route(api_route_2, methods=["POST"], strict_slashes=False)
 def link_amenity_to_place(place_id, amenity_id):
     """
@@ -78,35 +113,3 @@ def link_amenity_to_place(place_id, amenity_id):
     storage.save()
 
     return jsonify(amenity.to_dict()), 201
-
-
-@app_views.route(api_route_2, methods=["DELETE"], strict_slashes=False)
-def delete_amenity(place_id, amenity_id):
-    """
-    Delete an amenity from a place.
-
-    Args:
-        place_id (str): The ID of the place.
-        amenity_id (str): The ID of the amenity to be deleted.
-
-    Returns:
-        dict: An empty dictionary.
-
-    Raises:
-        404: If the place or the amenity is not found.
-
-    """
-    place = storage.get(Place, place_id)
-
-    if place is None:
-        abort(404)
-
-    amenity = storage.get(Amenity, amenity_id)
-
-    if not amenity or amenity not in place.amenities:
-        abort(404)
-
-    place.amenities.remove(amenity)
-    storage.save()
-
-    return jsonify({})
