@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """
-This module defines API endpoints for checking ties": storage.count
-("Amenity the status of the service
+This module defines API endpoints for checking ties: storage.count
+Amenity the status of the service
 and retrieving statistics about various objects in the storage.
 """
 
