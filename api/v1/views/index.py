@@ -19,12 +19,12 @@ def get_stats():
     """
     from models.engine.file_storage import classes
     tmp_dict = tmp_dict = {
-            "amenities":"Amenity",
-            "cities":"City",
-            "places":"Place",
-            "reviews":"Review",
-            "states":"State",
-            "users":"User"
+            "amenities": "Amenity",
+            "cities": "City",
+            "places": "Place",
+            "reviews": "Review",
+            "states": "State",
+            "users": "User"
             }
-    tmp = {k: storage.count(classes.get(v)) for k, v in tmp_dict}
+    tmp = {k: storage.count(classes.get(v)) for k, v in tmp_dict.items()}
     return jsonify(tmp)
