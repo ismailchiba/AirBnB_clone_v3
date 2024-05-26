@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Contains the TestFileStorageDocs classes
+Contains the TestFileStorageDocs and TestFileStorage classes
 """
 
 from datetime import datetime
@@ -113,3 +113,30 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_get(self):
+        """Test that get retrieves an object by class and id"""
+        state = State(name="California")
+        models.storage.new(state)
+        models.storage.save()
+        retrieved_state = models.storage.get("State", state.id)
+        self.assertEqual(state, retrieved_state)
+        fake_state = models.storage.get("State", "12345")
+        self.assertIsNone(fake_state)
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_count(self):
+        """Test that count returns the correct number of objects"""
+        initial_count = models.storage.count("State")
+        state = State(name="Nevada")
+        models.storage.new(state)
+        models.storage.save()
+        new_count = models.storage.count("State")
+        self.assertEqual(initial_count + 1, new_count)
+        all_count = models.storage.count(None)
+        self.assertGreater(all_count, 0)
+
+
+if __name__ == "__main__":
+    unittest.main()
