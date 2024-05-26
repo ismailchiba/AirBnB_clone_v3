@@ -114,7 +114,6 @@ class TestFileStorage(unittest.TestCase):
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
 
-class TestFileStorage(unittest.TestCase):
     def setUp(self):
         self.storage = FileStorage()
         self.state = State(id="1234", name="California")
@@ -132,6 +131,5 @@ class TestFileStorage(unittest.TestCase):
     def test_count_state(self):
         count = self.storage.count(State)
         self.assertEqual(count, 1)
-
 if __name__ == "__main__":
     unittest.main()
