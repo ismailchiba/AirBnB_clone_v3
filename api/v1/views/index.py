@@ -18,5 +18,5 @@ def get_stats():
     """send the number of each objects by type:
     """
     from models.engine.file_storage import classes
-    tmp = {key.lower():storage.count(value) for key, value in classes.items()}
+    tmp = {key.lower(): storage.count(value) for key, value in classes.items()}
     return jsonify(tmp)
