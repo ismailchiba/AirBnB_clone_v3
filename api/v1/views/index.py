@@ -7,13 +7,13 @@ from flask import jsonify
 from models import storage
 
 
-@app_views.route('/status')
+@app_views.route('/status', strict_slashes=False)
 def get_status():
     """send status of the server as JSON"""
     return jsonify({"status": "OK"})
 
 
-@app_views.route('/stats')
+@app_views.route('/stats', strict_slashes=False)
 def get_stats():
     """send the number of each objects by type:
     """
