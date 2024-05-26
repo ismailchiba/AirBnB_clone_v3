@@ -38,6 +38,8 @@ def del_state(state_id):
 @app_views.route("/states", strict_slashes=False, methods=["POST"])
 def post_state():
     """Return a new state"""
+    if not request.json:
+        abort(400, "Not a JSON")
     new_state = request.getjson()
     if not new_state:
         abort(400, "Not a JSON")
