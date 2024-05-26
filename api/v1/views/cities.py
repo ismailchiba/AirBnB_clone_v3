@@ -40,7 +40,7 @@ def del_city(city_id):
 @app_views.route('/states/<state_id>/cities',
                  methods=['POST'], strict_slashes=False)
 def post_city(state_id):
-    """Add a new city"""
+    """Update an exsisting city"""
     state = storage.get(State, state_id)
     if not state:
         abort(404)
@@ -60,7 +60,7 @@ def post_city(state_id):
 
 @app_views.route('/cities/<city_id>', methods=['PUT'], strict_slashes=False)
 def put_city(city_id):
-    """Update an exsisting city"""
+    """Add a new city"""
     obj = storage.get(City, city_id)
     if not obj:
         abort(404)
