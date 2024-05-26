@@ -1,5 +1,7 @@
-#!/bin/python3
-"""Init file for views module"""
+#!/usr/bin/python3
+"""
+This module contains endpoint(route) status
+"""
 from flask import Blueprint
 
 

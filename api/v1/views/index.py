@@ -1,5 +1,7 @@
-#!/bin/python3
-
+#!/usr/bin/python3
+"""
+This module contains endpoint(route) status
+"""
 from flask import Flask
 from api.v1.views import app_views
 from flask import jsonify
