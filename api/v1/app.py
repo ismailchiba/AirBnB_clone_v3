@@ -6,6 +6,7 @@ from api.v1.views import app_views
 import os
 from flask_cors import CORS # to enable CORS
 
+
 app = Flask(__name__)
 cors = CORS(app, resources={r"/*": {"origins": "0.0.0.0"}})
 
