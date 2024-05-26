@@ -23,7 +23,7 @@ def handle_E(error, message="Not found", code=404):
 
 @app_views.route('/states/<state_id>', strict_slashes=False)
 @app_views.route('/states', strict_slashes=False)
-def get_stats(state_id=None):
+def get_states(state_id=None):
     """
     returns a state if state_id provided, otherwise all states"""
     try:
@@ -36,7 +36,7 @@ def get_stats(state_id=None):
 
 @app_views.route('/states/<state_id>', strict_slashes=False,
                  methods=['DELETE'])
-def get_stats(state_id=None):
+def delete_state(state_id=None):
     """delete state object"""
     st = storage.get(State, state_id)
     if st:
@@ -47,7 +47,7 @@ def get_stats(state_id=None):
 
 
 @app_views.route('/states', strict_slashes=Falsei, methods=['POST'])
-def get_stats(state_id=None):
+def add_state(state_id=None):
     """add new state object"""
     data = request.get_json(silent=True)
     if data is None:
@@ -62,7 +62,7 @@ def get_stats(state_id=None):
 
 
 @app_views.route('/states/<state_id>', strict_slashes=Falsei, methods=['PUT'])i
-def get_stats(state_id=None):
+def update_state(state_id=None):
     """add new state object"""
     st = storage.get(State, state_id)
     if st is None:
