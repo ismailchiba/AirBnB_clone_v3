@@ -78,6 +78,12 @@ class FileStorage:
             return None
         return self.__objects.get(cls.__name__ + "." + id, None)
 
+    def update(self, cls, id, obj):
+        """update object"""
+        tmp = self.get(cls, id)
+        if tmp is None:
+            return None
+
     def count(self, cls=None):
         """Returns the number of objects in storage matching the given class.
         If no class is passed, returns the count of all objects in storage."""
