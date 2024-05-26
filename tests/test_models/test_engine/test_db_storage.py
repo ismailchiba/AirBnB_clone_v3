@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Contains the TestDBStorageDocs and TestDBStorage classes
+Script that tests the functionality of the database storage.
 """
 
 from datetime import datetime
@@ -25,7 +25,10 @@ classes = {"Amenity": Amenity, "City": City, "Place": Place,
 
 
 class TestDBStorageDocs(unittest.TestCase):
-    """Tests to check the documentation and style of DBStorage class"""
+    """
+       This class tests the style and doc string of database
+       storage class
+    """
     @classmethod
     def setUpClass(cls):
         """Set up for the doc tests"""
