@@ -21,7 +21,7 @@ classes = {"Amenity": Amenity, "City": City,
 
 
 class DBStorage:
-    """interacts with the MySQL database
+    """interaacts with the MySQL database
     """
     __engine = None
     __session = None
@@ -65,13 +65,6 @@ class DBStorage:
         if obj is not None:
             self.__session.delete(obj)
 
-    def reload(self):
-        """reloads data from the database"""
-        Base.metadata.create_all(self.__engine)
-        sess_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
-        Session = scoped_session(sess_factory)
-        self.__session = Session
-
     def get(self, cls, id):
         """Retrieve one object based on class and ID"""
         if cls not in classes.values():
@@ -88,6 +81,13 @@ class DBStorage:
                 count += self.__session.query(cls).count()
             return count
 
-     def close(self):
+    def reload(self):
+        """reloads data from the database"""
+        Base.metadata.create_all(self.__engine)
+        sess_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        Session = scoped_session(sess_factory)
+        self.__session = Session
+
+    def close(self):
         """call remove() method on the private session attribute"""
         self.__session.remove()
