@@ -3,6 +3,7 @@
 Contains the TestFileStorageDocs classes
 """
 
+from models import storage
 from datetime import datetime
 import inspect
 import models
@@ -113,3 +114,26 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+
+    def setUp(self):
+        """Set up test environment"""
+        storage.reload()
+        for obj in list(storage.all().values()):
+            storage.delete(obj)
+        storage.save()
+
+    def test_get(self):
+        """test for get method"""
+        new_state = State(name="California")
+        storage.new(new_state)
+        storage.save()
+        self.assertEqual(storage.get(State, new_state.id), new_state)
+
+    def test_count(self):
+        """test for th count method"""
+        initial_count = storage.count()
+        new_state = State(name="California")
+        storage.new(new_state)
+        storage.save()
+        self.assertEqual(storage.count(), initial_count + 1)
+        self.assertEqual(storage.count(State), 1)
