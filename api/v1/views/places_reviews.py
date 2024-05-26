@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-'''Contains the places_reviews view for the API.'''
+"""The places_reviews module"""
 from flask import abort, jsonify, make_response, request
 from api.v1.views import app_views
 from models import storage
