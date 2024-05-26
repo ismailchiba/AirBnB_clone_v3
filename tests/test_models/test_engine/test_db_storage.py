@@ -44,20 +44,7 @@ class TestDBStorageDocs(unittest.TestCase):
     def test_pep8_conformance_test_db_storage(self):
         """Test tests/test_models/test_db_storage.py conforms to PEP8."""
         pep8s = pep8.StyleGuide(quiet=True)
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-        result = pep8s.check_files(['tests/test_models/test_engine/\
-                                    test_db_storage.py'])
-=======
         result = pep8s.check_files(['tests/test_models/test_engine/test_db_storage.py'])
->>>>>>> dff4a60a4ac807bc9108c52bf6cb81f811eec8a5
-=======
-        result = pep8s.check_files(['tests/test_models/test_engine/test_db_storage.py'])
->>>>>>> dff4a60a4ac807bc9108c52bf6cb81f811eec8a5
-=======
-        result = pep8s.check_files(['tests/test_models/test_engine/test_db_storage.py'])
->>>>>>> e281eb7ad864998aebfff49c6a8b9db91e799fe7
         self.assertEqual(result.total_errors, 0,
                          "Found code style errors (and warnings).")
 
@@ -107,47 +94,6 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-        pass
-
-class TestDBStorage(unittest.TestCase):
-    """This class provides a test for database storage class"""
-
-    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') != 'db',
-                     "not testing db storage")
-    def test_get(self):
-        """
-           It tests whether the get method returns none 
-           or specific object
-        """
-        newState = State(name="New York")
-        newState.save()
-        newUser = User(email="bob@foobar.com", password="password")
-        newUser.save()
-        self.assertIs(newState, models.storage.get("State", newState.id))
-        self.assertIs(None, models.storage.get("State", "blah"))
-        self.assertIs(None, models.storage.get("blah", "blah"))
-        self.assertIs(newUser, models.storage.get("User", newUser.id))
-
-    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') != 'db',
-                     "not testing db storage")
-    def test_count(self):
-        """Tests to ensure that new object is added to database"""
-        startCount = models.storage.count()
-        self.assertEqual(models.storage.count("Blah"), 0)
-        newState = State(name="Montevideo")
-        newState.save()
-        newUser = User(email="ralexrivero@gmail.com.com", password="dummypass")
-        newUser.save()
-        self.assertEqual(models.storage.count("State"), startCount + 1)
-        self.assertEqual(models.storage.count(), startCount + 2)
-=======
-=======
->>>>>>> dff4a60a4ac807bc9108c52bf6cb81f811eec8a5
-=======
->>>>>>> e281eb7ad864998aebfff49c6a8b9db91e799fe7
         state = State(name="Washington")
         models.storage.new(state)
         models.storage.save()
@@ -202,10 +148,3 @@ class TestGetCountDB(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> dff4a60a4ac807bc9108c52bf6cb81f811eec8a5
-=======
->>>>>>> dff4a60a4ac807bc9108c52bf6cb81f811eec8a5
-=======
->>>>>>> e281eb7ad864998aebfff49c6a8b9db91e799fe7
