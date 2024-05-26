@@ -59,8 +59,8 @@ def put_amenity(amenity_id):
     req = request.get_json()
     if not req:
         abort(400, "Not a JSON")
-    for k, v in req.items():
-        if k not in ['id', 'created_at', 'update_at']:
-            setattr(amenity, k, v)
+    for key, value in req.items():
+        if key not in ['id', 'created_at', 'update_at']:
+            setattr(amenity, key, value)
     storage.save()
     return jsonify(amenity.to_dict())
