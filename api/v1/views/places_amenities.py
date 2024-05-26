@@ -3,7 +3,7 @@
 This module defines Flask routes to provide API endpoints
 that link between Place and Amenity objects.
 """
-from os import environ
+from os import getenv
 
 from flask import abort, jsonify
 
@@ -15,7 +15,7 @@ from models.place import Place
 api_route_1 = "/places/<string:place_id>/amenities"
 api_route_2 = "/places/<string:place_id>/amenities/<string:amenity_id>"
 
-storage_type = environ.get("HBNB_TYPE_STORAGE")
+storage_type = getenv("HBNB_TYPE_STORAGE")
 
 
 @app_views.route(api_route_1, methods=["GET"], strict_slashes=False)
@@ -55,7 +55,7 @@ def get_place_amenities(place_id):
 
 
 @app_views.route(api_route_2, methods=["DELETE"], strict_slashes=False)
-def delete_amenity(place_id, amenity_id):
+def delete_place_amenity(place_id, amenity_id):
     """
     Delete an amenity from a place.
 
