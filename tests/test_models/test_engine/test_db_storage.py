@@ -89,7 +89,7 @@ class TestDBStorage(unittest.TestCase):
     
     def setUp(self):
         """Set up the test environment."""
-        self.user = User(username="testuser", email="test@example.com", password="password")
+        self.user = User(username="HBNB_MYSQL_USER", email="", password="HBNB_MYSQL_PWD")
         storage.new(self.user)
         storage.save()
 
