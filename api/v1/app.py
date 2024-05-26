@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """The app module"""
 from flask import Flask, jsonify, make_response, request, abort
+from flask_cors import CORS
 from models import storage
 from api.v1.views import app_views
 from os import getenv
@@ -9,6 +10,7 @@ PORT = getenv("HBNB_API_PORT") or '5000'
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
+CORS(app, resources={'/*': {'origins': HOST}})
 
 
 @app.teardown_appcontext
