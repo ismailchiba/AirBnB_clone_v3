@@ -6,6 +6,7 @@ from models import storage
 from models.user import User
 from datetime import datetime
 
+
 @app_views.route('/users/', methods=['GET'])
 @app_views.route('/users', methods=['GET'])
 def list_users():
@@ -68,24 +69,23 @@ def updates_user(user_id):
         abort(400, 'Not a JSON')
     try:
         user_obj[0]['first_name'] = request.json['first_name']
-    except:
+    except KeyError:
         pass
     try:
         user_obj[0]['last_name'] = request.json['last_name']
-    except:
+    except KeyError:
         pass
     for obj in all_users:
         if obj.id == user_id:
             try:
                 if request.json['first_name'] is not None:
                     obj.first_name = request.json['first_name']
-            except:
+            except KeyError:
                 pass
             try:
                 if request.json['last_name'] is not None:
                     obj.last_name = request.json['last_name']
-            except:
+            except KeyError:
                 pass
     storage.save()
     return jsonify(user_obj[0]), 200
-
