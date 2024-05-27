@@ -34,7 +34,7 @@ def close_storage(exception):
     storage.close()
 
 
-@application_views.errorhandler(404)
+@application.errorhandler(404)
 def handle_404(err):
     """ Returns JSON response with 404 status """
     return make_response(jsonify({"error": "Not found"}), 404)
