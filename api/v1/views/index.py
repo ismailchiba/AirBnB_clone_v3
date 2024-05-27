@@ -1,3 +1,7 @@
+#!/usr/bin/python3
+"""Routing of the index file"""
+
+
 from api.v1.views import app_views
 from flask import jsonify
 
