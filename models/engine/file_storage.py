@@ -68,3 +68,27 @@ class FileStorage:
     def close(self):
         """call reload() method for deserializing the JSON file to objects"""
         self.reload()
+
+    # AirBnB version 3 additional changes:
+    def get(self, cls, id):
+        ''' retrieve one object based on class and ID '''
+        objects = self.__objects.get(cls.__name__)
+        if objects:
+            for obj in objects.values():
+                if obj.id == id:
+                    return obj
+        return None
+
+    def count(self, cls=None):
+        ''' count the number of objects in storage '''
+
+        count = 0
+        if cls:
+            c_objects = self.__objects.get(cls.__name__)
+            for obj in c_objects.values():
+                count = count + 1
+        else:
+            for class_name, objects in self.__objects.items():
+                count += len(objects)
+        return count
+
