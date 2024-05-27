@@ -1,4 +1,4 @@
-11;rgb:0000/0000/0000#!/usr/bin/python3
+#!/usr/bin/python3
 """
 Contains the FileStorage class
 """
