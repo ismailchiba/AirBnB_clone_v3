@@ -75,8 +75,7 @@ class FileStorage:
 
     def get(self, cls, id):
         """
-        Returns the object based on the class name and its ID, or
-        None if not found
+        Returns the object based on the class name and its ID
         """
         if cls not in classes.values():
             return None
