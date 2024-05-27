@@ -115,7 +115,7 @@ def places_search():
                     places.add(obj_place)
 
     if req.get('cities'):
-        obj_cities = {storage.get(Amenity, id) for id in req.get('cities')}
+        obj_cities = {storage.get(City, id) for id in req.get('cities')}
         obj_cities.discard(None)
 
         for obj_city in obj_cities:
