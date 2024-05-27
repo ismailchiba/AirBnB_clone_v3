@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Contains the FileStorage class
+Contains the FileStorage class.
 """
 
 import json
@@ -40,6 +40,27 @@ class FileStorage:
             key = obj.__class__.__name__ + "." + obj.id
             self.__objects[key] = obj
 
+    def get(self, cls, id):
+        """query on the current database session
+        params:
+            cls: class name
+            id: object id
+        """
+        all_cls = self.all(cls)
+
+        for obj in all_cls.values():
+            if id == obj.id:
+                return obj
+
+    def count(self, cls=None):
+        """count the number of objects in storage
+        params:
+            cls: class name
+        """
+        if cls is None:
+            return len(self.all())
+        return len(self.all(cls))
+
     def save(self):
         """serializes __objects to the JSON file (path: __file_path)"""
         json_objects = {}
@@ -55,8 +76,8 @@ class FileStorage:
                 jo = json.load(f)
             for key in jo:
                 self.__objects[key] = classes[jo[key]["__class__"]](**jo[key])
-        except:
-            pass
+        except (FileNotFoundError, json.JSONDecodeError) as e:
+            print("Error reloading data:", str(e))
 
     def delete(self, obj=None):
         """delete obj from __objects if it’s inside"""

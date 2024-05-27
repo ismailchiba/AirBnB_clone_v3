@@ -21,7 +21,7 @@ classes = {"Amenity": Amenity, "City": City,
 
 
 class DBStorage:
-    """interaacts with the MySQL database"""
+    """Interaacts with the MySQL database"""
     __engine = None
     __session = None
 
@@ -40,6 +40,23 @@ class DBStorage:
         if HBNB_ENV == "test":
             Base.metadata.drop_all(self.__engine)
 
+    def test_state_all(self):
+        """Tests if all() returns newly created instance"""
+        all_objs = storage.all()
+        all_state_objs = storage.all('State')
+
+        exist_in_all = False
+        for k in all_objs.keys():
+            if self.state.id in k:
+                exist_in_all = True
+        exist_in_all_states = False
+        for k in all_state_objs.keys():
+            if self.state.id in k:
+                exist_in_all_states = True
+
+        self.assertTrue(exist_in_all)
+        self.assertTrue(exist_in_all_states)
+
     def all(self, cls=None):
         """query on the current database session"""
         new_dict = {}
@@ -54,6 +71,27 @@ class DBStorage:
     def new(self, obj):
         """add the object to the current database session"""
         self.__session.add(obj)
+
+    def get(self, cls, id):
+        """query on the current database session
+        params:
+            cls: class name
+            id: object id
+        """
+        all_cls = self.all(cls)
+
+        for obj in all_cls.values():
+            if id == obj.id:
+                return obj
+
+    def count(self, cls=None):
+        """count the number of objects in storage
+        params:
+            cls: class name
+        """
+        if cls is None:
+            return len(self.all())
+        return len(self.all(cls))
 
     def save(self):
         """commit all changes of the current database session"""
