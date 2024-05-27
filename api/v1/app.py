@@ -1,9 +1,7 @@
 #!/usr/bin/python3
-"""Instance of Flask
-    import storage from models
 """
-
-
+Flask Application
+"""
 from flask import Flask, jsonify
 from models import storage
 from api.v1.views import app_views
@@ -15,12 +13,16 @@ app.register_blueprint(app_views)
 
 @app.teardown_appcontext
 def teardown_db(exception):
-    """declaring a method to handle app
-    teardown calls"""
+    """
+    Close the storage connection
+    """
     storage.close()
 
 
 if __name__ == "__main__":
+    """
+    Run the Flask application
+    """
     host = os.getenv('HBNB_API_HOST', '0.0.0.0')
     port = int(os.getenv('HBNB_API_PORT', '5000'))
     app.run(host=host, port=port, threaded=True)
