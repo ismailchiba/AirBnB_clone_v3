@@ -123,8 +123,7 @@ def places_search():
         # map(lambda city: map(places.add, city.places), obj_cities)
         for obj_city in obj_cities:
             for obj_place in obj_city.places:
-                if obj_place not in places:
-                    places.add(obj_place)
+                places.add(obj_place)
 
     if not places:
         places = storage.all(Place)
