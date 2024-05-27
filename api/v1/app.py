@@ -6,10 +6,13 @@ from os import getenv
 from flask import Flask, render_template, request, jsonify
 from models import storage
 from api.v1.views import app_views
+from flask_cors import CORS
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
 app.url_map.strict_slashes = False
+
+cors = CORS(app, resources={r"/api/*": {"origins": ["*"]}})
 
 
 @app.teardown_appcontext
@@ -23,8 +26,6 @@ def handle_404(error):
     """handle 404 errors with a JSON response."""
     return jsonify({"error": "Not found"})
 
-
-print(app.url_map)
 
 if __name__ == "__main__":
     """run flask server"""
