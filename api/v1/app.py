@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-""" start your API """
+""" Create a flask app and register the blueprint app_views """
 from flask import Flask jsonify
 from flask_cors import CORS
 from api.v1.views import app_views

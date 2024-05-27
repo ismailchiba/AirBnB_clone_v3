@@ -1,9 +1,8 @@
 #!/usr/bin/python3
-"""index return status"""
+"""index route /status on the object app_views that returns a JSON: "status"""
 
 from flask import jsonify
 from api.v1.views import app_views
-
 from models import storage
 
 
@@ -18,8 +17,9 @@ def status():
     resp.status_code = 200
 
     return resp
+
 @app_views.route("/stats", methods=['GET'], strict_slashes=False)
-def stat():
+def stats():
     """
     stats of all objs route
     :return: json of all objs
