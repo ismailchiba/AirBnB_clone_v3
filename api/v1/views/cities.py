@@ -13,19 +13,21 @@ from models.state import State
 
 @app_views.route('/states/<string:state_id>/cities', methods=['GET'],
                  strict_slashes=False)
-def get_cities_by_states(state_id):
-    """get cities information in a specified state"""
+def get_cities(state_id):
+    """get cities information for a specified state"""
     state = storage.get("State", state_id)
     if state is None:
         abort(404)
-    cities = [city.to_dict() for city in state.cities]
+    cities = []
+    for city in state.cities:
+        cities.append(city.to_dict())
     return jsonify(cities)
 
 
 @app_views.route('/cities/<string:city_id>', methods=['GET'],
                  strict_slashes=False)
 def get_city(city_id):
-    """get city information """
+    """get city information"""
     city = storage.get("City", city_id)
     if city is None:
         abort(404)
@@ -35,29 +37,26 @@ def get_city(city_id):
 @app_views.route('/cities/<string:city_id>', methods=['DELETE'],
                  strict_slashes=False)
 def delete_city(city_id):
-    """deletes a city """
+    """deletes a city"""
     city = storage.get("City", city_id)
-    if city:
-        city.delete()
-        storage.save()
-        return jsonify({}), 200
-    else:
+    if city is None:
         abort(404)
+    city.delete()
+    storage.save()
+    return (jsonify({}))
 
 
 @app_views.route('/states/<string:state_id>/cities/', methods=['POST'],
                  strict_slashes=False)
 def post_city(state_id):
-    """creates a city"""
-    if request.content_type != 'application/json':
-        abort(400, 'Not a JSON')
+    """create a new city"""
     state = storage.get("State", state_id)
     if state is None:
         abort(404)
     if not request.get_json():
-        abort(400, 'Not a JSON')
+        return make_response(jsonify({'error': 'Not a JSON'}), 400)
     if 'name' not in request.get_json():
-        abort(400, 'Missing name')
+        return make_response(jsonify({'error': 'Missing name'}), 400)
     kwargs = request.get_json()
     kwargs['state_id'] = state_id
     city = City(**kwargs)
@@ -73,7 +72,7 @@ def put_city(city_id):
     if city is None:
         abort(404)
     if not request.get_json():
-        abort(400, 'Not a JSON')
+        return make_response(jsonify({'error': 'Not a JSON'}), 400)
     for attr, val in request.get_json().items():
         if attr not in ['id', 'state_id', 'created_at', 'updated_at']:
             setattr(city, attr, val)
