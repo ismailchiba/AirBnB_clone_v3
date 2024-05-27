@@ -1,0 +1,292 @@
+[33mcommit 55c33b3c0792ea74f9215c6bef257640d32437f0[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: Timzblue12 <timzblue.gmail.com>
+Date:   Mon May 27 02:39:51 2024 -0700
+
+    unittests done
+
+[33mcommit 0e0c3809a0163bc9e78f5689a9145452a504827f[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Alexa Orrico <alexaorrico@gmail.com>
+Date:   Fri May 1 10:18:18 2020 -0700
+
+    Fix shebang
+
+[33mcommit ce73eb11972da52cf02d5fcc2c6976450dcc529c[m
+Author: alexaorrico <alexaorrico@gmail.com>
+Date:   Mon Dec 4 15:54:49 2017 +0000
+
+    add task 11
+
+[33mcommit 1c17062fd9be79a76999df332fd246370f8a5ffb[m
+Author: alexaorrico <alexaorrico@gmail.com>
+Date:   Mon Dec 4 15:09:13 2017 +0000
+
+    add task 10
+
+[33mcommit 5dd86571386bbf013c6cd79eb1539f5ff416dac4[m
+Author: alexaorrico <alexaorrico@gmail.com>
+Date:   Mon Dec 4 10:42:42 2017 +0000
+
+    fix placement of ending li tag
+
+[33mcommit d4ac2cd4d8c888eb265f8b2e07307611f3d54ce4[m
+Author: alexaorrico <alexaorrico@gmail.com>
+Date:   Mon Dec 4 10:21:00 2017 +0000
+
+    add task 9
+
+[33mcommit 315a5e80e8d07b774b7d637f3728c6268f9d21a4[m
+Author: alexaorrico <alexaorrico@gmail.com>
+Date:   Mon Dec 4 09:37:59 2017 +0000
+
+    fix conversion of dict into sorted list, fix typos
+
+[33mcommit 230cdfd5d3a9bcde4d3a6e36eb84184a9e25d140[m
+Author: alexaorrico <alexaorrico@gmail.com>
+Date:   Mon Dec 4 09:00:38 2017 +0000
+
+    add task 8
+
+[33mcommit e237352e132f2bfd4353444f44f51ddb95f7c882[m
+Author: alexaorrico <alexaorrico@gmail.com>
+Date:   Mon Dec 4 07:03:09 2017 +0000
+
+    fix shebang
+
+[33mcommit 3ad17070461a899e6ef8d79c43c6a3a6c11af8c9[m
+Author: alexaorrico <alexaorrico@gmail.com>
+Date:   Mon Dec 4 06:31:20 2017 +0000
+
+    add ability to specify class using a string
+
+[33mcommit 26b7d184cbde4d00e495c8719d02c414e5628606[m
+Author: alexaorrico <alexaorrico@gmail.com>
+Date:   Mon Dec 4 06:29:02 2017 +0000
+
+    add ability to specify class using a string
+
+[33mcommit bee153a5a010c726549b1c0e794747e0362668ab[m
+Author: alexaorrico <alexaorrico@gmail.com>
+Date:   Mon Dec 4 05:49:08 2017 +0000
+
+    make executable
+
+[33mcommit a17b75fab865ac486bb957db5eb529e62edce7c5[m
+Author: alexaorrico <alexaorrico@gmail.com>
+Date:   Mon Dec 4 05:46:32 2017 +0000
+
+    add close method to storage
+
+[33mcommit 3447e354f161ce5144ce97ce2d187e690dc9f4ad[m
+Author: alexaorrico <alexaorrico@gmail.com>
+Date:   Mon Dec 4 05:36:55 2017 +0000
+
+    add task 6
+
+[33mcommit 197b61bfec1f698806d041b94ec3ccb6fa5fa952[m
+Author: alexaorrico <alexaorrico@gmail.com>
+Date:   Mon Dec 4 05:30:05 2017 +0000
+
+    add task 5
+
+[33mcommit 0b8e2408df9ddfe1586fb999668e0a2bde1b967f[m
+Author: alexaorrico <alexaorrico@gmail.com>
+Date:   Mon Dec 4 05:28:51 2017 +0000
+
+    add task 5
+
+[33mcommit 9cb8a89d5c72e1a26feec68301ec4de60ac07490[m
+Author: alexaorrico <alexaorrico@gmail.com>
+Date:   Mon Dec 4 05:15:51 2017 +0000
+
+    add task 4
+
+[33mcommit 75b0e4f5cdaf90b5cf7230322ceb67ae78d23bcf[m
+Author: alexaorrico <alexaorrico@gmail.com>
+Date:   Mon Dec 4 05:09:29 2017 +0000
+
+    add task 3
+
+[33mcommit 6b35649614d58e88df5a86cd2053372946cfe9f7[m
+Author: alexaorrico <alexaorrico@gmail.com>
+Date:   Mon Dec 4 05:01:45 2017 +0000
+
+    add task 2
+
+[33mcommit 5d203fbc19a3dbbf6b07567fea2445dbe3e0aab9[m
+Author: alexaorrico <alexaorrico@gmail.com>
+Date:   Mon Dec 4 04:38:06 2017 +0000
+
+    add task 1
+
+[33mcommit b6cfef293dd74013d99ab143ca04677a97d22904[m
+Author: alexaorrico <alexaorrico@gmail.com>
+Date:   Mon Dec 4 04:34:51 2017 +0000
+
+    make executable
+
+[33mcommit 90b2d7d8a04cabc69d8396493b970e85586e62f8[m
+Author: alexaorrico <alexaorrico@gmail.com>
+Date:   Mon Dec 4 04:32:42 2017 +0000
+
+    test
+
+[33mcommit a97d0dd9c434a7ffdc14c57e9800e3d3f21bddac[m
+Author: alexaorrico <alexaorrico@gmail.com>
+Date:   Mon Dec 4 04:28:35 2017 +0000
+
+    add web_flask
+
+[33mcommit 4783bcc8c09e723bba4f59906129134ac5174b4d[m
+Author: alexaorrico <alexaorrico@gmail.com>
+Date:   Fri Nov 17 15:57:59 2017 +0000
+
+    add functions to script instead of import
+
+[33mcommit 4e6c02ad8a7c6a0cc425d699fd80d468cbd375c3[m
+Author: alexaorrico <alexaorrico@gmail.com>
+Date:   Fri Nov 17 15:37:57 2017 +0000
+
+    add server info
+
+[33mcommit e87e51e76fb6147aa6a815349d81f6906faa42c6[m
+Author: alexaorrico <alexaorrico@gmail.com>
+Date:   Fri Nov 17 15:26:09 2017 +0000
+
+    combine fabfiles into one script
+
+[33mcommit ac26bfb95a1e65ea50d1c912fd4179f4da61e49c[m
+Author: alexaorrico <alexaorrico@gmail.com>
+Date:   Fri Nov 17 15:05:06 2017 +0000
+
+    distributes archive to the web servers
+
+[33mcommit 4ce882a51000f79bcb59919c40e73bdfa03c40f4[m
+Author: alexaorrico <alexaorrico@gmail.com>
+Date:   Fri Nov 17 13:34:57 2017 +0000
+
+    script to generate a tgz
+
+[33mcommit 2459ad375b095107185a6d905ebf7d426581f6b7[m
+Author: alexaorrico <alexaorrico@gmail.com>
+Date:   Fri Nov 17 12:04:38 2017 +0000
+
+    set-up script for web_static
+
+[33mcommit 95281ef64d10c8339b38568c800dfbb3c8546a2c[m
+Author: alexaorrico <alexaorrico@gmail.com>
+Date:   Thu Nov 16 03:00:41 2017 +0000
+
+    fix unittests to accomodate DBStorage
+
+[33mcommit 01fce9b8ac92d487f9607e7db63f0b8bf89a979d[m
+Author: alexaorrico <alexaorrico@gmail.com>
+Date:   Thu Nov 16 03:00:07 2017 +0000
+
+    pep8 fix
+
+[33mcommit 0ae57420500c2cbf2ddc8d161b7bd96d7b1072e1[m
+Author: alexaorrico <alexaorrico@gmail.com>
+Date:   Thu Nov 16 02:59:49 2017 +0000
+
+    add docstrings
+
+[33mcommit d613d7155c9134761919c6a651d3df3e1084ca37[m
+Author: jvpupcat <vuong.joann@yahoo.com>
+Date:   Wed Nov 15 00:26:45 2017 +0000
+
+    first commit
+
+[33mcommit 65b757abf5229926d2973b94311ddad3fe517b1a[m
+Author: alexaorrico <alexaorrico@gmail.com>
+Date:   Tue Nov 14 03:13:08 2017 +0000
+
+    test cascade
+
+[33mcommit 805f0dae23aa962028daafe0025268320fe3cfe2[m
+Author: alexaorrico <alexaorrico@gmail.com>
+Date:   Tue Nov 14 02:36:52 2017 +0000
+
+    test backref
+
+[33mcommit a51724a00ed23162e8620105a5a383ec36c5c87b[m
+Author: alexaorrico <alexaorrico@gmail.com>
+Date:   Tue Nov 14 02:24:33 2017 +0000
+
+    remove default for lat/long
+
+[33mcommit e45ef45dd5a82610ef0c800988df6f9396f761f0[m
+Author: alexaorrico <alexaorrico@gmail.com>
+Date:   Tue Nov 14 02:15:32 2017 +0000
+
+    add if statement for sqlalchemy table
+
+[33mcommit b3be51ed6a21473ea5f6576add41b468c1a4b4e3[m
+Merge: 3dd90cf 8abc29c
+Author: Alexa Orrico <alexaorrico@gmail.com>
+Date:   Tue Nov 14 10:52:17 2017 -0800
+
+    Merge pull request #3 from alexaorrico/Alexa
+    
+    Add database storage
+
+[33mcommit 8abc29c009336b465cf5b060c3ccca4e50cf41ca[m
+Author: alexaorrico <alexaorrico@gmail.com>
+Date:   Tue Nov 14 00:44:07 2017 +0000
+
+    remove test print
+
+[33mcommit 70dacbf84ce634ea6aa44097339114e581fc3754[m
+Author: alexaorrico <alexaorrico@gmail.com>
+Date:   Tue Nov 14 00:34:35 2017 +0000
+
+    pep8 fix
+
+[33mcommit 8f52b2613cdc839d1de85c9cc9ac5e74c5e84bbd[m
+Author: alexaorrico <alexaorrico@gmail.com>
+Date:   Tue Nov 14 00:30:58 2017 +0000
+
+    pep8 fix
+
+[33mcommit 8dfc247795c38aa2b03200f54a8552f3e1c8e316[m
+Author: alexaorrico <alexaorrico@gmail.com>
+Date:   Tue Nov 14 00:29:49 2017 +0000
+
+    add database storage option
+
+[33mcommit 3dd90cf117501ebab175520074b3ca32dccdf331[m
+Merge: e1f3894 643d4a9
+Author: jvpupcat <jvpupcat@users.noreply.github.com>
+Date:   Sun Nov 12 16:25:35 2017 -0800
+
+    Merge pull request #2 from alexaorrico/Alexa
+    
+    update all method, add delete method
+
+[33mcommit e1f3894caa5e7b476407349fc5b4295f75590169[m
+Merge: 43006e8 03710ec
+Author: jvpupcat <jvpupcat@users.noreply.github.com>
+Date:   Sun Nov 12 15:44:57 2017 -0800
+
+    Merge pull request #1 from alexaorrico/Alexa
+    
+    Update console and add MySQL set-up
+
+[33mcommit 643d4a97c5454bd966cca9b58985ac5f9c9ab950[m
+Author: alexaorrico <alexaorrico@gmail.com>
+Date:   Sat Oct 28 21:15:34 2017 +0000
+
+    update all method, add delete method
+
+[33mcommit 03710ecb93ef6f9e6e6f8c91642683ab340789b0[m
+Author: alexaorrico <alexaorrico@gmail.com>
+Date:   Sat Oct 28 20:12:39 2017 +0000
+
+    update do_create for create with parameters
+
+[33mcommit 52094a8abbd9e6b2f65b1f232dd09971d2fabe29[m
+Author: alexaorrico <alexaorrico@gmail.com>
+Date:   Sat Oct 28 17:55:56 2017 +0000
+
+    add set-up for MySQL
+
+[33mco
