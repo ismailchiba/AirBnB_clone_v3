@@ -131,6 +131,8 @@ def places_search():
         places = storage.all(Place)
         places = [place for place in places.values()]
 
+    print("pa\n\n\n")
+    print(places[0].amenities)
     if req.get('amenities'):
         obj_am = [storage.get(Amenity, id) for id in req.get('amenities')]
         i = 0
@@ -138,6 +140,7 @@ def places_search():
         while i < limit:
             place = places[i]
             amenities = place.amenities
+            print(amenities)
             for amenity in obj_am:
                 if amenity not in amenities:
                     places.pop(i)
