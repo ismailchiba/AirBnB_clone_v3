@@ -112,15 +112,13 @@ def places_search():
         places = [place for place in places.values()]
 
     if req.get('amenities'):
-        amenities = [storage.get(Amenity, id) for id in req.get('amenities')]
-        places = filter(lambda place: check_places_amenities(place, amenities), places)
-
+        confirmed_places = []
+        for place in places:
+            place_amenities = place.amenities
+            confirmed_places.append(place.to_dict())
+            for amenity in [storage.get(Amenity, id) for id in req.get('amenities')]:
+                if amenity not in place_amenities:
+                    confirmed_places.pop()
+                    break
+        places = confirmed_places
     return jsonify([obj.to_dict() for obj in places])
-
-def check_places_amenities(place, amenities):
-    """Check amenities in a place"""
-    p_amenities = place.amenities
-    for amenity in amenities:
-        if amenity not in p_amenities:
-            return False
-    return True
