@@ -102,7 +102,7 @@ def places_search():
         obj_places = storage.all(Place)
         return jsonify([obj.to_dict() for obj in obj_places.values()])
 
-    places = []
+    places = set()
 
     if req.get('states'):
         obj_states = []
@@ -112,7 +112,7 @@ def places_search():
         for obj_state in obj_states:
             for obj_city in obj_state.cities:
                 for obj_place in obj_city.places:
-                    places.append(obj_place)
+                    places.add(obj_place)
 
     if req.get('cities'):
         obj_cities = []
@@ -124,7 +124,7 @@ def places_search():
         for obj_city in obj_cities:
             for obj_place in obj_city.places:
                 if obj_place not in places:
-                    places.append(obj_place)
+                    places.add(obj_place)
 
     if not places:
         places = storage.all(Place)
