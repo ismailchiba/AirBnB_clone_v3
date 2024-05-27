@@ -10,7 +10,7 @@ from models.state import State
 def get_states():
     """get all states"""
     res = []
-    for v in storage.all("State").values():
+    for v in storage.all(State).values():
         res.append(v.to_dict())
     return jsonify(res)
 
@@ -39,7 +39,7 @@ def delete_state(state_id):
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
-    state.delete(state)
+    state.delete()
     storage.save()
     return jsonify({}), 200
 
@@ -48,12 +48,11 @@ def delete_state(state_id):
 def create_data():
     """add new state"""
     data = request.get_json()
-    if type(state_data) is not dict:
+    if not data:
         abort(400, "Not a JSON")
     if "name" not in data:
         abort(400, "Missing name")
-    e = classes["State"](**state_data)
-    storage.new(e)
+    e = State(**data)
     e.save()
     return jsonify(e.to_dict()), 201
 
@@ -65,9 +64,9 @@ def update_state(state_id):
     if not state:
         abort(404)
     data = request.get_json()
-    if type(data_json) is not dict:
-        abort(400, "Not a JSON")
-    for key, value in data.items():
+    if not data:
+        return jsonify({"error": "Not a JSON"}), 400
+    for key, value in request.get_json().items():
         if key not in ['id', 'created_at', 'updated_at']:
             setattr(state, key, value)
     state.save()
