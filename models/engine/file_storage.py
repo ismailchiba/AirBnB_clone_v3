@@ -91,3 +91,16 @@ class FileStorage:
                         return value
         return
 
+    def count(self, cls=None):
+        """
+        Returns the occurrence of a class or all classes
+        """
+        occurrence = 0
+        if cls:
+            if cls in classes.keys() or cls in classes.values():
+                occurrence = len(self.all(cls))
+            else:
+                return occurrence
+        if not cls:
+            occurrence = len(self.all())
+        return occurrence
