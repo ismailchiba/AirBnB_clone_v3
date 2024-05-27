@@ -105,9 +105,7 @@ def places_search():
     places = set()
 
     if req.get('states'):
-        obj_states = []
-        for ids in req.get('states'):
-            obj_states.append(storage.get(State, ids))
+        obj_states = {storage.get(State, id) for id in req.get('states')}
 
         for obj_state in obj_states:
             for obj_city in obj_state.cities:
@@ -117,11 +115,9 @@ def places_search():
     if req.get('cities'):
         obj_cities = {storage.get(City, id) for id in req.get('cities')}
         obj_cities.discard(None)
-
-        map(lambda obj_city: [places.add(obj_place) for obj_place in obj_city.places], obj_cities)
-        # for obj_city in obj_cities:
-        #     for obj_place in obj_city.places:
-        #         places.add(obj_place)
+        for obj_city in obj_cities:
+            for obj_place in obj_city.places:
+                places.add(obj_place)
 
     if not places:
         places = storage.all(Place)
