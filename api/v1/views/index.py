@@ -2,6 +2,7 @@
 """index"""
 from api.v1.views import app_views
 from flask import jsonify
+from models import storage
 
 
 @app_views.route("/status", methods=['GET'], strict_slashes=False)
@@ -19,17 +20,19 @@ def status():
 
     return resp
 
-
 @app_views.route("/stats", methods=['GET'], strict_slashes=False)
 def stats():
-    """Return a JSON response containing the number of objects by type."""
-    from models import storage
-    counts = {
+    """stats of all objs route"""
+    data_count = {
         "amenities": storage.count("Amenity"),
         "cities": storage.count("City"),
         "places": storage.count("Place"),
         "reviews": storage.count("Review"),
         "states": storage.count("State"),
-        "users": storage.count("User")
+        "users": storage.count("User"),
     }
-    return jsonify(count)
+
+    resp = jsonify(data_count)
+    resp.status_code = 200
+
+    return resp
