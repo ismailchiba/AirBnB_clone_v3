@@ -1,56 +1,75 @@
 #!/usr/bin/python3
-"""State objects that handles all default RESTFul API"""
-from flask import abort, jsonify, request
-from api.v1.views import app_views
-from models import State
+""" Functions for managing a RESTful API handling State entities """
+from models.state import State
 from models import storage
+from api.v1.views import app_views
+from flask import abort, jsonify, make_response, request
+from flasgger.utils import swag_from
 
+@app_views.route('/regions', methods=['GET'], strict_slashes=False)
+@swag_from('documentation/state/get_state.yml', methods=['GET'])
+def get_regions():
+    """
+    Retrieves all Region objects
+    """
+    all_regions = storage.all(State).values()
+    list_regions = []
+    for region in all_regions:
+        list_regions.append(region.to_dict())
+    return jsonify(list_regions)
 
-@app_views.route('/states', methods=['GET'], strict_slashes=False)
-def get_states():
-    states = [state.to_dict() for state in State.all()]
-    return jsonify(states)
-
-
-@app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
-def get_state(state_id):
-    state = State.get(state_id)
-    if state is None:
+@app_views.route('/regions/<region_id>', methods=['GET'], strict_slashes=False)
+@swag_from('documentation/state/get_id_state.yml', methods=['get'])
+def get_region(region_id):
+    """ Retrieves a specific Region """
+    region = storage.get(State, region_id)
+    if not region:
         abort(404)
-    return jsonify(state.to_dict())
+    return jsonify(region.to_dict())
 
-
-@app_views.route('/states/<state_id>', methods=['DELETE'], strict_slashes=False)
-def delete_state(state_id):
-    state = State.get(state_id)
-    if state is None:
+@app_views.route('/regions/<region_id>', methods=['DELETE'], strict_slashes=False)
+@swag_from('documentation/state/delete_state.yml', methods=['DELETE'])
+def delete_region(region_id):
+    """
+    Deletes a Region
+    """
+    region = storage.get(State, region_id)
+    if not region:
         abort(404)
-    state.delete()
-    return jsonify({}), 200
+    storage.delete(region)
+    storage.save()
+    return make_response(jsonify({}), 200)
 
-
-@app_views.route('/states', methods=['POST'], strict_slashes=False)
-def create_state():
+@app_views.route('/regions', methods=['POST'], strict_slashes=False)
+@swag_from('documentation/state/post_state.yml', methods=['POST'])
+def post_region():
+    """
+    Creates a new Region
+    """
+    if not request.get_json():
+        abort(400, description="Not a JSON")
+    if 'name' not in request.get_json():
+        abort(400, description="Missing name")
     data = request.get_json()
-    if data is None:
-        abort(400, 'Not a JSON')
-    if 'name' not in data:
-        abort(400, 'Missing name')
-    state = State(**data)
-    state.save()
-    return jsonify(state.to_dict()), 201
+    instance = State(**data)
+    instance.save()
+    return make_response(jsonify(instance.to_dict()), 201)
 
-
-@app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
-def update_state(state_id):
-    state = State.get(state_id)
-    if state is None:
+@app_views.route('/regions/<region_id>', methods=['PUT'], strict_slashes=False)
+@swag_from('documentation/state/put_state.yml', methods=['PUT'])
+def put_region(region_id):
+    """
+    Updates a Region
+    """
+    region = storage.get(State, region_id)
+    if not region:
         abort(404)
+    if not request.get_json():
+        abort(400, description="Not a JSON")
+    ignore = ['id', 'created_at', 'updated_at']
     data = request.get_json()
-    if data is None:
-        abort(400, 'Not a JSON')
     for key, value in data.items():
-        if key not in ['id', 'created_at', 'updated_at']:
-            setattr(state, key, value)
-    state.save()
-    return jsonify(state.to_dict()), 200
+        if key not in ignore:
+            setattr(region, key, value)
+    storage.save()
+    return make_response(jsonify(region.to_dict()), 200)
