@@ -93,7 +93,15 @@ class FileStorage:
 
     def count(self, cls=None):
         """
-        Returns the occurrence of a class or all classes
+        Return the occurrence of a class or all classes
+
+        Args:
+        cls (str): The class name to count occurrence of.
+
+        Returns:
+        int: The count of instances of the class.
+            If cls is not provided, returns the count of all instances.
+
         """
         occurrence = 0
         if cls:
