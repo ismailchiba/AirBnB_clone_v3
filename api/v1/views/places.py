@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 '''Contains the places view for the API.'''
 from flask import abort, jsonify, make_response, request
-import requests
 from api.v1.views import app_views
 from models import storage
 from models.amenity import Amenity
@@ -9,8 +8,6 @@ from models.city import City
 from models.place import Place
 from models.state import State
 from models.user import User
-import json
-from os import getenv
 
 
 @app_views.route('cities/<city_id>/places',
@@ -137,8 +134,7 @@ def places_search():
     if req.get('amenities'):
         obj_am = [storage.get(Amenity, id) for id in req.get('amenities')]
         for place in places:
-            place_am = place.amenities
-            amenities = [storage.get(Amenity, obj['id']) for obj in place_am]
+            amenities = place.amenities
             for amenity in obj_am:
                 if amenity not in amenities:
                     del place
