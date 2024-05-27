@@ -5,7 +5,7 @@ from models import storage
 from models.state import State
 from models.state import State
 
-storage.new(State())
+storage.new(State(name="Addis Ababa"))
 print("All objects: {}".format(storage.count()))
 print("State objects: {}".format(storage.count(State)))
 
