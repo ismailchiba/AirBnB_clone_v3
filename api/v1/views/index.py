@@ -32,7 +32,7 @@ def route():
 def stats():
     """Retrieves the number of each objects by type"""
     stats_dict = {}
-    for key in classes.keys():
-        stats_dict[key] = classes[key]
+    for key, value in classes.items():
+        stats_dict[key] = value
 
     return jsonify(stats_dict)
