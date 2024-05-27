@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""State module"""
 from flask import Flask, jsonify, abort, request
 from models import storage
 from models.state import State
@@ -31,7 +32,7 @@ def delete_state(state_id):
         abort(404)
     storage.delete(state)
     storage.save()
-    return jsonify({})
+    return jsonify({}), 200
 
 
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
@@ -62,4 +63,4 @@ def update_state(state_id):
         if key not in ignore_keys:
             setattr(state, key, value)
     storage.save()
-    return jsonify(state.to_dict())
+    return jsonify(state.to_dict()), 200
