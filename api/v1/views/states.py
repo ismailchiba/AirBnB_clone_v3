@@ -6,16 +6,16 @@ from models import storage
 from models.state import State
 
 
-@app_views.route("/states", methods=['GET'])
+@app_views.route("/states")
 def get_states():
     """get all states"""
     res = []
-    for v in storage.all(State).values():
+    for v in storage.all("State").values():
         res.append(v.to_dict())
     return jsonify(res)
 
 
-@app_views.route("/stats", methods=['GET'])
+@app_views.route("/stats")
 def show_data():
     """count data"""
     total = {}
@@ -24,7 +24,7 @@ def show_data():
     return jsonify(total)
 
 
-@app_views.route("/states/<state_id>", methods=['GET'])
+@app_views.route("/states/<state_id>")
 def get_state(state_id):
     """get state"""
     res = storage.get(State, state_id)
@@ -39,7 +39,7 @@ def delete_state(state_id):
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
-    state.delete()
+    state.delete(state)
     storage.save()
     return jsonify({}), 200
 
@@ -48,11 +48,12 @@ def delete_state(state_id):
 def create_data():
     """add new state"""
     data = request.get_json()
-    if not data:
+    if type(state_data) is not dict:
         abort(400, "Not a JSON")
     if "name" not in data:
         abort(400, "Missing name")
-    e = State(**data)
+    e = classes["State"](**state_data)
+    storage.new(e)
     e.save()
     return jsonify(e.to_dict()), 201
 
@@ -64,9 +65,9 @@ def update_state(state_id):
     if not state:
         abort(404)
     data = request.get_json()
-    if not data:
-        return jsonify({"error": "Not a JSON"}), 400
-    for key, value in request.get_json().items():
+    if type(data_json) is not dict:
+        abort(400, "Not a JSON")
+    for key, value in data.items():
         if key not in ['id', 'created_at', 'updated_at']:
             setattr(state, key, value)
     state.save()
