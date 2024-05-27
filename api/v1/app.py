@@ -13,18 +13,16 @@ from models import storage
 
 
 app = Flask(__name__)
+
 CORS(app, resources={r"/*": {"origins": "0.0.0.0"}})
 
 app.register_blueprint(app_views)
 
 
 @app.teardown_appcontext
-def teardown_appcontext(exception):
+def teardown(exception):
     """
-    This function is called when the Flask app context is torn down.
-    It is used to close the storage connection.
-
-    :param exception: Exception that caused the teardown.
+    teardown function
     """
     storage.close()
 
@@ -32,9 +30,8 @@ def teardown_appcontext(exception):
 @app.errorhandler(404)
 def handle_404(exception):
     """
-    Handles 404 error.
-
-    :return: Returns 404 JSON.
+    handles 404 error
+    :return: returns 404 json
     """
     data = {
         "error": "Not found"
@@ -43,9 +40,7 @@ def handle_404(exception):
     resp = jsonify(data)
     resp.status_code = 404
 
-    return resp
-
+    return(resp)
 
 if __name__ == "__main__":
-    app.run(host=getenv("HBNB_API_HOST"),
-            port=getenv("HBNB_API_PORT"))
+    app.run(getenv("HBNB_API_HOST"), getenv("HBNB_API_PORT"))
