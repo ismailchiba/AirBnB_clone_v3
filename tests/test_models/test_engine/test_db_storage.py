@@ -3,7 +3,7 @@
 Contains the TestDBStorageDocs and TestDBStorage classes
 """
 
-from datetime import datetime
+from datetime import datetime  # noqa
 import inspect
 import models
 from models.engine import db_storage
@@ -14,8 +14,9 @@ from models.place import Place
 from models.review import Review
 from models.state import State
 from models.user import User
-import json
-import os
+from models import storage
+import json  # noqa
+import os  # noqa
 import pep8
 import unittest
 DBStorage = db_storage.DBStorage
