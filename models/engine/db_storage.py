@@ -51,6 +51,54 @@ class DBStorage:
                     new_dict[key] = obj
         return (new_dict)
 
+    def count(self, cls=None):
+        """Count number of objects in based on class_name"""
+        count = 0
+        all_obj = []
+        if cls is None:
+            for cls in Base.__subclasses__():
+                objs = self.__session.query(cls).all()
+                for obj in objs:
+                    all_obj.append(obj)
+                    count += 1
+            """print(len(all_obj))"""
+            return count
+        else:
+            for clss in classes:
+                if cls is classes[clss]:
+                    objs = self.__session.query(classes[clss]).all()
+                    for obj in objs:
+                        if eval(obj.__class__.__name__) == cls:
+                            all_obj.append(obj)
+            return len(all_obj)
+
+    def get(self, cls, id):
+        """Return object based on class_name and Id"""
+        for clss in classes:
+            if cls is classes[clss]:
+                objs = self.__session.query(classes[clss]).all()
+                for obj in objs:
+                    if eval(obj.__class__.__name__) == cls and id == obj.id:
+                        return (obj)
+                    else:
+                        return None
+
+    def table_names(self):
+        metadata = MetaData()
+        metadata.reflect(bind=self.__engine)
+        cls = []
+        with self.__engine.connect() as connection:
+            for table_name, table in metadata.tables.items():
+                table_obj = Table(
+                    table_name, metadata, autoload_with=self.__engine
+                )
+                """count = self.__engine.execute(table_obj.count()).scalar()"""
+                if table_name == "place_amenity":
+                    continue
+                else:
+                    cls.append(table_name)
+            return cls
+
     def new(self, obj):
         """add the object to the current database session"""
         self.__session.add(obj)
