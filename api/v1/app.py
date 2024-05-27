@@ -18,13 +18,15 @@ app.register_blueprint(app_views)
 
 @app.teardown_appcontext
 def teardown(exception):
-    """ teardown function"""
+    """teardown function"""
     storage.close()
 
 
 @app.errorhandler(404)
 def handle_404(exception):
-    """ 404 error handling"""
+    """
+    handles 404 error
+    """
     data = {
         "error": "Not found"
     }
