@@ -1,5 +1,8 @@
 #!/usr/bin/python3
-"""DBStorage engine"""
+"""
+Contains the class DBStorage
+"""
+
 import models
 from models.amenity import Amenity
 from models.base_model import BaseModel, Base
@@ -18,7 +21,7 @@ classes = {"Amenity": Amenity, "City": City,
 
 
 class DBStorage:
-    """DBSStorage Class """
+    """interaacts with the MySQL database"""
     __engine = None
     __session = None
 
@@ -71,15 +74,3 @@ class DBStorage:
     def close(self):
         """call remove() method on the private session attribute"""
         self.__session.remove()
-
-    def get(self, cls, id):
-        """Retrieve one object based on the class and its ID"""
-        if cls in classes.values():
-            return self.__session.query(cls).get(id)
-        return None
-
-    def count(self, cls=None):
-        """Count the number of objects in storage"""
-        if cls:
-            return self.__session.query(cls).count()
-        return sum(self.__session.query(clss).count() for clss in classes.values())
