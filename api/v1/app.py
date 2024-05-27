@@ -15,6 +15,7 @@ def teardown_app(obj):
     """registers a function when app contect is torn down"""
     storage.close()
 
+
 @app.errorhandler(404)
 def not_found_page(error):
     """return custom json fomatted 404 page not found"""
