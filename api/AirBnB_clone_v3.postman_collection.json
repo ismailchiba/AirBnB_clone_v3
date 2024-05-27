@@ -2,7 +2,7 @@
 	"variables": [],
 	"info": {
 		"name": "AirBnB_clone_v3",
-		"_postman_id": "b2c301e9-5d4d-0d22-a907-67aa70e95c72",
+		"_postman_id": "3b5d1171-3fce-4f38-8525-af0f1075e6c4",
 		"description": "This is a postman template for testing all of the endpoints.\n\nReplace placeholders like <state_id> with actual data.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
