@@ -8,29 +8,31 @@ import inspect
 import models
 from models import amenity
 from models.base_model import BaseModel
-import pep8
+import pycodestyle
 import unittest
 Amenity = amenity.Amenity
 
 
 class TestAmenityDocs(unittest.TestCase):
     """Tests to check the documentation and style of Amenity class"""
+
     @classmethod
     def setUpClass(cls):
         """Set up for the doc tests"""
         cls.amenity_f = inspect.getmembers(Amenity, inspect.isfunction)
 
-    def test_pep8_conformance_amenity(self):
-        """Test that models/amenity.py conforms to PEP8."""
-        pep8s = pep8.StyleGuide(quiet=True)
-        result = pep8s.check_files(['models/amenity.py'])
+    def test_pycodestyle_conformance_amenity(self):
+        """Test that models/amenity.py conforms to pycodestyle."""
+        style_guide = pycodestyle.StyleGuide(quiet=True)
+        result = style_guide.check_files(['models/amenity.py'])
         self.assertEqual(result.total_errors, 0,
                          "Found code style errors (and warnings).")
 
-    def test_pep8_conformance_test_amenity(self):
-        """Test that tests/test_models/test_amenity.py conforms to PEP8."""
-        pep8s = pep8.StyleGuide(quiet=True)
-        result = pep8s.check_files(['tests/test_models/test_amenity.py'])
+    def test_pycodestyle_conformance_test_amenity(self):
+        """Test that tests/test_models/test_amenity.py
+        conforms to pycodestyle."""
+        style_guide = pycodestyle.StyleGuide(quiet=True)
+        result = style_guide.check_files(['tests/test_models/test_amenity.py'])
         self.assertEqual(result.total_errors, 0,
                          "Found code style errors (and warnings).")
 
