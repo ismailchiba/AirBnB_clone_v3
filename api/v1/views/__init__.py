@@ -13,3 +13,4 @@ class Views:
     from api.v1.views.places import get_places, get_place, delete_place, create_place
     from api.v1.views.cities import get_cities, get_city, delete_city, create_city
     from api.v1.views.users import get_users, get_user, delete_user, create_user, update_user
+    from api.v1.views.places_reviews import get_reviews, get_review, delete_review, create_review, update_review
