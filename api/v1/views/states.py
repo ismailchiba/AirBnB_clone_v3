@@ -7,13 +7,13 @@ from models import storage
 
 
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
-def vi_states():
+def get_states():
     states = [state.to_dict() for state in State.all()]
     return jsonify(states)
 
 
 @app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
-def vi_state(state_id):
+def get_state(state_id):
     state = State.get(state_id)
     if state is None:
         abort(404)
@@ -21,7 +21,7 @@ def vi_state(state_id):
 
 
 @app_views.route('/states/<state_id>', methods=['DELETE'], strict_slashes=False)
-def delete_sta(state_id):
+def delete_state(state_id):
     state = State.get(state_id)
     if state is None:
         abort(404)
@@ -30,7 +30,7 @@ def delete_sta(state_id):
 
 
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
-def create_sta():
+def create_state():
     data = request.get_json()
     if data is None:
         abort(400, 'Not a JSON')
@@ -42,7 +42,7 @@ def create_sta():
 
 
 @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
-def update_sta(state_id):
+def update_state(state_id):
     state = State.get(state_id)
     if state is None:
         abort(404)
