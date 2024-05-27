@@ -32,11 +32,7 @@ class DBStorage:
         HBNB_MYSQL_HOST = getenv('HBNB_MYSQL_HOST')
         HBNB_MYSQL_DB = getenv('HBNB_MYSQL_DB')
         HBNB_ENV = getenv('HBNB_ENV')
-        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.
-                                      format(HBNB_MYSQL_USER,
-                                             HBNB_MYSQL_PWD,
-                                             HBNB_MYSQL_HOST,
-                                             HBNB_MYSQL_DB))
+        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.format(HBNB_MYSQL_USER, HBNB_MYSQL_PWD, HBNB_MYSQL_HOST, HBNB_MYSQL_DB))
         if HBNB_ENV == "test":
             Base.metadata.drop_all(self.__engine)
 
@@ -74,3 +70,26 @@ class DBStorage:
     def close(self):
         """call remove() method on the private session attribute"""
         self.__session.remove()
+
+    def get(self, cls, id):
+        """get the object from file storage"""
+        if cls and id:
+            if cls in classes.values() and isinstance(id, str):
+                allobj = self.all(cls)
+                for key, value in allobj.items():
+                    if key.split('.')[1] == id:
+                        return value
+            else:
+                return
+        return
+
+    def count(self, cls=None):
+        """count the number of storage"""
+        if not cls:
+            instans = self.all()
+            return len(instans)
+        if cls in classes.values():
+            allinstans = self.all(cls)
+            return len(allinstans)
+        if cls not in classes.values()
+            return
