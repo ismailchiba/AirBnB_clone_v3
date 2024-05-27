@@ -25,7 +25,7 @@ def show_data():
 
 
 @app_views.route("/states/<state_id>", methods=['GET'])
-def get_state(state_id: str):
+def get_state(state_id):
     """get state"""
     res = storage.get(State, state_id)
     if res is None:
@@ -40,8 +40,8 @@ def delete_state(state_id):
     if state is None:
         abort(404)
     state.delete()
-    storage.save()
-    return jsonify({})
+    # storage.save()
+    return jsonify({}), 200
 
 
 @app_views.route("/states", methods=["POST"])
