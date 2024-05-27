@@ -1,7 +1,5 @@
 #!/usr/bin/python3
-"""
-index
-"""
+""" index.py file"""
 
 from flask import jsonify
 from api.v1.views import app_views
@@ -18,10 +16,10 @@ def status():
         "status": "OK"
     }
 
-    reply = jsonify(data)
-    reply.status_code = 200
+    resp = jsonify(data)
+    resp.status_code = 200
 
-    return reply
+    return resp
 
 
 @app_views.route("/stats", methods=['GET'], strict_slashes=False)
@@ -38,7 +36,7 @@ def stats():
         "users": storage.count("User"),
     }
 
-    reply = jsonify(data)
-    reply.status_code = 200
+    resp = jsonify(data)
+    resp.status_code = 200
 
-    return reply
+    return resp
