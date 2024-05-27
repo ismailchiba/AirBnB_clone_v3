@@ -19,7 +19,7 @@ def city_by_state(state_id):
     if state_obj is None:
         abort(404)
 
-    for obj in state_obj.cities
+    for obj in state_obj.cities:
         city_list.append(obj.to_dict())
     return jsonify(city_list)
 
@@ -34,7 +34,7 @@ def city_create(state_id):
     city_json = request.get_json(silent=True)
     if city_json is None:
         abort(400, 'Not a JSON')
-    if not in storage.get("State", str(state_id)):
+    if storage.get("State", str(state_id)) is None:
         abort(404)
 
     if 'name' not in city_json:
