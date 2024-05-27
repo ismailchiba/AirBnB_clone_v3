@@ -130,14 +130,15 @@ def places_search():
         places = [place for place in places.values()]
 
     print("places - amenities \n\n\n")
-    print(Place(**places[0].to_dict()).amenities)
+    print(places[0].amenities[0])
     if req.get('amenities'):
+        print("\n\nfrom amenities\n\n")
         obj_am = [storage.get(Amenity, id) for id in req.get('amenities')]
-        for place in places:
+        for i, place in enumerate(places):
             amenities = place.amenities
             for amenity in obj_am:
                 if amenity not in amenities:
-                    del place
+                    del places[i]
                     break
     places = [obj.to_dict() for obj in places]
     conf_places = [type(obj) for obj in places]
