@@ -133,7 +133,7 @@ The console allows for the user to interact with the system in a more human-frie
 ## Ex - Developer 🧑🏻‍💻:
 | **Ahmed Abdelhamid** | **AKA 7medo** |
 |---|---|
-| <img src="https://github.com/Youssef-Hassane/test-readme/blob/main/7medo.png" alt="Youssef Hassane" style="width: 3000px; height: auto;"> | Ahmed Abdelhamid is a driven and ambitious student with a passion for problem-solving and creating software that solves real-world problems. He is always eager to learn new things and is always up for a challenge. He is a graduate from dental school and has a passion for creating software that creates a meaningful impact on users. During his internship year, Ahmed managed to learn HTML, CSS, and JavaScript and created a number of projects on the side while working as an intern dentist. |
+| <img src="https://github.com/Youssef-Hassane/Screenshot/blob/main/Screenshot%202023-11-11%20at%2012.42.16%20AM-fotor-2023111104736.png" alt="Youssef Hassane" style="width: 3000px; height: auto;"> | Ahmed Abdelhamid is a driven and ambitious student with a passion for problem-solving and creating software that solves real-world problems. He is always eager to learn new things and is always up for a challenge. He is a graduate from dental school and has a passion for creating software that creates a meaningful impact on users. During his internship year, Ahmed managed to learn HTML, CSS, and JavaScript and created a number of projects on the side while working as an intern dentist. |
 
 
 
