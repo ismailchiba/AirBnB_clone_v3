@@ -1,4 +1,24 @@
 #!/usr/bin/python3
+<<<<<<< HEAD
+""" Flask Application """
+from models import storage
+from api.v1.views import app_views
+from os import environ
+from flask import Flask, render_template, make_response, jsonify
+from flask_cors import CORS
+from flasgger import Swagger
+from flasgger.utils import swag_from
+
+app = Flask(__name__)
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
+app.register_blueprint(app_views)
+cors = CORS(app, resources={r"/*": {"origins": "0.0.0.0"}})
+
+
+@app.teardown_appcontext
+def close_db(error):
+    """ Close Storage """
+=======
 """ 
 This script imports a Blueprint path and runs Flask 
 """
@@ -39,11 +59,38 @@ def teardown_session(exception):
     """ 
     This method closes the storage session 
     """
+>>>>>>> c18aee22ec56a82b2b1c541e9134627845d1d329
     storage.close()
 
 
 @app.errorhandler(404)
 def not_found(error):
+<<<<<<< HEAD
+    """ 404 Error
+    ---
+    responses:
+      404:
+        description: a resource was not found
+    """
+    return make_response(jsonify({'error': "Not found"}), 404)
+
+app.config['SWAGGER'] = {
+    'title': 'AirBnB clone Restful API',
+    'uiversion': 3
+}
+
+Swagger(app)
+
+
+if __name__ == "__main__":
+    """ Main Function """
+    host = environ.get('HBNB_API_HOST')
+    port = environ.get('HBNB_API_PORT')
+    if not host:
+        host = '0.0.0.0'
+    if not port:
+        port = '5000'
+=======
     """ 
     This method returns JSON response with a 404 status code response
     """
@@ -58,4 +105,5 @@ if __name__ == '__main__':
     if not HBNB_API_HOST else HBNB_API_HOST
     port = 5000 
     if not HBNB_API_PORT else HBNB_API_PORT
+>>>>>>> c18aee22ec56a82b2b1c541e9134627845d1d329
     app.run(host=host, port=port, threaded=True)
