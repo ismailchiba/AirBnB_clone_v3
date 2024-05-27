@@ -7,9 +7,9 @@ from models.state import State
 from datetime import datetime
 import uuid
 
+
 @app_views.route('/states/', strict_slashes=False)
 @app_views.route('/states/<string:id>')
-
 @app_views.route('/states/', methods=['GET'])
 def get_all_states():
     '''Retrieves a list of all State objects'''

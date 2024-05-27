@@ -154,4 +154,3 @@ def get_place_amenity(amenity_id):
     if amenity_obj == []:
         abort(404)
     return jsonify(amenity_obj[0])
-
