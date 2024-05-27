@@ -15,15 +15,6 @@ def get_states():
     return jsonify(res)
 
 
-@app_views.route("/stats")
-def show_data():
-    """count data"""
-    total = {}
-    for k, v in classes.items():
-        total[k] = storage.count(v)
-    return jsonify(total)
-
-
 @app_views.route("/states/<state_id>")
 def get_state(state_id):
     """get state"""
