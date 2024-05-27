@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+<<<<<<< HEAD
 """index """
 from models.amenity import Amenity
 from models.city import City
@@ -28,3 +29,31 @@ def number_objects():
         num_objs[names[i]] = storage.count(classes[i])
 
     return jsonify(num_objs)
+=======
+""" 
+The Index file
+"""
+
+from api.v1.views import app_views
+from models import storage
+from flask import jsonify
+
+@app_views.route('/status', methods=['GET'], strict_slashes=False)
+def status():
+    """ 
+    Returns JSON format
+    """
+    return jsonify(status="OK")
+
+@app_views.route('/stats', methods=['GET'], strict_slashes=False)
+def stats():
+    """ 
+    This method returns the number of each instance type 
+    """
+    return jsonify(amenities=storage.count("Amenity"),
+                   cities=storage.count("City"),
+                   places=storage.count("Place"),
+                   reviews=storage.count("Review"),
+                   states=storage.count("State"),
+                   users=storage.count("User"))
+>>>>>>> c18aee22ec56a82b2b1c541e9134627845d1d329
