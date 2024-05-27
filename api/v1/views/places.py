@@ -120,8 +120,7 @@ def places_search():
                 places.add(obj_place)
 
     if not places:
-        places = storage.all(Place)
-        places = [place for place in places.values()]
+        places = storage.all(Place).values()
 
     if req.get('amenities'):
         obj_am = [storage.get(Amenity, id) for id in req.get('amenities')]
