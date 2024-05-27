@@ -6,7 +6,7 @@ from models import storage
 from models.state import State
 
 
-@app_views.route("/states")
+@app_views.route("/states", methods=['GET'])
 def get_states():
     """get all states"""
     res = []
@@ -15,7 +15,7 @@ def get_states():
     return jsonify(res)
 
 
-@app_views.route("/stats")
+@app_views.route("/stats", methods=['GET'])
 def show_data():
     """count data"""
     total = {}
@@ -24,7 +24,7 @@ def show_data():
     return jsonify(total)
 
 
-@app_views.route("/states/<state_id>")
+@app_views.route("/states/<state_id>", methods=['GET'])
 def get_state(state_id: str):
     """get state"""
     res = storage.get(State, state_id)
@@ -65,7 +65,9 @@ def update_state(state_id):
         abort(404)
     data = request.get_json()
     if not data:
-        abort(400, "Not a JSON")
-    setattr(state, "name", request.get_json().get("name"))
+        return jsonify({"error": "Not a JSON"}), 400
+    for key, value in request.get_json().items():
+        if key not in ['id', 'created_at', 'updated_at']:
+            setattr(state, key, value)
     state.save()
     return jsonify(state.to_dict())
