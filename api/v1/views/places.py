@@ -121,7 +121,7 @@ def places_search():
             if add_city:
                 obj_cities.append(add_city)
         
-        map(lambda city: map(lambda place: places.add(place), city.places), obj_cities)
+        map(lambda city: map(places.add, city.places), obj_cities)
 
     if not places:
         places = storage.all(Place)
