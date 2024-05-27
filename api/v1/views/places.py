@@ -115,15 +115,12 @@ def places_search():
                     places.add(obj_place)
 
     if req.get('cities'):
-        obj_cities = []
-        for ids in req.get('cities'):
-            add_city = storage.get(City, ids)
-            if add_city:
-                obj_cities.append(add_city)
-        map(lambda city: map(places.add, city.places), obj_cities)
-        # for obj_city in obj_cities:
-        #     for obj_place in obj_city.places:
-        #         places.add(obj_place)
+        obj_cities = {storage.get(Amenity, id) for id in req.get('cities')}
+        obj_cities.discard(None)
+
+        for obj_city in obj_cities:
+            for obj_place in obj_city.places:
+                places.add(obj_place)
 
     if not places:
         places = storage.all(Place)
