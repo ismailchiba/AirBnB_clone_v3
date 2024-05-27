@@ -2,6 +2,7 @@
 """
 Flask Application
 """
+import os
 from flask import Flask, jsonify
 from models import storage
 from api.v1.views import app_views
