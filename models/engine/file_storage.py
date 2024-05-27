@@ -80,12 +80,12 @@ class FileStorage:
 
     def count(self, cls=None):
         """ Return the occurrence or the number of objects in storage. """
-        occurrence = 0
-        if cls:
-            if cls in classes.keys() or cls in classes.values():
-                occurrence = len(self.all(cls))
-            else:
-                return occurrence
         if not cls:
-            occurrence = len(self.all())
-        return occurrence
+            inst_of_all = self.all()
+            return len(inst_of_all)
+        for clas, val in classes.items():
+            if cls == clas or cls == val:
+                inst_of_all_cls = self.all(cls)
+                return len(inst_of_all_cls)
+        if cls not in classes.values():
+            return
