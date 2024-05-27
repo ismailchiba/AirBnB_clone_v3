@@ -11,23 +11,19 @@ from os import getenv
 application = Flask(__name__)
 application.register_blueprint(app_views)
 CORS(application, resources={"/*": {"origins": "0.0.0.0"}})
+# Define Swagger configuration
 application.config['SWAGGER'] = {
-    "swagger_version": "2.0",
-    "title": "Flasgger",
-    "headers": [
-        ('Access-Control-Allow-Origin', '*'),
-        ('Access-Control-Allow-Methods', "GET, POST, PUT, DELETE, OPTIONS"),
-        ('Access-Control-Allow-Credentials', "true"),
-    ],
-    "specs": [
-        {
-            "version": "1.0",
-            "title": "HBNB API",
-            "endpoint": 'v1_views',
-            "description": 'HBNB REST API',
-            "route": '/v1/views',
-        }
-    ]
+            'title': 'My Awesome API',
+            'uiversion': 3,
+            'specs': [
+                {
+                    'version': '1.0',
+                    'title': 'My API',
+                    'endpoint': 'v1_views',
+                    'description': 'A fantastic REST API for various purposes',
+                    'route': '/v1/views',
+                }
+            ]
 }
 swagger = Swagger(application)
 
