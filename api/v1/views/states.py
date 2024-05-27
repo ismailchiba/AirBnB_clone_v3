@@ -40,7 +40,7 @@ def post_state():
     """Return a new state"""
     if not request.json:
         abort(400, "Not a JSON")
-    new_state = request.getjson()
+    new_state = request.getjson(silent=True)
     if not new_state:
         abort(400, "Not a JSON")
     if 'name' not in new_state:
