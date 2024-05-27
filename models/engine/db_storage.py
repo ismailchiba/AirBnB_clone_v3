@@ -88,11 +88,15 @@ class DBStorage:
             object: The object if found, otherwise None
         """
         # Retrieve the object from the storage
-        for obj in sel.__objects.values():
-            if type(obj) == cls and obj.id == id:
-                return obj
-        return None
-
+        # for obj in sel.__objects.values():
+        #    if type(obj) == cls and obj.id == id:
+        #        return obj
+        # return None
+        if type(cls) == str:
+            cls = classes.get(cls)
+        if cls is None:
+            return None
+        return self.__session.query(cls).filter(cls.id == id).first()
 
     def count(self, cls=None):
         """
@@ -106,11 +110,13 @@ class DBStorage:
             given class
         """
 
+    # count class name string to class object if necessary
+        if type(cls) is str:
+            cls = classes.get(cls)
+
+    # count all objects if cls is None
         if cls is None:
-            return len(self.__objects)
-        else:
-            count = 0
-            for obj in self.__objects.values():
-                if isinstance(obj, cls):
-                    count += 1
-            return count
+            return len(self.all())
+
+    # count objects of the specified class
+            return len(self.all(cls))
