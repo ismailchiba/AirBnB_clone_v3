@@ -1,7 +1,11 @@
 #!/usr/bin/python3
-"""index"""
-from api.v1.views import app_views
+"""
+index
+"""
+
 from flask import jsonify
+from api.v1.views import app_views
+
 from models import storage
 
 
@@ -9,20 +13,22 @@ from models import storage
 def status():
     """
     status route
-    :return: response with json
     """
     data = {
         "status": "OK"
     }
 
-    resp = jsonify(data)
-    resp.status_code = 200
+    reply = jsonify(data)
+    reply.status_code = 200
 
-    return resp
+    return reply
+
 
 @app_views.route("/stats", methods=['GET'], strict_slashes=False)
 def stats():
-    """stats of all objs route"""
+    """
+    stats of all objs route
+    """
     data = {
         "amenities": storage.count("Amenity"),
         "cities": storage.count("City"),
@@ -32,7 +38,7 @@ def stats():
         "users": storage.count("User"),
     }
 
-    resp = jsonify(data)
-    resp.status_code = 200
+    reply = jsonify(data)
+    reply.status_code = 200
 
-    return resp
+    return reply
