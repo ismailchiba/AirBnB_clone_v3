@@ -68,7 +68,7 @@ test_db_storage.py'])
                             "{:s} method needs a docstring".format(func[0]))
 
 
-class TestFileStorage(unittest.TestCase):
+class TestDBStorage(unittest.TestCase):
     """Test the FileStorage class"""
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_all_returns_dict(self):
@@ -78,11 +78,49 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_all_no_class(self):
         """Test that all returns all rows when no class is passed"""
+        all_objs = models.storage.all()
+        self.assertIsInstance(all_objs, dict)
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_new(self):
         """test that new adds an object to the database"""
+        new_state = State(name="California")
+        models.storage.new(new_state)
+        key = f"State.{new_state.id}"
+        self.assertIn(key, models.storage.all())
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
+        new_user = User(email="user@example.com", password="password")
+        models.storage.new(new_user)
+        models.storage.save()
+        key = f"User.{new_user.id}"
+        all_objs = models.storage.all()
+        self.assertIn(key, all_objs)
+       
+       self.assertEqual(all_objs[key].email, "user@example.com")
+
+     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+     def test_get(self):
+        """get retrieves an object by id"""
+        new_state = State(name="California")
+        models.storage.new(new_state)
+        models.storage.save()
+        self.assertIs(models.storage.get(State, new_state.id), new_state)
+        self.assertIsNone(models.storage.get(State, "nonexistent_id"))
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_count(self):
+        """Test that count returns the number of objects in storage"""
+        initial_count = models.storage.count()
+        new_state = State(name="California")
+        models.storage.new(new_state)
+        models.storage.save()
+        self.assertEqual(models.storage.count(), initial_count + 1)
+        self.assertEqual(models.storage.count(State), initial_count + 1)
+        new_city = City(name="San Francisco", state_id=new_state.id)
+        models.storage.new(new_city)
+        models.storage.save()
+        self.assertEqual(models.storage.count(), initial_count + 2)
+        self.assertEqual(models.storage.count(City), initial_count + 1)
