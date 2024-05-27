@@ -120,10 +120,10 @@ def places_search():
             add_city = storage.get(City, ids)
             if add_city:
                 obj_cities.append(add_city)
-        # map(lambda city: map(places.add, city.places), obj_cities)
-        for obj_city in obj_cities:
-            for obj_place in obj_city.places:
-                places.add(obj_place)
+        map(lambda city: map(places.add, city.places), obj_cities)
+        # for obj_city in obj_cities:
+        #     for obj_place in obj_city.places:
+        #         places.add(obj_place)
 
     if not places:
         places = storage.all(Place)
@@ -141,4 +141,5 @@ def places_search():
                     break
         places = conf_places
     places = [obj.to_dict() for obj in places]
+    print(len(places))
     return jsonify(places)
