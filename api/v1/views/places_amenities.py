@@ -1,11 +1,13 @@
 #!/usr/bin/python3
 """The places_amenities module"""
-from flask import abort, jsonify, make_response
+from flask import abort, jsonify, make_response, request
 from api.v1.views import app_views
 from models import storage
 from models.amenity import Amenity
+from models.city import City
 from models.place import Place
 from os import getenv
+from models.state import State
 
 
 @app_views.route('/places/<place_id>/amenities',
@@ -38,7 +40,7 @@ def del_place_amenity(place_id, amenity_id):
             if getenv('HBNB_TYPE_STORAGE') == 'db':
                 place.amenities.remove(amenity)
             else:
-                place.amenity_ids.remove(amenity)
+                place.amenity_ids.remove(amenity_id)
             storage.save()
             return jsonify({})
 
@@ -63,3 +65,62 @@ def link_place_amenity(place_id, amenity_id):
         place.amenity_ids.append(amenity_id)
     storage.save()
     return make_response(jsonify(amenity.to_dict()), 201)
+
+@app_views.route('/places_search', methods=['POST'], strict_slashes=False)
+def places_search():
+    """Search for places"""
+    req = request.get_json()
+    if req is None:
+        abort(400, "Not a JSON")
+
+    req = request.get_json()
+    if req is None or (
+        req.get('states') is None and
+        req.get('cities') is None and
+        req.get('amenities') is None
+    ):
+        places = storage.all(Place)
+        return jsonify([place.to_dict() for place in places.values()])
+
+    places = []
+
+    if req.get('states'):
+        obj_states = []
+        for ids in req.get('states'):
+            obj_states.append(storage.get(State, ids))
+
+        for obj_state in obj_states:
+            for obj_city in obj_state.cities:
+                for obj_place in obj_city.places:
+                    places.append(obj_place)
+
+    if req.get('cities'):
+        obj_cities = []
+        for ids in req.get('cities'):
+            city = storage.get(City, ids)
+            if city:
+                obj_cities.append(city)
+
+        for obj_city in obj_cities:
+            print(obj_city)
+            for obj_place in obj_city.places:
+                if obj_place not in places:
+                    places.append(obj_place)
+
+    if not places:
+        places = storage.all(Place)
+        places = [place for place in places.values()]
+
+    if req.get('amenities'):
+        amenities = [storage.get(Amenity, id) for id in req.get('amenities')]
+        places = filter(lambda place: check_places_amenities(place, amenities), places)
+
+    return jsonify([obj.to_dict() for obj in places])
+
+def check_places_amenities(place, amenities):
+    """Check amenities in a place"""
+    p_amenities = place.amenities
+    for amenity in amenities:
+        if amenity not in p_amenities:
+            return False
+    return True
