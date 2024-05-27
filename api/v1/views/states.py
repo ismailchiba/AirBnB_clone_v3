@@ -26,9 +26,10 @@ def get_state(state_id=None):
         return abort(404)
     state = storage.get(State, state_id)
     if state:
-        return  jsonify(state.to_dict())
+        return jsonify(state.to_dict())
     else:
         return abort(404)
+
 
 @app_views.route(
         '/states/<state_id>',
@@ -60,6 +61,7 @@ def create_state():
     state = State(**kwargs)
     state.save()
     return jsonify(state.to_dict()), 200
+
 
 @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
 def update_state(state_id=None):
