@@ -120,7 +120,7 @@ def places_search():
             add_city = storage.get(City, ids)
             if add_city:
                 obj_cities.append(add_city)
-
+        
         for obj_city in obj_cities:
             for obj_place in obj_city.places:
                 if obj_place not in places:
