@@ -80,7 +80,7 @@ class DBStorage:
         if cls is None or id is None:
             return None
         key = f"{cls.__name__}.{id}"
-        return self.__classes.get(key, none)
+        return self.__classes.get(key, None)
 
     def count(self, cls=None):
         """count the number of objects in storage"""
