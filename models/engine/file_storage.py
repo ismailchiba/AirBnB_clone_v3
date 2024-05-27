@@ -74,9 +74,6 @@ class FileStorage:
 
     def count(self, cls=None):
         count = 0
-#        obj_dict = {}
-#        obj_dict = models.storage.all(classes[args[0]])
-#        print(obj_dict) 
         if cls is None:
             for key in self.__objects:
                 count += 1
@@ -87,8 +84,6 @@ class FileStorage:
                     key_cls_name = key.split('.')[0]
                     if cls_name is None or key_cls_name == cls_name:
                         count += 1
-#                for key in self.__objects:
-#                   print(key)
         return count
     def close(self):
         """call reload() method for deserializing the JSON file to objects"""
