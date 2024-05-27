@@ -5,7 +5,7 @@ API version 1 views
 from api.v1.views import app_views
 from flask import jsonify, request
 from models import storage
-from models.amenity import Amenity
+from models.user import User
 from api.v1.views import custom
 
 
@@ -16,13 +16,13 @@ def handle_E(error=None, message="Not found", code=404):
     return response
 
 
-@app_views.route('amenities', strict_slashes=False, methods=['GET', 'POST'])
-@app_views.route('amenities/<cls_id>', strict_slashes=False,
+@app_views.route('users', strict_slashes=False, methods=['GET', 'POST'])
+@app_views.route('users/<cls_id>', strict_slashes=False,
                  methods=['GET', 'DELETE', 'PUT'])
-def handle_API_amenities(cls_id=None):
+def handle_API_users(cls_id=None):
     """
     returns a cls if cls_id provided, otherwise all clss"""
-    cls = Amenity
+    cls = User
     if request.method == 'GET':
         return custom.get_clss(cls, cls_id)
     if request.method == 'DELETE':
