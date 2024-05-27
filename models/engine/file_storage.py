@@ -80,11 +80,13 @@ class FileStorage:
 	Returns:
 	    The object if found, None otherwise
 	"""
-	if cls is None or id is None:
-	    return None
+	all_cls = self.all(cls)
 
-	key = f"{cls.__name__}.{id}"
-	return self.__objects.get(key)
+        for obj in all_cls.values():
+            if id == str(obj.id):
+                return obj
+
+	return None
 
 	def count(self, cls=None):
 	"""
@@ -96,8 +98,5 @@ class FileStorage:
 	Returns:
 	    int: The number of objects found
 	"""
-	count = 0
-	for key, value in self.__objects.items():
-	    if cls is None or isinstance(value, cls):
-	        count += 1
-	return count
+
+	return len(self.all(cls))

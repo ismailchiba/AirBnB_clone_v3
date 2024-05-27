@@ -86,11 +86,13 @@ class DBStorage:
 	Returns:
 	    The object if found, None otherwise.
 	"""
-	if cls is None or id is None:
-	    return None
+	get_all_cls = self.all(cls)
 
-	obj = self.__session.query(cls).filter_by(id=id).first()
-	return obj
+	for obj in get_all_cls.values():
+	    if id == str(obj.id):
+                return obj
+
+        return None
 
     def count(self, cls=None):
 	"""
@@ -102,5 +104,5 @@ class DBStorage:
 	Returns:
 	    int: The number of objects found.
 	"""
-	query = self.__session.query(cls)
-	return query.count()
+	leng = len(self.all(cls))
+	return leng
