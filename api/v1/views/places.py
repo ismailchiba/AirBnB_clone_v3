@@ -83,3 +83,61 @@ def put_place(place_id):
             setattr(place, key, value)
     storage.save()
     return jsonify(place.to_dict())
+
+
+@app_views.route('/places_search', methods=['POST'], strict_slashes=False)
+def places_search():
+    """Search for places"""
+    req = request.get_json()
+    if req is None:
+        abort(400, "Not a JSON")
+
+    req = request.get_json()
+    if req is None or (
+        req.get('states') is None and
+        req.get('cities') is None and
+        req.get('amenities') is None
+    ):
+        places = storage.all(Place)
+        return jsonify([place.to_dict() for place in places.values()])
+
+    places = []
+
+    if req.get('states'):
+        obj_states = []
+        for ids in req.get('states'):
+            obj_states.append(storage.get(State, ids))
+
+        for obj_state in obj_states:
+            for obj_city in obj_state.cities:
+                for obj_place in obj_city.places:
+                    places.append(obj_place)
+
+    if req.get('cities'):
+        obj_cities = []
+        for ids in req.get('cities'):
+            city = storage.get(City, ids)
+            if city:
+                obj_cities.append(city)
+
+        for obj_city in obj_cities:
+            print(obj_city)
+            for obj_place in obj_city.places:
+                if obj_place not in places:
+                    places.append(obj_place)
+
+    if not places:
+        places = storage.all(Place)
+        places = [place for place in places.values()]
+
+    if req.get('amenities'):
+        confirmed_places = []
+        for place in places:
+            place_amenities = place.amenities
+            confirmed_places.append(place.to_dict())
+            for amenity in [storage.get(Amenity, id) for id in req.get('amenities')]:
+                if amenity not in place_amenities:
+                    confirmed_places.pop()
+                    break
+        places = confirmed_places
+    return jsonify([obj.to_dict() for obj in places])
