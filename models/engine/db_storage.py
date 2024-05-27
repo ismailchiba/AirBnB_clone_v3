@@ -75,40 +75,31 @@ class DBStorage:
         """call remove() method on the private session attribute"""
         self.__session.remove()
 
-    def get(self, cls, id):
-        """Retrieves one object based on the class name and its ID
-        Attributes:
-            cls (string): string representing the class name
-            id (string): string representing the object ID
-        Return: the object, or None if not found
+   def get(self, cls, id):
         """
-        for key in classes.keys():
-            if cls == key:
-                objs = self.__session.query(classes[key]).all()
-                for item in objs:
-                    # print(type(item))
-                    # print(item)
-                    if id == item.id:
-                        return item
+	 A method to retrieve one object, returns the object based on the class and its ID, or None if not found
+        """
+        if cls not in classes.values():
+            return None
+
+        all_cls = models.storage.all(cls)
+        for value in all_cls.values():
+            if (value.id == id):
+                return value
+
         return None
 
     def count(self, cls=None):
-        """Returns the number of objects in storage matching the given class
-        name. Returns count of all objects in storage if no class name given
-        Attributes:
-            cls (string): string representing the class name (optional)
-        Return: the number of objects in storage
         """
-        count = 0
-        if cls is not None:
-            for key in classes.keys():
-                if cls == key:
-                    objs = self.__session.query(classes[key]).all()
-                    for item in objs:
-                        count += 1
+        A method to count the number of objects in storage, returns the number of objects in storage matching the given class. If no class is         passed, returns the count of all objects in storage
+        """
+        all_class = classes.values()
+
+        if not cls:
+            count = 0
+            for clas in all_class:
+                count += len(models.storage.all(clas).values())
         else:
-            for key in classes.keys():
-                objs = self.__session.query(classes[key]).all()
-                for item in objs:
-                    count += 1
+            count = len(models.storage.all(cls).values())
+
         return count
