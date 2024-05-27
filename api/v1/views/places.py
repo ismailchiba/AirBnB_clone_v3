@@ -136,10 +136,11 @@ def places_search():
         obj_am = [storage.get(Amenity, id) for id in req.get('amenities')]
         conf_places = []
         for place in places:
+            conf_places.append(place)
             amenities = place.amenities
             for amenity in obj_am:
-                if amenity in amenities:
-                    conf_places.append(place)
+                if amenity not in amenities:
+                    conf_places.pop(-1)
                     break
         places = conf_places
     places = [obj.to_dict() for obj in places]
