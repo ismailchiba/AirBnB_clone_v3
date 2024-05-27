@@ -13,7 +13,11 @@ def amenity_get_all():
     Retrieves all Amenity objects
     :return: JSON of all amenities
     """
-    amenity_list = [amenity.to_json() for amenity in storage.all("Amenity").values()]
+    all_amenities = storage.all("Amenity").values()
+    amenity_list = [
+        amenity.to_json()
+        for amenity in all_amenities
+    ]
     return jsonify(amenity_list)
 
 

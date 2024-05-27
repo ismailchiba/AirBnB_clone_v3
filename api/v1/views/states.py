@@ -70,7 +70,11 @@ def state_put(state_id):
     return jsonify(state.to_json())
 
 
-@app_views.route("/states/<state_id>", methods=["DELETE"], strict_slashes=False)
+@app_views.route(
+    "/states/<state_id>",
+    methods=["DELETE"],
+    strict_slashes=False
+)
 def state_delete_by_id(state_id):
     """
     Deletes State by ID
