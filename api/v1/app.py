@@ -2,7 +2,7 @@
 """This is an api version 1"""
 from flask import Flask, make_response, jsonify
 from models import storage
-import os
+from os import getenv
 from api.v1.views import app_views
 from flask_cors import CORS
 
