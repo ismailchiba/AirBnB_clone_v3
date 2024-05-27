@@ -133,7 +133,7 @@ def places_search():
         places = [place for place in places.values()]
 
     print("places - amenities \n\n\n")
-    # print(places[0].amenities)
+    print(Place(**places[0].to_dict()).amenities)
     if req.get('amenities'):
         obj_am = [storage.get(Amenity, id) for id in req.get('amenities')]
         for place in places:
@@ -144,5 +144,6 @@ def places_search():
                     del place
                     break
     places = [obj.to_dict() for obj in places]
-    print(places)
+    conf_places = [type(obj) for obj in places]
+    print(conf_places)
     return jsonify(places)
