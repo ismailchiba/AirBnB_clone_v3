@@ -35,8 +35,9 @@ def get_state(state_id=None):
     return jsonify(state.to_dict())
 
 
-@app_views.route('/states/<state_id>',
-                                  methods=['DELETE'], strict_slashes=False)
+@app_views.route(
+        '/states/<state_id>',
+        methods=['DELETE'], strict_slashes=False)
 def delete_state(state_id=None):
     """Deletes a State object:: DELETE /api/v1/states/<state_id>"""
     if state_id is None:
@@ -72,7 +73,7 @@ def create_state():
 
 @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
 def update_state(state_id=None):
-        """Updates a State object: PUT /api/v1/states/<state_id>"""
+    """Updates a State object: PUT /api/v1/states/<state_id>"""
     if request.get_json:
         kwargs = request.get_json()
     else:
@@ -85,7 +86,7 @@ def update_state(state_id=None):
     try:
         state = storage.get(State, state_id)
         if state is None:
-                abort(404)
+            abort(404)
 
         for k in ("id", "created_at", "updated_at"):
             kwargs.pop(k, None)
