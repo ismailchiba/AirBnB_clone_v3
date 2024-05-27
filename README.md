@@ -150,6 +150,68 @@ EOF  all  create  destroy  help  quit  show  update
 (hbnb) quit
 ```
 
+## AirBnB clone - RESTful API Project:
+## Features
+
+- User authentication and authorization
+- CRUD operations for property listings
+- Booking management
+- User profiles
+- Search and filter functionalities
+- Reviews and ratings
+
+## Technologies Used
+
+- **Programming Language:** Python
+- **Web Framework:** Flask 
+- **Database:** MySQL
+- **Authentication:** JWT (JSON Web Tokens)
+- **Deployment:** Docker
+- **Testing:** Pytest, Postman/Newman
+
+## API Endpoints
+
+### Authentication
+
+- **POST /api/auth/register** - Register a new user
+- **POST /api/auth/login** - Log in a user
+- **POST /api/auth/logout** - Log out the current user
+
+### Users
+
+- **GET /api/users/{id}** - Retrieve user profile
+- **PUT /api/users/{id}** - Update user profile
+
+### Listings
+
+- **GET /api/listings** - Retrieve all listings
+- **POST /api/listings** - Create a new listing
+- **GET /api/listings/{id}** - Retrieve a specific listing
+- **PUT /api/listings/{id}** - Update a specific listing
+- **DELETE /api/listings/{id}** - Delete a specific listing
+
+### Bookings
+
+- **POST /api/bookings** - Create a new booking
+- **GET /api/bookings/{id}** - Retrieve a specific booking
+- **PUT /api/bookings/{id}** - Update a specific booking
+- **DELETE /api/bookings/{id}** - Cancel a booking
+
+### Reviews
+
+- **POST /api/reviews** - Submit a review
+- **GET /api/reviews/{id}** - Retrieve a specific review
+- **PUT /api/reviews/{id}** - Update a specific review
+- **DELETE /api/reviews/{id}** - Delete a review
+
+## Running Tests
+
+To run the tests, use the following command:
+
+```bash
+pytest  # or `python manage.py test` for Django
+
+
 ## Bugs
 No known bugs at this time. 
 
@@ -158,5 +220,7 @@ Alexa Orrico - [Github](https://github.com/alexaorrico) / [Twitter](https://twit
 Jennifer Huang - [Github](https://github.com/jhuang10123) / [Twitter](https://twitter.com/earthtojhuang)
 
 Second part of Airbnb: Joann Vuong
+RESTful API: Elizabeth Akinyi - [Github](https://github.com/Elizabeth-Akinyi-O)
+
 ## License
-Public Domain. No copy write protection. 
+Public Domain. No copy write protection.
