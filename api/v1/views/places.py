@@ -1,6 +1,9 @@
 #!/usr/bin/python3
 '''Contains the places view for the API.'''
+from os import getenv
 from flask import abort, jsonify, make_response, request
+import requests
+import json
 from api.v1.views import app_views
 from models import storage
 from models.amenity import Amenity
@@ -148,54 +151,72 @@ def put_place(place_id):
 #     print(conf_places)
 #     return jsonify(places)
 
-@app_views.route('/places_search', methods=['POST'], strict_slashes=False)
-def post_places_search():
-    """Searches for a place"""
-    params = request.get_json()
-    if params is None:
-        return make_response(jsonify({'error': 'Not a JSON'}), 400)
+def places_search():
+    """
+    retrieves all Place objects depending
+    of the JSON in the body of the request
+    """
+    req = request.get_json()
+    if req is None:
+        abort(400, "Not a JSON")
 
-    states = params.get('states', [])
-    cities = params.get('cities', [])
-    amenities = params.get('amenities', [])
+    req = request.get_json()
+    if req is None or (
+        req.get('states') is None and
+        req.get('cities') is None and
+        req.get('amenities') is None
+    ):
+        obj_places = storage.all(Place)
+        return jsonify([obj.to_dict() for obj in obj_places.values()])
 
-    places = set()
+    places = []
 
-    # If no states and cities are provided, retrieve all places
-    if not states and not cities:
-        places = set(storage.all(Place).values())
-    else:
-        if states:
-            for state_id in states:
-                state = storage.get(State, state_id)
-                if state:
-                    for city in state.cities:
-                        if city.id not in cities:
-                            cities.append(city.id)
+    if req.get('states'):
+        obj_states = []
+        for ids in req.get('states'):
+            obj_states.append(storage.get(State, ids))
 
-        if cities:
-            for city_id in cities:
-                city = storage.get(City, city_id)
-                if city:
-                    for place in city.places:
-                        places.add(place)
+        for obj_state in obj_states:
+            for obj_city in obj_state.cities:
+                for obj_place in obj_city.places:
+                    places.append(obj_place)
 
-    # Filter places by amenities
-    if amenities:
-        filtered_places = []
-        amenity_objects = [storage.get(Amenity, amenity_id)
-                           for amenity_id in amenities
-                           if storage.get(Amenity, amenity_id)]
-        if getenv('HBNB_TYPE_STORAGE') == 'db':
-            amenities_places = [amenity.to_dict()
-                                for amenity in place.amenities]
-        else:
-            amenities_places = [storage.get(Amenity, amenity_id).to_dict()
-                                for amenity_id in place.amenity_ids]
-        for place in places:
-            if all(amenity in amenities_places for amenity in amenity_objects):
-                filtered_places.append(place)
-    else:
-        filtered_places = list(places)
+    if req.get('cities'):
+        obj_cities = []
+        for ids in req.get('cities'):
+            obj_cities.append(storage.get(City, ids))
 
-    return jsonify([place.to_dict() for place in filtered_places])
+        for obj_city in obj_cities:
+            for obj_place in obj_city.places:
+                if obj_place not in places:
+                    places.append(obj_place)
+
+    if not places:
+        places = storage.all(Place)
+        places = [place for place in places.values()]
+
+    if req.get('amenities'):
+        obj_am = [storage.get(Amenity, id) for id in req.get('amenities')]
+        i = 0
+        limit = len(places)
+        HBNB_API_HOST = getenv('HBNB_API_HOST')
+        HBNB_API_PORT = getenv('HBNB_API_PORT')
+
+        port = 5000 if not HBNB_API_PORT else HBNB_API_PORT
+        first_url = "http://0.0.0.0:{}/api/v1/places/".format(port)
+        while i < limit:
+            place = places[i]
+            url = first_url + '{}/amenities'
+            req = url.format(place.id)
+            response = requests.get(req)
+            place_am = json.loads(response.text)
+            amenities = [storage.get(Amenity, obj['id']) for obj in place_am]
+            for amenity in obj_am:
+                if amenity not in amenities:
+                    places.pop(i)
+                    i -= 1
+                    limit -= 1
+                    break
+            i += 1
+
+    return jsonify([obj.to_dict() for obj in places])
