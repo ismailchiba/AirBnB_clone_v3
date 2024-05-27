@@ -102,12 +102,12 @@ class DBStorage:
            if no class passed, returns the count of all objects in storage
         """
         if cls:
-            if cls in classes.value():
+            if cls in classes.values():
                 return self.__session.query(cls).count()
             else:
                 return 0
         else:
             total_count = 0
-            for clss in classes.value():
+            for clss in classes.values():
                 total_count += self.__session.query(clss).count()
             return total_count
