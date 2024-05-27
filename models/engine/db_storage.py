@@ -76,7 +76,7 @@ class DBStorage:
         self.__session.remove()
 
     def get(self, cls, id):
-        """Retrieve an object by id"""
+        """Retrieve  object by id"""
         if cls and id:
             return self.__session.get(cls, id)
         return None
