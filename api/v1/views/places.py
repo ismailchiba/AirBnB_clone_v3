@@ -150,7 +150,7 @@ def put_place(place_id):
 #     conf_places = [type(obj) for obj in places]
 #     print(conf_places)
 #     return jsonify(places)
-
+@app_views.route('/places_search', methods=['POST'], strict_slashes=False)
 def places_search():
     """
     retrieves all Place objects depending
@@ -184,7 +184,9 @@ def places_search():
     if req.get('cities'):
         obj_cities = []
         for ids in req.get('cities'):
-            obj_cities.append(storage.get(City, ids))
+            add_city = storage.get(City, ids)
+            if add_city:
+                obj_cities.append(add_city)
 
         for obj_city in obj_cities:
             for obj_place in obj_city.places:
