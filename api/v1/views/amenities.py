@@ -36,7 +36,7 @@ def get_amenity(amenity_id):
                  strict_slashes=False)
 def delete_amenity(amenity_id):
     """
-    Retrieves the amenity objects
+    Deletes the amenity objects
     """
     amenity = storage.get(Amenity, amenity_id)
     if amenity:
