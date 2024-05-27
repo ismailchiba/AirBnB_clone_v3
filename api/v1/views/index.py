@@ -8,4 +8,7 @@ from flask import jsonify
 
 @app_views.route('/status', methods=['GET'])
 def status():
+    """Variable app_views which is an
+    instance of Blueprint url prefix
+    """
     return jsonify({"status": "OK"})

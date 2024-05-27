@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-"""App routing processing"""
+"""Instance of Flask
+    import storage from models
+"""
 
 
 from flask import Flask, jsonify
@@ -13,6 +15,8 @@ app.register_blueprint(app_views)
 
 @app.teardown_appcontext
 def teardown_db(exception):
+    """declaring a method to handle app
+    teardown calls"""
     storage.close()
 
 
