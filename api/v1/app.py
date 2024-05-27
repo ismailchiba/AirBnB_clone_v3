@@ -29,13 +29,13 @@ swagger = Swagger(application)
 
 
 @application.teardown_appcontext
-def close_storage(exception):
+def close_storage(excption):
     """ Closes storage session """
     storage.close()
 
 
-@application.errorhandler(404)
-def handle_404(error):
+@application_views.errorhandler(404)
+def handle_404(err):
     """ Returns JSON response with 404 status """
     return make_response(jsonify({"error": "Not found"}), 404)
 
