@@ -5,7 +5,7 @@ from flask import jsonify
 from models import storage
 
 
-@app_views.route("/status", methods=['GET'], strict_slashes=False)
+    @app_views.route("/status", methods=['GET'], strict_slashes=False)
 def status():
     """
     status route
@@ -20,10 +20,10 @@ def status():
 
     return resp
 
-@app_views.route("/stats", methods=['GET'], strict_slashes=False)
+    @app_views.route("/stats", methods=['GET'], strict_slashes=False)
 def stats():
     """stats of all objs route"""
-    data_count = {
+    data = {
         "amenities": storage.count("Amenity"),
         "cities": storage.count("City"),
         "places": storage.count("Place"),
@@ -32,7 +32,7 @@ def stats():
         "users": storage.count("User"),
     }
 
-    resp = jsonify(data_count)
+    resp = jsonify(data)
     resp.status_code = 200
 
     return resp
