@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """app file"""
-from flask import Flask
+from flask import Flask, jsonify
 import os
 from models import storage
 from api.v1.views import app_views
@@ -17,6 +17,12 @@ port = os.getenv("HBNB_API_PORT", "5000")
 def teardown(exception):
     """close storage"""
     storage.close()
+
+
+@app.errorhandler(404)
+def not_found(error):
+    """Handle 404 errors"""
+    return jsonify({"error": "Not found"}), 404
 
 
 if __name__ == "__main__":
