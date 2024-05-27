@@ -98,9 +98,9 @@ class FileStorage:
         """deletes obj"""
         if obj is None:
             return
-        for t in list(FileStorage.__objects.keys()):
-            if obj.id == t.split(".")[1] and t.split(".")[0] in str(obj):
-                FileStorage.__objects.pop(t, None)
+        for k in list(FileStorage.__objects.keys()):
+            if obj.id == k.split(".")[1] and k.split(".")[0] in str(obj):
+                FileStorage.__objects.pop(k, None)
                 self.save()
 
     def close(self):
