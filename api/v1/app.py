@@ -7,7 +7,6 @@ handles teardown context,  and customizes error handling.
 from flask import Flask, jsonify
 from flask_cors import CORS
 from os import getenv
-
 from api.v1.views import app_views
 from models import storage
 
@@ -50,5 +49,6 @@ def handle_404(exception):
 
 if __name__ == "__main__":
     """ Run the flask app using host and port from environment variables """
-    app.run(host=getenv("HBNB_API_HOST", "0.0.0.0"),
-            port=int(getenv("HBNB_API_PORT", "5000")))
+    app.run(host = getenv("HBNB_API_HOST", '0.0.0.0'),
+            port = int(getenv("HBNB_API_PORT", 5000)),
+            threaded=True)
