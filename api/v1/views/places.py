@@ -131,16 +131,22 @@ def places_search():
         places = storage.all(Place)
         places = [place for place in places.values()]
 
-    print("pa\n\n\n")
-    print(places[0].amenities)
     if req.get('amenities'):
         obj_am = [storage.get(Amenity, id) for id in req.get('amenities')]
         i = 0
         limit = len(places)
+        HBNB_API_HOST = getenv('HBNB_API_HOST')
+        HBNB_API_PORT = getenv('HBNB_API_PORT')
+
+        port = 5000 if not HBNB_API_PORT else HBNB_API_PORT
+        first_url = "http://0.0.0.0:{}/api/v1/places/".format(port)
         while i < limit:
             place = places[i]
-            amenities = place.amenities
-            print(amenities)
+            url = first_url + '{}/amenities'
+            req = url.format(place.id)
+            response = requests.get(req)
+            place_am = json.loads(response.text)
+            amenities = [storage.get(Amenity, obj['id']) for obj in place_am]
             for amenity in obj_am:
                 if amenity not in amenities:
                     places.pop(i)
