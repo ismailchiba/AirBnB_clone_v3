@@ -119,7 +119,8 @@ def places_search():
         obj_cities.discard(None)
 
         for obj_city in obj_cities:
-            map(places.add, obj_city.places)
+            for obj_place in obj_city.places:
+                places.add(obj_place)
 
     if not places:
         places = storage.all(Place)
