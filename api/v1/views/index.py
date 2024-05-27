@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" Returns a JSON response """
+"""Returns a JSON response"""
 
 
 from flask import jsonify
@@ -18,13 +18,12 @@ def object_stats():
     """
     Retrieves the no of each object by type
     """
-    stats = {
-        "amenities": storage.count('Amenity'),
-        "cities": storage.count('City'),
-        "places": storage.count('Place'),
-        "reviews": storage.count('Review'),
-        "states": storage.count('State'),
-        "users": storage.count('User'),
-    }
-
-    return jsonify(stats)
+    objects = {
+            "amenities": storage.count('Amenity'),
+            "cities": storage.count('City'),
+            "places": storage.count('Place'),
+            "reviews": storage.count('Review'),
+            "states": storage.count('State'),
+            "users": storage.count('User'),
+            }
+    return jsonify(objects)
