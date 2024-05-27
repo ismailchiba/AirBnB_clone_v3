@@ -69,8 +69,8 @@ test_db_storage.py'])
                             "{:s} method needs a docstring".format(func[0]))
 
 
-class TestFileStorage(unittest.TestCase):
-    """Test the FileStorage class"""
+class TestDBStorage(unittest.TestCase):
+    """Test the DBStorage class"""
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_all_returns_dict(self):
         """Test that all returns a dictionaty"""
@@ -79,11 +79,49 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_all_no_class(self):
         """Test that all returns all rows when no class is passed"""
+        warehouse = DBStorage()
+        all_objs = warehouse.all()
+        self.assertIsInstance(all_objs, dict)
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_new(self):
         """test that new adds an object to the database"""
+        warehouse = DBStorage()
+        fresh_state = State(name="California")
+        warehouse.new(fresh_state)
+        warehouse.save()
+        self.assertIn(fresh_state, DBStorage.all(State).values())
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
+        warehouse = DBStorage()
+        fresh_state = State(name="California")
+        warehouse.new(fresh_state)
+        warehouse.save()
+        so_saved = warehouse.get(State, fresh_state.id)
+        self.assertIsNotNone(so_saved)
+        self.assertEqual(so_saved.name, "California")
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get(self):
+        """Test the get method"""
+        warehouse = DBStorage()
+        fresh_state = State(name="Delaware")
+        warehouse.new(fresh_state)
+        warehouse.save()
+        sourced_state = warehouse.get(State, fresh_state.id)
+        self.assertEqual(sourced_state, fresh_state)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_count(self):
+        """Test the count method"""
+        warehouse = DBStorage()
+        first_count = warehouse.count()
+        fresh_state = State(name="Michigan")
+        warehouse.new(fresh_state)
+        warehouse.save()
+        next_count = warehouse.count()
+        self.assertEqual(next_count, first_count + 1)
+        counts_states = warehouse.count(State)
+        self.assertGreaterEqual(state_count, 1)
