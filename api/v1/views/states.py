@@ -1,8 +1,4 @@
-#!/bin/usr/python3
-"""
-  Create a new view for State objects that handles all
-  default RESTFul API actions:
-"""
+#!/usr/bin/python3
 from flask import Flask, jsonify, abort, request
 from models import storage
 from models.state import State
