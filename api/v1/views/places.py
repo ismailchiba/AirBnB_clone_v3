@@ -1,6 +1,5 @@
 #!/usr/bin/python3
-"""API places view"""
-
+"""An API for retreving place and place relating to a city"""
 from flask import jsonify, request, abort, make_response
 from api.v1.views import app_views
 from models import storage
