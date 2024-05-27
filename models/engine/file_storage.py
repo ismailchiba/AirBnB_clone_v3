@@ -81,8 +81,10 @@ class FileStorage:
     def update(self, cls, id, obj):
         """update object"""
         tmp = self.get(cls, id)
-        if tmp is None:
-            return None
+        if tmp:
+            for k, v in tmp:
+                if hasattr(tmp, k):
+                    setattr(tmp, k, v)
 
     def count(self, cls=None):
         """Returns the number of objects in storage matching the given class.

@@ -69,6 +69,7 @@ def delete_cls(cls, cls_id=None):
     st = storage.get(cls, cls_id)
     if st:
         tmp = cls.delete(st)
+        storage.save()
         return jsonify({})
     else:
         return handle_E()
@@ -78,26 +79,22 @@ def add_cls(cls, data=None):
     """add new cls object"""
     if data.get('name') is None:
         return handle_E(message="Missing name", code=400)
-    st = cls(data.get('name'))
+    st = cls(name=data.get('name'))
     storage.new(st)
     tmp = cls.to_dict(st)
     tmp['status_code'] = 201
+    storage.save()
     return jsonify(tmp)
 
 
 def update_cls(cls, cls_id, data):
-    """add new cls object"""
-    st = storage.get(cls, cls_id)
-    if st is None:
+    """update cls object"""
+    tmp = storage.get(cls, cls_id)
+    if tmp:
+        for k, v in data.items():
+            if hasattr(tmp, k):
+                setattr(tmp, k, v)
+        storage.save()
+        return jsonify(cls.to_dict(tmp))
+    else:
         return handle_E()
-
-    data = request.get_json(silent=True)
-    if data is None:
-        return handle_E(message="Not a JSON", code=400)
-    if data.get('name') is None:
-        return handle_E(message="Missing name", code=400)
-    st = cls(data.get('name'))
-    storage.new(st)
-    tmp = cls.to_dict(st)
-    tmp['status_code'] = 201
-    return jsonify(tmp)

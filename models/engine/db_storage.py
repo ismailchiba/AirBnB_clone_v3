@@ -62,6 +62,14 @@ class DBStorage:
         """add the object to the current database session"""
         self.__session.add(obj)
 
+    def update(self, cls, id, obj):
+        """updates the object to the current database session"""
+        tmp = self.__session.query(cls).get(id)
+        if tmp:
+            for k, v in tmp:
+                if hasattr(tmp, k):
+                    setattr(tmp, k, v)
+
     def save(self):
         """commit all changes of the current database session"""
         self.__session.commit()
