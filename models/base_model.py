@@ -61,22 +61,22 @@ class BaseModel:
 
     def to_dict(self, source=""):
         """returns a dictionary containing all keys/values of the instance"""
+        copy_dict = self.__dict__.copy()
+        if "created_at" in copy_dict:
+            copy_dict["created_at"] = copy_dict["created_at"].strftime(time)
+        if "updated_at" in copy_dict:
+            copy_dict["updated_at"] = copy_dict["updated_at"].strftime(time)
+        copy_dict["__class__"] = self.__class__.__name__
+        if 'password' in copy_dict and source != 'FileStorage':
+            del copy_dict['password']
+
         new_dict = {}
-        for key, value in self.__dict__.copy().items():
+        for key, value in copy_dict.items():
             try:
                 json.dumps(value)
                 new_dict[key] = value
             except TypeError:
                 continue
-        if "created_at" in new_dict:
-            new_dict["created_at"] = new_dict["created_at"].strftime(time)
-        if "updated_at" in new_dict:
-            new_dict["updated_at"] = new_dict["updated_at"].strftime(time)
-        new_dict["__class__"] = self.__class__.__name__
-        if "_sa_instance_state" in new_dict:
-            del new_dict["_sa_instance_state"]
-        if 'password' in new_dict and source != 'FileStorage':
-            del new_dict['password']
         return new_dict
 
     def delete(self):
