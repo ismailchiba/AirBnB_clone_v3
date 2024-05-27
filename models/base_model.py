@@ -2,7 +2,7 @@
 """
 Contains class BaseModel
 """
-import inspect
+
 from datetime import datetime
 import models
 from os import getenv
@@ -58,7 +58,7 @@ class BaseModel:
         models.storage.new(self)
         models.storage.save()
 
-    def to_dict(self):
+    def to_dict(self, source=""):
         """returns a dictionary containing all keys/values of the instance"""
         new_dict = self.__dict__.copy()
         if "created_at" in new_dict:
@@ -68,13 +68,7 @@ class BaseModel:
         new_dict["__class__"] = self.__class__.__name__
         if "_sa_instance_state" in new_dict:
             del new_dict["_sa_instance_state"]
-        frame = inspect.currentframe().f_back
-        func_name = frame.f_code.co_name
-        class_name = ''
-        if 'self' in frame.f_locals:
-            class_name = frame.f_locals["self"].__class__.__name__
-        is_fs_writing = func_name == 'save' and class_name == 'FileStorage'
-        if 'password' in new_dict and not is_fs_writing:
+        if 'password' in new_dict and source != 'FileStorage':
             del new_dict['password']
         return new_dict
 
