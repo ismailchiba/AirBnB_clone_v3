@@ -24,6 +24,8 @@ def handle_404(error):
     return jsonify({"error": "Not found"})
 
 
+print(app.url_map)
+
 if __name__ == "__main__":
     """run flask server"""
     host = getenv('HBNB_API_HOST', '0.0.0.0')
