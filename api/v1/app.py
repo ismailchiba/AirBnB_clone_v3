@@ -36,7 +36,7 @@ def not_found(err):
 
 
 if __name__ == "__main__":
-    """good"""
+    """executable"""
     host = "0.0.0.0" if host is None else host
     port = "5000" if port is None else port
     app.run(host=host, port=port, threaded=True)
