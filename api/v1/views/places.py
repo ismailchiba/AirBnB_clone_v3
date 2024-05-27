@@ -138,5 +138,4 @@ def places_search():
                     break
         places = conf_places
     places = [obj.to_dict() for obj in places]
-    print(len(places))
     return jsonify(places)
