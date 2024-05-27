@@ -99,7 +99,7 @@ class TestFileStorage(unittest.TestCase):
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_count(self):
-        """Test that count method returns correct num of objects."""
+        """Test that count the method returns correct num of objects."""
         init_count = self.storage.count()
         init_user_count = self.storage.count(User)
 
