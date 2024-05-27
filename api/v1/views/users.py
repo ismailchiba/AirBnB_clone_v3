@@ -16,8 +16,8 @@ def handle_E(error=None, message="Not found", code=404):
     return response
 
 
-@app_views.route('users', strict_slashes=False, methods=['GET', 'POST'])
-@app_views.route('users/<cls_id>', strict_slashes=False,
+@app_views.route('/users', strict_slashes=False, methods=['GET', 'POST'])
+@app_views.route('/users/<cls_id>', strict_slashes=False,
                  methods=['GET', 'DELETE', 'PUT'])
 def handle_API_users(cls_id=None):
     """
