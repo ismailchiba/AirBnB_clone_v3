@@ -12,8 +12,8 @@ from api.v1.views import custom
 
 @app_views.route('/places/<cls_id>/reviews', strict_slashes=False,
                  methods=['GET', 'POST'])
-def get_city_by_place(cls_id):
-    """get/post places to respective places"""
+def get_city_by_p_review(cls_id):
+    """get/post p_reviews to respective p_reviews"""
     cls = Review
     stt = storage.get(State, cls_id)
     if stt is None:
@@ -38,7 +38,7 @@ def get_city_by_place(cls_id):
 
 @app_views.route(f'reviews/<cls_id>', strict_slashes=False,
                  methods=['GET', 'DELETE', 'PUT'])
-def handle_API_place(cls_id=None):
+def handle_API_p_review(cls_id=None):
     """
     returns a cls if cls_id provided, otherwise all clss"""
     cls = Review
