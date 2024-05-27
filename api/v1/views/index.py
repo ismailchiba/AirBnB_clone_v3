@@ -18,6 +18,7 @@ classes = {
     "users": User,
 }
 
+
 @app_views.route("/status")
 def get_status():
     """Status of my API"""
