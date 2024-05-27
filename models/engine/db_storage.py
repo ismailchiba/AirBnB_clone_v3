@@ -78,13 +78,6 @@ class DBStorage:
     def get(self, cls, id):
         """
         Retrieves one object based on the class and its ID.
-
-        Args:
-            cls (class): The class of the object to retrieve.
-            id (str): The ID of the object to retrieve.
-
-        Returns:
-            The object if found, or None if not found.
         """
         if cls in classes.values() and id and isinstance(id, str):
             objects_dict = self.all(cls)
