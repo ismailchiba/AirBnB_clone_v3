@@ -53,6 +53,8 @@ class DBStorage:
 
     def new(self, obj):
         """add the object to the current database session"""
+        if self.__session is None:
+            self.reload()
         self.__session.add(obj)
 
     def save(self):

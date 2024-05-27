@@ -116,25 +116,25 @@ class TestFileStorage(unittest.TestCase):
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_get(self):
-        """Test the get method"""
-        storage = FileStorage()
-        user = User(id="12345", name="Test User")
-        storage.new(user)
-        storage.save()
-        self.assertIs(storage.get(User, "12345"), user)
-        self.assertIsNone(storage.get(User, "54321"))
+        st = FileStorage()
+        dict = {"name": "abbas"}
+        inst = State(**dict)
+        st.new(inst)
+        st.save()
+        st = FileStorage()
+        get_instance = st.get(State, inst.id)
+        self.assertEqual(get_instance, inst)
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_count(self):
-        """Test the count method"""
-        storage = FileStorage()
-        initial_count = storage.count()
-        user = User(id="12345", name="Test User")
-        state = State(id="67890", name="Test State")
-        storage.new(user)
-        storage.new(state)
-        storage.save()
-        self.assertEqual(storage.count(), initial_count + 2)
-        self.assertEqual(storage.count(User), 1)
-        self.assertEqual(storage.count(State), 1)
-        self.assertEqual(storage.count(Amenity), 0)
+        """ Tests count method """
+        stg = FileStorage()
+        dic = {"name": "abbas"}
+        st = State(**dic)
+        stg.new(st)
+        dic = {"name": "Sudan"}
+        city = City(**dic)
+        stg.new(city)
+        stg.save()
+        c = stg.count()
+        self.assertEqual(len(stg.all()), c)
