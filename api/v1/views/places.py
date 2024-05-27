@@ -123,36 +123,26 @@ def places_search():
             obj_cities.append(storage.get(City, ids))
 
         for obj_city in obj_cities:
-            for obj_place in obj_city.places:
-                if obj_place not in places:
-                    places.append(obj_place)
+            if obj_city:
+                for obj_place in obj_city.places:
+                    if obj_place not in places:
+                        places.append(obj_place)
 
     if not places:
         places = storage.all(Place)
         places = [place for place in places.values()]
 
+    print("places - amenities \n\n\n")
+    # print(places[0].amenities)
     if req.get('amenities'):
         obj_am = [storage.get(Amenity, id) for id in req.get('amenities')]
-        i = 0
-        limit = len(places)
-        HBNB_API_HOST = getenv('HBNB_API_HOST')
-        HBNB_API_PORT = getenv('HBNB_API_PORT')
-
-        port = 5000 if not HBNB_API_PORT else HBNB_API_PORT
-        first_url = "http://0.0.0.0:{}/api/v1/places/".format(port)
-        while i < limit:
-            place = places[i]
-            url = first_url + '{}/amenities'
-            req = url.format(place.id)
-            response = requests.get(req)
-            place_am = json.loads(response.text)
+        for place in places:
+            place_am = place.amenities
             amenities = [storage.get(Amenity, obj['id']) for obj in place_am]
             for amenity in obj_am:
                 if amenity not in amenities:
-                    places.pop(i)
-                    i -= 1
-                    limit -= 1
+                    del place
                     break
-            i += 1
-
-    return jsonify([obj.to_dict() for obj in places])
+    places = [obj.to_dict() for obj in places]
+    print(places)
+    return jsonify(places)
