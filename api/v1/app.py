@@ -29,7 +29,7 @@ swagger = Swagger(application)
 
 
 @application.teardown_appcontext
-def close_storage(excption):
+def close_storage(exception):
     """ Closes storage session """
     storage.close()
 
