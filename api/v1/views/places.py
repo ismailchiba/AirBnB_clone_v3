@@ -1,9 +1,6 @@
 #!/usr/bin/python3
 '''Contains the places view for the API.'''
-from os import getenv
 from flask import abort, jsonify, make_response, request
-import requests
-import json
 from api.v1.views import app_views
 from models import storage
 from models.amenity import Amenity

@@ -61,13 +61,13 @@ class BaseModel:
 
     def to_dict(self, source=""):
         """returns a dictionary containing all keys/values of the instance"""
-        new_dict = {}
-        for key, value in self.__dict__.copy().items():
-            try:
-                json.dumps(value)
-                new_dict[key] = value
-            except Exception:
-                continue
+        new_dict = self.__dict__.copy()
+        # for key, value in self.__dict__.copy().items():
+        #     try:
+        #         json.dumps(value)
+        #         new_dict[key] = value
+        #     except Exception:
+        #         continue
         if "created_at" in new_dict:
             new_dict["created_at"] = new_dict["created_at"].strftime(time)
         if "updated_at" in new_dict:
