@@ -133,8 +133,8 @@ def places_search():
         places = storage.all(Place)
         places = [place for place in places.values()]
 
-    print("places - amenities \n\n\n")
-    print(places[0].amenities[0])
+    # print("places - amenities \n\n\n")
+    # print(places[0].amenities[0])
     if req.get('amenities'):
         print("\n\nfrom amenities\n\n")
         obj_am = [storage.get(Amenity, id) for id in req.get('amenities')]
@@ -148,8 +148,6 @@ def places_search():
                     break
         places = conf_places
     places = [obj.to_dict() for obj in places]
-    conf_places = [type(obj) for obj in places]
-    print(len(places))
     return jsonify(places)
 # @app_views.route('/places_search', methods=['POST'], strict_slashes=False)
 # def places_search():
