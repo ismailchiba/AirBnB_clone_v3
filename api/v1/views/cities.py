@@ -9,8 +9,9 @@ from models.city import City
 from models.state import State
 from api.v1.views import custom
 
+
 @app_views.route('/states/<state_id>/cities', strict_slashes=False,
-             methods=['GET', 'POST'])
+                 methods=['GET', 'POST'])
 def get_city_by_state(state_id):
     """get/post cities to respective states"""
     stt = storage.get(State, state_id)
@@ -35,7 +36,7 @@ def get_city_by_state(state_id):
 
 
 @app_views.route(f'cities/<cls_id>', strict_slashes=False,
-             methods=['GET', 'DELETE', 'PUT'])
+                 methods=['GET', 'DELETE', 'PUT'])
 def handle_API_state(cls_id=None):
     """
     returns a cls if cls_id provided, otherwise all clss"""

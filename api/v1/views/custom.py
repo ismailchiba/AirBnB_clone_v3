@@ -14,16 +14,17 @@ def handle_E(error=None, message="Not found", code=404):
     response.status_code = code
     return response
 
+
 class appendRoutes():
     """append routes"""
-
 
     def __init__(self, cls, root):
         """initialize"""
         p = f'/{root}'
+
         @app_views.route(p, strict_slashes=False, methods=['GET', 'POST'])
         @app_views.route(f'{p}/<cls_id>', strict_slashes=False,
-                     methods=['GET', 'DELETE', 'PUT'])
+                         methods=['GET', 'DELETE', 'PUT'])
         def handle_API(cls_id=None):
             """
             returns a cls if cls_id provided, otherwise all clss"""
