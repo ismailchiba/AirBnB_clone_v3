@@ -1,9 +1,32 @@
 #!/usr/bin/python3
 """
+app.py
+
 This module contains the main application logic.
 
 It imports the necessary modules and classes, configures the Flask application,
 and sets up the routes for the API endpoints.
+
+Classes:
+    None
+
+Functions:
+    None
+
+Routes:
+    None
+
+Dependencies:
+    - Flask
+    - api.v1.views
+    - models
+    - models.amenity
+    - models.city
+    - models.place
+    - models.review
+    - models.state
+    - models.user
+
 """
 
 from flask import Flask, make_response, jsonify
