@@ -1,6 +1,10 @@
 #!/usr/bin/python3
 """
+<<<<<<< HEAD
 views for AirBnB_clone_v3
+=======
+Views for AirBnB_clone_v3
+>>>>>>> 76e9b7a83b6178fbb7b20d3026cfb7422a70b8a3
 """
 
 from flask import Blueprint

@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 '''new view for state objects'''
 
 from flask import Flask
@@ -71,4 +71,4 @@ def deleting():
         abort(404)
     storage.delete(stateObject)
     storage.save()
-    return jsonify({}), '200'
+    return jsonify({}), '200
