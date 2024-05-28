@@ -1,112 +1,99 @@
 #!/usr/bin/python3
-"""Handles all RESTful API actions for `User`"""
+'''Contains the users view for the API.'''
+from flask import jsonify, request
+from werkzeug.exceptions import NotFound, BadRequest
+
 from api.v1.views import app_views
-from flask import jsonify, request, abort
 from models import storage
 from models.user import User
-from hashlib import md5
 
 
-@app_views.route("/users")
-def users():
-    """Get all users
+@app_views.route('/users', methods=['GET'])
+@app_views.route('/users/<user_id>', methods=['GET'])
+def get_users(user_id=None):
+    '''Gets the user with the given id or all users.
+    '''
+    if user_id:
+        user = storage.get(User, user_id)
+        if user:
+            obj = user.to_dict()
+            if 'places' in obj:
+                del obj['places']
+            if 'reviews' in obj:
+                del obj['reviews']
+            return jsonify(obj)
+        raise NotFound()
+    all_users = storage.all(User).values()
+    users = []
+    for user in all_users:
+        obj = user.to_dict()
+        if 'places' in obj:
+            del obj['places']
+        if 'reviews' in obj:
+            del obj['reviews']
+        users.append(obj)
+    return jsonify(users)
 
-    Returns:
-        list: All the users
-    """
-    users = storage.all(User)
-    result = []
 
-    for user in users.values():
-        result.append(user.to_dict())
-
-    return jsonify(result)
-
-
-@app_views.route("/users/<user_id>")
-def one_user(user_id):
-    """Get one user
-
-    Args:
-        user_id (str): ID of the user
-
-    Returns:
-        dict: The user in JSON
-    """
+@app_views.route('/users/<user_id>', methods=['DELETE'])
+def remove_user(user_id):
+    '''Removes a user with the given id.
+    '''
     user = storage.get(User, user_id)
-    if not user:
-        abort(404)
-
-    return jsonify(user.to_dict())
-
-
-@app_views.route("/users/<user_id>", methods=["DELETE"])
-def delete_user(user_id):
-    """Delete user
-
-    Args:
-        user_id (str): ID of the user
-
-    Returns:
-        dict: Am empty JSON
-    """
-    user = storage.get(User, user_id)
-    if not user:
-        abort(404)
-
-    user.delete()
-    storage.save()
-
-    return jsonify({})
+    if user:
+        storage.delete(user)
+        storage.save()
+        return jsonify({}), 200
+    raise NotFound()
 
 
-@app_views.route("/users", methods=["POST"])
-def create_user():
-    """Create user
-
-    Returns:
-        dict: User JSON
-    """
-    payload = request.get_json()
-    if not payload:
-        abort(400, "Not a JSON")
-    if "email" not in payload:
-        abort(400, "Missing email")
-    if "password" not in payload:
-        abort(400, "Missing password")
-
-    user = User(**payload)
+@app_views.route('/users', methods=['POST'])
+def add_user():
+    '''Adds a new user.
+    '''
+    data = {}
+    try:
+        data = request.get_json()
+    except Exception:
+        data = None
+    if type(data) is not dict:
+        raise BadRequest(description='Not a JSON')
+    if 'email' not in data:
+        raise BadRequest(description='Missing email')
+    if 'password' not in data:
+        raise BadRequest(description='Missing password')
+    user = User(**data)
     user.save()
+    obj = user.to_dict()
+    if 'places' in obj:
+        del obj['places']
+    if 'reviews' in obj:
+        del obj['reviews']
+    return jsonify(obj), 201
 
-    return jsonify(user.to_dict()), 201
 
-
-@app_views.route("/users/<user_id>", methods=["PUT"])
+@app_views.route('/users/<user_id>', methods=['PUT'])
 def update_user(user_id):
-    """Update user
-
-    Args:
-        user_id (str): ID of the user
-
-    Returns:
-        dict: Updated user in JSON
-    """
+    '''Updates the user with the given id.
+    '''
+    xkeys = ('id', 'email', 'created_at', 'updated_at')
     user = storage.get(User, user_id)
-    payload = request.get_json()
-    if not user:
-        abort(404)
-    if not payload:
-        abort(400, description="Not a JSON")
-
-    for key, value in user.to_dict().items():
-        if key not in ["id", "email", "created_at", "updated_at", "__class__"]:
-            if key in payload:
-                if key == "password":
-                    setattr(user, key,
-                            md5(str(payload[key]).encode()).hexdigest())
-                else:
-                    setattr(user, key,
-                            payload[key] if key in payload else value)
-    user.save()
-
-    return jsonify(user.to_dict())
+    if user:
+        data = {}
+        try:
+            data = request.get_json()
+        except Exception:
+            data = None
+        if type(data) is not dict:
+            raise BadRequest(description='Not a JSON')
+        for key, value in data.items():
+            if key not in xkeys:
+                setattr(user, key, value)
+        user.save()
+        obj = user.to_dict()
+        if 'places' in obj:
+            del obj['places']
+        if 'reviews' in obj:
+            del obj['reviews']
+        return jsonify(obj), 200
+    raise NotFound()
