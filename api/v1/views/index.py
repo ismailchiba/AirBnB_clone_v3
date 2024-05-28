@@ -1,5 +1,40 @@
 #!/usr/bin/python3
-"""index.py"""
+"""
+index.py
+
+This module serves as the entry point for the Flask application.
+It imports the necessary modules and classes,
+configures the Flask application, and sets up the routes for the API endpoints.
+
+Classes:
+    None
+
+Functions:
+    route():
+        Returns an OK status code in JSON format.
+
+    stats():
+        Retrieves the number of each object by type.
+
+Routes:
+    /status:
+        GET: Returns an OK status code in JSON format.
+
+    /stats:
+        GET: Retrieves the number of each object by type.
+
+Dependencies:
+    - Flask
+    - api.v1.views
+    - models
+    - models.amenity
+    - models.city
+    - models.place
+    - models.review
+    - models.state
+    - models.user
+
+"""
 
 from api.v1.views import app_views
 from flask import jsonify
