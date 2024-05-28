@@ -67,7 +67,8 @@ def update_user(user_id):
     return make_response(jsonify(user.to_dict()), 200)
 
 
-@app_views.route("/users/<user_id>/places", strict_slashes=False, methods=["GET"])
+@app_views.route(
+        "/users/<user_id>/places", strict_slashes=False, methods=["GET"])
 def get_user_places(user_id):
     """Retrieves the list of all Place objects of a User"""
     user = storage.get(User, user_id)
@@ -76,7 +77,8 @@ def get_user_places(user_id):
     return jsonify([place.to_dict() for place in user.places])
 
 
-@app_views.route("/users/<user_id>/places", strict_slashes=False, methods=["POST"])
+@app_views.route(
+        "/users/<user_id>/places", strict_slashes=False, methods=["POST"])
 def create_user_place(user_id):
     """Creates a Place"""
     user = storage.get(User, user_id)

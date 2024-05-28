@@ -7,7 +7,8 @@ from models.city import City
 from flask import abort, jsonify, request
 
 
-@app_views.route("/states/<state_id>/cities", strict_slashes=False, methods=["GET"])
+@app_views.route(
+        "/states/<state_id>/cities", strict_slashes=False, methods=["GET"])
 def get_cities(state_id):
     """Get cities by state"""
     state = storage.get(State, state_id)
@@ -36,7 +37,8 @@ def delete_city(city_id):
     return jsonify({}), 200
 
 
-@app_views.route("/states/<state_id>/cities", strict_slashes=False, methods=["POST"])
+@app_views.route(
+        '/states/<state_id>/cities', strict_slashes=False, methods=['POST'])
 def create_city(state_id):
     """Create city"""
     state = storage.get(State, state_id)
