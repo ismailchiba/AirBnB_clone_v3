@@ -4,10 +4,11 @@ Flask Application
 Endpoint (route) will be to return the status of your API
 """
 
-import os
+
 from flask import Flask
 from models import storage
 from api.v1.views import app_views
+import os
 from flask import jsonify
 
 
