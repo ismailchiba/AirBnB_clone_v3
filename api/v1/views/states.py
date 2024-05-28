@@ -50,8 +50,8 @@ def post_state():
     return make_response(jsonify(state.to_dict()), 201)
 
 
-
-@app_views.route('/states/<string:state_id>', methods=['PUT'], strict_slashes=False)
+@app_views.route('/states/<string:state_id>', methods=['PUT'],
+                 strict_slashes=False)
 def put_state(state_id):
     """update a state"""
     state = storage.get("State", state_id)
@@ -64,4 +64,3 @@ def put_state(state_id):
             setattr(state, attr, val)
     state.save()
     return jsonify(state.to_dict())
-
