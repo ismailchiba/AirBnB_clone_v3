@@ -43,7 +43,8 @@ def create_data():
     data = request.get_json()
     if "name" not in data:
         abort(400, "Missing name")
-    e = State(**data)
+    e = State(name=request.json['name'])
+    # e = State(**data)
     e.save()
     return jsonify(e.to_dict()), 201
 
