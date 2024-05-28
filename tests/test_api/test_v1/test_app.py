@@ -26,10 +26,12 @@ class TestApp(unittest.TestCase):
 
     def test_404_error(self):
         """
-        Test a non-existing route
+        Testing a non-existing route
         """
         response = self.app.get('/api/v1/non-existent')
         self.assertEqual(response.status_code, 404)
+        self.assertEqual(json.loads(response.data), {"error": "Not found"})
+
 
 if __name__ == '__main__':
     unittest.main()
