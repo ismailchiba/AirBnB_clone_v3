@@ -82,7 +82,7 @@ class FileStorage:
         '''
         obj_dict = models.storage.all(cls)
         for key, value in obj_dict.items():
-            new_key = f'{cls.__name__}.{id}'
+            new_key = '{}.{}'.format(cls.__name__, id)
             if key == new_key:
                 return value
         return None
