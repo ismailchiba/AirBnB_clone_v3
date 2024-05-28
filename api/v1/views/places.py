@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """Handles all default RESTful API actions for Place objects"""
 
-from api.v1.app import app_views
+from api.v1.views import app_views
 from models import storage
 from models.place import Place
 from models.city import City

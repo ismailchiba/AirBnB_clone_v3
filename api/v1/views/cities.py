@@ -1,11 +1,11 @@
 #!/usr/bin/python3
 """Handles all default RESTful API actions for City objects"""
 
-from api.v1.app import app_views
 from models import storage
 from models.city import City
 from models.state import State
 from flask import abort, jsonify, request
+from api.v1.views import app_views
 
 
 @app_views.route('/states/<state_id>/cities', methods=['GET'],
