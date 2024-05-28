@@ -116,7 +116,7 @@ class TestFileStorage(unittest.TestCase):
 
     def test_get(self):
         '''
-            Test if the method retrieved by get method is correct
+            Test the method retrieved by get method
         '''
         created_state = State(name="Nigeria")
         storage.new(new_state)
@@ -125,10 +125,10 @@ class TestFileStorage(unittest.TestCase):
         self.assertIsInstance(result, State)
 
     def test_count(self):
+        '''
+            Test if the count method returns correct num
 	'''
-	    Test if the count method returns the correct num
-	'''
-	value = storage.count("State")
-	created_state = State(name="Nigeria")
-	storage.new("created_state")
-	self.assertEqual(value + 1, storage.count("State"))
+    value = storage.count("State")
+    created_state = State(name="Nigeria")
+    storage.new("created_state")
+    self.assertEqual(value + 1, storage.count("State"))
