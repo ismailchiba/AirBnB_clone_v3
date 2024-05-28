@@ -27,10 +27,6 @@ class DBStorage:
     """Database Storage"""
     __engine = None
     __session = None
-    __table_args__ = {
-        'mysql_charset': 'latin1',
-        'mysql_collate': 'latin1_swedish_ci'
-    }
 
     def __init__(self):
         """Initializes the object"""
