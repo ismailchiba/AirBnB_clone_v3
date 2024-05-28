@@ -11,18 +11,19 @@ from models import storage
 
 @app_views.route("/status", strict_slashes=False)
 def stat():
-    '''
+    """
     returns the status of the page in json format
-    '''
+    """
     return jsonify({
         "status": "OK"
         })
 
+
 @app_views.route("/stats", strict_slashes=False)
 def objects():
-    '''
+    """
     counts the number of objects
-    '''
+    """
     objs = {}
     classes = {
             "amenities": "amenities",
@@ -38,6 +39,8 @@ def objects():
         objs[class_property] = count
 
     return jsonify(objs)
+
+
 @app_views.route("/nop", strict_slashes=False)
 def nop():
     return jsonify({

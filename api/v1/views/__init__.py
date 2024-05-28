@@ -1,7 +1,7 @@
 #!/usr/bin/python3
-'''
+"""
 The init module
-'''
+"""
 
 #from api.v1.views.index import *
 from flask import Blueprint
