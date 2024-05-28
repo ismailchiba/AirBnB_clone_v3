@@ -1,3 +1,4 @@
+
 #!/usr/bin/python3
 """
 app
@@ -43,3 +44,4 @@ def handle_404(exception):
 
 if __name__ == "__main__":
     app.run(getenv("HBNB_API_HOST"), getenv("HBNB_API_PORT"))
+
