@@ -2,18 +2,16 @@
 """ endpoint (route) will be to return the status of your API
 """
 
-from flask import Flask
+from flask import Flask, jasonify
 from models import storage
 from api.v1.views import app_views
 from os import getenv
 from werkzeug.exceptions import HTTPException
-from flask import jsonify
 from flask_cors import CORS
-
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "0.0.0.0"}})
-
 app.register_blueprint(app_views)
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 
 
 @app.teardown_appcontext
