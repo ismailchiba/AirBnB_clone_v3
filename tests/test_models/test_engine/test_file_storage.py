@@ -119,9 +119,9 @@ class TestFileStorage(unittest.TestCase):
         """Test that get retrieves an object from the FileStorage.__objects attr"""
         storage = FileStorage()
         instance = BaseModel()
-        instance_key = instance.__class__.__name__ + "." + (link unavailable)
+        instance_key = instance.__class__.__name__ + "." + instance.id
         storage.new(instance)
-        retrieved_instance = storage.get(instance.__class__.__name__, (link unavailable))
+        retrieved_instance = storage.get(instance.__class__.__name__, instance.id
         self.assertEqual(instance, retrieved_instance)
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
@@ -130,6 +130,6 @@ class TestFileStorage(unittest.TestCase):
         storage = FileStorage()
         for i in range(10):
             instance = BaseModel()
-            instance_key = instance.__class__.__name__ + "." + (link unavailable)
+            instance_key = instance.__class__.__name__ + "." + instance.id
             storage.new(instance)
         self.assertEqual(storage.count(), 10)
