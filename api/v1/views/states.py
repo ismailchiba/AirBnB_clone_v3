@@ -24,16 +24,17 @@ def get_states():
 def get_state(state_id):
     """Retrieving State object"""
     state = storage.get(State, state_id)
-    if state is None:
+    if not state:
         abort(404)
     return jsonify(state.to_dict()), 200
 
 
-@app_views.route('/states/<state_id>', methods=['DELETE'], strict_slashes=False)
+@app_views.route('/states/<state_id>', methods=['DELETE'],
+                 strict_slashes=False)
 def delete_state(state_id):
     """Deleting State object"""
     state = storage.get(State, state_id)
-    if state is None:
+    if not state:
         abort(404)
     storage.delete(state)
     storage.save()
@@ -43,28 +44,30 @@ def delete_state(state_id):
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
 def create_state():
     """Creating State object"""
-    data = request.get_json()
-    if data is None:
-        return jsonify({'error': 'Not a JSON'}), 400
-    if 'name' not in data:
-        return jsonify({'error': 'Missing name'}), 400
-    state = State(**data)
-    storage.new(state)
+    try:
+        state = request.get_json()
+    except Exception as e:
+        abort(400, description="Not a JSON")
+    if 'name' not in state:
+        abort(400, description="Missing name")
+    new_state = State(**state)
+    storage.new(new_state)
     storage.save()
-    return jsonify(state.to_dict()), 201
+    return jsonify(new_state.to_dict()), 201
 
 
 @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
 def update_state(state_id):
     """Updating State object"""
     state = storage.get(State, state_id)
-    if state is None:
+    if not state:
         abort(404)
-    data = request.get_json()
-    if data is None:
-        return jsonify({'error': 'Not a JSON'}), 400
+    try:
+        data = request.get_json()
+    except Exception as e:
+        abort(400, description="Not a JSON")
     for key, value in data.items():
         if key not in ['id', 'created_at', 'updated_at']:
             setattr(state, key, value)
-    storage.save()
+    state.save()
     return jsonify(state.to_dict()), 200
