@@ -25,7 +25,11 @@ classes = {
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
 def route():
     """Returns an OK status code in json format"""
-    return jsonify({"status": "OK"})
+    response = {
+        "status": "OK"
+    }
+
+    return jsonify(response), 200
 
 
 @app_views.route('/stats', methods=['GET'], strict_slashes=False)

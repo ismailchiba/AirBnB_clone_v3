@@ -1,11 +1,10 @@
 #!/usr/bin/python3
-"""View for State objects"""
+"""Handles all default RESTful API actions for State objects"""
 
 from api.v1.views import app_views
-from flask import jsonify, abort, request, make_response
+from flask import jsonify, abort, request
 from models import storage
 from models.state import State
-from werkzeug.exceptions import BadRequest
 
 states_dict = storage.all(State)
 
@@ -59,7 +58,7 @@ def create_state():
     """Creates a new State object"""
     try:
         received = request.get_json()
-    except BadRequest:
+    except Exception:
         abort(400, description='Not a JSON')
 
     if 'name' not in received:
@@ -84,7 +83,7 @@ def update_state(state_id):
 
     try:
         received = request.get_json()
-    except BadRequest:
+    except Exception:
         abort(400, description='Not a JSON')
 
     if 'name' not in received:
@@ -101,7 +100,7 @@ def update_state(state_id):
     return jsonify(state.to_dict()), 200
 
 
-@app_views.errorhandler(400)
-def response_not_json(err):
-    """Handles 400 errors and displays custom message"""
-    return make_response(jsonify({'error': err.description}), 400)
+# @app_views.errorhandler(400)
+# def response_not_json(err):
+#     """Handles 400 errors and displays custom message"""
+#     return make_response(jsonify({'error': err.description}), 400)

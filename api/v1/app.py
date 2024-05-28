@@ -23,19 +23,6 @@ def error_not_found(error):
     return make_response(jsonify({"error": "Not found"}), 404)
 
 
-# @app.errorhandler(400)
-# def handle_bad_request(error):
-#     """Custom error handler for 400 errors"""
-#     response = error.get_response()
-#     response.data = jsonify({
-#         "code": error.code,
-#         "name": "Bad Request",
-#         "description": error.description
-#     }).data
-#     response.content_type = "application/json"
-#     return response
-
-
 if __name__ == "__main__":
     host = getenv('HBNB_API_HOST', default='0.0.0.0')
     port = getenv('HBNB_API_PORT', default=5000)
