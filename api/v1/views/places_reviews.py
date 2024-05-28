@@ -72,7 +72,7 @@ def update_review_id(review_id):
     data = request.get_json()
     ig_key = ['id', 'user_id', 'place_id', 'created_at', 'updated_at']
     for key, value in data.items():
-        if key not in ig_keys:
+        if key not in ig_key:
             setattr(review, key, value)
     storage.save()
     return jsonify(review.to_dict()), 200
