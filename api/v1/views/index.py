@@ -22,17 +22,18 @@ def status():
     Returning the status of an API
         Checking the status 200 - OK
     """
+
     return jsonify({"status": "OK"}), 200
 
 
-@app_views.route('/api/v1/stats', methods=['GET'], strict_slashes=False)
+@app_views.route('/stats', methods=['GET'], strict_slashes=False)
 def stats():
     """
     Retrieving the type of objects
         Storing all classes into a variable
     """
-    classes = {"Amenity": Amenity, "City": City, "Place": Place,
-               "Review": Review, "State": State, "User": User}
+    classes = {"amenity": Amenity, "cities": City, "places": Place,
+               "reviews": Review, "states": State, "users": User}
     stats = {}
     for class_name, cls in classes.items():
         stats[class_name] = storage.count(cls)
