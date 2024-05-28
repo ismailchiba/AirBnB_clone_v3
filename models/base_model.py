@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-BaseModel Class of Models Module
+BaseModel Class of Module
 """
 
 import os
