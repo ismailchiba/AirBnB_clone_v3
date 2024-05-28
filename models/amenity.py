@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-holds class Amenity
+Amenity Class from Module
 """
 import os
 from models.base_model import BaseModel, Base
@@ -11,7 +11,7 @@ storage_type = os.environ.get('HBNB_TYPE_STORAGE')
 
 
 class Amenity(BaseModel, Base):
-    """Representation of Amenity"""
+    """Amenity class handles all amenities"""
     if storage_type == "db":
         __tablename__ = 'amenities'
         name = Column(String(128), nullable=False)
