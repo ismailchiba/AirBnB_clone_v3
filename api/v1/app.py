@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Endpoint (route) will be to return the status of your API
+"""Endpoint route will be to return the status of your API
 """
 
 
@@ -20,7 +20,7 @@ def teardown_db(exception):
     storage.close()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     """Run the Flask application"""
     host = os.getenv('HBNB_API_HOST', default='0.0.0.0')
     port = os.getenv('HBNB_API_PORT', default='5000')
