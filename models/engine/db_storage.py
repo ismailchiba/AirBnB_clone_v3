@@ -55,6 +55,27 @@ class DBStorage:
         """add the object to the current database session"""
         self.__session.add(obj)
 
+    def get(self, cls, id):
+        """A method to return an object based on id"""
+        try:
+            return self.__session.query(cls).get(id)
+        except Exception as e:
+            return None
+
+    def count(self, cls=None):
+        """Retuns number of instances in a class None if notfound"""
+        try:
+            if cls:
+                return self.__session.query(cls).count()
+            else:
+                total_count = 0
+                for model in Base._decl_class_registry.values():
+                    if hasattr(model, '__tablename__'):
+                        total_count += self.__session.query(model).count()
+                return total_count
+        except Exception as e:
+            return None
+
     def save(self):
         """commit all changes of the current database session"""
         self.__session.commit()
