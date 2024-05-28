@@ -43,7 +43,7 @@ class FileStorage:
         """serializes __objects to the JSON file (path: __file_path)"""
         json_objects = {}
         for key in self.__objects:
-            json_objects[key] = self.__objects[key].to_dict(save_to_disk=True)
+            json_objects[key] = self.__objects[key].to_dict()  # Removed save_to_disk argument
         with open(self.__file_path, 'w') as f:
             json.dump(json_objects, f)
 
@@ -85,3 +85,4 @@ class FileStorage:
         elif cls is None:
             total = len(self.__objects)
         return total
+
