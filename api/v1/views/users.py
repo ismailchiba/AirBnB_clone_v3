@@ -76,7 +76,7 @@ def add_user():
 def update_user(user_id):
     '''Updates the user with the given id.
     '''
-    xkeys = ('id', 'email', 'created_at', 'updated_at')
+    mykeys = ('id', 'email', 'created_at', 'updated_at')
     user = storage.get(User, user_id)
     if user:
         data = {}
@@ -87,7 +87,7 @@ def update_user(user_id):
         if type(data) is not dict:
             raise BadRequest(description='Not a JSON')
         for key, value in data.items():
-            if key not in xkeys:
+            if key not in mykeys:
                 setattr(user, key, value)
         user.save()
         obj = user.to_dict()

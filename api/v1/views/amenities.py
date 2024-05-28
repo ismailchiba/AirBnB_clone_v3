@@ -4,29 +4,29 @@ from flask import jsonify, request
 from werkzeug.exceptions import NotFound, MethodNotAllowed, BadRequest
 
 from api.v1.views import app_views
-from models import storage
 from models.amenity import Amenity
+from models import storage
 
 
-ALLOWED_METHODS = ['GET', 'DELETE', 'POST', 'PUT']
+METHODS_ALLOWED = ['GET', 'DELETE', 'POST', 'PUT']
 '''Methods allowed for the amenities endpoint.'''
 
 
-@app_views.route('/amenities', methods=ALLOWED_METHODS)
-@app_views.route('/amenities/<amenity_id>', methods=ALLOWED_METHODS)
+@app_views.route('/amenities', methods=METHODS_ALLOWED)
+@app_views.route('/amenities/<amenity_id>', methods=METHODS_ALLOWED)
 def handle_amenities(amenity_id=None):
     '''The method handler for the amenities endpoint.
     '''
-    handlers = {
+    my_handlers = {
         'GET': get_amenities,
         'DELETE': remove_amenity,
         'POST': add_amenity,
         'PUT': update_amenity,
     }
-    if request.method in handlers:
-        return handlers[request.method](amenity_id)
+    if request.method in my_handlers:
+        return my_handlers[request.method](amenity_id)
     else:
-        raise MethodNotAllowed(list(handlers.keys()))
+        raise MethodNotAllowed(list(my_handlers.keys()))
 
 
 def get_amenities(amenity_id=None):
@@ -70,7 +70,7 @@ def add_amenity(amenity_id=None):
 def update_amenity(amenity_id=None):
     '''Updates the amenity with the given id.
     '''
-    xkeys = ('id', 'created_at', 'updated_at')
+    mykeys = ('id', 'created_at', 'updated_at')
     all_amenities = storage.all(Amenity).values()
     res = list(filter(lambda x: x.id == amenity_id, all_amenities))
     if res:
@@ -79,7 +79,7 @@ def update_amenity(amenity_id=None):
             raise BadRequest(description='Not a JSON')
         old_amenity = res[0]
         for key, value in data.items():
-            if key not in xkeys:
+            if key not in mykeys:
                 setattr(old_amenity, key, value)
         old_amenity.save()
         return jsonify(old_amenity.to_dict()), 200

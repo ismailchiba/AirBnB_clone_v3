@@ -6,10 +6,10 @@ from werkzeug.exceptions import NotFound, MethodNotAllowed, BadRequest
 from api.v1.views import app_views
 from models import storage, storage_t
 from models.amenity import Amenity
-from models.city import City
-from models.place import Place
 from models.state import State
 from models.user import User
+from models.city import City
+from models.place import Place
 
 
 @app_views.route('/cities/<city_id>/places', methods=['GET', 'POST'])
@@ -17,16 +17,16 @@ from models.user import User
 def handle_places(city_id=None, place_id=None):
     '''The method handler for the places endpoint.
     '''
-    handlers = {
+    my_handlers = {
         'GET': get_places,
         'DELETE': remove_place,
         'POST': add_place,
         'PUT': update_place
     }
-    if request.method in handlers:
-        return handlers[request.method](city_id, place_id)
+    if request.method in my_handlers:
+        return my_handlers[request.method](city_id, place_id)
     else:
-        raise MethodNotAllowed(list(handlers.keys()))
+        raise MethodNotAllowed(list(my_handlers.keys()))
 
 
 def get_places(city_id=None, place_id=None):
@@ -90,14 +90,14 @@ def add_place(city_id=None, place_id=None):
 def update_place(city_id=None, place_id=None):
     '''Updates the place with the given id.
     '''
-    xkeys = ('id', 'user_id', 'city_id', 'created_at', 'updated_at')
+    mykeys = ('id', 'user_id', 'city_id', 'created_at', 'updated_at')
     place = storage.get(Place, place_id)
     if place:
         data = request.get_json()
         if type(data) is not dict:
             raise BadRequest(description='Not a JSON')
         for key, value in data.items():
-            if key not in xkeys:
+            if key not in mykeys:
                 setattr(place, key, value)
         place.save()
         return jsonify(place.to_dict()), 200
@@ -192,8 +192,8 @@ def find_places():
         places = list(filter(lambda x: x.id not in del_indices, places))
     result = []
     for place in places:
-        obj = place.to_dict()
-        if 'amenities' in obj:
-            del obj['amenities']
-        result.append(obj)
+        myobj = place.to_dict()
+        if 'amenities' in myobj:
+            del myobj['amenities']
+        result.append(myobj)
     return jsonify(result)

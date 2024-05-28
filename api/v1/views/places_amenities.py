@@ -5,8 +5,8 @@ from werkzeug.exceptions import NotFound, MethodNotAllowed
 
 from api.v1.views import app_views
 from models import storage, storage_t
-from models.amenity import Amenity
 from models.place import Place
+from models.amenity import Amenity
 
 
 @app_views.route('/places/<place_id>/amenities', methods=['GET'])
@@ -17,15 +17,15 @@ from models.place import Place
 def handle_places_amenities(place_id=None, amenity_id=None):
     '''The method handler for the places endpoint.
     '''
-    handlers = {
+    my_handlers = {
         'GET': get_place_amenities,
         'DELETE': remove_place_amenity,
         'POST': add_place_amenity
     }
-    if request.method in handlers:
-        return handlers[request.method](place_id, amenity_id)
+    if request.method in my_handlers:
+        return my_handlers[request.method](place_id, amenity_id)
     else:
-        raise MethodNotAllowed(list(handlers.keys()))
+        raise MethodNotAllowed(list(my_handlers.keys()))
 
 
 def get_place_amenities(place_id=None, amenity_id=None):

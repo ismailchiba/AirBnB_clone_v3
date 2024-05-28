@@ -15,16 +15,16 @@ from models.user import User
 def handle_reviews(place_id=None, review_id=None):
     '''The method handler for the reviews endpoint.
     '''
-    handlers = {
+    my_handlers = {
         'GET': get_reviews,
         'DELETE': remove_review,
         'POST': add_review,
         'PUT': update_review
     }
-    if request.method in handlers:
-        return handlers[request.method](place_id, review_id)
+    if request.method in my_handlers:
+        return my_handlers[request.method](place_id, review_id)
     else:
-        raise MethodNotAllowed(list(handlers.keys()))
+        raise MethodNotAllowed(list(my_handlers.keys()))
 
 
 def get_reviews(place_id=None, review_id=None):
@@ -81,7 +81,7 @@ def add_review(place_id=None, review_id=None):
 def update_review(place_id=None, review_id=None):
     '''Updates the review with the given id.
     '''
-    xkeys = ('id', 'user_id', 'place_id', 'created_at', 'updated_at')
+    mykeys = ('id', 'user_id', 'place_id', 'created_at', 'updated_at')
     if review_id:
         review = storage.get(Review, review_id)
         if review:
@@ -89,7 +89,7 @@ def update_review(place_id=None, review_id=None):
             if type(data) is not dict:
                 raise BadRequest(description='Not a JSON')
             for key, value in data.items():
-                if key not in xkeys:
+                if key not in mykeys:
                     setattr(review, key, value)
             review.save()
             return jsonify(review.to_dict()), 200

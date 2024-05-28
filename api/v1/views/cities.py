@@ -5,10 +5,10 @@ from werkzeug.exceptions import NotFound, MethodNotAllowed, BadRequest
 
 from api.v1.views import app_views
 from models import storage, storage_t
-from models.city import City
-from models.place import Place
 from models.review import Review
 from models.state import State
+from models.city import City
+from models.place import Place
 
 
 @app_views.route('/states/<state_id>/cities', methods=['GET', 'POST'])
@@ -16,16 +16,16 @@ from models.state import State
 def handle_cities(state_id=None, city_id=None):
     '''The method handler for the cities endpoint.
     '''
-    handlers = {
+    my_handlers = {
         'GET': get_cities,
         'DELETE': remove_city,
         'POST': add_city,
         'PUT': update_city,
     }
-    if request.method in handlers:
-        return handlers[request.method](state_id, city_id)
+    if request.method in my_handlers:
+        return my_handlers[request.method](state_id, city_id)
     else:
-        raise MethodNotAllowed(list(handlers.keys()))
+        raise MethodNotAllowed(list(my_handlers.keys()))
 
 
 def get_cities(state_id=None, city_id=None):
@@ -83,7 +83,7 @@ def add_city(state_id=None, city_id=None):
 def update_city(state_id=None, city_id=None):
     '''Updates the city with the given id.
     '''
-    xkeys = ('id', 'state_id', 'created_at', 'updated_at')
+    mykeys = ('id', 'state_id', 'created_at', 'updated_at')
     if city_id:
         city = storage.get(City, city_id)
         if city:
@@ -91,7 +91,7 @@ def update_city(state_id=None, city_id=None):
             if type(data) is not dict:
                 raise BadRequest(description='Not a JSON')
             for key, value in data.items():
-                if key not in xkeys:
+                if key not in mykeys:
                     setattr(city, key, value)
             city.save()
             return jsonify(city.to_dict()), 200

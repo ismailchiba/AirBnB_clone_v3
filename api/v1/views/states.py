@@ -17,16 +17,16 @@ ALLOWED_METHODS = ['GET', 'DELETE', 'POST', 'PUT']
 def handle_states(state_id=None):
     '''The method handler for the states endpoint.
     '''
-    handlers = {
+    my_handlers = {
         'GET': get_states,
         'DELETE': remove_state,
         'POST': add_state,
         'PUT': update_state,
     }
-    if request.method in handlers:
-        return handlers[request.method](state_id)
+    if request.method in my_handlers:
+        return my_handlers[request.method](state_id)
     else:
-        raise MethodNotAllowed(list(handlers.keys()))
+        raise MethodNotAllowed(list(my_handlers.keys()))
 
 
 def get_states(state_id=None):
@@ -70,7 +70,7 @@ def add_state(state_id=None):
 def update_state(state_id=None):
     '''Updates the state with the given id.
     '''
-    xkeys = ('id', 'created_at', 'updated_at')
+    mykeys = ('id', 'created_at', 'updated_at')
     all_states = storage.all(State).values()
     res = list(filter(lambda x: x.id == state_id, all_states))
     if res:
@@ -79,7 +79,7 @@ def update_state(state_id=None):
             raise BadRequest(description='Not a JSON')
         old_state = res[0]
         for key, value in data.items():
-            if key not in xkeys:
+            if key not in mykeys:
                 setattr(old_state, key, value)
         old_state.save()
         return jsonify(old_state.to_dict()), 200
