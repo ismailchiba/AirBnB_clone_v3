@@ -2,7 +2,7 @@
 """ endpoint (route) will be to return the status of your API
 """
 
-from flask import Flask, jasonify
+from flask import Flask, jsonify
 from models import storage
 from api.v1.views import app_views
 from os import getenv
