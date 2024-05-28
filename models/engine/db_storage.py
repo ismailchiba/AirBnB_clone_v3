@@ -99,7 +99,7 @@ class DBStorage:
         Args:
             cls(str): class name
         Returns:
-            the num of obj in storage for the given cls, if no cls is passed, 
+            the num of obj in storage for the given cls 
             return the count of all objs in storage.
         '''
         if cls:
