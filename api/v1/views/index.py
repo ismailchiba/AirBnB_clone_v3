@@ -10,7 +10,7 @@ def api_status():
     return jsonify({"status": "OK"})
 
 
-@pp_views.route('/stats', strict_slashes=False)
+@app_views.route('/stats', strict_slashes=False)
 def get_stats():
     """json stats"""
     stats = {
