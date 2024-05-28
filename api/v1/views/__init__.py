@@ -12,4 +12,5 @@ from . import cities
 from . import amenities
 from . import users
 from . import places
+from . import places_reviews
 
