@@ -16,6 +16,7 @@ import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
+
 classes = {"Amenity": Amenity, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
 
@@ -76,29 +77,17 @@ class DBStorage:
         self.__session.remove()
 
     def get(self, cls, id):
-        """returns the object based on the class and its ID, or
-        None if not found
         """
-        result = None
-        try:
-            objs = self.__session.query(models.classes[cls].all())
-            for obj in objs:
-                if obj.id == id:
-                    result = obj
-        except BaseException:
-            pass
-        return result
+            retrieves one object based on class name and id
+        """
+        if cls and id:
+            fetch = "{}.{}".format(cls, id)
+            all_obj = self.all(cls)
+            return all_obj.get(fetch)
+        return None
 
     def count(self, cls=None):
-        """method to count the number of objects in storage"""
-        class_counter = 0
-
-        if cls:
-            for key, value in models.classes.items():
-                if key != "BaseModel":
-                    objs = self.__session.query(models.classes[key].all())
-                    class_counter += len(objs)
-        else:
-            objs = self.__session.query(models.classes[cls].all())
-            class_counter = len(objs)
-        return class_counter
+        """
+            returns the count of all objects in storage
+        """
+        return (len(self.all(cls)))
