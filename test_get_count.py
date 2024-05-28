@@ -16,3 +16,6 @@ from models.user import User
 
 first_state_id = list(storage.all(User).values())[0].id
 print("First User: {}".format(storage.get(User, first_state_id)))
+
+#rand commit needed
+
