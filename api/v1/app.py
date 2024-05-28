@@ -12,6 +12,15 @@ app.register_blueprint(app_views)
 cors = CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 
 
+@app.after_request
+def after_request(response):
+    """Ensure all responses have CORS headers."""
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+    return response
+
+
 @app.teardown_appcontext
 def teardown_appcontext(code):
     """teardown_appcontext"""
