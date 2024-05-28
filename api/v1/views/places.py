@@ -56,7 +56,7 @@ def create_place(city_id):
         abort(404)
     if data.get('name') is None:
         return "Missing name", 400
-    data["state_id"] = state_id
+    data["city_id"] = city_id
     new_place = Place(name=request.json['name'])
     # new_place = Place(**data)
     new_place.save()
@@ -67,7 +67,7 @@ def create_place(city_id):
 def update_place(place_id):
     """update place"""
     place = storage.get(Place, place_id)
-    if not place:
+    if place is None:
         abort(404)
     data = request.get_json()
     if request.json is None:
