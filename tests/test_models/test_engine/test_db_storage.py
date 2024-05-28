@@ -90,8 +90,8 @@ class TestFileStorage(unittest.TestCase):
 
     @unittest.skipIf(models.storage_t != "db", "not testing db storage")
     def test_get(self):
-        """Test that get properly retrieves one object"""
+        """Test that get properly gets one object"""
 
     @unittest.skipIf(models.storage_t != "db", "not testing db storage")
     def test_count(self):
-        """Test that count properly counts objects in storage"""
+        """Test that count properly number of objects in storage"""
