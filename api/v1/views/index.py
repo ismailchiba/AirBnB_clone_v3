@@ -32,6 +32,7 @@ def stats():
         'State': State,
         'User': User
     }
+    counts = {}
     for cls_name, cls in classes.items():
-        counts.append(cls_name: storage.count(cls))
+        counts[cls_name] = storage.count(cls)
     return jsonify(counts)
