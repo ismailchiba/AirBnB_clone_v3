@@ -33,8 +33,7 @@ USE hbnb_dev_db;
 --
 
 DROP TABLE IF EXISTS `cities`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `cities` (
   `id` varchar(60) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -45,7 +44,7 @@ CREATE TABLE `cities` (
   KEY `state_id` (`state_id`),
   CONSTRAINT `cities_ibfk_1` FOREIGN KEY (`state_id`) REFERENCES `states` (`id`)
 )
-/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Dumping data for table `cities`
@@ -62,8 +61,7 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `states`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `states` (
   `id` varchar(60) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -71,7 +69,7 @@ CREATE TABLE `states` (
   `name` varchar(128) NOT NULL,
   PRIMARY KEY (`id`)
 )
-/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Dumping data for table `states`
