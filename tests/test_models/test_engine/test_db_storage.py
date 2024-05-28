@@ -102,3 +102,7 @@ class TestDbStorage(unittest.TestCase):
         storage.save()
         self.assertEqual(storage.count(), initial_count + 1)
         self.assertEqual(storage.count(State), initial_count + 1)
+
+
+if __name__ == '__main__':
+    unittest.main()
