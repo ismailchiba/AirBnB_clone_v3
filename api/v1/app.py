@@ -5,10 +5,12 @@ and register the blueprint app viewsto flask instance app. """
 from flask import Flask, jsonify
 from models import storage
 from os import getenv
+from flask_cors import CORS
 from api.v1.views import app_views
 
 
 app = Flask(__name__)
+cors = CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 app.register_blueprint(app_views)
 
 
