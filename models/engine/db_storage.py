@@ -88,7 +88,7 @@ class DBStorage:
 
     def count(self, cls=None):
         """Count all classes using mysqlalchemy"""
-         if cls is not None:
+        if cls is not None:
             all_classes = self.all(cls)
             count = 0
             for single_class in all_classes.keys():
