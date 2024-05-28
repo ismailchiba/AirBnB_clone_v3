@@ -8,14 +8,14 @@ from models import storage
 # Define a route for /status on the app_views Blueprint
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
 def get_status():
-    """Returns a JSON object indicating the status"""
+    """ the status"""
     return jsonify({"status": "OK"})
 
 
 # Define a route for /stats on the app_views Blueprint
 @app_views.route('/stats', methods=['GET'], strict_slashes=False)
 def get_stats():
-    """Returns a JSON object with counts of each object type"""
+    """ counts of each object type"""
     stats = {
         "amenities": storage.count("Amenity"),
         "cities": storage.count("City"),
