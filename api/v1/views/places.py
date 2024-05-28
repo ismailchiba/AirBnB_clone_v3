@@ -6,11 +6,8 @@ from models import storage
 from models.city import City
 from models.place import Place
 from models.place import User
-from models.place import Amenity
-from models.place import State
 
-@app_views.route('/cities/<city_id>/places', methods=['GET'],
-		 strict_slashes=False)
+@app_views.route('/cities/<city_id>/places', methods=['GET'])
 @app_views.route('/cities/<city_id>/places/', methods=['GET'])
 def list_places_of_city(city_id):
     '''Retrieves a list of all Place objects in city'''
