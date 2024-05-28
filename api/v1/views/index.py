@@ -1,8 +1,5 @@
 #!/usr/bin/python3
-"""
-Create an endpoint that retrieves the number of each objects by type.
-
-use count() method from storage
+"""Create an endpoint that retrieves the number of each objects by type
 """
 from flask import jsonify
 from api.v1.views import app_views
