@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-objects that handle all default RestFul API actions for Place - Amenity
+The Route for handling place and amenities linking
 """
 from flask import jsonify, abort
 from os import getenv

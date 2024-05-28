@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Objects for handling Place objects and operations
+The object for handling Place objects and operations
 """
 from flask import jsonify, abort, request
 from api.v1.views import app_views, storage
@@ -15,11 +15,10 @@ def places_by_city(city_id):
     :return: json of all Places
     """
     place_list = []
-    city_obj = storage.get("City", city_id)
-    if city_obj is None:
-        abort(404)
-    for place in city_obj.places:
-        place_list.append(place.to_json())
+    city_obj = storage.get("City", str(city_id))
+    for obj in city_obj.places:
+        place_list.append(obj.to_json())
+
     return jsonify(place_list)
 
 
@@ -33,21 +32,22 @@ def place_create(city_id):
     place_json = request.get_json(silent=True)
     if place_json is None:
         abort(400, 'Not a JSON')
+    if not storage.get("User", place_json["user_id"]):
+        abort(404)
+    if not storage.get("City", city_id):
+        abort(404)
     if "user_id" not in place_json:
         abort(400, 'Missing user_id')
     if "name" not in place_json:
         abort(400, 'Missing name')
-    if not storage.get("City", city_id):
-        abort(404)
-    user_id = place_json["user_id"]
-    user_obj = storage.get("User", user_id)
-    if user_obj is None:
-        abort(404)
+
     place_json["city_id"] = city_id
+
     new_place = Place(**place_json)
     new_place.save()
     resp = jsonify(new_place.to_json())
     resp.status_code = 201
+
     return resp
 
 
@@ -59,9 +59,12 @@ def place_by_id(place_id):
     :param place_id: place object id
     :return: place obj with the specified id or error
     """
-    fetched_obj = storage.get("Place", place_id)
+
+    fetched_obj = storage.get("Place", str(place_id))
+
     if fetched_obj is None:
         abort(404)
+
     return jsonify(fetched_obj.to_json())
 
 
@@ -74,15 +77,21 @@ def place_put(place_id):
     :return: Place object and 200 on success, or 400 or 404 on failure
     """
     place_json = request.get_json(silent=True)
+
     if place_json is None:
         abort(400, 'Not a JSON')
-    fetched_obj = storage.get("Place", place_id)
+
+    fetched_obj = storage.get("Place", str(place_id))
+
     if fetched_obj is None:
         abort(404)
+
     for key, val in place_json.items():
         if key not in ["id", "created_at", "updated_at", "user_id", "city_id"]:
             setattr(fetched_obj, key, val)
+
     fetched_obj.save()
+
     return jsonify(fetched_obj.to_json())
 
 
@@ -94,9 +103,13 @@ def place_delete_by_id(place_id):
     :param place_id: Place object id
     :return: empty dict with 200 or 404 if not found
     """
-    fetched_obj = storage.get("Place", place_id)
+
+    fetched_obj = storage.get("Place", str(place_id))
+
     if fetched_obj is None:
         abort(404)
+
     storage.delete(fetched_obj)
     storage.save()
+
     return jsonify({})

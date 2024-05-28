@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Object for handling Review objects and operations
+The route for handling Review objects and operations
 """
 from flask import jsonify, abort, request
 from api.v1.views import app_views, storage
