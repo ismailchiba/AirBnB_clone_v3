@@ -84,9 +84,11 @@ class FileStorage:
         """count the number of objects in a filestorage"""
         counter = 0
         if cls:
-            counter = len(self.objects)
+            # Check if cls is a string (assuming class name is a string)
+            if isinstance(cls, str):
+                for key in self.__objects.keys():
+                    if cls in key:
+                        counter += 1
         else:
-            for key in self.__objects.keys():
-                if cls in key:
-                    counter += 1
+            counter = len(self.__objects)
         return counter
