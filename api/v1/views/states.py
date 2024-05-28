@@ -86,13 +86,9 @@ def update_state(state_id):
     except Exception:
         abort(400, description='Not a JSON')
 
-    if 'name' not in received:
-        abort(400, description='Missing name')
-
     for key, value in received.items():
         if key not in ['id', 'created_at', 'updated_at']:
-            if key == 'name':
-                setattr(state, key, value)
+            setattr(state, key, value)
 
     state.save()
     storage.save()
