@@ -1,4 +1,3 @@
-
 #!/usr/bin/python3
 """
 object handling State objects and operations
