@@ -97,4 +97,3 @@ class DBStorage:
                 return len(count_of_all_cls_2)
         if cls not in classes.values():
             return
-
