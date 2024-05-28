@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""This is an api version 1"""
+"""This is an api version 1 module."""
 from flask import Flask, make_response, jsonify
 from models import storage
 import os
@@ -16,13 +16,13 @@ app.register_blueprint(app_views)
 
 @app.teardown_appcontext
 def teardown(exception):
-    """close all storage"""
+    """close all storage connections at the end of the reques."""
     storage.close()
 
 
 @app.errorhandler(404)
 def not_found(error):
-    """Error Handlers"""
+    """Handle 404 errors by returning a JSON response"""
     return make_response(jsonify({"error": "Not found"}), 404)
 
 
