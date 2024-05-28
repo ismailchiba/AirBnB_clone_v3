@@ -32,7 +32,7 @@ def stats():
     Retrieving the type of objects
         Storing all classes into a variable
     """
-    classes = {"amenity": Amenity, "cities": City, "places": Place,
+    classes = {"amenities": Amenity, "cities": City, "places": Place,
                "reviews": Review, "states": State, "users": User}
     stats = {}
     for class_name, cls in classes.items():
