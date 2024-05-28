@@ -7,7 +7,7 @@ from api.v1.views import app_views
 
 
 @app_views.route('/states', strict_slashes=False)
-def get_states():
+def get_all_states():
     """ Retrieves The list of all State objects. """
     states = storage.all(State).values()
     state_list = [state.to_dict() for state in states]
@@ -21,7 +21,7 @@ def get_state(state_id):
     if state:
         return jsonify(state.to_dict())
     else:
-        return abort(404)
+        abort(404)
 
 
 @app_views.route('/states/<state_id>', methods=['DELETE'],
@@ -38,12 +38,12 @@ def delete_state(state_id):
 
 
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
-def create_state(state_id):
+def create_state():
     """ create a State Object. """
     if request.content_type != 'application/json':
-        return abort(400, 'Not a JSON')
+        abort(400, 'Not a JSON')
     if not request.get_json():
-        return abort(400, 'Not a JSON')
+        abort(400, 'Not a JSON')
     kwargs = request.get_json()
 
     if 'name' not in kwargs:
@@ -58,7 +58,7 @@ def create_state(state_id):
 def update_state(state_id):
     """Updates a State."""
     if request.content_type != 'application/json':
-        return abort(400, 'Not a JSON')
+        abort(400, 'Not a JSON')
     state = storage.get(State, state_id)
     if state:
         if not request.get_json():
@@ -71,4 +71,4 @@ def update_state(state_id):
         state.save()
         return jsonify(state.to_dict()), 200
     else:
-        return abort(404)
+        abort(404)
