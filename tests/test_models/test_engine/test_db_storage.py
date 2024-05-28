@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Contains the TestDBStorageDocs and TestDBStorage classes
+Test for BaseModel Class
 """
 import unittest
 from datetime import datetime
