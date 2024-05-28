@@ -21,6 +21,7 @@ def teardown_appcontext(exception):
     """Close the storage engine"""
     storage.close()
 
+
 @app.errorhandler(404)
 def not_found_error(error):
     """ Return a custom 404 error """
