@@ -9,7 +9,7 @@ from api.v1.views import app_views
 
 
 @app_views.route('/states/<state_id>/cities', methods=['GET'],
-                 strict_slashes=False)
+                 strict_slashes=False, endpoint='get_all')
 def get_all_cities_in_state(state_id):
     """Returns a JSON list of all City objects of a State"""
     state = storage.get(State, state_id)
@@ -21,7 +21,8 @@ def get_all_cities_in_state(state_id):
     return jsonify(list_of_cities)
 
 
-@app_views.route('/cities/<city_id>', methods=['GET'], strict_slashes=False)
+@app_views.route('/cities/<city_id>', methods=['GET'],
+                 strict_slashes=False, endpoint='get_city')
 def get_city(city_id):
     """Retrieves a City object"""
     city = storage.get(City, city_id)
@@ -31,7 +32,8 @@ def get_city(city_id):
     return jsonify(city.to_dict())
 
 
-@app_views.route('/cities/<city_id>', methods=['DELETE'], strict_slashes=False)
+@app_views.route('/cities/<city_id>', methods=['DELETE'],
+                 strict_slashes=False, endpoint='delete_city')
 def delete_city(city_id):
     """Deletes a City object"""
     city = storage.get(City, city_id)
@@ -45,7 +47,7 @@ def delete_city(city_id):
 
 
 @app_views.route('/states/<state_id>/cities', methods=['POST'],
-                 strict_slashes=False)
+                 strict_slashes=False, endpoint='create_city')
 def create_city(state_id):
     """Creates a City"""
     if storage.get(State, state_id) is None:
@@ -70,7 +72,8 @@ def create_city(state_id):
     return jsonify(new_city.to_dict()), 201
 
 
-@app_views.route('/cities/<city_id>', methods=['PUT'], strict_slashes=False)
+@app_views.route('/cities/<city_id>', methods=['PUT'],
+                 strict_slashes=False, endpoint='update_city')
 def update_city(city_id):
     """Updates a city object"""
     city = storage.get(City, city_id)

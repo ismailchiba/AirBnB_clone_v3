@@ -10,7 +10,7 @@ from flask import abort, jsonify, request
 
 
 @app_views.route('/places/<place_id>/reviews', methods=['GET'],
-                 strict_slashes=False)
+                 strict_slashes=False, endpoint='get_all_reviews')
 def get_all_reviews_in_place(place_id):
     """Returns a JSON list of all Review objects of a Place"""
     place = storage.get(Place, place_id)
@@ -22,7 +22,8 @@ def get_all_reviews_in_place(place_id):
     return jsonify(list_of_reviews)
 
 
-@app_views.route('/reviews/<review_id>', methods=['GET'], strict_slashes=False)
+@app_views.route('/reviews/<review_id>', methods=['GET'],
+                 strict_slashes=False, endpoint='get_review')
 def get_review(review_id):
     """Retrieves a Review object"""
     review = storage.get(Review, review_id)
@@ -33,7 +34,7 @@ def get_review(review_id):
 
 
 @app_views.route('/reviews/<review_id>', methods=['DELETE'],
-                 strict_slashes=False)
+                 strict_slashes=False, endpoint='delete_review')
 def delete_review(review_id):
     """Deletes a Review object"""
     review = storage.get(Review, review_id)
@@ -47,7 +48,7 @@ def delete_review(review_id):
 
 
 @app_views.route('/places/<place_id>/reviews', methods=['POST'],
-                 strict_slashes=False)
+                 strict_slashes=False, endpoint='create_review')
 def create_review(place_id):
     """Creates a Review"""
     if storage.get(Place, place_id) is None:
@@ -81,7 +82,8 @@ def create_review(place_id):
     return jsonify(new_place.to_dict()), 201
 
 
-@app_views.route('/reviews/<review_id>', methods=['PUT'], strict_slashes=False)
+@app_views.route('/reviews/<review_id>', methods=['PUT'],
+                 strict_slashes=False, endpoint='update_review')
 def update_review(review_id):
     """Updates a review object"""
     review = storage.get(Review, review_id)
