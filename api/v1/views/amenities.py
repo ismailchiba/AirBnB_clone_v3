@@ -71,7 +71,9 @@ def put_amenity(amenity_id):
     """
     Updates an amenity
     """
-    if not request.is_json():
+    obj = request.get_json(silent=True)
+
+    if not obj:
         abort(400, description="Not a JSON")
 
     ignore_keys = ['id', 'created_at', 'updated_at']
@@ -81,7 +83,6 @@ def put_amenity(amenity_id):
     if not amenity:
         abort(404)
 
-    obj = request.get_json(silent=True)
     for key, value in obj.items():
         if key not in ignore_keys:
             setattr(amenity, key, value)
