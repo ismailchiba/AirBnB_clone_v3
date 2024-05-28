@@ -5,6 +5,7 @@ Contains the TestFileStorageDocs classes
 
 from datetime import datetime
 import inspect
+import json
 import models
 from models.engine import file_storage
 from models.amenity import Amenity
@@ -14,10 +15,10 @@ from models.place import Place
 from models.review import Review
 from models.state import State
 from models.user import User
-import json
-import os
 import pep8
+import os
 import unittest
+
 FileStorage = file_storage.FileStorage
 classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
@@ -113,3 +114,44 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+
+    @unittest.skipIf(models.storage_t == "db", "not testing file storage")
+    def test_get(self):
+        """Test that get properly retrieves one object"""
+        storage = FileStorage()
+        new_state = State()
+        new_state.name = "California"
+        storage.new(new_state)
+        storage.save()
+        self.assertIs(storage.get(State, new_state.id), new_state)
+
+    @unittest.skipIf(models.storage_t == "db", "not testing file storage")
+    def test_count(self):
+        """Test that count properly counts objects"""
+        storage = FileStorage()
+        new_state = State()
+        new_state.name = "California"
+        storage.new(new_state)
+        storage.save()
+        self.assertEqual(storage.count(State), 1)
+        self.assertEqual(storage.count(), 1)
+        new_city = City()
+        new_city.name = "San Francisco"
+        new_city.state_id = new_state.id
+        storage.new(new_city)
+        storage.save()
+        self.assertEqual(storage.count(City), 1)
+        self.assertEqual(storage.count(), 2)
+        new_city_2 = City()
+        new_city_2.name = "San Jose"
+        new_city_2.state_id = new_state.id
+        storage.new(new_city_2)
+        storage.save()
+        self.assertEqual(storage.count(City), 2)
+        self.assertEqual(storage.count(), 3)
+        new_state_2 = State()
+        new_state_2.name = "Nevada"
+        storage.new(new_state_2)
+        storage.save()
+        self.assertEqual(storage.count(State), 2)
+        self.assertEqual(storage.count(), 4)
