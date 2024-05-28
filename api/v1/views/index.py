@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-index route /status on the object app_views that returns a JSON: "status"
+Index route /status on the object app_views that returns a JSON: "status"
 """
 
 from flask import jsonify
