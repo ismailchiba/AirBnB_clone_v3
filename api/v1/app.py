@@ -1,7 +1,5 @@
 #!/usr/bin/python3
-"""
-Flask Application
-Endpoint (route) will be to return the status of your API
+"""Endpoint (route) will be to return the status of your API
 """
 
 
