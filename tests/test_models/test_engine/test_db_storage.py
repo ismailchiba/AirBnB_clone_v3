@@ -93,7 +93,7 @@ class TestFileStorage(unittest.TestCase):
         '''
         created_state = State(name="Nigeria")
         storage.new(new_state)
-        key = f"State.{created_state.id}"
+        key = "State.{}".format(created_state.id)
         output = storage.get("State", created_state.id)
         self.assertIsInstance(result, State)
 
