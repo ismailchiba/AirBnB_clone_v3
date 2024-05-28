@@ -97,4 +97,3 @@ def amenity_delete_by_id(amenity_id):
     storage.save()
 
     return jsonify({})
-

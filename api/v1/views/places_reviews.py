@@ -118,4 +118,3 @@ def review_delete_by_id(review_id):
     storage.save()
 
     return jsonify({})
-

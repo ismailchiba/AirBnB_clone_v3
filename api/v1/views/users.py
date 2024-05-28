@@ -102,4 +102,3 @@ def user_delete_by_id(user_id):
     storage.save()
 
     return jsonify({})
-
