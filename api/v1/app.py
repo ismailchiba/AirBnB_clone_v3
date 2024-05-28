@@ -1,7 +1,5 @@
 #!/usr/bin/python3
-"""
-Module create a flask app and register the blueprint app_views to flask instance app. 
-"""
+""" Flask Application"""
 from flask import Flask
 from api.v1.views import app_views
 from models import storage
