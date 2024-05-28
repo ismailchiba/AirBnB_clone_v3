@@ -89,6 +89,6 @@ class TestFileStorage(unittest.TestCase):
 
     def test_get(self):
         pass
-    
+
     def test_count(sef):
         pass
