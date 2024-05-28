@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-""" User view for API v1 """
+""" User view for API v1. """
+
 from flask import abort, jsonify, request
 from models import storage
 from models.user import User
@@ -9,6 +10,7 @@ from api.v1.views import app_views
 @app_views.route('/users', methods=['GET'], strict_slashes=False)
 def get_users():
     """ Retrieve the list of all User objects. """
+
     users = storage.all(User)
     return jsonify([user.to_dict() for user in users.values()])
 
@@ -16,6 +18,7 @@ def get_users():
 @app_views.route('/users/<user_id>', methods=['GET'], strict_slashes=False)
 def get_user(user_id):
     """ Retrieve a User object. """
+
     user = storage.get(User, user_id)
     if user is None:
         abort(404)
@@ -54,7 +57,7 @@ def update_user(user_id):
 
 @app_views.route('/users/<user_id>', methods=['DELETE'], strict_slashes=False)
 def delete_user(user_id):
-    """ Delete a User objiect. """
+    """ Delete a User object. """
     user = storage.get(User, user_id)
     if user is None:
         abort(404)
