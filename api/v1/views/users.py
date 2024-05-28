@@ -16,7 +16,7 @@ def get_users():
 
 
 @app_views.route("/users/<user_id>")
-def get_user(amenity_id):
+def get_user(user_id):
     """get user"""
     res = storage.get(User, user_id)
     if res is None:
@@ -52,7 +52,7 @@ def create_user():
 
 
 @app_views.route("/users/<user_id>", methods=["PUT"])
-def update_user(amenity_id):
+def update_user(user_id):
     """update user"""
     user = storage.get(User, user_id)
     if not user:
