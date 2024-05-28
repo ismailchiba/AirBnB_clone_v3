@@ -2,7 +2,7 @@
 """ Test .get() and .count() methods
 """
 from models import storage
-from models.place import Place
+from models.user import User
 
 #print("All objects: {}".format(storage.count()))
 #print("State objects: {}".format(storage.count(Place)))
@@ -11,8 +11,8 @@ from models.place import Place
 #print("First state: {}".format(first_state_id))
 
 
-print("All objects: {}".format(storage.count()))
-print("State objects: {}".format(storage.count(Place)))
+#print("All objects: {}".format(storage.count()))
+#print("State objects: {}".format(storage.count(Place)))
 
-first_state_id = list(storage.all(Place).values())[0].id
-print("First state: {}".format(storage.get(Place, first_state_id)))
+first_state_id = list(storage.all(User).values())[0].id
+print("First User: {}".format(storage.get(User, first_state_id)))

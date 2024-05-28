@@ -77,8 +77,22 @@ class DBStorage:
 
     def get(self, cls, id):
         """Function to get an object using mysqlaclhemy"""
-        return self.__session
+        if cls is not None and id is not None:
+            all_classes=self.all(cls)
+            get_dict ={}
+            for single_class in all_classes.values():
+                ids=getattr(single_class, 'id')
+                if ids ==id:
+                    return(single_class)
+            return None
 
     def count(self, cls=None):
         """Count all classes using mysqlalchemy"""
-        return self.__engine
+         if cls is not None:
+            all_classes = self.all(cls)
+            count = 0
+            for single_class in all_classes.keys():
+                count +=1
+            return(count)
+        else:
+            return len(self.all())
