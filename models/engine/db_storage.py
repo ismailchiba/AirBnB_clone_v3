@@ -77,13 +77,13 @@ class DBStorage:
             key = cls.__name__ + '.' + id
             return self.__session.get(cls, id)
         return None
-    
+
     def count(self, cls=None):
         """count the number of class or all"""
         if cls:
             return len(self.all(cls))
         return len(self.all())
-    
+
     def close(self):
         """call remove() method on the private session attribute"""
         self.__session.remove()
