@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+
 """
 Contains the TestFileStorageDocs classes
 """
@@ -18,6 +19,7 @@ import json
 import os
 import pep8
 import unittest
+
 FileStorage = file_storage.FileStorage
 classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
@@ -115,30 +117,33 @@ class TestFileStorage(unittest.TestCase):
         self.assertEqual(json.loads(string), json.loads(js))
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
-    def test_get(self):
-        """Test that get retrieves an object from FileStorage.__objects"""
+    def test_get_method(self):
+        """
+        Testing get method for obtaining an instance file storage
+        """
+
         storage = FileStorage()
-        new_dict = {}
-        for key, value in classes.items():
-            instance = value()
-            instance_key = instance.__class__.__name__ + "." + instance.id
-            new_dict[instance_key] = instance
-        save = FileStorage._FileStorage__objects
-        FileStorage._FileStorage__objects = new_dict
-        for key, value in new_dict.items():
-            self.assertEqual(value, storage.get(value.__class__, value.id))
-        FileStorage._FileStorage__objects = save
+        dictionary = {"name": "Vecindad"}
+        instance = State(**dictionary)
+        storage.new(instance)
+        storage.save()
+        storage = FileStorage()
+        get_instance = storage.get(State, instance.id)
+        self.assertEqual(get_instance, instance)
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
-    def test_count(self):
-        """Test that count correctly counts the number of objects in storage"""
+    def test_count_method(self):
+        """
+        Testing count method file storage
+        """
+
         storage = FileStorage()
-        new_dict = {}
-        for key, value in classes.items():
-            instance = value()
-            instance_key = instance.__class__.__name__ + "." + instance.id
-            new_dict[instance_key] = instance
-        save = FileStorage._FileStorage__objects
-        FileStorage._FileStorage__objects = new_dict
-        self.assertEqual(len(new_dict), storage.count())
-        FileStorage._FileStorage__objects = save
+        dictionary = {"name": "Vecindad"}
+        state = State(**dictionary)
+        storage.new(state)
+        dictionary = {"name": "Mexico"}
+        city = City(**dictionary)
+        storage.new(city)
+        storage.save()
+        c = storage.count()
+        self.assertEqual(len(storage.all()), c)
