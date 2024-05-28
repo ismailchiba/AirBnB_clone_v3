@@ -126,9 +126,9 @@ class TestFileStorage(unittest.TestCase):
 
     def test_count(self):
         '''
-            Test if the count method returns correct num
-	'''
-    value = storage.count("State")
-    created_state = State(name="Nigeria")
-    storage.new("created_state")
-    self.assertEqual(value + 1, storage.count("State"))
+        Test if the count method returns correct number
+        '''
+        value = storage.count("State")
+        created_state = State(name="Nigeria")
+        storage.new(created_state)
+        self.assertEqual(value + 1, storage.count("State"))
