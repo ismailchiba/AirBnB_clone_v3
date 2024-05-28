@@ -11,11 +11,11 @@ from api.v1.views import app_views
 
 app = Flask(__name__)
 '''The Flask web application instance.'''
-host = os.getenv('HBNB_API_HOST', '0.0.0.0')
-port = int(os.getenv('HBNB_API_PORT', '5000'))
+app_host = os.getenv('HBNB_API_HOST', '0.0.0.0')
+app_port = int(os.getenv('HBNB_API_PORT', '5000'))
 app.url_map.strict_slashes = False
 app.register_blueprint(app_views)
-CORS(app, resources={'/*': {'origins': host}})
+CORS(app, resources={'/*': {'origins': app_host}})
 
 
 @app.teardown_appcontext
@@ -41,10 +41,10 @@ def error_400(error):
 
 
 if __name__ == '__main__':
-    host = os.getenv('HBNB_API_HOST', '0.0.0.0')
-    port = int(os.getenv('HBNB_API_PORT', '5000'))
+    app_host = os.getenv('HBNB_API_HOST', '0.0.0.0')
+    app_port = int(os.getenv('HBNB_API_PORT', '5000'))
     app.run(
-        host=host,
-        port=port,
+        host=app_host,
+        port=app_port,
         threaded=True
     )
