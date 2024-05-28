@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-index file 
+index file
 """
 from flask import jsonify
 from . import app_views
@@ -19,6 +19,7 @@ def status():
     """Returns a JSON status"""
     return jsonify({"status": "OK"})
 
+
 @app_views.route('/stats', methods=['GET'])
 def stats():
     """Return the count of all objects in each class"""
@@ -31,6 +32,6 @@ def stats():
         'State': State,
         'User': User
     }
-
-    counts = {cls_name: storage.count(cls) for cls_name, cls in classes.items()}
+    for cls_name, cls in classes.items():
+        counts.append(cls_name: storage.count(cls))
     return jsonify(counts)
