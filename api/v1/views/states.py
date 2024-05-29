@@ -31,17 +31,17 @@ def state_by_id(state_id):
 def delete_state(state_id):
     """Deletes a state by id"""
     state_obj = storage.get(State, state_id)
-    if not state_obj:
+    if state_obj is None:
         abort(404)
     storage.delete(state_obj)
-    atorage.save()
+    storage.save()
     return jsonify({}), 200
 
 
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
 def create_state():
     """Creates a new state"""
-    data = request.get_json()
+    data = request.get_json(force=True, silent=True)
     if not data:
         abort(400, 'Not a JSON')
     name = data.get('name')
