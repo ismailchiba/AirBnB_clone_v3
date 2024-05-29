@@ -57,9 +57,9 @@ def create_state():
 def update_state(state_id):
     """Updates the state based on the id"""
     state_obj = storage.get(State, state_id)
-    if not state_obj:
+    if state_obj is None:
         abort(404)
-    data = request.get_json()
+    data = request.get_json(force=True, silent=True)
     if not data:
         abort(400, 'Not a JSON')
     for k, v in data.items():
