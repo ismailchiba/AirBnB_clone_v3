@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """
+<<<<<<< HEAD
 module to generate json response
 """
 
@@ -25,9 +26,22 @@ def index():
     return jsonify(response)
 
 
-@app_views.route('/stats', strict_slashes=False)
+# @app_views.route('/stats', strict_slashes=False)
+# def stats():
+#     response = {}
+#     for key, value in classes.items():
+#         response[key] = storage.count(value)
+#     return jsonify(response)
+
+@app_views.route('/stats')
 def stats():
-    response = {}
-    for key, value in classes.items():
-        response[key] = storage.count(value)
-    return jsonify(response)
+    """returns status : OK"""
+    obj ={
+        "amenities":storage.count(Amenity), 
+        "cities": storage.count(City), 
+        "places": storage.count(Place), 
+        "reviews": storage.count(Review), 
+        "states": storage.count(State), 
+        "users": storage.count(User)
+    }
+    return jsonify(obj)
