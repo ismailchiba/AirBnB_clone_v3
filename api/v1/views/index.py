@@ -6,9 +6,9 @@ from flask import jsonify
 from models import storage
 
 
-classes = {"users": "User", "places": "Place", "states": "State",
-           "cities": "City", "amenities": "Amenity",
-           "reviews": "Review"}
+classes = {"users": User, "places": Place, "states": State,
+           "cities": City, "amenities": Amenity,
+           "reviews": Review}
 
 
 # creating a route /status on the object app_views that returns a JSON
