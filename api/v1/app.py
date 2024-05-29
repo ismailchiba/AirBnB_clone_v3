@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-""" start API engine and create bluprint"""
+""" start API engine and create bluprint
+of the flask app"""
 
 from flask import Flask
 from models import storage
@@ -16,7 +17,7 @@ app.register_blueprint(app_views)
 @app.teardown_appcontext
 def teardowndb(exception):
     """this method handles app.teardown
-    and initiate storage"""
+    and initiate close storage"""
     storage.close()
 
 
