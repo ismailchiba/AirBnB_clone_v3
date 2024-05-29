@@ -12,7 +12,7 @@ from models.amenity import Amenity
 
 @app_views.route('/cities/<city_id>/places',
                  methods=['GET'], strict_slashes=False)
-def list_places_by_city(city_id):
+def list_places_b_city(city_id):
     """list of all Place"""
     city = storage.get(City, city_id)
     if not city:
@@ -23,7 +23,7 @@ def list_places_by_city(city_id):
 
 @app_views.route('/places/<place_id>',
                  methods=['GET'], strict_slashes=False)
-def get_place_by_id(place_id):
+def get_place_b_id(place_id):
     """Get Place"""
     place = storage.get(Place, place_id)
     if not place:
@@ -33,7 +33,7 @@ def get_place_by_id(place_id):
 
 @app_views.route('/places/<place_id>',
                  methods=['DELETE'], strict_slashes=False)
-def delete_place_by_id(place_id):
+def delete_place_b_id(place_id):
     """Delete Place"""
     place = storage.get(Place, place_id)
     if not place:
@@ -45,7 +45,7 @@ def delete_place_by_id(place_id):
 
 @app_views.route('/cities/<city_id>/places',
                  methods=['POST'], strict_slashes=False)
-def create_place(city_id):
+def create_place_id(city_id):
     """new Place"""
     city = storage.get(City, city_id)
     if not city:
@@ -69,7 +69,7 @@ def create_place(city_id):
 
 @app_views.route('/places/<place_id>',
                  methods=['PUT'], strict_slashes=False)
-def update_place_by_id(place_id):
+def update_place_b_id(place_id):
     """Update Place"""
     place = storage.get(Place, place_id)
     if not place:
@@ -87,7 +87,7 @@ def update_place_by_id(place_id):
 
 @app_views.route('/places_search',
                  methods=['POST'], strict_slashes=False)
-def places_search():
+def places_search_places():
     """Retrieves all Place objects"""
     data = request.get_json()
     if data is None:
@@ -113,12 +113,12 @@ def places_search():
 
     if 'amenities' in data:
         amenities_ids = data['amenities']
-        filtered_places = set()
+        filtrd_places = set()
         for place in places:
             place_amenities_ids = [amenity.id for amenity in place.amenities]
             if all(amenity_id in place_amenities_ids for amenity_id in amenities_ids):
-                filtered_places.add(place)
-        places = filtered_places
+                filtrd_places.add(place)
+        places = filtrd_places
 
-    places_list = [place.to_dict() for place in places]
-    return jsonify(places_list), 200
+    plcs_lst = [place.to_dict() for place in places]
+    return jsonify(plcs_lst), 200
