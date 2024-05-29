@@ -44,7 +44,7 @@ class FileStorage:
         """serializes __objects to the JSON file (path: __file_path)"""
         json_objects = {}
         for key in self.__objects:
-            json_objects[key] = self.__objects[key].to_dict()
+            json_objects[key] = self.__objects[key].to_dict(False)
         with open(self.__file_path, 'w') as f:
             json.dump(json_objects, f)
 
@@ -55,7 +55,7 @@ class FileStorage:
                 jo = json.load(f)
             for key in jo:
                 self.__objects[key] = classes[jo[key]["__class__"]](**jo[key])
-        except Exception:
+        except Exception as ex:
             pass
 
     def delete(self, obj=None):
@@ -65,31 +65,22 @@ class FileStorage:
             if key in self.__objects:
                 del self.__objects[key]
 
-    def get(self, cls, id):
-        """retrieve a single object based on the class and id"""
-        if cls is not None and cls in classes.values():
-            for k, v in classes.items():
-                if v == cls:
-                    cls = k
-                    break
-        if type(cls) is str and type(id) is str:
-            key = cls + '.' + id
-            val = self.__objects.get(key, None)
-            return val
-        else:
-            return None
-
-    def count(self, cls=None):
-        """A method to count the number of objects in storage:
-        returns the count of all objects if no class is provided
-        """
-        count = 0
-        if type(cls) is str and cls in classes or cls in classes.values():
-            count = len(self.all(cls))
-        elif cls is None:
-            count = len(self.__objects)
-        return count
-
     def close(self):
         """call reload() method for deserializing the JSON file to objects"""
         self.reload()
+
+    def get(self, cls, id):
+        """ retrieves """
+        if cls in classes.values() and id and type(id) == str:
+            d_obj = self.all(cls)
+            for key, value in d_obj.items():
+                if key.split(".")[1] == id:
+                    return value
+        return None
+
+    def count(self, cls=None):
+        """ counts """
+        data = self.all(cls)
+        if cls in classes.values():
+            data = self.all(cls)
+        return len(data)
