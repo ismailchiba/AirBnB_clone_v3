@@ -2,6 +2,7 @@
 """
 Handling RESTFUL API actions for Amenity objects
 """
+
 from flask import jsonify, request, abort
 from api.v1.views import app_views
 from models.amenity import Amenity
@@ -12,7 +13,9 @@ from models import storage
                  strict_slashes=False)
 def get_amenities():
     """Retrieving all Amenity list objects"""
-    amenities = [amenity.to_dict() for amenity in storage.all(Amenity).values()]
+    amenities = [
+        amenity.to_dict() for amenity in storage.all(Amenity).values()
+        ]
     return jsonify(amenities)
 
 
