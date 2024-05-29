@@ -98,7 +98,7 @@ class TestFileStorage(unittest.TestCase):
 
         session = models.storage._DBStorage__session
 
-        retrieved_state = session.query(State).filter_by(id=new_state.id).first() # noqa
+        retrieved_state = session.query(State).filter_by(id=new_state.id).first()  # noqa
 
         self.assertEqual(retrieved_state.id, new_state.id)
         self.assertEqual(retrieved_state.name, new_state.name)
@@ -113,10 +113,8 @@ class TestFileStorage(unittest.TestCase):
         models.storage.new(new_state)
         models.storage.save()
 
-
         session = models.storage._DBStorage__session
-
-        retrieved_state = session.query(State).filter_by(id=new_state.id).first() #noqa
+        retrieved_state = session.query(State).filter_by(id=new_state.id).first()  # noqa
 
         self.assertEqual(retrieved_state.id, new_state.id)
         self.assertEqual(retrieved_state.name, new_state.name)

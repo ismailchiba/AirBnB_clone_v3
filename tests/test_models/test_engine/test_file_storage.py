@@ -130,9 +130,8 @@ class TestFileStorage(unittest.TestCase):
         self.assertEqual(state_instance, retrieved_state)
 
         fake_state_id = storage.get(State, 'fake_id')
-
         self.assertEqual(fake_state_id, None)
-    
+
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_count(self):
         """ Tests method for obtaining an instance of db storage"""
