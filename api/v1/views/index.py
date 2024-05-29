@@ -8,6 +8,7 @@ from models.review import Review
 from models.state import State
 from models.user import User
 from models import storage
+import json
 
 classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
@@ -27,4 +28,4 @@ def stats():
     obj_stats = {}
     for cls in classes:
         obj_stats[cls] = storage.count(classes[cls])
-    return jsonify(obj_stats)
+    return json.dumps(obj_stats, indent=2) + "\n"
