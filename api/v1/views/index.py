@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+<<<<<<< HEAD
 """Defines the index view functions for the API.
 
 This module provides endpoints for retrieving basic information about 
@@ -10,6 +11,9 @@ the API and its current state. It offers two functionalities:
   objects for each model type (amenities, cities, places, reviews, 
   states, users). It retrieves object counts from the storage layer.
 """
+=======
+"""Index view for the API."""
+>>>>>>> cdb70463e75f202994319b40315a096d05ae4045
 from flask import jsonify
 
 from api.v1.views import app_views
@@ -22,6 +26,7 @@ from models.state import State
 from models.user import User
 
 
+<<<<<<< HEAD
 @app_views.route('/status')
 def get_status():
     """Retrieves the API status.
@@ -42,6 +47,17 @@ def get_stats():
     for that model. Finally, it returns a JSON object containing these 
     counts.
     """
+=======
+@app_views.route("/status", methods=["GET"])
+def get_status():
+    """Return status of the API."""
+    return jsonify("status"="OK")
+
+
+@app_views.route("/stats", methods=["GET"])
+def get_stats():
+    """Retrieve the number of each object for each type."""
+>>>>>>> cdb70463e75f202994319b40315a096d05ae4045
     objects = {
         'amenities': Amenity,
         'cities': City,

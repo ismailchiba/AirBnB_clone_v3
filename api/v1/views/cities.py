@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+<<<<<<< HEAD
 """Defines the view functions for managing cities in the API.
 
 This module handles CRUD operations (Create, Read, Update, Delete) 
@@ -15,6 +16,14 @@ storage type).
 from flask import jsonify, request
 from werkzeug.exceptions import NotFound, MethodNotAllowed, BadRequest
 
+=======
+"""
+Create a new view for State objects that handles
+all default RESTFul API actions
+"""
+from flask import jsonify, request
+from werkzeug.exceptions import NotFound, MethodNotAllowed, BadRequest
+>>>>>>> cdb70463e75f202994319b40315a096d05ae4045
 from api.v1.views import app_views
 from models import storage, storage_t
 from models.city import City
@@ -26,12 +35,16 @@ from models.state import State
 @app_views.route('/states/<state_id>/cities', methods=['GET', 'POST'])
 @app_views.route('/cities/<city_id>', methods=['GET', 'DELETE', 'PUT'])
 def handle_cities(state_id=None, city_id=None):
+<<<<<<< HEAD
     """Dispatches incoming requests based on the HTTP method.
 
     This function acts as a central handler for all city-related 
     requests. It checks the request method and delegates the processing 
     to the appropriate function (get_cities, remove_city, etc.).
     """
+=======
+    """Retrieves the list of all City objects of a State."""
+>>>>>>> cdb70463e75f202994319b40315a096d05ae4045
     handlers = {
         'GET': get_cities,
         'DELETE': remove_city,
@@ -45,6 +58,7 @@ def handle_cities(state_id=None, city_id=None):
 
 
 def get_cities(state_id=None, city_id=None):
+<<<<<<< HEAD
     """Retrieves all cities within a state or a specific city by ID.
 
     If a state ID is provided, this function returns a list of all city 
@@ -52,6 +66,9 @@ def get_cities(state_id=None, city_id=None):
     provided, it fetches the corresponding city object and returns it 
     as JSON, raising a NotFound exception if the city or state is not found.
     """
+=======
+    """Retrieves the list of all City objects of a State."""
+>>>>>>> cdb70463e75f202994319b40315a096d05ae4045
     if state_id:
         state = storage.get(State, state_id)
         if state:
@@ -65,6 +82,7 @@ def get_cities(state_id=None, city_id=None):
 
 
 def remove_city(state_id=None, city_id=None):
+<<<<<<< HEAD
     """Deletes a specific city and potentially related models.
 
     This function searches for the city with the provided ID and attempts 
@@ -74,6 +92,9 @@ def remove_city(state_id=None, city_id=None):
     to maintain data integrity. A success message is returned upon 
     successful deletion, otherwise a NotFound exception is raised.
     """
+=======
+    """Removes city with the given id."""
+>>>>>>> cdb70463e75f202994319b40315a096d05ae4045
     if city_id:
         city = storage.get(City, city_id)
         if city:
@@ -91,6 +112,7 @@ def remove_city(state_id=None, city_id=None):
 
 
 def add_city(state_id=None, city_id=None):
+<<<<<<< HEAD
     """Creates a new city object associated with a specific state.
 
     This function first verifies the existence of the state referenced 
@@ -103,6 +125,9 @@ def add_city(state_id=None, city_id=None):
     Raises a NotFound exception if the state is not found or BadRequest 
     for invalid data or missing required fields.
     """
+=======
+    """Adds a new city.."""
+>>>>>>> cdb70463e75f202994319b40315a096d05ae4045
     state = storage.get(State, state_id)
     if not state:
         raise NotFound()
@@ -118,6 +143,7 @@ def add_city(state_id=None, city_id=None):
 
 
 def update_city(state_id=None, city_id=None):
+<<<<<<< HEAD
     """Updates an existing city object.
 
     This function retrieves the city with the provided ID and attempts 
@@ -126,6 +152,10 @@ def update_city(state_id=None, city_id=None):
     update read-only properties ('id', 'state_id', 'created_at', 
     'updated_at'). A NotFound exception is raised if the city is not found.
     """
+=======
+    '''Updates the city with the given id.
+    '''
+>>>>>>> cdb70463e75f202994319b40315a096d05ae4045
     xkeys = ('id', 'state_id', 'created_at', 'updated_at')
     if city_id:
         city = storage.get(City, city_id)
