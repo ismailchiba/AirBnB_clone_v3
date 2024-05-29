@@ -1,12 +1,12 @@
 #!/usr/bin/python3
 """Defines the view functions for managing amenities in the API.
 
-This module handles CRUD operations (Create, Read, Update, Delete) 
-for amenity objects. It exposes endpoints for fetching all amenities, 
-retrieving a specific amenity by ID, adding new amenities, and deleting 
+This module handles CRUD operations (Create, Read, Update, Delete)
+for amenity objects. It exposes endpoints for fetching all amenities,
+retrieving a specific amenity by ID, adding new amenities, and deleting
 or updating existing ones.
 
-It utilizes the `storage` module for persistence and raises appropriate 
+It utilizes the `storage` module for persistence and raises appropriate
 exceptions for invalid requests or resource not found errors.
 """
 from flask import jsonify, request
@@ -26,8 +26,8 @@ ALLOWED_METHODS = ['GET', 'DELETE', 'POST', 'PUT']
 def handle_amenities(amenity_id=None):
     """Dispatches incoming requests based on the HTTP method.
 
-    This function acts as a central handler for all amenity-related 
-    requests. It checks the request method and delegates the processing 
+    This function acts as a central handler for all amenity-related
+    requests. It checks the request method and delegates the processing
     to the appropriate function (get_amenities, remove_amenity, etc.).
     """
     handlers = {
@@ -45,9 +45,9 @@ def handle_amenities(amenity_id=None):
 def get_amenities(amenity_id=None):
     """Retrieves all amenities or a specific amenity by ID.
 
-    If no ID is provided, this function returns a list of all amenity 
-    objects in JSON format. If an ID is provided, it fetches the 
-    corresponding amenity object and returns it as JSON, raising a 
+    If no ID is provided, this function returns a list of all amenity
+    objects in JSON format. If an ID is provided, it fetches the
+    corresponding amenity object and returns it as JSON, raising a
     NotFound exception if the amenity is not found.
     """
     all_amenities = storage.all(Amenity).values()
@@ -63,9 +63,9 @@ def get_amenities(amenity_id=None):
 def remove_amenity(amenity_id=None):
     """Deletes a specific amenity by ID.
 
-    This function searches for the amenity with the provided ID and 
-    attempts to remove it from storage. If the amenity is found, it is 
-    deleted and a success message is returned. Otherwise, a NotFound 
+    This function searches for the amenity with the provided ID and
+    attempts to remove it from storage. If the amenity is found, it is
+    deleted and a success message is returned. Otherwise, a NotFound
     exception is raised.
     """
     all_amenities = storage.all(Amenity).values()
@@ -80,11 +80,11 @@ def remove_amenity(amenity_id=None):
 def add_amenity(amenity_id=None):
     """Creates a new amenity object.
 
-    This function expects a JSON object containing the amenity data 
-    (including the 'name' property) in the request body. It validates 
-    the request data and creates a new Amenity object if everything 
-    is correct. The new amenity is then saved and returned as JSON. 
-    BadRequest exceptions are raised for invalid data or missing 
+    This function expects a JSON object containing the amenity data
+    (including the 'name' property) in the request body. It validates
+    the request data and creates a new Amenity object if everything
+    is correct. The new amenity is then saved and returned as JSON.
+    BadRequest exceptions are raised for invalid data or missing
     required fields.
     """
     data = request.get_json()
@@ -100,10 +100,10 @@ def add_amenity(amenity_id=None):
 def update_amenity(amenity_id=None):
     """Updates an existing amenity object.
 
-    This function retrieves the amenity with the provided ID and 
-    attempts to update its properties based on the data sent in the 
-    request body (JSON format). It validates the request data and 
-    ignores attempts to update read-only properties ('id', 'created_at', 
+    This function retrieves the amenity with the provided ID and
+    attempts to update its properties based on the data sent in the
+    request body (JSON format). It validates the request data and
+    ignores attempts to update read-only properties ('id', 'created_at',
     'updated_at'). A NotFound exception is raised if the amenity is not found.
     """
     xkeys = ('id', 'created_at', 'updated_at')
