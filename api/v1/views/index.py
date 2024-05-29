@@ -27,5 +27,5 @@ def stats():
 
     obj_stats = {}
     for cls in classes:
-        obj_stats[cls] = storage.count(classes[cls])
+        obj_stats[cls] = len(storage.all(classes[cls]))
     return json.dumps(obj_stats, indent=2) + "\n"
