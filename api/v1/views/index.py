@@ -8,7 +8,6 @@ from models.review import Review
 from models.state import State
 from models.user import User
 from models import storage
-import json
 
 classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
@@ -18,7 +17,7 @@ classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
 def status():
     """ status code """
 
-    return jsonify({"status": "OK"})
+    return jsonify({"status": "OK"}), 200
 
 
 @app_views.route("/stats")
@@ -28,4 +27,4 @@ def stats():
     obj_stats = {}
     for cls in classes:
         obj_stats[cls] = len(storage.all(classes[cls]))
-    return json.dumps(obj_stats, indent=2) + "\n"
+    return jsonify(obj_stats), 200
