@@ -15,7 +15,8 @@ app.register_blueprint(app_views)
 
 @app.teardown_appcontext
 def teardowndb(exception):
-    """initiate storage"""
+    """this method handles app.teardown
+    and initiate storage"""
     storage.close()
 
 
