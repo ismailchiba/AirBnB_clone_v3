@@ -90,3 +90,38 @@ class FileStorage:
             for clas in classes.values():
                 count += len(self.all(clas))
         return count
+
+    def get(self, cls, id):
+        """Retrieves a single object of the provided class by its ID.
+
+        Args:
+            cls: The class of the object to retrieve
+            id: The unique identifier of the object.
+
+        Returns:
+            The requested object if found, otherwise None.
+        """
+        if cls is not None:
+            res = list(
+                filter(
+                    lambda x: type(x) is cls and x.id == id,
+                    self.__objects.values()
+                )
+            )
+            if res:
+                return res[0]
+        return None
+
+    def count(self, cls=None):
+        """Retrieves the total count of objects in a given class.
+
+        If no class is specified, counts all objects.
+
+        Args:
+            cls (type, optional): The class of objects to count. Defaults to
+                None (count all objects).
+
+        Returns:
+            int: The total count of objects.
+        """
+        return len(self.all(cls))
