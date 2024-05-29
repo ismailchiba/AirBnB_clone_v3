@@ -12,7 +12,7 @@ from sqlalchemy.ext.declarative import declarative_base
 import uuid
 
 time = "%Y-%m-%dT%H:%M:%S.%f"
-
+print(f"storage={models.CNC}")
 if models.storage_t == "db":
     Base = declarative_base()
 else:

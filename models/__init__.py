@@ -13,6 +13,7 @@ if os.environ.get('HBNB_TYPE_STORAGE') == 'db':
     from models.engine import db_storage
     CNC = db_storage.DBStorage.CNC
     storage = db_storage.DBStorage()
+    print(storage)
 else:
     from models.engine import file_storage
     CNC = file_storage.FileStorage.CNC
