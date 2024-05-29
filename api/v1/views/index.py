@@ -8,7 +8,7 @@ from storage import count
 
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
 def show():
-    """ return 'status': 'OK' """
+    """ return status: OK """
     return jsonify({"status": "OK"})
 
 app = Flask(__name__)
