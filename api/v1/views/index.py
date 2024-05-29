@@ -16,11 +16,11 @@ app = Flask(__name__)
 def retrieve():
     """retrieves the number of each objects by type"""
     counts = {
-            "amenities": storage.count("amenities"), 
-            "cities": storage.count("cities"), 
-            "places": storage.count("places"), 
-            "reviews": storage.count("reviews"), 
-            "states": storage.count("states"), 
+            "amenities": storage.count("amenities"),
+            "cities": storage.count("cities"),
+            "places": storage.count("places"),
+            "reviews": storage.count("reviews"),
+            "states": storage.count("states"),
             "users": storage.count("users")
             }
     return jsonify(counts)
