@@ -2,10 +2,9 @@
 """Module to create a flask app"""
 
 from api.v1.views import app_views
-from flask import Flask
-from  models import storage
+from flask import Flask, make_response, jsonify
+from models import storage
 import os
-
 
 # create a variable app, instance of Flask
 app = Flask(__name__)
@@ -19,6 +18,12 @@ app.register_blueprint(app_views)
 def teardown_db(exception):
     """Method to handle teardown of app context"""
     storage.close()
+
+
+# create a handler for 404 errors that returns a JSON-formatted 404 status
+@app.errorhandler(404)
+def nop(error):
+    return make_response(jsonify({'error': 'Not found'}), 404)
 
 
 # Run the app
