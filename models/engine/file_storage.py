@@ -93,3 +93,28 @@ class FileStorage:
             count = len(models.storage.all(cls).values())
 
         return count
+
+    def get(self, cls, id):
+        """Retrieve an object
+
+        Description:
+        This method retrieves an object from the file storage matching the
+        class name and the ID
+
+        Args:
+        cls (object): the name of the class
+        id (str): the ID of the object
+
+        Returns:
+        The object based on the class name and its ID, or
+        None if not found
+        """
+        
+        if cls not in classes.values():
+            return None
+
+        objs = models.storage.all(cls)
+
+        for obj in objs.values():
+            if (obj.id == id):
+                return obj
