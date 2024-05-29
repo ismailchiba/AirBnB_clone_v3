@@ -9,7 +9,6 @@ from models import storage
 from flask import jsonify, abort, request
 
 
-# Using to_dict() to retrieve an object into a valid JSON
 # Retrieves the list of all State objects: GET /api/v1/states
 @app_views.route("/states", methods=["GET"], strict_slashes=False)
 def get_states():
@@ -21,8 +20,7 @@ def get_states():
 @app_views.route("/states/<state_id>", methods=["GET"], strict_slashes=False)
 def state_by_id(state_id):
     """Retrieves the state by its id"""
-    states = storage.all(State).values()
-    state_obj = [obj.to_dict() for obj in states if obj.id == state_id]
+    state_obj = storage.get(State, state_id)
     if not state_obj:
         abort(404)
     return jsonify(state_obj)
