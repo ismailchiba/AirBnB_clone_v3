@@ -19,10 +19,10 @@ def get_places(city_id):
     if city is None:
         abort(404)
     places = city.places
-    places.ls = []
+    places_ls = []
     for place in places:
         places_ls.append(place.to_dict())
-    return jsonify(places_list), 200
+    return jsonify(places_ls), 200
 
 
 @app_views.route("/places/<place_id>", strict_slashes=False, methods=["GET"])
@@ -65,7 +65,8 @@ def create_place(city_id):
     if "name" not in data:
         abort(400, "Missing name")
     new_place = Place(city_id=city.id, **data)
-    new_place.save()
+    storage.new(new_place)
+    storage.save()
     return jsonify(new_place.to_dict()), 201
 
 
@@ -80,7 +81,7 @@ def update_place(place_id):
         abort(400, "Not a JSON")
     for k, v in data.items():
         if k not in ['id', 'user_id', 'city_id', 'created_at', 'updated_at']:
-            seattr(place, k, v)
+            setattr(place, k, v)
     storage.save()
     return jsonify(place.to_dict()), 200
 
