@@ -10,11 +10,13 @@ from flask import jsonify, abort, request
 @app_views.route('/api/v1/amenities', methods=['GET'], strict_slashes=False)
 def get_amenities():
     """Retrieves the list of all Amenity objects"""
-    amenities = [amenity.to_dict() for amenity in storage.all(Amenity).values()]
+    amenities = [amenity.to_dict() for amenity in storage.all(Amenity)
+                                                         .values()]
     return jsonify(amenities)
 
 
-@app_views.route('/api/v1/amenities/<amenity_id>', methods=['GET'], strict_slashes=False)
+@app_views.route('/api/v1/amenities/<amenity_id>', methods=['GET'],
+                 strict_slashes=False)
 def get_amenities_by_id(amenity_id):
     """Retrieves a Amenity object by id"""
     amenity = storage.get(Amenity, amenity_id)
@@ -23,7 +25,8 @@ def get_amenities_by_id(amenity_id):
     return jsonify(amenity.to_dict())
 
 
-@app_views.route('/amenities/<amenity_id>', methods=['DELETE'], strict_slashes=False)
+@app_views.route('/amenities/<amenity_id>', methods=['DELETE'],
+                 strict_slashes=False)
 def delete_amenity(amenity_id):
     """Deletes the amenity object by id"""
     amenity = storage.get(Amenity, amenity_id)
@@ -46,10 +49,11 @@ def create_amenity():
     amenity = Amenity(**data)
     storage.new(amenity)
     storage.save()
-    return jsonify(amenity.to_dict())
+    return jsonify(amenity.to_dict()), 201
 
 
-@app_views.route('/amenities/<amenity_id>', methods=['PUT'], strict_slashes=False)
+@app_views.route('/amenities/<amenity_id>', methods=['PUT'],
+                 strict_slashes=False)
 def update_amenity(amenity_id):
     """Updates the amenity object by id"""
     amenity = storage.get(Amenity, amenity_id)
@@ -62,4 +66,4 @@ def update_amenity(amenity_id):
         if k not in ['id', 'created_at', 'updated_at']:
             setattr(amenity, k, v)
     storage.save()
-    return jsonify(amenity.to_dict())
+    return jsonify(amenity.to_dict()), 200
