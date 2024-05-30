@@ -7,7 +7,7 @@ from flask import jsonify, request
 from models import storage
 from models.state import State
 from api.v1.views.custom import get_cls, delete_cls
-add_cls, update_cls, handle_E
+from api.v1.views.custom import add_cls, update_cls, handle_E
 
 
 @app_views.route('/states', strict_slashes=False, methods=['GET', 'POST'])
