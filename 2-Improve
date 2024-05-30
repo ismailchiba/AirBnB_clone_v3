@@ -1,0 +1,58 @@
+Creating a new branch and working on the branch
+
+1]
+Ensure you are on the main/master branch before creating a branch
+
+$ git checkout main
+
+2]
+Create a new branch
+
+$ git branch storage_get_count
+$ git checkout storage_get_count
+
+3]
+You can now Work on the the db_storage.py file in the storage_get_count branch
+After DBStorage update. Add and push
+
+$ git add .
+$ git commit -m ‘updated db_storage’
+$ git push -u origin storage_get_count
+
+The -u option sets the upstream branch allowing us to git push and pull without specifying the branch name
+
+
+
+Creating a Pull Request:
+
+1)
+(If two partners are working together, your partner or anyone who has the link can do this)
+Go to your Airbnb_clone_v3 repository on GitHub, and you should see an option to create a pull request for the storage_get_count branch. 
+
+2)
+Click on it
+fill in the details for the pull request, and create it.
+
+3)
+Review and Merge the Pull Request:
+Once the pull request is created, your partner/peer can review it as a collaborator. 
+After a successful pull and review.
+After the pull request is merged on GitHub,
+
+4)
+
+Locally on your terminal:
+switch back to the main branch on your terminal, pull the changes, and merge the storage_get_count branch into the main branch.
+
+By running these commands on your terminal:
+
+git checkout main
+git pull origin main
+git merge storage_get_count
+
+
+Push the Changes to GitHub:
+
+git push origin main
+
+
