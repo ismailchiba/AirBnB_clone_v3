@@ -11,7 +11,7 @@ import os
 app = Flask(__name__)
 
 # Creating a flask CORS
-CORS(app, resources={r'api/v1/*': {'origins': '*'}})
+CORS(app, resources={r'/api/v1/*': {'origins': '*'}})
 
 # register the blueprint app_views to your Flask instance app
 app.register_blueprint(app_views)
