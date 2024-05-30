@@ -7,7 +7,7 @@ from models.amenity import Amenity
 from flask import jsonify, abort, request
 
 
-@app_views.route('/api/v1/amenities', methods=['GET'], strict_slashes=False)
+@app_views.route('/amenities', methods=['GET'], strict_slashes=False)
 def get_amenities():
     """Retrieves the list of all Amenity objects"""
     amenities = [amenity.to_dict() for amenity in storage.all(Amenity)
@@ -15,9 +15,9 @@ def get_amenities():
     return jsonify(amenities)
 
 
-@app_views.route('/api/v1/amenities/<amenity_id>', methods=['GET'],
+@app_views.route('/amenities/<amenity_id>', methods=['GET'],
                  strict_slashes=False)
-def get_amenities_by_id(amenity_id):
+def get_amenity_by_id(amenity_id):
     """Retrieves a Amenity object by id"""
     amenity = storage.get(Amenity, amenity_id)
     if amenity is None:
