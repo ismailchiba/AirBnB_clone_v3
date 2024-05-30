@@ -90,5 +90,5 @@ class DBStorage:
         """ count number of objects """
 
         if (cls is None):
-            return len(self.__objects)
+            return len(self.all())
         return len(self.all(cls))
