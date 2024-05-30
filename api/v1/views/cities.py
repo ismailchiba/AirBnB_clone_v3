@@ -53,6 +53,7 @@ def create_city(state_id):
     name = data.get('name')
     if not name:
         abort(400, 'Missing name')
+    data['state_id'] = state_id
     new_city = City(**data)
     storage.new(new_city)
     storage.save()
@@ -62,7 +63,7 @@ def create_city(state_id):
 @app_views.route('/cities/<city_id>', methods=['PUT'], strict_slashes=False)
 def update_city(city_id):
     """Updates the city object"""
-    city = storage.get(city_id)
+    city = storage.get(City, city_id)
     if city is None:
         abort(404)
     data = request.get_json(force=True, silent=True)
