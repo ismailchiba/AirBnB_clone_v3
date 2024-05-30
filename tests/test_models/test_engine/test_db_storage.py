@@ -90,7 +90,7 @@ class TestDBStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing file storage")
     def test_get(self):
         """TEST the get mothods using cls and id"""
-        storage = FileStorage()
+        storage = DBStorage()
 
         for k, v in classes.items():
             tmp = v()
@@ -102,7 +102,7 @@ class TestDBStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing file storage")
     def test_count(self):
         """TEST the count mothods using cls"""
-        storage = FileStorage()
+        storage = DBStorage()
         c1 = storage.cont()
         self.assertEqual(int, type(c1))
         for k, v in classes.items():
