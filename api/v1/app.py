@@ -24,7 +24,9 @@ def do_teardown_appcontext(exception):
 @app.errorhandler(404)
 def handle_404(error):
     """handle 404 errors with a JSON response."""
-    return jsonify({"error": "Not found"})
+    r = jsonify({"error": "Not found"})
+    r.status_code = 404
+    return r
 
 
 if __name__ == "__main__":

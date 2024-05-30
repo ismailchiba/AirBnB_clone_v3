@@ -30,8 +30,10 @@ def get_city_by_p_review(cls_id):
         st = cls(data.get('name'))
         storage.new(st)
         tmp = cls.to_dict(st)
-        tmp['status_code'] = 201
-        return jsonify(tmp)
+        r jsonify(tmp)
+        r.status_code = 201
+        return r
+
     else:
         return custom.handle_E()
 

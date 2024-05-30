@@ -76,8 +76,9 @@ def add_cls(cls, data=None):
     st = cls(data.get('name'))
     storage.new(st)
     tmp = cls.to_dict(st)
-    tmp['status_code'] = 201
-    return jsonify(tmp)
+    r = jsonify(tmp)
+    r.status_code = 201
+    return r
 
 
 def update_cls(cls, cls_id, data):
@@ -94,5 +95,4 @@ def update_cls(cls, cls_id, data):
     st = cls(data.get('name'))
     storage.new(st)
     tmp = cls.to_dict(st)
-    tmp['status_code'] = 201
     return jsonify(tmp)

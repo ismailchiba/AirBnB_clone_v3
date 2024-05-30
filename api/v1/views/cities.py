@@ -32,8 +32,9 @@ def get_city_by_state(state_id):
         st = City(data.get('name'))
         storage.new(st)
         tmp = City.to_dict(st)
-        tmp['status_code'] = 201
-        return jsonify(tmp)
+        r = jsonify(tmp)
+        r.status_code = 201
+        return r
     else:
         return custom.handle_E()
 

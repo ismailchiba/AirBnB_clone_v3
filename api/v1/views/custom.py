@@ -49,9 +49,10 @@ def add_cls(cls, data=None):
     st = cls(name=data.get('name'))
     storage.new(st)
     tmp = cls.to_dict(st)
-    tmp['status_code'] = 201
     storage.save()
-    return jsonify(tmp)
+    response = jsonify(tmp)
+    response.status_code = 201
+    return response
 
 
 def update_cls(cls, cls_id, data):
