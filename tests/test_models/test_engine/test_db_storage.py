@@ -85,4 +85,164 @@ class TestFileStorage(unittest.TestCase):
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
-        """Test that save properly saves objects to file.json"""
+        """Test that save properly saves objects to database"""
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_count(self):
+        """ test that checks validates number of objects in db """
+        count = len(models.storage.all())
+        self.assertEqual(count, models.storage.count())
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get(self):
+        """ test that checks if get method returns the object """
+        obj = models.storage.get("State", 1)
+        self.assertEqual(obj.id, 1)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get_none(self):
+        """ test that checks if get method returns None """
+        obj = models.storage.get("State", 1000)
+        self.assertEqual(obj, None)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_count_cls(self):
+        """ test that checks validates number of objects in db """
+        count = len(models.storage.all("State"))
+        self.assertEqual(count, models.storage.count("State"))
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_count_cls_none(self):
+        """ test that checks validates number of objects in db """
+        count = len(models.storage.all("State"))
+        self.assertEqual(count, models.storage.count("State"))
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_delete(self):
+        """ test that checks if delete method deletes the object """
+        obj = models.storage.get("State", 1)
+        models.storage.delete(obj)
+        obj = models.storage.get("State", 1)
+        self.assertEqual(obj, None)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_delete_none(self):
+        """ test that checks if delete method deletes the object """
+        obj = models.storage.get("State", 1000)
+        models.storage.delete(obj)
+        obj = models.storage.get("State", 1000)
+        self.assertEqual(obj, None)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_close(self):
+        """ test that checks if close method closes the session """
+        models.storage.close()
+        self.assertEqual(models.storage._DBStorage__session, None)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get_cls(self):
+        """ test that checks if get method returns the object """
+        obj = models.storage.get("State", 1)
+        self.assertEqual(obj.id, 1)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get_cls_none(self):
+        """ test that checks if get method returns None """
+        obj = models.storage.get("State", 1000)
+        self.assertEqual(obj, None)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get_cls_none(self):
+        """ test that checks if get method returns None """
+        obj = models.storage.get("State", 1000)
+        self.assertEqual(obj, None)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_count_cls_none(self):
+        """ test that checks validates number of objects in db """
+        count = len(models.storage.all("State"))
+        self.assertEqual(count, models.storage.count("State"))
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_delete_none(self):
+        """ test that checks if delete method deletes the object """
+        obj = models.storage.get("State", 1000)
+        models.storage.delete(obj)
+        obj = models.storage.get("State", 1000)
+        self.assertEqual(obj, None)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_close(self):
+        """ test that checks if close method closes the session """
+        models.storage.close()
+        self.assertEqual(models.storage._DBStorage__session, None)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get_cls(self):
+        """ test that checks if get method returns the object """
+        obj = models.storage.get("State", 1)
+        self.assertEqual(obj.id, 1)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get_cls_none(self):
+        """ test that checks if get method returns None """
+        obj = models.storage.get("State", 1000)
+        self.assertEqual(obj, None)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get_cls_none(self):
+        """ test that checks if get method returns None """
+        obj = models.storage.get("State", 1000)
+        self.assertEqual(obj, None)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_count_cls_none(self):
+        """ test that checks validates number of objects in db """
+        count = len(models.storage.all("State"))
+        self.assertEqual(count, models.storage.count("State"))
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_delete_none(self):
+        """ test that checks if delete method deletes the object """
+        obj = models.storage.get("State", 1000)
+        models.storage.delete(obj)
+        obj = models.storage.get("State", 1000)
+        self.assertEqual(obj, None)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_close(self):
+        """ test that checks if close method closes the session """
+        models.storage.close()
+        self.assertEqual(models.storage._DBStorage__session, None)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get_cls(self):
+        """ test that checks if get method returns the object """
+        obj = models.storage.get("State", 1)
+        self.assertEqual(obj.id, 1)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get_cls_none(self):
+        """ test that checks if get method returns None """
+        obj = models.storage.get("State", 1000)
+        self.assertEqual(obj, None)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get_cls_none(self):
+        """ test that checks if get method returns None """
+        obj = models.storage.get("State", 1000)
+        self.assertEqual(obj, None)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_count_cls_none(self):
+        """ test that checks validates number of objects in db """
+        count = len(models.storage.all("State"))
+        self.assertEqual(count, models.storage.count("State"))
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_delete_none(self):
+        """ test that checks if delete method deletes the object """
+        obj = models.storage.get("State", 1000)
+        models.storage.delete(obj)
+        obj = models.storage.get("State", 1000)
+        self.assertEqual(obj, None)

@@ -12,7 +12,7 @@ from sqlalchemy.ext.declarative import declarative_base
 import uuid
 
 time = "%Y-%m-%dT%H:%M:%S.%f"
-
+print(f"storage={models.CNC}")
 if models.storage_t == "db":
     Base = declarative_base()
 else:
@@ -21,10 +21,10 @@ else:
 
 class BaseModel:
     """The BaseModel class from which future classes will be derived"""
-    if models.storage_t == "db":
+    if models.storage_t == 'db':
         id = Column(String(60), primary_key=True)
-        created_at = Column(DateTime, default=datetime.utcnow)
-        updated_at = Column(DateTime, default=datetime.utcnow)
+        created_at = Column(DateTime, default=datetime.utcnow())
+        updated_at = Column(DateTime, default=datetime.utcnow())
 
     def __init__(self, *args, **kwargs):
         """Initialization of the base model"""
