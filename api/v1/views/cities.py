@@ -18,7 +18,7 @@ def get_city_by_state(state_id):
     if stt is None:
         return custom.handle_E()
     if request.method == 'GET':
-        tmp = custom.get_cls(City)
+        tmp = storage.all(City)
         if tmp is None:
             return custom.handle_E()
         tmp = [obj for obj in tmp if obj["id"] == stat_id]
