@@ -18,7 +18,7 @@ def get_users():
 @app_views.route('/users/<user_id>', methods=['GET'], strict_slashes=False)
 def get_user_by_id(user_id):
     """Retrieves a user by id"""
-    user = storage(User, user_id)
+    user = storage.get(User, user_id)
     if user is None:
         abort(404)
     return jsonify(user.to_dict()), 200
@@ -27,7 +27,7 @@ def get_user_by_id(user_id):
 @app_views.route('/users/<user_id>', methods=['DELETE'], strict_slashes=False)
 def delete_user(user_id):
     """Delets the user by id"""
-    user = Storage.gat(User, user_id)
+    user = storage.gat(User, user_id)
     if user is None:
         abort(404)
     storage.delete(user)
