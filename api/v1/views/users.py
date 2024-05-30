@@ -24,7 +24,7 @@ def handle_API_users(cls_id=None):
     returns a cls if cls_id provided, otherwise all clss"""
     cls = User
     if request.method == 'GET':
-        return custom.get_clss(cls, cls_id)
+        return custom.get_cls(cls, cls_id)
     if request.method == 'DELETE':
         return custom.delete_cls(cls, cls_id)
     if request.method == 'POST':
@@ -43,7 +43,7 @@ def handle_API_users(cls_id=None):
         return custom.update_cls(cls, cls_id, data)
 
 
-def get_clss(cls, cls_id=None):
+def get_cls(cls, cls_id=None):
     """
     returns a single cls if id provided, otherwise all objects in cls"""
     try:

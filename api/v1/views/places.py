@@ -19,7 +19,7 @@ def get_city_by_place(cls_id):
     if stt is None:
         return custom.handle_E()
     if request.method == 'GET':
-        tmp = custom.get_clss(cls)
+        tmp = custom.get_cls(cls)
         if tmp is None:
             return custom.handle_E()
         tmp = [obj for obj in tmp if obj["id"] == stat_id]
@@ -43,7 +43,7 @@ def handle_API_place(cls_id=None):
     returns a cls if cls_id provided, otherwise all clss"""
     cls = Place
     if request.method == 'GET':
-        return custom.get_clss(cls, cls_id)
+        return custom.get_cls(cls, cls_id)
     if request.method == 'DELETE':
         return custom.delete_cls(cls, cls_id)
     if request.method == 'PUT':

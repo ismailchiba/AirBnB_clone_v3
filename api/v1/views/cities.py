@@ -18,12 +18,15 @@ def get_city_by_state(state_id):
     if stt is None:
         return custom.handle_E()
     if request.method == 'GET':
-        tmp = custom.get_clss(City)
+        tmp = custom.get_cls(City)
         if tmp is None:
             return custom.handle_E()
         tmp = [obj for obj in tmp if obj["id"] == stat_id]
         return jsonify(tmp)
     if request.method == 'POST':
+        data = request.get_json(silent=True)
+        if data is None:
+            return handle_E(message="Not a JSON", code=400)
         if data.get('name') is None:
             return handle_E(message="Missing name", code=400)
         st = City(data.get('name'))
@@ -42,7 +45,7 @@ def handle_API_state(cls_id=None):
     returns a cls if cls_id provided, otherwise all clss"""
     cls = City
     if request.method == 'GET':
-        return custom.get_clss(cls, cls_id)
+        return custom.get_cls(cls, cls_id)
     if request.method == 'DELETE':
         return custom.delete_cls(cls, cls_id)
     if request.method == 'PUT':
