@@ -6,8 +6,8 @@ from api.v1.views import app_views
 from flask import jsonify, request
 from models import storage
 from models.state import State
-from api.v1.views.custom import get_cls, delete_cls, add_cls, update_cls, handle_E
-
+from api.v1.views.custom import get_cls, delete_cls
+add_cls, update_cls, handle_E
 
 
 @app_views.route('/states', strict_slashes=False, methods=['GET', 'POST'])
@@ -35,4 +35,3 @@ def handle_API_states(cls_id=None):
         if data.get('name') is None:
             return handle_E(message="Missing name", code=400)
         return update_cls(cls, cls_id, data)
-
