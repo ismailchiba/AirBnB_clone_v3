@@ -1,7 +1,8 @@
 #!/usr/bin/python3
-""" console """
+"""Defines the HBNBCommand class serves as the console for the project."""
 
 import cmd
+from os import system
 from datetime import datetime
 import models
 from models.amenity import Amenity
@@ -46,10 +47,10 @@ class HBNBCommand(cmd.Cmd):
                 else:
                     try:
                         value = int(value)
-                    except:
+                    except Exception:
                         try:
                             value = float(value)
-                        except:
+                        except Exception:
                             continue
                 new_dict[key] = value
         return new_dict
@@ -140,12 +141,12 @@ class HBNBCommand(cmd.Cmd):
                                 if args[2] in integers:
                                     try:
                                         args[3] = int(args[3])
-                                    except:
+                                    except Exception:
                                         args[3] = 0
                                 elif args[2] in floats:
                                     try:
                                         args[3] = float(args[3])
-                                    except:
+                                    except Exception:
                                         args[3] = 0.0
                             setattr(models.storage.all()[k], args[2], args[3])
                             models.storage.all()[k].save()
@@ -159,6 +160,15 @@ class HBNBCommand(cmd.Cmd):
                 print("** instance id missing **")
         else:
             print("** class doesn't exist **")
+
+    def do_clear(self, args):
+        """Clears the console screen"""
+        system("clear")
+
+    def do_exit(self, line):
+        """Exit the console."""
+        return True
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
