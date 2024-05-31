@@ -6,6 +6,9 @@ from models.user import User
 from models import storage
 
 
+""" users views  GET/POST/DELETE and PUT HTTP method for users"""
+
+
 @app_views.route("/users/")
 @app_views.route("/users")
 def get_users():

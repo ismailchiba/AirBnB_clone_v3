@@ -5,6 +5,10 @@ from api.v1.views import app_views
 import os
 import json
 
+
+""" app module - create instance of flask application and handle errors"""
+
+
 app = Flask(__name__)
 app.register_blueprint(app_views)
 

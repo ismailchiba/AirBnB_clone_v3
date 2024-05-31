@@ -8,6 +8,9 @@ from models.user import User
 from models import storage
 
 
+""" reviews views module - GET/PUT/POST/DELETE methods"""
+
+
 @app_views.route("/places/<place_id>/reviews")
 @app_views.route("/places/<place_id>/reviews/")
 def get_reviews(place_id):

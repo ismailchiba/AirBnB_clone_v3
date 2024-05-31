@@ -6,6 +6,9 @@ from models.amenity import Amenity
 from models import storage
 
 
+""" amenities objects view methods, GET/POST/PUT/DELETE request methods"""
+
+
 @app_views.route("/amenities/")
 @app_views.route("/amenities")
 def get_amenities():

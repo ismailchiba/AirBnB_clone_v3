@@ -8,6 +8,9 @@ from models import storage
 import json
 
 
+""" state objects view methods, GET/POST/PUT/DELETE request methods"""
+
+
 @app_views.route("/states/<state_id>/cities")
 @app_views.route("/states/<state_id>/cities/")
 def get_cities(state_id):

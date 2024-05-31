@@ -5,6 +5,9 @@ from models.base_model import BaseModel
 from models.state import State
 from models import storage
 
+""" this module contain state views GET, PUT,
+    DELETE, POST http methods for state objects"""
+
 
 @app_views.route("/states/")
 @app_views.route("/states")

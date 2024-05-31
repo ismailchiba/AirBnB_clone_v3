@@ -10,6 +10,10 @@ from models.state import State
 from models.user import User
 from models import storage
 
+
+""" status and stats routes"""
+
+
 classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
 

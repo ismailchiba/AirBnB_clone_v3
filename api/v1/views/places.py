@@ -8,6 +8,9 @@ from models.user import User
 from models import storage
 
 
+""" places objects view methods, GET/POST/PUT/DELETE request methods"""
+
+
 @app_views.route("/cities/<city_id>/places")
 @app_views.route("/cities/<city_id>/places/")
 def get_places(city_id):
