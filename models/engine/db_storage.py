@@ -85,5 +85,5 @@ class DBStorage:
     def count(self, cls=None):
         """count the number of the same class or all classes"""
         if cls:
-            return self.all(cls.__name__)
-        return self.all()
+            return len(self.all(cls.__name__))
+        return len(self.all())

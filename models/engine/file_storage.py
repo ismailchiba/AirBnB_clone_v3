@@ -80,5 +80,5 @@ class FileStorage:
     def count(self, cls=None):
         """count the number of the same class or all classes"""
         if cls:
-            return len(self.all(cls.__name__))
-        return len(self.__objects())
+            return len(self.all(cls))
+        return len(self.__objects)
