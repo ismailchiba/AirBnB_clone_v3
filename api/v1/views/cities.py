@@ -39,7 +39,7 @@ def get_city_by_state(state_id):
         return custom.handle_E()
 
 
-@app_views.route(f'cities/<cls_id>', strict_slashes=False,
+@app_views.route('cities/<cls_id>', strict_slashes=False,
                  methods=['GET', 'DELETE', 'PUT'])
 def handle_API_state(cls_id=None):
     """
