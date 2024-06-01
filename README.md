@@ -160,3 +160,5 @@ Jennifer Huang - [Github](https://github.com/jhuang10123) / [Twitter](https://tw
 Second part of Airbnb: Joann Vuong
 ## License
 Public Domain. No copy write protection. 
+
+This is the RESTful API part of the AirBnB_clone project by Benjamin Torfu and my partner Magnus
