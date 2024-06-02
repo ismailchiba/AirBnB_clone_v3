@@ -14,6 +14,7 @@ from models.place import Place
 from models.review import Review
 from models.state import State
 from models.user import User
+from models import storage
 import json
 import os
 import pep8
@@ -66,6 +67,31 @@ test_db_storage.py'])
                              "{:s} method needs a docstring".format(func[0]))
             self.assertTrue(len(func[1].__doc__) >= 1,
                             "{:s} method needs a docstring".format(func[0]))
+
+    def test_get_object(self):
+        """Test the get method with a valid object"""
+        state = State(name="California")
+        state.save()
+        retrieved_state = storage.get(State, state.id)
+        self.assertIsInstance(retrieved_state, State)
+        self.assertEqual(retrieved_state.id, state.id)
+
+    def test_get_invalid_object(self):
+        """Test the get method with an invalid object"""
+        invalid_obj = storage.get(BaseModel, "invalid_id")
+        self.assertIsNone(invalid_obj)
+
+    def test_count_objects(self):
+        """Test the count method with a specific class"""
+        storage.reload()
+        count = storage.count(State)
+        self.assertEqual(count, State.query.count())
+
+    def test_count_all_objects(self):
+        """Test the count method without specifying a class"""
+        storage.reload()
+        total_count = storage.count()
+        self.assertEqual(total_count, sum(model.query.count() for model in storage.classes.values()))
 
 
 class TestFileStorage(unittest.TestCase):
