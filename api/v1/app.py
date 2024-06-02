@@ -1,50 +1,47 @@
 #!/usr/bin/python3
-'''Contains a Flask web application API.
-'''
-import os
-from flask import Flask, jsonify
+""" Flask Application """
+from os import environ
+
+from flasgger import Swagger
+from flask import Flask, jsonify, make_response
 from flask_cors import CORS
 
-from models import storage
 from api.v1.views import app_views
-
+from models import storage
 
 app = Flask(__name__)
-'''The Flask web application instance.'''
-app_host = os.getenv('HBNB_API_HOST', '0.0.0.0')
-app_port = int(os.getenv('HBNB_API_PORT', '5000'))
-app.url_map.strict_slashes = False
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 app.register_blueprint(app_views)
-CORS(app, resources={'/*': {'origins': app_host}})
+cors = CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 
 
 @app.teardown_appcontext
-def teardown_flask(exception):
-    '''The Flask app/request context end event listener.'''
-    # print(exception)
+def close_db(_):
+    """ Close Storage """
     storage.close()
 
 
 @app.errorhandler(404)
-def error_404(error):
-    '''Handles the 404 HTTP error code.'''
-    return jsonify(error='Not found'), 404
+def not_found(_):
+    """ 404 Error
+    ---
+    responses:
+      404:
+        description: a resource was not found
+    """
+    return make_response(jsonify({'error': "Not found"}), 404)
 
 
-@app.errorhandler(400)
-def error_400(error):
-    '''Handles the 400 HTTP error code.'''
-    msg = 'Bad request'
-    if isinstance(error, Exception) and hasattr(error, 'description'):
-        msg = error.description
-    return jsonify(error=msg), 400
+app.config['SWAGGER'] = {'title': 'AirBnB clone Restful API', 'uiversion': 3}
 
+Swagger(app)
 
-if __name__ == '__main__':
-    app_host = os.getenv('HBNB_API_HOST', '0.0.0.0')
-    app_port = int(os.getenv('HBNB_API_PORT', '5000'))
-    app.run(
-        host=app_host,
-        port=app_port,
-        threaded=True
-    )
+if __name__ == "__main__":
+    """ Main Function """
+    host = environ.get('HBNB_API_HOST')
+    port = environ.get('HBNB_API_PORT')
+    if not host:
+        host = '0.0.0.0'
+    if not port:
+        port = '5000'
+    app.run(host=host, port=port, threaded=True)
