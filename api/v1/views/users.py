@@ -1,12 +1,10 @@
 #!/usr/bin/python3
+""" users views  GET/POST/DELETE and PUT HTTP method for users"""
 from api.v1.views import app_views
 from flask import jsonify, abort, request
 from models.base_model import BaseModel
 from models.user import User
 from models import storage
-
-
-""" users views  GET/POST/DELETE and PUT HTTP method for users"""
 
 
 @app_views.route("/users/")

@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+""" reviews views module - GET/PUT/POST/DELETE methods"""
 from api.v1.views import app_views
 from flask import jsonify, abort, request
 from models.base_model import BaseModel
@@ -6,9 +7,6 @@ from models.review import Review
 from models.place import Place
 from models.user import User
 from models import storage
-
-
-""" reviews views module - GET/PUT/POST/DELETE methods"""
 
 
 @app_views.route("/places/<place_id>/reviews")

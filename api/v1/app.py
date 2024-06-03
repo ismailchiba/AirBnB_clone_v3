@@ -1,12 +1,10 @@
 #!/usr/bin/python3
+""" app module - create instance of flask application and handle errors"""
 from flask import Flask, Response, jsonify
 from models import storage
 from api.v1.views import app_views
 import os
 import json
-
-
-""" app module - create instance of flask application and handle errors"""
 
 
 app = Flask(__name__)

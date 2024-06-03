@@ -1,12 +1,10 @@
 #!/usr/bin/python3
+""" amenities objects view methods, GET/POST/PUT/DELETE request methods"""
 from api.v1.views import app_views
 from flask import jsonify, abort, request
 from models.base_model import BaseModel
 from models.amenity import Amenity
 from models import storage
-
-
-""" amenities objects view methods, GET/POST/PUT/DELETE request methods"""
 
 
 @app_views.route("/amenities/")

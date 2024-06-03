@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+""" state objects view methods, GET/POST/PUT/DELETE request methods"""
 from api.v1.views import app_views
 from flask import jsonify, abort, request
 from models.base_model import BaseModel
@@ -6,9 +7,6 @@ from models.city import City
 from models.state import State
 from models import storage
 import json
-
-
-""" state objects view methods, GET/POST/PUT/DELETE request methods"""
 
 
 @app_views.route("/states/<state_id>/cities")

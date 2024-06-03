@@ -1,12 +1,12 @@
 #!/usr/bin/python3
+""" this module contain state views GET, PUT,
+    DELETE, POST http methods for state objects"""
+
 from api.v1.views import app_views
 from flask import jsonify, abort, request
 from models.base_model import BaseModel
 from models.state import State
 from models import storage
-
-""" this module contain state views GET, PUT,
-    DELETE, POST http methods for state objects"""
 
 
 @app_views.route("/states/")
