@@ -25,22 +25,17 @@ def close_db(error):
 @app.route('/1-hbnb/')
 def hbnb():
     """
-    HBNB 
+    HBNB
     """
     state = storage.all(State).values()
     states = sorted(states, key=lambda k: k.name)
-
-
     st_ct = []
-    fro state in states:
-        st_ct.append([state, sorted(state,cities, key=lambda k: k.name)])
-
+    for state in states:
+        st_ct.append([state, sorted(state, cities, key=lambda k: k.name)])
 
     amenities = storage.all(Amenity).values()
     amenities = sorted(amenities, key=lambda k: k.name)
-
     cache_id = str(uuid.uuid4())
-
 
     return render_template('1-hbnb.html',
                            states=st_ct,
@@ -51,4 +46,3 @@ def hbnb():
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)
-
