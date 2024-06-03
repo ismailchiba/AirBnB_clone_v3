@@ -1,10 +1,9 @@
 #!/usr/bin/python3
 """Test BaseModel for expected behavior and documentation"""
-from datetime import datetime
+from datetime import datetime, timedelta
 import inspect
 import models
-import pep8 as pycodestyle
-import time
+import pycodestyle
 import unittest
 from unittest import mock
 BaseModel = models.base_model.BaseModel
@@ -15,9 +14,9 @@ class TestBaseModelDocs(unittest.TestCase):
     """Tests to check the documentation and style of BaseModel class"""
 
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         """Set up for docstring tests"""
-        self.base_funcs = inspect.getmembers(BaseModel, inspect.isfunction)
+        cls.base_funcs = inspect.getmembers(BaseModel, inspect.isfunction)
 
     def test_pep8_conformance(self):
         """Test that models/base_model.py conforms to PEP8."""
@@ -58,6 +57,7 @@ class TestBaseModelDocs(unittest.TestCase):
 
 class TestBaseModel(unittest.TestCase):
     """Test the BaseModel class"""
+
     def test_instantiation(self):
         """Test that object is correctly created"""
         inst = BaseModel()
@@ -78,21 +78,28 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(inst.name, "Holberton")
         self.assertEqual(inst.number, 89)
 
-    def test_datetime_attributes(self):
+    @mock.patch('models.base_model.datetime', wraps=datetime)
+    def test_datetime_attributes(self, mock_datetime):
         """Test that two BaseModel instances have different datetime objects
-        and that upon creation have identical updated_at and created_at
-        value."""
-        tic = datetime.now()
+        and that upon creation have updated_at and created_at values."""
+        
+        now = datetime.now()
+        mock_datetime.now.return_value = now
+
         inst1 = BaseModel()
-        toc = datetime.now()
-        self.assertTrue(tic <= inst1.created_at <= toc)
-        time.sleep(1e-4)
-        tic = datetime.now()
-        inst2 = BaseModel()
-        toc = datetime.now()
-        self.assertTrue(tic <= inst2.created_at <= toc)
         self.assertEqual(inst1.created_at, inst1.updated_at)
+        self.assertAlmostEqual(
+            inst1.created_at, now, delta=timedelta(milliseconds=1)
+        )
+
+        later = now + timedelta(seconds=1)
+        mock_datetime.now.return_value = later
+        inst2 = BaseModel()
         self.assertEqual(inst2.created_at, inst2.updated_at)
+        self.assertAlmostEqual(
+            inst2.created_at, later, delta=timedelta(milliseconds=1)
+        )
+
         self.assertNotEqual(inst1.created_at, inst2.created_at)
         self.assertNotEqual(inst1.updated_at, inst2.updated_at)
 
@@ -158,3 +165,7 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(old_created_at, new_created_at)
         self.assertTrue(mock_storage.new.called)
         self.assertTrue(mock_storage.save.called)
+
+
+if __name__ == "__main__":
+    unittest.main()
