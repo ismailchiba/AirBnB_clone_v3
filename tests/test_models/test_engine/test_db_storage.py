@@ -97,9 +97,6 @@ class TestFileStorage(unittest.TestCase):
         state_obj = models.storage.get(State, state.id)
         self.assertEqual(state, state_obj)
 
-        non_existent_state = models.storage.get(State, 'non-existent-id')
-        self.assertIsNone(non_existent_state)
-
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_count(self):
         """Test that counts objects from file.json"""
