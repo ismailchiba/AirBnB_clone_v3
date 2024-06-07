@@ -132,11 +132,16 @@ def search_places():
             places_list.append(place)
 
     if "amenities" in request_data:
-        aminities_list = request_data["amenities"]
-        for place in places_list:
+        amenities_list = request_data["amenities"]
+        tmp_list = places_list.copy()
+        for place in tmp_list:
+            done = 1
             for amenitie in place.amenities:
-                if amenitie not in aminities_list:
-                    places_list.remove(place)
+                if done == 0:
                     break
+                if amenitie.id not in amenities_list:
+                    places_list.remove(place)
+                    done = 0
+                    
 
     return jsonify([place.to_dict() for place in places_list])
