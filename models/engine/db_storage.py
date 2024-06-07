@@ -3,7 +3,7 @@
 Contains the class DBStorage
 """
 
-from sqlalchemy.util.typing import NoneFwd
+import json
 import models
 from models.amenity import Amenity
 from models.base_model import BaseModel, Base
@@ -93,3 +93,20 @@ class DBStorage:
 
         else:
             return 0
+
+    def get(self, cls, id):
+        """Returns the dict representation of an object by id"""
+        cls_to_str = {
+            Amenity: "Amenity",
+            City: "City",
+            Place: "Place",
+            Review: "Review",
+            State: "State",
+            User: "User"
+        }
+        if cls not in list(cls_to_str.keys()):
+            return None
+        key = (f"{cls_to_str[cls]}.{id}")
+        if key in list(self.all(cls).keys()):
+            return (self.all(cls)[key])
+        return None
