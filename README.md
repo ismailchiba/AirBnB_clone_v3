@@ -128,6 +128,10 @@ TestBaseModel class:
 
 
 ## Examples of use
+
+>>>print("All objects: {}".format(storage.all()))
+{'State.2842f2a8-0fbb-4937-953d-077dafbdbe44': <models.state.State object at 0x7f79e89f1be0>, 'State.75a705ad-cd87-4ce4-87a8-ab45f2e9b52d': <models.state.State object at 0x7f79e89f1b80>, 'User.56ecbc1e-ac5c-49ee-8335-03a235db5821': <models.user.User object at 0x7f79e89fe8e0>, 'User.8b96fe39-9b9a-41db-bbe2-0d178409cb4f': <models.user.User object at 0x7f79e89fe880>}
+
 ```
 vagrantAirBnB_clone$./console.py
 (hbnb) help
