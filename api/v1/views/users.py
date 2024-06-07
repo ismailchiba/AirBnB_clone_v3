@@ -15,10 +15,9 @@ def users():
         return jsonify([user.to_dict() for user in users])
 
     if request.method == 'POST':
-        try:
-            data = request.get_json()
-        except Exception as e:
-            abort(400, 'Not a JSON')
+        request_data = request.get_json(silent=True)
+        if not request_data:
+            abort(400, "Not a JSON")
         if 'email' not in data.keys():
             abort(400, 'Missing email')
         if 'password' not in data.keys():
