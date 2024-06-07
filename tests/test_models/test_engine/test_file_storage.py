@@ -6,7 +6,7 @@ Contains the TestFileStorageDocs classes
 from datetime import datetime
 import inspect
 import models
-from models import storage
+from models import storage, storage_t
 from models.engine import file_storage
 from models.amenity import Amenity
 from models.base_model import BaseModel
@@ -19,9 +19,8 @@ import json
 import os
 import pep8
 import unittest
-FileStorage = file_storage.FileStorage
-classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
-           "Place": Place, "Review": Review, "State": State, "User": User}
+from models.engine.file_storage import classes
+from models.engine.file_storage import FileStorage
 
 
 class TestFileStorageDocs(unittest.TestCase):
@@ -69,22 +68,21 @@ test_file_storage.py'])
                             "{:s} method needs a docstring".format(func[0]))
 
 
+@unittest.skipIf(storage_t == 'db', "not testing file storage")
 class TestFileStorage(unittest.TestCase):
     """Test the FileStorage class"""
-    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    @unittest.skipIf(storage_t == 'db', "not testing file storage")
     def test_all_returns_dict(self):
         """Test that all returns the FileStorage.__objects attr"""
-        storage = FileStorage()
         new_dict = storage.all()
         self.assertEqual(type(new_dict), dict)
         self.assertIs(new_dict, storage._FileStorage__objects)
 
-    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    @unittest.skipIf(storage_t == 'db', "not testing file storage")
     def test_new(self):
         """test that new adds an object to the FileStorage.__objects attr"""
-        storage = FileStorage()
-        save = FileStorage._FileStorage__objects
-        FileStorage._FileStorage__objects = {}
+        save = storage._FileStorage__objects
+        storage._FileStorage__objects = {}
         test_dict = {}
         for key, value in classes.items():
             with self.subTest(key=key, value=value):
@@ -93,21 +91,20 @@ class TestFileStorage(unittest.TestCase):
                 storage.new(instance)
                 test_dict[instance_key] = instance
                 self.assertEqual(test_dict, storage._FileStorage__objects)
-        FileStorage._FileStorage__objects = save
+        storage._FileStorage__objects = save
 
-    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    @unittest.skipIf(storage_t == 'db', "not testing file storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
-        storage = FileStorage()
         new_dict = {}
         for key, value in classes.items():
             instance = value()
             instance_key = instance.__class__.__name__ + "." + instance.id
             new_dict[instance_key] = instance
-        save = FileStorage._FileStorage__objects
-        FileStorage._FileStorage__objects = new_dict
+        save = storage._FileStorage__objects
+        storage._FileStorage__objects = new_dict
         storage.save()
-        FileStorage._FileStorage__objects = save
+        storage._FileStorage__objects = save
         for key, value in new_dict.items():
             new_dict[key] = value.to_dict()
         string = json.dumps(new_dict)
@@ -115,20 +112,18 @@ class TestFileStorage(unittest.TestCase):
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
 
-    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    @unittest.skipIf(storage_t == 'db', "not testing file storage")
     def test_get(self):
         """Test that get returns the expected object"""
-        storage = FileStorage()
         new_state = State(name="California")
         new_state.save()
         obj_id = new_state.id
         retrieved_state = storage.get(State, obj_id)
         self.assertEqual(retrieved_state, new_state)
 
-    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    @unittest.skipIf(storage_t == 'db', "not testing file storage")
     def test_count(self):
         """Test that count returns the expected number of objects"""
-        storage = FileStorage()
         initial_count = storage.count()
         new_state = State(name="California")
         new_state.save()
