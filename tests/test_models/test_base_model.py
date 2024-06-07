@@ -15,10 +15,10 @@ class TestBaseModelDocs(unittest.TestCase):
     """Tests to check the documentation and style of BaseModel class"""
 
     @classmethod
-    def setUpClass(cls):  # self):
+    def setUpClass(cls):
         """Set up for docstring tests"""
         cls.base_funcs = inspect.getmembers(
-            BaseModel, inspect.isfunction)  # self.
+            BaseModel, inspect.isfunction)
 
     def test_pep8_conformance(self):
         """Test that models/base_model.py conforms to PEP8."""
