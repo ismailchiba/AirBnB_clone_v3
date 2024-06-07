@@ -5,4 +5,7 @@ add_state.py
 models/engine/__pycache__/*.pyc
 tests/test_models/test_engine/__pycache__/*.pyc
 tests/test_models/test_engine/__pycache__/test_db_storage.cpython-310.pyc
- tests/test_models/test_engine/__pycache__/test_file_storage.cpython-310.pyc
+tests/test_models/test_engine/__pycache__/test_file_storage.cpython-310.pyc
+tests/test_models/__pycache__/*.pyc
+__pycache__
+tests/__pycache__/*.pyc
