@@ -12,6 +12,11 @@ from flask import jsonify
 def status():
     """ Status of API """
     return jsonify({"status": "OK"})
+
 @app_views.route('/stats')
 def stats():
-    """ counts """
+    dic = {}
+    obj = ["amenities", "cities", "places", "reviews", "states", "users"]
+    for key in obj:
+        dic[key] = storage.count(key)
+    return dic
