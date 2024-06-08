@@ -181,6 +181,8 @@ Jennifer Huang - [Github](https://github.com/jhuang10123) / [Twitter](https://tw
 | 10. Place | [api/v1/views/places.py, api/v1/views/__init__.py](https://github.com/Willys12/AirBnB_clone_v3.git) | Create a new view for Place objects that handles all default RESTFul API actions, Retrieves the list of all Place objects of a City: GET /api/v1/cities/<city_id>/places, Retrieves a Place object. : GET /api/v1/places/<place_id>, Deletes a Place object: DELETE /api/v1/places/<place_id>, Creates a Place: POST /api/v1/cities/<city_id>/places & Updates a Place object: PUT /api/v1/places/<place_id> |
 | 11. Reviews | [api/v1/views/places_reviews.py, api/v1/views/__init__.py](https://github.com/Willys12/AirBnB_clone_v3.git) | create a new view for Review object that handles all default RESTFul API actions, Retrieves the list of all Review objects of a Place: GET /api/v1/places/<place_id>/reviews, Retrieves a Review object. : GET /api/v1/reviews/<review_id>, Deletes a Review object: DELETE /api/v1/reviews/<review_id>, Creates a Review: POST /api/v1/places/<place_id>/reviews & Updates a Review object: PUT /api/v1/reviews/<review_id> |
 | 12. HTTP access control (CORS) | [api/v1/app.py](https://github.com/Willys12/AirBnB_clone_v3.git) | Update api/v1/app.py to create a CORS instance allowing: /* for 0.0.0.0, |
+<br>
+<br>
 Second part of Airbnb: Joann Vuong
 ## License
 Public Domain. No copy write protection. 
