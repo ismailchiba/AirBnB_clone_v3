@@ -77,7 +77,6 @@ class FileStorage:
         try:
             all_cls_objs = self.all(cls)
             for key in all_cls_objs.keys():
-                print(key.split('.')[1])
                 if key.split('.')[1] == id:
                     return all_cls_objs[key]
         except Exception:
