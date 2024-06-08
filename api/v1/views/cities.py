@@ -79,7 +79,7 @@ def put_city(city_id):
             for key, value in json.items():
                 if key not in ['id', 'created_at', 'updated_at']:
                     setattr(obj, key, value)
-                storage.save()
+                obj.save()
             return city_by_id(city_id), 200
 
 
@@ -90,6 +90,10 @@ def post_city(state_id):
     Posts a city object and adds it to its parent state
     POST /api/v1/states/<state_id>/cities request
     """
+    parent_obj = storage.get(State, state_id)
+    if parent_obj is None:
+        abort(404)
+
     content_type = request.headers.get('Content-Type')
     if content_type != 'application/json':
         abort(400, description='Not a JSON')
