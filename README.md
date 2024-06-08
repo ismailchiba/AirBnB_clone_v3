@@ -157,6 +157,22 @@ No known bugs at this time.
 Alexa Orrico - [Github](https://github.com/alexaorrico) / [Twitter](https://twitter.com/alexa_orrico)  
 Jennifer Huang - [Github](https://github.com/jhuang10123) / [Twitter](https://twitter.com/earthtojhuang)
 
+## Additional Authors
+1. Willys Odhiambo - [Github](https://github.com/Willys12)
+2. Kabute Grace - [Github](https://github.com/)
+
+<br>
+<br>
+
+## Tasks to the project from additional contributors.
+
+| Tasks | Repository or Files | Description |
+| ----- | ----- | ----- |
+| 0. Restart from scratch! | [AirBnB_clone_v3](https://github.com/Willys12/AirBnB_clone_v3.git) | The task is to fork the project from the original repository and update more infomation |
+| 1. Never fail! | [AirBnB_clone_v3](https://github.com/Willys12/AirBnB_clone_v3.git) | add new tests as much as you can (tests are mandatory for some tasks) |
+| 2. Improve storage | [models/engine/db_storage.py, models/engine/file_storage.py, tests/test_models/test_engine/test_db_storage.py, tests/test_models/test_engine/test_file_storage.py](https://github.com/Willys12/AirBnB_clone_v3.git) | The task here is to improve the storage |
+| 3. Status of your API | [api/__init__.py, api/v1/__init__.py, api/v1/views/__init__.py, api/v1/views/index.py, api/v1/app.py](https://github.com/Willys12/AirBnB_clone_v3.git) | returning the status of the API |
+
 Second part of Airbnb: Joann Vuong
 ## License
 Public Domain. No copy write protection. 
