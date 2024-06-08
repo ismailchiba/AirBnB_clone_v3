@@ -84,7 +84,7 @@ class DBStorage:
                     if id == value.id and key.split('.')[1] == id:
                         return value
         return
-        
+
     def count(self, cls=None):
         """
         Returns the occurrence of a class or all classes
@@ -94,5 +94,5 @@ class DBStorage:
             if cls in classes.keys() or cls in classes.values():
                 occurrence = len(self.all(cls))
         if not cls:
-                occurrence = len(self.all())
+            occurrence = len(self.all())
         return occurrence

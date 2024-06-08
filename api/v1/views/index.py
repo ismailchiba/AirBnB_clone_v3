@@ -12,3 +12,6 @@ from flask import jsonify
 def status():
     """ Status of API """
     return jsonify({"status": "OK"})
+@app_views.route('/stats')
+def stats():
+    """ counts """
