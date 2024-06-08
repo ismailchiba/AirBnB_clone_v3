@@ -8,8 +8,8 @@ from models import storage
 from os import getenv
 from api.v1.views import app_views
 
-API_HOST = str(getenv('HBNB_API_HOST'))
-API_PORT = int(getenv('HBNB_API_PORT'))
+API_HOST = str(getenv('HBNB_API_HOST', '0.0.0.0'))
+API_PORT = int(getenv('HBNB_API_PORT', '5000'))
 
 app = Flask(__name__)
 
@@ -34,4 +34,4 @@ def not_found_error(error):
 
 
 if __name__ == "__main__":
-    app.run(API_HOST or '0.0.0.0', API_PORT or 5000, threaded=True, debug=True)
+    app.run(host=API_HOST, port=API_PORT, threaded=True)
