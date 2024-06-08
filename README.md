@@ -157,7 +157,7 @@ No known bugs at this time.
 Alexa Orrico - [Github](https://github.com/alexaorrico) / [Twitter](https://twitter.com/alexa_orrico)  
 Jennifer Huang - [Github](https://github.com/jhuang10123) / [Twitter](https://twitter.com/earthtojhuang)
 
-## Additional Authors
+## Additional contributors
 1. Willys Odhiambo - [Github](https://github.com/Willys12)
 2. Kabute Grace - [Github](https://github.com/Grace-Kabute)
 
@@ -171,8 +171,16 @@ Jennifer Huang - [Github](https://github.com/jhuang10123) / [Twitter](https://tw
 | 0. Restart from scratch! | [AirBnB_clone_v3](https://github.com/Willys12/AirBnB_clone_v3.git) | The task is to fork the project from the original repository and update more infomation |
 | 1. Never fail! | [AirBnB_clone_v3](https://github.com/Willys12/AirBnB_clone_v3.git) | add new tests as much as you can (tests are mandatory for some tasks) |
 | 2. Improve storage | [models/engine/db_storage.py, models/engine/file_storage.py, tests/test_models/test_engine/test_db_storage.py, tests/test_models/test_engine/test_file_storage.py](https://github.com/Willys12/AirBnB_clone_v3.git) | The task here is to improve the storage |
-| 3. Status of your API | [api/__init__.py, api/v1/__init__.py, api/v1/views/__init__.py, api/v1/views/index.py, api/v1/app.py](https://github.com/Willys12/AirBnB_clone_v3.git) | returning the status of the API |
-
+| 3. Status of your API | [api/__init__.py, api/v1/__init__.py, api/v1/views/__init__.py, api/v1/views/index.py, api/v1/app.py](https://github.com/Willys12/AirBnB_clone_v3.git) | Returning the status of the API |
+| 4. Some stats? | [api/v1/views/index.py](https://github.com/Willys12/AirBnB_clone_v3.git) | Create an endpoint that retrieves the number of each objects by type: In api/v1/views/index.py, Route: /api/v1/stats, You must use the newly added count() method from storage |
+| 5. Not found - 404 error | [api/v1/app.py](https://github.com/Willys12/AirBnB_clone_v3.git) | Using JSON to design 404 error |
+| 6. State | [api/v1/views/states.py, api/v1/views/__init__.py](https://github.com/Willys12/AirBnB_clone_v3.git) | Create a new view for State objects that handles all default RESTFul API actions: In the file api/v1/views/states.py, You must use to_dict() to retrieve an object into a valid JSON, Update api/v1/views/__init__.py to import this new file |
+| 7. City | [api/v1/views/cities.py, api/v1/views/__init__.py](https://github.com/Willys12/AirBnB_clone_v3.git) | 1. Same as State, create a new view for City objects that handles all default RESTFul API actions: In the file api/v1/views/cities.py, You must use to_dict() to serialize an object into valid JSON, Update api/v1/views/__init__.py to import this new file. 2. Retrieves the list of all City objects of a State: GET /api/v1/states/<state_id>/cities: If the state_id is not linked to any State object, raise a 404 error. 3. Retrieves a City object. : GET /api/v1/cities/<city_id> |
+| 8. Amenity | [api/v1/views/amenities.py, api/v1/views/__init__.py](https://github.com/Willys12/AirBnB_clone_v3.git) | Create a new view for Amenity objects that handles all default RESTFul API actions: In the file api/v1/views/amenities.py, You must use to_dict() to serialize an object into valid JSON, Update api/v1/views/__init__.py to import this new file |
+| 9. User | [api/v1/views/users.py, api/v1/views/__init__.py](https://github.com/Willys12/AirBnB_clone_v3.git) | Create a new view for User object that handles all default RESTFul API actions, Retrieves the list of all User objects: GET /api/v1/users, Retrieves a User object: GET /api/v1/users/<user_id>, Deletes a User object:: DELETE /api/v1/users/<user_id>, Creates a User: POST /api/v1/users, Updates a User object: PUT /api/v1/users/<user_id> |
+| 10. Place | [api/v1/views/places.py, api/v1/views/__init__.py](https://github.com/Willys12/AirBnB_clone_v3.git) | Create a new view for Place objects that handles all default RESTFul API actions, Retrieves the list of all Place objects of a City: GET /api/v1/cities/<city_id>/places, Retrieves a Place object. : GET /api/v1/places/<place_id>, Deletes a Place object: DELETE /api/v1/places/<place_id>, Creates a Place: POST /api/v1/cities/<city_id>/places & Updates a Place object: PUT /api/v1/places/<place_id> |
+| 11. Reviews | [api/v1/views/places_reviews.py, api/v1/views/__init__.py](https://github.com/Willys12/AirBnB_clone_v3.git) | create a new view for Review object that handles all default RESTFul API actions, Retrieves the list of all Review objects of a Place: GET /api/v1/places/<place_id>/reviews, Retrieves a Review object. : GET /api/v1/reviews/<review_id>, Deletes a Review object: DELETE /api/v1/reviews/<review_id>, Creates a Review: POST /api/v1/places/<place_id>/reviews & Updates a Review object: PUT /api/v1/reviews/<review_id> |
+| 12. HTTP access control (CORS) | [api/v1/app.py](https://github.com/Willys12/AirBnB_clone_v3.git) | Update api/v1/app.py to create a CORS instance allowing: /* for 0.0.0.0, |
 Second part of Airbnb: Joann Vuong
 ## License
 Public Domain. No copy write protection. 
