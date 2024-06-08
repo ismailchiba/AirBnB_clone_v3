@@ -77,7 +77,9 @@ def put_place(place_id):
             if json is None:
                 abort(400, description='Not a JSON')
             for key, value in json.items():
-                if key not in ['id', 'created_at', 'updated_at']:
+                if key not in [
+                    'id', 'user_id', 'city_id', 'created_at', 'updated_at'
+                ]:
                     setattr(obj, key, value)
                 obj.save()
             return place_by_id(place_id), 200
@@ -101,11 +103,13 @@ def post_place(city_id):
         json = request.get_json()
         if json is None:
             abort(400, description='Not a JSON')
-        if 'name' in json.keys():
+        if 'name' not in json.keys():
+            abort(400, description='Missing name')
+        elif 'user_id' not in json.keys():
+            abort(400, description='Missing user_id')
+        else:
             obj = Place(**json)
             obj.city_id = city_id
             obj_id = obj.id
             obj.save()
             return place_by_id(obj_id), 201
-        else:
-            abort(400, description='Missing name')
