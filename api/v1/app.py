@@ -3,7 +3,7 @@
 main file to run all the flask blueprinted apps concurrently
 """
 
-from flask import Flask
+from flask import Flask, jsonify
 from models import storage
 from os import getenv
 from api.v1.views import app_views
@@ -23,6 +23,14 @@ def close_storage(exception=None):
     If HBNB_TYPE_STORAGE=file reloads file and deserialises JSON objects
     """
     storage.close()
+
+
+@app.errorhandler(404)
+def not_found_error(error):
+    """
+    Handles the Page Not Found Error by returning JSON and 404 error code
+    """
+    return jsonify({"error": "Not found"}), 404
 
 
 if __name__ == "__main__":
