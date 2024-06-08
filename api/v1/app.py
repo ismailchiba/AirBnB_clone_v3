@@ -34,4 +34,4 @@ def not_found_error(error):
 
 
 if __name__ == "__main__":
-    app.run(API_HOST or '0.0.0.0', API_PORT or 5000, threaded=True)
+    app.run(API_HOST or '0.0.0.0', API_PORT or 5000, threaded=True, debug=True)
