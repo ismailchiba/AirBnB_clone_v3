@@ -159,12 +159,12 @@ Jennifer Huang - [Github](https://github.com/jhuang10123) / [Twitter](https://tw
 
 ## Additional Authors
 1. Willys Odhiambo - [Github](https://github.com/Willys12)
-2. Kabute Grace - [Github](https://github.com/)
+2. Kabute Grace - [Github](https://github.com/Grace-Kabute)
 
 <br>
 <br>
 
-## Tasks to the project from additional contributors.
+<center><h3>Tasks to the project from additional contributors.</h3></center>
 
 | Tasks | Repository or Files | Description |
 | ----- | ----- | ----- |
