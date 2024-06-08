@@ -97,7 +97,7 @@ class TestDBstorage(unittest.TestCase):
         models.storage.save()
 
         session = models.storage._DBStorage__session
-        retrived_state = session.query(State).filter_by(id= new_state).first()
+        retrived_state = session.query(State).filter_by(id= new_state.id).first()
         self.assertEqual(retrived_state.id, new_state.id) 
         self.assertEqual(retrived_state.name, new_state.name)
         self.assertIsNone(retrived_state)
@@ -110,7 +110,7 @@ class TestDBstorage(unittest.TestCase):
         models.storage.save()
 
         session = models.storage._DBStorage__session
-        retrived_state = session.query(State).filter_by(id= new_state).first()
+        retrived_state = session.query(State).filter_by(id= new_state.id).first()
         self.assertEqual(retrived_state.id, new_state.id) 
         self.assertEqual(retrived_state.name, new_state.name)
         self.assertIsNone(retrived_state)
@@ -123,6 +123,9 @@ class TestDBstorage(unittest.TestCase):
 
         state_data = {'name': 'Lagos'}
         state_instance = State(**state_data)
+        storage.new(state_instance)
+        storage.save()
+
 
         retrieved_state = storage.get(State, state_instance.id)
 
