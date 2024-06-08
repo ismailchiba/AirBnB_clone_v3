@@ -4,17 +4,16 @@ Defines route for status used to check api availability
 """
 
 from api.v1.views.__init__ import app_views
-import json
+from flask import jsonify
 
-#@app_views.route("/status", strict_slashes=False)
-#def check_status():
+
 @app_views.route("/status", methods=['GET'])
 def status():
     """Returns status of api"""
     return jsonify({"status": "OK"})
 
 
-@app_views.route("/stats", strict_slashes=False)
+@app_views.route("/stats", methods=['GET'], strict_slashes=False)
 def obj_count():
     """Returns counts of all objects"""
     from models.amenity import Amenity

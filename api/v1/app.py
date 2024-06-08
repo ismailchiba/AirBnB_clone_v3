@@ -13,7 +13,7 @@ API_PORT = int(getenv('HBNB_API_PORT'))
 
 app = Flask(__name__)
 
-app.register_blueprint(app_views) #url_prefix='/api/v1')
+app.register_blueprint(app_views, url_prefix='/api/v1')
 
 
 @app.teardown_appcontext
@@ -26,4 +26,4 @@ def close_storage(exception=None):
 
 
 if __name__ == "__main__":
-    app.run(API_HOST or '0.0.0.0', API_PORT or 5000, threaded=True, debug=True)
+    app.run(API_HOST or '0.0.0.0', API_PORT or 5000, threaded=True)
