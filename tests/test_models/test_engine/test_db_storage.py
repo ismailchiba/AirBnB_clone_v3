@@ -5,22 +5,29 @@ Contains the TestDBStorageDocs and TestDBStorage classes
 
 from datetime import datetime
 import inspect
+import json
 import models
-from models.engine import db_storage
 from models.amenity import Amenity
 from models.base_model import BaseModel
 from models.city import City
+from models.engine import db_storage
 from models.place import Place
 from models.review import Review
 from models.state import State
 from models.user import User
-import json
-import os
+import MySQLdb
+from os import getenv
 import pep8
 import unittest
 DBStorage = db_storage.DBStorage
 classes = {"Amenity": Amenity, "City": City, "Place": Place,
            "Review": Review, "State": State, "User": User}
+
+user = getenv("HBNB_MYSQL_USER")
+passwd = getenv(" HBNB_MYSQL_PWD")
+host = getenv("HBNB_MYSQL_HOST")
+port = 3306
+db = "HBNB_MYSQL_DB"
 
 
 class TestDBStorageDocs(unittest.TestCase):
@@ -86,3 +93,21 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_count(self):
+        """Test the count method"""
+        storage = DBStorage()
+        engine = MySQLdb.connect(host=host, passwd=passwd,
+                                 port=port, user=user, db=db)
+        cur = engine.cursor()
+        cur.execute("SELECT * FROM states")
+        num = cur.rowcount
+        state1 = State(name="Osun")
+        state1.save()
+        self.assertEqual(storage.count(), (num + 1))
+        self.assertEqual(storage.count(State), (num + 1))
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get(self):
+        """Test the get method"""
