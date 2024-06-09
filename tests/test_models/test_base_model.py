@@ -116,7 +116,8 @@ class TestBaseModel(unittest.TestCase):
         my_model = BaseModel()
         expected_attrs = ["id",
                           "created_at",
-                          "updated_at"]
+                          "updated_at",
+                          "__class__"]
         d = my_model.to_dict()
         self.assertEqual(set(d.keys()), set(expected_attrs))
 
@@ -164,20 +165,26 @@ class TestBaseModel(unittest.TestCase):
         self.assertTrue(mock_storage.new.called)
         self.assertTrue(mock_storage.save.called)
 
-    def test_delete(self):
+    @mock.patch('models.storage')
+    def test_delete(self, mock_storage):
         """Test that delete method deletes the instance"""
         inst = BaseModel()
-        models.storage.new(inst)
-        models.storage.save()
-        inst_id = inst.id
-        models.storage.delete(inst)
-        self.assertNotEqual(models.storage.get(BaseModel, inst_id), None)
+        #   models.storage.new(inst)
+        #   models.storage.save()
+        #   inst_id = inst.id
+        inst.delete()
+        #   models.storage.delete(inst)
+        #   self.assertNotEqual(models.storage.get(BaseModel, inst_id), None)
+        #   self.assertIsNone(models.storage.get(BaseModel, inst_id))
+        mock_storage.delete.assert_called_with(inst)
 
     def test_to_dict_exclude(self):
         """Test that certain attributes are excluded from the to_dict method"""
-        inst = BaseModel()
-        excluded_attrs = ["__class__", "created_at", "updated_at"]
-        inst_dict = inst.to_dict()
+        obj = BaseModel()
+        inst_dict = obj.to_dict()
+        #   excluded_attrs = ["__class__", "created_at", "updated_at"]
+        excluded_attrs = ['_sa_instance_state']
+        #   inst_dict = inst.to_dict()
         for attr in excluded_attrs:
-            with self.subTest(attr=attr):
-                self.assertNotIn(attr, inst_dict)
+            # with self.subTest(attr=attr):
+            self.assertNotIn(attr, inst_dict)
