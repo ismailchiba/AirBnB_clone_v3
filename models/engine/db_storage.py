@@ -87,6 +87,9 @@ class DBStorage:
                 for keys, value in all_objects.items():
                     if keys.split('.')[1] == id:
                         return value 
+                for key, value in all_objects.items():
+                    if key.split('.')[1] == id:
+                        return value
             else:
                 return
         return 
@@ -106,3 +109,12 @@ class DBStorage:
             return len(all_inst_of_given_class )
         if cls not in classes.values():
             return 
+        if not cls:
+            inst_of_all_classes = self.all()
+            return len(inst_of_all_classes)
+        for cls, value in classes.items():
+            if cls == cls or cls == value:
+                inst_of_all_classes = self.all(cls)
+                return len(inst_of_all_classes)
+        if cls not in classes.values():
+            return
