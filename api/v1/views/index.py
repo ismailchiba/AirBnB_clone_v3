@@ -10,6 +10,7 @@ from models.user import User
 from flask import jsonify
 from api.v1.views import app_views
 from models import storage
+import json
 
 
 @app_views.route("/status", methods=["GET"])
@@ -29,4 +30,5 @@ def stats():
         "states": storage.count(State),
         "users": storage.count(User),
     }
-    return jsonify(counts)
+    json_str = json.dumps(counts, indent=2) + "\n"
+    return json_str
