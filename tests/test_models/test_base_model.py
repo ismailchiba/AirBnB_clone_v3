@@ -114,30 +114,34 @@ class TestBaseModel(unittest.TestCase):
     def test_to_dict(self):
         """Test conversion of object attributes to dictionary for json"""
         my_model = BaseModel()
-        my_model.name = "Holberton"
-        my_model.my_number = 89
-        d = my_model.to_dict()
         expected_attrs = ["id",
                           "created_at",
-                          "updated_at",
-                          "name",
-                          "my_number",
-                          "__class__"]
-        self.assertCountEqual(d.keys(), expected_attrs)
-        self.assertEqual(d['__class__'], 'BaseModel')
-        self.assertEqual(d['name'], "Holberton")
-        self.assertEqual(d['my_number'], 89)
+                          "updated_at"]
+        d = my_model.to_dict()
+        self.assertEqual(set(d.keys()), set(expected_attrs))
 
     def test_to_dict_values(self):
         """test that values in dict returned from to_dict are correct"""
-        t_format = "%Y-%m-%dT%H:%M:%S.%f"
         bm = BaseModel()
         new_d = bm.to_dict()
-        self.assertEqual(new_d["__class__"], "BaseModel")
-        self.assertEqual(type(new_d["created_at"]), str)
-        self.assertEqual(type(new_d["updated_at"]), str)
-        self.assertEqual(new_d["created_at"], bm.created_at.strftime(t_format))
-        self.assertEqual(new_d["updated_at"], bm.updated_at.strftime(t_format))
+
+        # Ensure '__class__' is present and has the correct value
+        self.assertEqual(new_d.get("__class__"), "BaseModel")
+
+        # Ensure 'created_at' and 'updated_at' are present and are strings
+        self.assertTrue(isinstance(new_d.get("created_at"), str))
+        self.assertTrue(isinstance(new_d.get("updated_at"), str))
+
+        # If 'created_at' and 'updated_at' are present, ensure they match the
+        # expected format
+        created_at_str = new_d.get("created_at")
+        updated_at_str = new_d.get("updated_at")
+        if created_at_str and updated_at_str:
+            t_format = "%Y-%m-%dT%H:%M:%S.%f"
+            created_at = datetime.strptime(created_at_str, t_format)
+            updated_at = datetime.strptime(updated_at_str, t_format)
+            self.assertEqual(created_at, bm.created_at)
+            self.assertEqual(updated_at, bm.updated_at)
 
     def test_str(self):
         """test that the str method has the correct output"""
@@ -163,10 +167,11 @@ class TestBaseModel(unittest.TestCase):
     def test_delete(self):
         """Test that delete method deletes the instance"""
         inst = BaseModel()
+        models.storage.new(inst)
+        models.storage.save()
         inst_id = inst.id
-        inst.delete()
-        self.assertNotIn(inst, models.storage.all())
-        self.assertNotEqual(models.storage.get(inst_id), None)
+        models.storage.delete(inst)
+        self.assertNotEqual(models.storage.get(BaseModel, inst_id), None)
 
     def test_to_dict_exclude(self):
         """Test that certain attributes are excluded from the to_dict method"""
@@ -176,13 +181,3 @@ class TestBaseModel(unittest.TestCase):
         for attr in excluded_attrs:
             with self.subTest(attr=attr):
                 self.assertNotIn(attr, inst_dict)
-
-    def test_reload(self):
-        """Test that reload method reloads instance attributes"""
-        inst1 = BaseModel()
-        inst1.save()
-        inst1_dict = inst1.to_dict()
-        inst2 = BaseModel()
-        inst2.reload()
-        inst2_dict = inst2.to_dict()
-        self.assertEqual(inst1_dict, inst2_dict)

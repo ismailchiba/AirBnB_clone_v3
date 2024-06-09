@@ -68,6 +68,10 @@ class BaseModel:
         new_dict["__class__"] = self.__class__.__name__
         if "_sa_instance_state" in new_dict:
             del new_dict["_sa_instance_state"]
+        # Ignore other specified attributes
+        ignored_attrs = ['__class__', 'created_at', 'updated_at']
+        for attr in ignored_attrs:
+            new_dict.pop(attr, None)
         return new_dict
 
     def delete(self):

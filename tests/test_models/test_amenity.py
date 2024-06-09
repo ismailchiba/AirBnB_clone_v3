@@ -90,14 +90,26 @@ class TestAmenity(unittest.TestCase):
 
     def test_to_dict_values(self):
         """test that values in dict returned from to_dict are correct"""
-        t_format = "%Y-%m-%dT%H:%M:%S.%f"
         am = Amenity()
         new_d = am.to_dict()
-        self.assertEqual(new_d["__class__"], "Amenity")
-        self.assertEqual(type(new_d["created_at"]), str)
-        self.assertEqual(type(new_d["updated_at"]), str)
-        self.assertEqual(new_d["created_at"], am.created_at.strftime(t_format))
-        self.assertEqual(new_d["updated_at"], am.updated_at.strftime(t_format))
+        self.assertEqual(new_d.get("__class__"), "Amenity")
+        self.assertTrue(isinstance(new_d.get("created_at"), str))
+        self.assertTrue(isinstance(new_d.get("updated_at"), str))
+
+        created_at_str = new_d.get("created_at")
+        updated_at_str = new_d.get("updated_at")
+
+        self.assertIsNotNone(created_at_str)
+        self.assertIsNotNone(updated_at_str)
+
+        # If created_at and updated_at are not None, ensure they match expected
+        # format
+        if created_at_str and updated_at_str:
+            t_format = "%Y-%m-%dT%H:%M:%S.%f"
+            created_at = datetime.strptime(created_at_str, t_format)
+            updated_at = datetime.strptime(updated_at_str, t_format)
+            self.assertEqual(created_at, am.created_at)
+            self.assertEqual(updated_at, am.updated_at)
 
     def test_str(self):
         """test that the str method has the correct output"""
@@ -132,3 +144,9 @@ class TestAmenity(unittest.TestCase):
         am = Amenity()
         am.save()
         self.assertIn(am, models.storage.all().values())
+
+    def test_name_initialization(self):
+        """Test that name attribute is correctly set during initialization"""
+        name = "Test Amenity"
+        am = Amenity(name=name)
+        self.assertEqual(am.name, name)
