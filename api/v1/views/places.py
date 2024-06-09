@@ -9,6 +9,10 @@ from models import storage
 from models.city import City
 from models.place import Place
 from models.user import User
+from models.state import State
+from os import getenv
+
+storage_t = getenv('HBNB_TYPE_STORAGE')
 
 
 @app_views.route('/cities/<city_id>/places', methods=['GET'],
@@ -142,20 +146,50 @@ def place_search():
         all_places_dicts = [place.to_dict() for place in all_places_raw]
         return jsonify(all_places_dicts)
 
+    """if values:list are all empty retrieves all States"""
     st_list = json['states'] if json.get('states') is not None else []
     ct_list = json['cities'] if json.get('cities') is not None else []
     am_list = json['amenities'] if json.get('amenities') is not None else []
-    """
-    If json['states'], json['cities'] and json['amenities'] are empty
-                    return all places
-    """
-    if len(st_list) == 0 and len(ct_list) == 0 and len(am_list) == 0:
-        all_places_raw = list(storage.all(Place).values())
-        all_places_dicts = [place.to_dict() for place in all_places_raw]
-        return jsonify(all_places_dicts)
+    if len(st_list) == 0 and len(ct_list) and len(am_list) == 0:
+        all_states_raw = list(storage.all(State).values())
+        all_states = [state.to_dict() for state in all_states_raw]
+        return jsonify(all_states)
 
-    """
-    A set can be used since it helps avoid duplication
-    """
-    if len(st_list) != 0 and len(ct_list) != 0 and len(am_list) != 0:
-        filtered_places = {}
+    """A set will be implemented to avoid duplication"""
+    cities_selected = set()
+    selected_places = set()
+    if len(st_list) != 0 and len(ct_list) == 0:
+        for state_id in st_list:
+            state_obj = storage.get(State, state_id)
+            state_cities = state_obj.cities
+            for city in state_cities:
+                cities_selected.add(city)
+
+    elif len(st_list) == 0 and len(ct_list) != 0:
+        for city_id in ct_list:
+            cities_selected.add(storage.get(City, city_id))
+
+    elif len(st_list) != 0 and len(ct_list) != 0:
+        for state_id in st_list:
+            state_obj = storage.get(State, state_id)
+            state_cities_ids = [st.id for st in state_obj.cities]
+            if all(ct_id not in state_cities_ids for ct_id in ct_list) is True:
+                cities_selected.update(list(state_obj.cities))
+
+            else:
+                for ct_id in state_cities_ids:
+                    if ct_id in ct_list:
+                        cities_selected.add(storage.get(City, ct_id))
+        for ct_id in ct_list:
+            cities_selected.add(storage.get(City, ct_id))
+
+    """Then we will filter for places in the cities"""
+    for city in cities_selected:
+        for place in city.places:
+            if storage_t == 'file':
+                if all(am_id in place.amenities for am_id in am_list):
+                    selected_places.add(place.to_dict())
+            elif storage_t == 'db':
+                place_amenities_id = [am.id for am in place.amenities]
+                if all(am_id in place_amenities_id for am_id in am_list):
+                    selected_places.add(place.to_dict())
