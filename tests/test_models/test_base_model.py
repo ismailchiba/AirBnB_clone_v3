@@ -159,3 +159,30 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(old_created_at, new_created_at)
         self.assertTrue(mock_storage.new.called)
         self.assertTrue(mock_storage.save.called)
+
+    def test_delete(self):
+        """Test that delete method deletes the instance"""
+        inst = BaseModel()
+        inst_id = inst.id
+        inst.delete()
+        self.assertNotIn(inst, models.storage.all())
+        self.assertNotEqual(models.storage.get(inst_id), None)
+
+    def test_to_dict_exclude(self):
+        """Test that certain attributes are excluded from the to_dict method"""
+        inst = BaseModel()
+        excluded_attrs = ["__class__", "created_at", "updated_at"]
+        inst_dict = inst.to_dict()
+        for attr in excluded_attrs:
+            with self.subTest(attr=attr):
+                self.assertNotIn(attr, inst_dict)
+
+    def test_reload(self):
+        """Test that reload method reloads instance attributes"""
+        inst1 = BaseModel()
+        inst1.save()
+        inst1_dict = inst1.to_dict()
+        inst2 = BaseModel()
+        inst2.reload()
+        inst2_dict = inst2.to_dict()
+        self.assertEqual(inst1_dict, inst2_dict)
