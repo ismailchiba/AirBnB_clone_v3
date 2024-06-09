@@ -131,3 +131,5 @@ class TestFileStorage(unittest.TestCase):
         state1 = State()
         state1.save()
         self.assertTrue(storage.get(State, state1.id))
+        self.assertFalse(storage.get(State,
+                                     "df71d3d1-0acc-47f6-b9a9-48kf63ed1d65"))
