@@ -2,7 +2,8 @@
 """"""
 from models import storage
 from api.v1.views import app_views
-from flask import Flask
+from flask import Flask, jsonify
+from flask import make_response
 from os import getenv
 
 app = Flask(__name__)
@@ -15,6 +16,10 @@ def cleanup(exc=None):
     storage.close()
     if exc:
         pass
+
+@app.errorhandler(404)
+def error_404(error):
+    return (make_response(jsonify({'error': 'Not found'}), 404))
 
 
 if __name__ == "__main__":
