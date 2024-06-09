@@ -83,12 +83,20 @@ class DBStorage:
             if cls in classes.values() and isinstance(id, str):
                 all_objects = self.all(cls)
                 for key, value in all_objects.items():
-                    if key.split('.')[1]:
-                        
-
+                    if key.split('.')[1] == id:
+                        return value
             else:
-                return None
+                return
         return 
     
 
     def count(self, cls=None):
+        if not cls:
+            inst_of_all_classes = self.all()
+            return len(inst_of_all_classes)
+        for cls, value in classes.items():
+            if cls == cls or cls == value:
+                inst_of_all_classes = self.all(cls)
+                return len(inst_of_all_classes)
+        if cls not in classes.values():
+            return
