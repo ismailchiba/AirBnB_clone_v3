@@ -23,7 +23,9 @@ def show_status():
 
 @app_views.route('stats')
 def count_obj():
-    """retrieves the number of each objects"""
+    """
+    retrieves the number of each objects
+    """
     data = jsonify({
         "amenities": storage.count(Amenity),
         "cities": storage.count(City),
