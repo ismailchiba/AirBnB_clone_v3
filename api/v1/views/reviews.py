@@ -2,18 +2,23 @@
 """ objects that handles all default RestFul API actions for Reviews"""
 from api.v1.views import app_views
 from flask import jsonify, abort, request, make_response
+from models.place import Place
 from models import storage
 from models.review import Review
+from models.user import User
 
 
-@app_views.route("/reviews", methods=["GET"], strict_slashes=False)
-def get_review():
+@app_views.route("/places/<place_id>/reviews", methods=["GET"], strict_slashes=False)
+def get_review(place_id):
     """Retrieves the list of all Review objects"""
-    all_reviews = storage.all(Review).values()
-    list_review = []
-    for review in all_reviews:
-        list_review.append(review.to_dict())
-    return jsonify(list_review)
+    place = storage.get(Place, place_id)
+
+    if not place:
+        abort(404)
+
+    reviews = [review.to_dict() for review in place.reviews]
+
+    return jsonify(reviews)
 
 
 @app_views.route("/reviews/<review_id>", methods=["GET"], strict_slashes=False)
@@ -37,20 +42,33 @@ def delete_review_id(review_id):
     return make_response(jsonify({}), 200)
 
 
-@app_views.route("/reviews", methods=["POST"], strict_slashes=False)
-def create_review():
+@app_views.route("/places/<place_id>/reviews", methods=["POST"], strict_slashes=False)
+def create_review(place_id):
     """Creates a Review"""
+    place = storage.get(Place, place_id)
+
+    if not city:
+        abort(404)
+
     if not request.get_json():
         abort(400, description="Not a JSON")
-    if not "name" in request.json():
-        abort(400, "Missing name")
 
-    review = request.json()
-    instance = Review(**review)
-    storage.new(instance)
-    storage.save()
+    if "user_id" not in request.get_json():
+        abort(400, description="Missing user_id")
 
-    return make_response(jsonify(review), 201)
+    data = request.get_json()
+    user = storage.get(User, data["user_id"])
+
+    if not user:
+        abort(404)
+
+    if "name" not in request.get_json():
+        abort(400, description="Missing name")
+
+    data["place_id"] = place_id
+    instance = Place(**data)
+    instance.save()
+    return make_response(jsonify(instance.to_dict()), 201)
 
 
 @app_views.route("/reviews/<review_id>", methods=["PUT"], strict_slashes=False)

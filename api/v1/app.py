@@ -2,11 +2,13 @@
 """ Flask Application """
 from models import storage
 from api.v1.views import app_views
-from os import environ
+from os import getenv
 from flask import Flask, render_template, make_response, jsonify
 
 app = Flask(__name__)
+app.url_map.strict_slashes = False
 app.register_blueprint(app_views)
+app.config["JSONIFY_PRETTYPRINT_REGULAR"] = True
 
 
 @app.teardown_appcontext
@@ -20,8 +22,8 @@ def not_found(err):
 
 
 if __name__ == "__main__":
-    host = environ("HBNB_API_HOST")
-    port = environ("HBNB_API_PORT")
+    host = getenv("HBNB_API_HOST")
+    port = int(getenv("HBNB_API_PORT"))
     if not host:
         host = "0.0.0.0"
     if not port:

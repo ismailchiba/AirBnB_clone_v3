@@ -11,7 +11,7 @@ from flask import abort, jsonify, make_response, request
 
 
 @app_views.route("/cities/<city_id>/places", methods=["GET"], strict_slashes=False)
-def get_place():
+def get_place(city_id):
     """Retrieves the list of all Place objects"""
     city = storage.get(City, city_id)
 
@@ -45,7 +45,7 @@ def delete_place_id(place_id):
 
 
 @app_views.route("/cities/<city_id>/places", methods=["POST"], strict_slashes=False)
-def create_place():
+def create_place(city_id):
     """Creates a Place"""
     city = storage.get(City, city_id)
 
