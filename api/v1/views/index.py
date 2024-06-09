@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Return the status of your API
+Module for Endpoints for views of each class
 """
 from api.v1.views import app_views
 from flask import Flask, jsonify
@@ -24,7 +24,7 @@ def show_status():
 @app_views.route('stats')
 def count_obj():
     """
-    retrieves the number of each objects
+    retrieves the number of each objects using count
     """
     data = jsonify({
         "amenities": storage.count(Amenity),
