@@ -1,9 +1,9 @@
 #!/usr/bin/python3
-"""Flask application"""
-from api.v1.views import app_views
-from flask import Flask, make_response, jsonify
+""" Flask Application """
 from models import storage
-from os import getenv
+from api.v1.views import app_views
+from os import environ
+from flask import Flask, render_template, make_response, jsonify
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
@@ -20,10 +20,10 @@ def not_found(err):
 
 
 if __name__ == "__main__":
-    host = getenv("HBNB_API_HOST")
-    port = getenv("HBNB_API_PORT")
-    if host is None:
+    host = environ("HBNB_API_HOST")
+    port = environ("HBNB_API_PORT")
+    if not host:
         host = "0.0.0.0"
-    if port is None:
+    if not port:
         port = "5000"
     app.run(host=host, port=port, threaded=True)

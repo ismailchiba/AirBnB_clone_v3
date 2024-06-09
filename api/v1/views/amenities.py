@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 """ objects that handles all default RestFul API actions for Amenities"""
-from api.v1.views import app_views
-from flask import jsonify, abort, request, make_response
-from models import storage
 from models.amenity import Amenity
+from models import storage
+from api.v1.views import app_views
+from flask import abort, jsonify, make_response, request
 
 
 @app_views.route("/amenities", methods=["GET"], strict_slashes=False)
