@@ -59,6 +59,7 @@ class TestAmenityDocs(unittest.TestCase):
 
 class TestAmenity(unittest.TestCase):
     """Test the Amenity class"""
+
     def test_is_subclass(self):
         """Test that Amenity is a subclass of BaseModel"""
         amenity = Amenity()
@@ -103,3 +104,31 @@ class TestAmenity(unittest.TestCase):
         amenity = Amenity()
         string = "[Amenity] ({}) {}".format(amenity.id, amenity.__dict__)
         self.assertEqual(string, str(amenity))
+
+    def test_save(self):
+        """Test that save method updates `updated_at` attribute"""
+        am = Amenity()
+        old_updated_at = am.updated_at
+        am.save()
+        self.assertNotEqual(am.updated_at, old_updated_at)
+
+    def test_initialization_with_kwargs(self):
+        """Test initialization of Amenity with kwargs"""
+        dt = datetime.now().isoformat()
+        am = Amenity(id="123", created_at=dt, updated_at=dt, name="Pool")
+        self.assertEqual(am.id, "123")
+        self.assertEqual(am.created_at.isoformat(), dt)
+        self.assertEqual(am.updated_at.isoformat(), dt)
+        self.assertEqual(am.name, "Pool")
+
+    def test_unique_ids(self):
+        """Test that each Amenity has a unique id"""
+        am1 = Amenity()
+        am2 = Amenity()
+        self.assertNotEqual(am1.id, am2.id)
+
+    def test_storage_of_new_instance(self):
+        """Test that new instance is stored in storage"""
+        am = Amenity()
+        am.save()
+        self.assertIn(am, models.storage.all().values())

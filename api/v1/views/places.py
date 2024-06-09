@@ -131,13 +131,31 @@ def place_search():
     content_type = request.headers.get('Content-Type')
     if content_type != 'application/json':
         abort(400, description='Not a JSON')
-    json = request.json()
+    json = request.get_json()
     if json is None:
         abort(400, description='Not a JSON')
     if len(list(json.keys())) == 0:
         """
-        If dictionary is empty return al places
+        If dictionary is empty return all places
         """
         all_places_raw = storage.all(Place).values()
         all_places_dicts = [place.to_dict() for place in all_places_raw]
         return jsonify(all_places_dicts)
+
+    st_list = json['states'] if json.get('states') is not None else []
+    ct_list = json['cities'] if json.get('cities') is not None else []
+    am_list = json['amenities'] if json.get('amenities') is not None else []
+    """
+    If json['states'], json['cities'] and json['amenities'] are empty
+                    return all places
+    """
+    if len(st_list) == 0 and len(ct_list) == 0 and len(am_list) == 0:
+        all_places_raw = list(storage.all(Place).values())
+        all_places_dicts = [place.to_dict() for place in all_places_raw]
+        return jsonify(all_places_dicts)
+
+    """
+    A set can be used since it helps avoid duplication
+    """
+    if len(st_list) != 0 and len(ct_list) != 0 and len(am_list) != 0:
+        filtered_places = {}
