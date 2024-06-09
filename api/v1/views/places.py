@@ -120,3 +120,24 @@ def post_place(city_id):
             obj_id = obj.id
             obj.save()
             return place_by_id(obj_id), 201
+
+
+@app_views.route("/places_search", methods=['POST'], strict_slashes=False)
+def place_search():
+    """
+    Retrieves all Place objecs depending on the JSON of the
+    POST /api/v1/places_search
+    """
+    content_type = request.headers.get('Content-Type')
+    if content_type != 'application/json':
+        abort(400, description='Not a JSON')
+    json = request.json()
+    if json is None:
+        abort(400, description='Not a JSON')
+    if len(list(json.keys())) == 0:
+        """
+        If dictionary is empty return al places
+        """
+        all_places_raw = storage.all(Place).values()
+        all_places_dicts = [place.to_dict() for place in all_places_raw]
+        return jsonify(all_places_dicts)
