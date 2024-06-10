@@ -2,7 +2,6 @@
 """Returns status ok"""
 
 from api.v1.views import app_views
-from api.v1.views import app_views
 from flask import jsonify
 from models import storage
 from models.user import User
