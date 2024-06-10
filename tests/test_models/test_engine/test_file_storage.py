@@ -79,6 +79,21 @@ class TestFileStorage(unittest.TestCase):
         self.assertIs(new_dict, storage._FileStorage__objects)
 
     @unittest.skipIf(storage_t == 'db', "not testing file storage")
+    def test_all_no_class(self):
+        """Test that all returns all objects when no class is passed"""
+        all_objs = storage.all()
+        self.assertIsInstance(all_objs, dict)
+        self.assertGreaterEqual(len(all_objs), 0)
+
+    @unittest.skipIf(storage_t == 'db', "not testing file storage")
+    def test_all_with_class(self):
+        """Test that all returns correct type when class is passed"""
+        all_states = storage.all(State)
+        self.assertIsInstance(all_states, dict)
+        for obj in all_states.values():
+            self.assertIsInstance(obj, State)
+
+    @unittest.skipIf(storage_t == 'db', "not testing file storage")
     def test_new(self):
         """test that new adds an object to the FileStorage.__objects attr"""
         save = storage._FileStorage__objects
@@ -111,6 +126,34 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+
+    @unittest.skipIf(storage_t == 'db', "not testing file storage")
+    def test_delete(self):
+        """Test that delete removes object from __objects"""
+        new_state = State(name="California")
+        storage.new(new_state)
+        storage.save()
+        storage.delete(new_state)
+        storage.save()
+        self.assertNotIn("State." + new_state.id, storage.all())
+
+    @unittest.skipIf(storage_t == 'db', "not testing file storage")
+    def test_reload(self):
+        """Test that reload properly reloads objects from file.json"""
+        new_state = State(name="California")
+        storage.new(new_state)
+        storage.save()
+        storage.reload()
+        all_objs = storage.all()
+        self.assertIn("State." + new_state.id, all_objs)
+
+    @unittest.skipIf(storage_t == 'db', "not testing file storage")
+    def test_close(self):
+        """Test that close properly calls reload method"""
+        with unittest.mock.patch.object(storage, 'reload',
+                                        wraps=storage.reload) as mock_reload:
+            storage.close()
+            mock_reload.assert_called_once()
 
     @unittest.skipIf(storage_t == 'db', "not testing file storage")
     def test_get(self):

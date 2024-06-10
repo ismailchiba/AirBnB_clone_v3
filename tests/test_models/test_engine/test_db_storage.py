@@ -80,17 +80,63 @@ class TestDBStorage(unittest.TestCase):
     @unittest.skipIf(storage_t != 'db', "not testing db storage")
     def test_all_no_class(self):
         """Test that all returns all rows when no class is passed"""
-        pass
+        all_objs = storage.all()
+        self.assertIsInstance(all_objs, dict)
+        self.assertGreaterEqual(len(all_objs), 0)
+
+    @unittest.skipIf(storage_t != 'db', "not testing db storage")
+    def test_all_with_class(self):
+        """Test that all returns correct type when class is passed"""
+        all_states = storage.all(State)
+        self.assertIsInstance(all_states, dict)
+        for obj in all_states.values():
+            self.assertIsInstance(obj, State)
 
     @unittest.skipIf(storage_t != 'db', "not testing db storage")
     def test_new(self):
         """test that new adds an object to the database"""
-        pass
+        new_state = State(name="Texas")
+        storage.new(new_state)
+        storage.save()
+        self.assertIn(new_state, storage.all(State).values())
 
     @unittest.skipIf(storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
-        pass
+        new_state = State(name="Nevada")
+        storage.new(new_state)
+        storage.save()
+        saved_state = storage.all(State).get("State." + new_state.id)
+        self.assertIsNotNone(saved_state)
+        self.assertEqual(saved_state.name, "Nevada")
+
+    @unittest.skipIf(storage_t != 'db', "not testing db storage")
+    def test_delete(self):
+        """Test that delete removes object from storage"""
+        new_state = State(name="Florida")
+        storage.new(new_state)
+        storage.save()
+        storage.delete(new_state)
+        storage.save()
+        self.assertNotIn(new_state, storage.all(State).values())
+
+    @unittest.skipIf(storage_t != 'db', "not testing db storage")
+    def test_reload(self):
+        """Test that reload properly reloads objects from the database"""
+        storage.reload()
+        all_objs = storage.all()
+        self.assertIsInstance(all_objs, dict)
+        self.assertGreaterEqual(len(all_objs), 0)
+
+    @unittest.skipIf(storage_t != 'db', "not testing db storage")
+    def test_close(self):
+        """Test that close properly closes the session"""
+        # Ensure close method is callable
+        self.assertTrue(callable(storage.close))
+
+        # Close the session and assert that __session is None
+        storage.close()
+        self.assertIsNone(storage._DBStorage__session)
 
     @unittest.skipIf(storage_t != 'db', "not testing db storage")
     def test_get(self):
