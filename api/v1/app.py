@@ -1,9 +1,10 @@
 #!/usr/bin/python3
 """ Flask Application """
-from models import storage
+from flask import Flask, jsonify
 from api.v1.views import app_views
 from os import getenv
-from flask import Flask, render_template, make_response, jsonify
+from models import storage
+
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
@@ -17,8 +18,11 @@ def close_db(err):
 
 
 @app.errorhandler(404)
-def not_found(err):
-    return make_response(jsonify({"error": "Not found"}))
+def page_not_found_404(exception):
+    """
+    404 not found error.
+    """
+    return jsonify({"error": "Not found"}), 404
 
 
 if __name__ == "__main__":
