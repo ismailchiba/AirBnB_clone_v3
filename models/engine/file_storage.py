@@ -55,7 +55,7 @@ class FileStorage:
                 jo = json.load(f)
             for key in jo:
                 self.__objects[key] = classes[jo[key]["__class__"]](**jo[key])
-        except:
+        except Exception:
             pass
 
     def delete(self, obj=None):
@@ -68,3 +68,60 @@ class FileStorage:
     def close(self):
         """call reload() method for deserializing the JSON file to objects"""
         self.reload()
+
+    def get(self, cls, id):
+        """
+        Retrieve an object based on the class and its ID
+        """
+        all_cls = self.all(cls)
+        for value in all_cls.values():
+            if value.id == id:
+                return value
+        return None
+
+    def count(self, cls=None):
+        """
+        Count the number of objects in storage matching the given class.
+        """
+        if cls:
+            count = len(self.all(cls))
+        else:
+            count = 0
+            for clas in classes.values():
+                count += len(self.all(clas))
+        return count
+
+    def get(self, cls, id):
+        """Retrieves a single object of the provided class by its ID.
+
+        Args:
+            cls: The class of the object to retrieve
+            id: The unique identifier of the object.
+
+        Returns:
+            The requested object if found, otherwise None.
+        """
+        if cls is not None:
+            res = list(
+                filter(
+                    lambda x: type(x) is cls and x.id == id,
+                    self.__objects.values()
+                )
+            )
+            if res:
+                return res[0]
+        return None
+
+    def count(self, cls=None):
+        """Retrieves the total count of objects in a given class.
+
+        If no class is specified, counts all objects.
+
+        Args:
+            cls (type, optional): The class of objects to count. Defaults to
+                None (count all objects).
+
+        Returns:
+            int: The total count of objects.
+        """
+        return len(self.all(cls))
