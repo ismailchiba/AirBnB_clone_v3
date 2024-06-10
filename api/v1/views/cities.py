@@ -72,9 +72,10 @@ def post_city(state_id):
     """
         Creates a City object
     """
-    data = request.get_json()
-    if not data:
-        return Response("Not a JSON", status=400)
+    try:
+        data = request.get_json()
+    except Exception:
+        return "Not a JSON", 400
     name = data.get("name")
     if not name:
         return "Missing name", 400
@@ -100,8 +101,9 @@ def put_city(city_id):
         Updates a City object
     """
     keep_city = None
-    data = request.get_json()
-    if not data:
+    try:
+        data = request.get_json()
+    except Exception:
         return "Not a JSON", 400
     all_cities = storage.all(City)
     for val in all_cities.values():

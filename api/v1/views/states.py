@@ -62,14 +62,13 @@ def post_state():
     """
         Creates and post new state
     """
-    data = request.get_json()  # if fails, data is None
-    if not data:
-        # json_format = json.dumps("Not a JSON")
-        return Response("Not a JSON", status=400)
+    try:
+        data = request.get_json()  # if fails, data is None
+    except Exception:
+        return "Not a JSON", 400
     name = data.get("name")
     if not name:
-        # json_format = json.dumps("Missing name")
-        return Response("Missing name", status=400)
+        return "Missing name", 400
     new_instance = State(name=name)
     new_instance.save()
     new_instance_json = json.dumps(new_instance.to_dict(), indent=2)
@@ -81,9 +80,10 @@ def update_state(state_id):
     """
         Updates a state object
     """
-    data = request.get_json()
-    if not data:
-        return Response("Not a JSON", status=400)
+    try:
+        data = request.get_json()
+    except Exception:
+        return "Not a JSON", 400
     all_states = storage.all(State)
     for each_state_key in all_states.keys():
         state_dict = all_states[each_state_key].to_dict()
