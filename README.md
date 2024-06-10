@@ -155,7 +155,7 @@ No known bugs at this time.
 
 ## Authors
 Barbra Wasiwo - [Github](https://github.com/barbzt30) / [Twitter](https://twitter.com/barbrawasiwo)
-Valerie Igbokwe -
+Valerie Igbokwe - [Github](https://github.com/val-ster)
 
 Second part of Airbnb: Joann Vuong
 ## License
