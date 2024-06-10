@@ -30,7 +30,7 @@ def get_state_id(state_id):
 @app_views.route("/states/<state_id>", methods=["DELETE"], strict_slashes=False)
 def delete_state_id(state_id):
     """Deletes a State object by id"""
-    state = storage.get(State.state_id)
+    state = storage.get(State, state_id)
     if not state:
         abort(404)
     storage.delete(state)
@@ -43,10 +43,10 @@ def create_state():
     """Creates a State"""
     if not request.get_json():
         abort(400, description="Not a JSON")
-    if not "name" in request.json():
+    if not "name" in request.get_json():
         abort(400, "Missing name")
 
-    state = request.json()
+    state = request.get_json()
     instance = State(**state)
     storage.new(instance)
     storage.save()
@@ -57,15 +57,12 @@ def create_state():
 @app_views.route("/states/<state_id>", methods=["PUT"], strict_slashes=False)
 def update_state(state_id):
     """Updates a State object by id"""
+    state = storage.get(State, state_id)
     if not request.get_json():
         abort(400, description="Not a JSON")
-    if not "name" in request.get_json():
-        abort(400, "Missing name")
-
-    if not storage.get(State, state_id):
+    if not state:
         abort(404)
 
-    state = storage.get(State, state_id)
     state_data = request.get_json()
     ignore_keys = ["id", "created_at", "updated_at"]
     for key, value in state_data.items():
@@ -73,4 +70,4 @@ def update_state(state_id):
             setattr(state, key, value)
     storage.save()
 
-    return make_response(jsonify(state), 200)
+    return make_response(jsonify(state.to_dict()), 200)

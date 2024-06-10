@@ -11,13 +11,15 @@ from flask import abort, jsonify, make_response, request
 def get_cites(state_id):
     """Retrieves the list of all City objects"""
     state = storage.get(State, state_id)
-    list_city = []
-    for value in state.cities:
-        list_city.append(value.to_dict())
+
     if not state:
         abort(404)
 
-    return jsonify(state.to_dict())
+    list_city = []
+    for value in state.cities:
+        list_city.append(value.to_dict())
+
+    return jsonify(list_city)
 
 
 @app_views.route("/cities/<city_id>", methods=["GET"], strict_slashes=False)
@@ -31,9 +33,9 @@ def get_cites_id(cities_id):
 
 
 @app_views.route("/cities/<city_id>", methods=["DELETE"], strict_slashes=False)
-def delete_city_id(state_id):
+def delete_city_id(city_id):
     """Deletes a City object by id"""
-    city = storage.get(State.state_id)
+    city = storage.get(City, city_id)
     if not city:
         abort(404)
     storage.delete(city)
@@ -75,4 +77,4 @@ def update_city(city_id):
             setattr(city, key, value)
     storage.save()
 
-    return make_response(jsonify(city), 200)
+    return make_response(jsonify(city.to_dict()), 200)
