@@ -47,7 +47,7 @@ def create_review(place_id):
     """Creates a Review"""
     place = storage.get(Place, place_id)
 
-    if not city:
+    if not place:
         abort(404)
 
     if not request.get_json():
