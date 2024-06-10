@@ -90,15 +90,16 @@ def post_place(city_id):
                 instance = Place()
                 for key, val in data.items():
                     setattr(instance, key, val)
-                instance["city_id"] = city_id
-                instance["user_id"] = user_id
+                instance.city_id = city_id
+                instance.user_id = user_id
                 instance.save()
                 return Response(json.dumps(instance.to_dict(), indent=2),
                                 mimetype="application/json", status=201)
         abort(404)
 
 
-@app_views.route("/places/<place_id>", strict_slashes=False)
+@app_views.route("/places/<place_id>", methods=["PUT"],
+                 strict_slashes=False)
 def put_place(place_id):
     """
         Update a Place object
