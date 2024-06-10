@@ -10,7 +10,8 @@ from api.v1.views import app_views
 from flask import abort, jsonify, make_response, request
 
 
-@app_views.route("/cities/<city_id>/places", methods=["GET"], strict_slashes=False)
+@app_views.route("/cities/<city_id>/places", methods=["GET"],
+                 strict_slashes=False)
 def get_place(city_id):
     """Retrieves the list of all Place objects"""
     city = storage.get(City, city_id)
@@ -33,7 +34,8 @@ def get_place_id(place_id):
     return jsonify(place.to_dict())
 
 
-@app_views.route("/places/<place_id>", methods=["DELETE"], strict_slashes=False)
+@app_views.route("/places/<place_id>", methods=["DELETE"],
+                 strict_slashes=False)
 def delete_place_id(place_id):
     """Deletes a Place object by id"""
     place = storage.get(place, place_id)
@@ -44,7 +46,8 @@ def delete_place_id(place_id):
     return make_response(jsonify({}), 200)
 
 
-@app_views.route("/cities/<city_id>/places", methods=["POST"], strict_slashes=False)
+@app_views.route("/cities/<city_id>/places", methods=["POST"],
+                 strict_slashes=False)
 def create_place(city_id):
     """Creates a Place"""
     city = storage.get(City, city_id)

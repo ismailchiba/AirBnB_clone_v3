@@ -8,7 +8,8 @@ from os import environ
 from flask import abort, jsonify, make_response
 
 
-@app_views.route("places/<place_id>/amenities", methods=["GET"], strict_slashes=False)
+@app_views.route("places/<place_id>/amenities", methods=["GET"],
+                 strict_slashes=False)
 def get_place_amenities(place_id):
     """
     Retrieves the list of all Amenity objects of a Place
@@ -62,7 +63,8 @@ def delete_place_amenity(place_id, amenity_id):
 
 
 @app_views.route(
-    "/places/<place_id>/amenities/<amenity_id>", methods=["POST"], strict_slashes=False
+    "/places/<place_id>/amenities/<amenity_id>", methods=["POST"],
+    strict_slashes=False
 )
 def post_place_amenity(place_id, amenity_id):
     """

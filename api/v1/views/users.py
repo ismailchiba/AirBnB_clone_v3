@@ -42,7 +42,8 @@ def create_user():
     """Creates a User"""
     if not request.get_json():
         abort(400, description="Not a JSON")
-    if not "name" in request.json():
+    if "name" not in request.json():
+        """if not name in request.json()"""
         abort(400, "Missing name")
 
     user = request.json()
