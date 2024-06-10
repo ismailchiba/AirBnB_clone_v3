@@ -142,18 +142,18 @@ def place_search():
         """
         If dictionary is empty return all places
         """
-        all_places_raw = storage.all(Place).values()
-        all_places_dicts = [place.to_dict() for place in all_places_raw]
-        return jsonify(all_places_dicts)
+        all_places_raw = list(storage.all(Place).values())
+        all_places = [place.to_dict() for place in all_places_raw]
+        return jsonify(all_places)
 
-    """if values:list are all empty retrieves all States"""
+    """if values:list are all empty retrieves all PLaces"""
     st_list = json['states'] if json.get('states') is not None else []
     ct_list = json['cities'] if json.get('cities') is not None else []
     am_list = json['amenities'] if json.get('amenities') is not None else []
     if len(st_list) == 0 and len(ct_list) and len(am_list) == 0:
-        all_states_raw = list(storage.all(State).values())
-        all_states = [state.to_dict() for state in all_states_raw]
-        return jsonify(all_states)
+        all_places_raw = list(storage.all(Place).values())
+        all_places = [place.to_dict() for place in all_places_raw]
+        return jsonify(all_places)
 
     """A set will be implemented to avoid duplication"""
     cities_selected = set()
@@ -193,3 +193,5 @@ def place_search():
                 place_amenities_id = [am.id for am in place.amenities]
                 if all(am_id in place_amenities_id for am_id in am_list):
                     selected_places.add(place.to_dict())
+
+    return jsonify(selected_places)
