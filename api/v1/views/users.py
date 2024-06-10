@@ -65,9 +65,9 @@ def post_user():
         data = request.get_json()
     except Exception:
         return "Not a JSON", 400
-    if "email" not in data:
+    if not data.get("email"):
         return "Missing email", 400
-    if "password" not in data:
+    if not data.get("password"):
         return "Missing password", 400
     instance = User()
     for key, val in data.items():
