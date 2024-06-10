@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """
 Module for Endpoints for views of each class
-=======
 Return the status of your API
 """
 from api.v1.views import app_views
