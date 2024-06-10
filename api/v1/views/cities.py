@@ -1,9 +1,8 @@
-
 #!/usr/bin/python3
 """
 API endpoints for City objects.
 """
-from flask import abort, jsonify, request
+from flask import jsonify, abort, request
 from api.v1.views import app_views
 from models import storage
 from models.state import State
@@ -12,26 +11,25 @@ from models.city import City
 
 @app_views.route('/states/<state_id>/cities', methods=['GET'],
                  strict_slashes=False)
-def get_city_state(state_id):
+def get_cities(state_id):
     """Retrieves the list of all City objects of a State"""
-    if state_id is None:
+    if not state_id:
         abort(404)
     state = storage.get(State, state_id)
-    if state is None:
+    if not state:
         abort(404)
-    list_city = [city.to_dict() for city in state.cities]
-    return jsonify(list_city)
+    return jsonify([city.to_dict() for city in state.cities])
 
 
 @app_views.route('/cities/<city_id>', methods=['GET'],
                  strict_slashes=False)
 def get_city(city_id):
     """
-    Retrieves a City object. : GET /api/v1/cities/<city_id>
+    Retrieves a City object.
     If the city_id is not linked to any City object, raise a 404 error
     """
     city = storage.get(City, city_id)
-    if city is None:
+    if not city:
         abort(404)
     return jsonify(city.to_dict())
 
@@ -41,7 +39,7 @@ def get_city(city_id):
 def delete_city(city_id):
     """Deletes a City object"""
     city = storage.get(City, city_id)
-    if city is None:
+    if not city:
         abort(404)
     storage.delete(city)
     storage.save()
@@ -52,14 +50,14 @@ def delete_city(city_id):
                  strict_slashes=False)
 def create_city(state_id):
     """Creates a City"""
-    if state_id is None:
+    if not state_id:
         abort(404)
     state = storage.get(State, state_id)
-    if state is None:
+    if not state:
         abort(404)
 
     city_data = request.get_json()
-    if city_data is None:
+    if not city_data:
         abort(400, 'Not a JSON')
     if 'name' not in city_data:
         abort(400, 'Missing name')
@@ -73,11 +71,11 @@ def create_city(state_id):
 def update_city(city_id):
     """Updates a City object"""
     city = storage.get(City, city_id)
-    if city is None:
+    if not city:
         abort(404)
 
     city_data = request.get_json()
-    if city_data is None:
+    if not city_data:
         abort(400, 'Not a JSON')
     ignore_keys = ['id', 'state_id', 'created_at', 'updated_at']
     for key, value in city_data.items():

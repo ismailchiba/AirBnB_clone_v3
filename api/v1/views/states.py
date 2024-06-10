@@ -2,28 +2,28 @@
 """
 API endpoints for State objects.
 """
-from flask import abort, jsonify, request
+from flask import jsonify, abort, request
 from api.v1.views import app_views
 from models import storage
 from models.state import State
 
 
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
-def get_state():
-    """Retrieves the list of all State objects:"""
+def get_states():
+    """Retrieves the list of all State objects"""
     states = storage.all(State).values()
     return jsonify([state.to_dict() for state in states])
 
 
 @app_views.route('/states/<state_id>', methods=['GET'],
                  strict_slashes=False)
-def get_state_id(state_id):
+def get_state(state_id):
     """
-    Retrieves a State object: GET /api/v1/states/<state_id>
+    Retrieves a State object
     If the state_id is not linked to any State object, raise a 404 error
     """
     state = storage.get(State, state_id)
-    if state is None:
+    if not state:
         abort(404)
     return jsonify(state.to_dict())
 
@@ -33,7 +33,7 @@ def get_state_id(state_id):
 def delete_state(state_id):
     """Deletes a State object"""
     state = storage.get(State, state_id)
-    if state is None:
+    if not state:
         abort(404)
     storage.delete(state)
     storage.save()
@@ -58,11 +58,11 @@ def create_state():
 def update_state(state_id):
     """Updates a State object"""
     state = storage.get(State, state_id)
-    if state is None:
+    if not state:
         abort(404)
 
     state_data = request.get_json()
-    if state_data is None:
+    if not state_data:
         abort(400, 'Not a JSON')
     ignore_keys = ['id', 'email', 'created_at', 'updated_at']
     for key, value in state_data.items():
