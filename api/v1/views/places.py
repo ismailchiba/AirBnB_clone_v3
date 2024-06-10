@@ -91,7 +91,6 @@ def post_place(city_id):
                 for key, val in data.items():
                     setattr(instance, key, val)
                 instance.city_id = city_id
-                instance.user_id = user_id
                 instance.save()
                 return Response(json.dumps(instance.to_dict(), indent=2),
                                 mimetype="application/json", status=201)
