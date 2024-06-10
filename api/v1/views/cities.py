@@ -13,7 +13,7 @@ from models.state import State
 @app_views.route("/states/<state_id>/cities", strict_slashes=False)
 def get_cities(state_id):
     """
-        show all cities in a state
+        Shows all cities in a state
     """
     all_cities = storage.all(City)
     city_list = list()

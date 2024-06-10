@@ -25,7 +25,7 @@ def get_amenities():
 @app_views.route("/amenities/<amenity_id>", strict_slashes=False)
 def get_amenity(amenity_id):
     """
-        Retrieves a Amenity object
+        Retrieves an Amenity object
     """
     all_amenities = storage.all(Amenity)
     for amenity in all_amenities.values():
@@ -39,7 +39,7 @@ def get_amenity(amenity_id):
                  strict_slashes=False)
 def delete_amenity(amenity_id):
     """
-        Deletes a Amenity object
+        Deletes an Amenity object
     """
     keep_amenity = None
     all_amenities = storage.all(Amenity)
@@ -59,7 +59,7 @@ def delete_amenity(amenity_id):
                  strict_slashes=False)
 def post_amenity():
     """
-        Creates a Amenity object
+        Creates an Amenity object
     """
     try:
         data = request.get_json()
