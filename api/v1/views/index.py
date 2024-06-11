@@ -13,13 +13,13 @@ from models import storage
 import json
 
 
-@app_views.route('/status', methods=["GET"], strict_slashes=False)
+@app_views.route("/status", methods=["GET"], strict_slashes=False)
 def status():
-    """ Status of API """
+    """Status of API"""
     return jsonify({"status": "OK"})
 
 
-@app_views.route('/stats', methods=["GET"], strict_slashes=False)
+@app_views.route("/stats", methods=["GET"], strict_slashes=False)
 def number_objects():
     """Retrieves the number of each objects by type"""
     classes = [Amenity, City, Place, Review, State, User]
