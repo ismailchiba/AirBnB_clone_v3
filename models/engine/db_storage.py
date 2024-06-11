@@ -132,5 +132,5 @@ class DBStorage:
             for cls_name, cls in classes.items():
                 cls_objs = self.all(cls)
                 plural_cls_name = cls_name.lower() + "s"
-                counts[cls_name.lower() + "s"] = len(cls_objs)
+                counts[plural_cls_name] = len(cls_objs)
         return counts
