@@ -23,7 +23,7 @@ time.sleep(1)
 print("wait a second!")
 time.sleep(3)
 
-# error handler for the MySQLdb existence(it had issues on my local machine, so dontr pay attention to thi snippe)
+# error handler for the MySQLdb existence(it had issues on my local machine, so dontr pay attention to this snippet)
 try:
     import MySQLdb
     print("MySQLdb is installed successfully!") 
@@ -31,7 +31,7 @@ except ImportError as e:
     print("MySQLdb is not installed: {e}")
 
 print("all objects ", storage.all())
-print("state objects ", storage.all(State))
+# print("state objects ", storage.all(State))
 states = list(storage.all(State).values())
 print(":state objects list: ", states)
 
