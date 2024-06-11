@@ -6,9 +6,6 @@ from models import storage
 from models.state import State
 import json
 
-app = Flask(__name__)
-app.register_blueprint(app_views)
-
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
 def status():
     """return status"""
@@ -17,12 +14,16 @@ def status():
 
 @app_views.route('/stats', methods=['GET'], strict_slashes=False)
 def get_stats():
-    
     """Get stats of all objects by type"""
-    counts = storage.count()
-    stats_json = json.dumps(counts, indent=2)
-    stats_output = stats_json.replace('\"', '').replace('{', '').replace('}', '').replace(':', '').replace(',', '')
-    return make_response(stats_output, 200, {'Content-Type': 'application/json'})
+    stats = {
+        "amenities": storage.count("Amenity"),
+        "cities": storage.count("City"),
+        "places": storage.count("Place"),
+        "reviews": storage.count("Review"),
+        "states": storage.count("State"),
+        "users": storage.count("User")
+    }
+    return jsonify(stats)
 
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
 def get_states():

@@ -127,11 +127,9 @@ class DBStorage:
         }
         if cls:
             if cls in classes.values():
-                return len(self.all(cls))
+                cls_objs = self.all(cls)
+                return len(cls_objs)
             else:
-                return 0
-        else:
-            counts = {}
-            for class_name, class_type in classes.items():
-                counts[class_name] = len(self.all(class_type))
+                return None
+            counts = {cls_name: len(self.all(cls)) for cls_name, cls in classes.items()}
             return counts
