@@ -116,14 +116,22 @@ class DBStorage:
             number of objects in storage matching the given class.
             else count of all objects in storage
         """
-        if cls is None:
-            classes = [State, City, User, Place, Review, Amenity]
-            counts = {}
-            for cls in classes:
-                cls_name = cls.__name__
-                cls_objs = self.all(cls)
-                counts[cls_name] = len(cls_objs)
-            return counts
+        classes = {
+            "Amenity": Amenity,
+            "City": City,
+            "Place": Place,
+            "Review": Review,
+            "State": State,
+            "User": User
+              
+        }
+        if cls:
+            if cls in classes.values():
+                return len(self.all(cls))
+            else:
+                return 0
         else:
-            cls_objs = self.all(cls)
-            return len(cls_objs)
+            counts = {}
+            for class_name, class_type in classes.items():
+                counts[class_name] = len(self.all(class_type))
+            return counts
