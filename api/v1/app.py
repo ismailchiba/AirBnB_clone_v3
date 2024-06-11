@@ -15,7 +15,7 @@ CORS(app, resources={"/api/v1/*": {"origins": "*"}})
 
 
 @app.teardown_appcontext
-def teardown_db(self):
+def teardown_db(error):
     """handle @app.teardown_appcontext that calls storage.close()"""
     storage.close()
 
@@ -24,10 +24,10 @@ def teardown_db(self):
 def not_found(error):
     """404 Error handler"""
     """ handler for 404 error return in json format """
-    return make_response(jsonify({"error": "Not found"}), 404)
+    return make_response(jsonify({'error': "Not found"}), 404)
 
 
 if __name__ == "__main__":
-    host = os.getenv("HBNB_API_HOST", "0.0.0.0")
-    port = int(os.getenv("HBNB_API_PORT", "5000"))
+    host = os.getenv('HBNB_API_HOST', '0.0.0.0')
+    port = int(os.getenv('HBNB_API_PORT', '5000'))
     app.run(host=host, port=port, threaded=True)
