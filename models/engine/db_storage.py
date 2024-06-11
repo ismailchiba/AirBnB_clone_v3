@@ -3,6 +3,7 @@
 Contains the class DBStorage
 """
 
+import os
 import models
 from models.amenity import Amenity
 from models.base_model import BaseModel, Base
@@ -15,6 +16,7 @@ from os import getenv
 import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
 
 classes = {"Amenity": Amenity, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
@@ -26,17 +28,31 @@ class DBStorage:
     __session = None
 
     def __init__(self):
-        """Instantiate a DBStorage object"""
+        """Instantiating a DBStorage object"""
+        try:
+            import MySQLdb
+            print("MySQLdb is installed successfully!")
+        except ImportError as e:
+            print("MySQLdb is not installed: {e}")
+            
         HBNB_MYSQL_USER = getenv('HBNB_MYSQL_USER')
         HBNB_MYSQL_PWD = getenv('HBNB_MYSQL_PWD')
         HBNB_MYSQL_HOST = getenv('HBNB_MYSQL_HOST')
         HBNB_MYSQL_DB = getenv('HBNB_MYSQL_DB')
         HBNB_ENV = getenv('HBNB_ENV')
+        
+        print("HBNB_MYSQL_USER: {}".format(HBNB_MYSQL_USER))
+        print("HBNB_MYSQL_PWD: {}".format(HBNB_MYSQL_PWD))
+        print("HBNB_MYSQL_HOST: {}".format(HBNB_MYSQL_HOST))
+        print("HBNB_MYSQL_DB: {}".format(HBNB_MYSQL_DB))
+        
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.
                                       format(HBNB_MYSQL_USER,
                                              HBNB_MYSQL_PWD,
                                              HBNB_MYSQL_HOST,
                                              HBNB_MYSQL_DB))
+        
+        print("engine created successfully!")
         if HBNB_ENV == "test":
             Base.metadata.drop_all(self.__engine)
 
