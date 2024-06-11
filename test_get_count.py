@@ -6,12 +6,31 @@ from models import storage
 from models.state import State
 import time
 
+
+storage.reload()
+
 print(sys.executable)
 print(sys.path)
 
+all_objects_count = storage.count()
+state_objects_count = storage.count(State)
+
+#sample first object 
+first_state = list(storage.all(State).values())[0]
+
+# Print the output
+print("All objects:", all_objects_count)
+print("State objects:", state_objects_count)
+print("First state:", first_state)
+print("waiting for the next execution of similar objects in a different  format!")
+time.sleep(1)
+print("wait a second!")
+time.sleep(3)
+
+# error handler for the MySQLdb existence(it had issues on my local machine, so dontr pay attention to thi snippe)
 try:
     import MySQLdb
-    print("MySQLdb is installed successfully!")
+    print("MySQLdb is installed successfully!") 
 except ImportError as e:
     print("MySQLdb is not installed: {e}")
 
