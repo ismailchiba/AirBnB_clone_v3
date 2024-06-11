@@ -117,12 +117,13 @@ class DBStorage:
             else count of all objects in storage
         """
         if cls is None:
-            all_objs = self.all()
-            return len(all_objs)
-
-        elif cls in classes.values():
+            classes = [State, City, User, Place, Review, Amenity]
+            counts = {}
+            for cls in classes:
+                cls_name = cls.__name__
+                cls_objs = self.all(cls)
+                counts[cls_name] = len(cls_objs)
+            return counts
+        else:
             cls_objs = self.all(cls)
             return len(cls_objs)
-
-        else:
-            return 0
