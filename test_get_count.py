@@ -1,16 +1,12 @@
 #!/usr/bin/python3
 """ Test .get() and .count() methods
 """
-import sys
 from models import storage
 from models.state import State
 import time
 
 
 storage.reload()
-
-print(sys.executable)
-print(sys.path)
 
 all_objects_count = storage.count()
 state_objects_count = storage.count(State)
