@@ -123,15 +123,32 @@ class DBStorage:
             number of objects in storage matching the given class.
             else count of all objects in storage
         """
+        classes = {
+        "Amenity": Amenity,
+        "City": City,
+        "Place": Place,
+        "Review": Review,
+        "State": State,
+        "User": User
+        }
+    
+        def pluralize(class_name):
+            """Return the plural form of class names."""
+            if class_name == "City":
+                return "cities"
+            elif class_name == "Amenity":
+                return "amenities"
+            else:
+                return class_name.lower() + "s"
+
         counts = {}
         if cls:
             if cls in classes.values():
                 cls_objs = self.all(cls)
-                counts[cls.__name__.lower() + "s"] = len(cls_objs)
+                counts[pluralize(cls.__name__)] = len(cls_objs)
         else:
             for cls_name, cls in classes.items():
                 cls_objs = self.all(cls)
-                plural_cls_name = cls_name.lower() + "s"
-                counts[plural_cls_name] = len(cls_objs)
+                counts[pluralize(cls_name)] = len(cls_objs)
         return counts
     

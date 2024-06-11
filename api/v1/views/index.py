@@ -16,8 +16,7 @@ def status():
 def get_stats():
     """Return the number of each objects by type."""
     counts = storage.count()
-    formatted_counts = {keys.capitalize(): value for keys, value in counts.items()}
-    return jsonify(formatted_counts)
+    return jsonify(counts)
 
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
 def get_states():
