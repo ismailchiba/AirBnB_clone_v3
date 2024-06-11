@@ -134,3 +134,4 @@ class DBStorage:
                 plural_cls_name = cls_name.lower() + "s"
                 counts[plural_cls_name] = len(cls_objs)
         return counts
+    
