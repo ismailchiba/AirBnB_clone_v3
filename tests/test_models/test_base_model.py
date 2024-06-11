@@ -29,8 +29,9 @@ class TestBaseModelDocs(unittest.TestCase):
             with self.subTest(path=path):
                 style = pep8.StyleGuide()
                 result = style.check_files([path])
-                self.assertEqual(result.total_errors, 0,
-                                 "PEP8 style violations found in {}".format(path))
+                self.assertEqual(
+                        result.total_errors, 0,
+                        "PEP8 style violations found in {}".format(path))
 
     def test_module_docstring(self):
         """Test for the existence of module docstring"""
