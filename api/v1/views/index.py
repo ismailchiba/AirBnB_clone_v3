@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 """defines api status"""
 from api.v1.views import app_views
-from flask import Flask, jsonify, request, abort, make_response
+from flask import Flask, jsonify, request, abort
 from models import storage
 from models.state import State
-import json
+
 
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
 def status():
@@ -14,16 +14,9 @@ def status():
 
 @app_views.route('/stats', methods=['GET'], strict_slashes=False)
 def get_stats():
-    """Get stats of all objects by type"""
-    stats = {
-        "amenities": storage.count("Amenity"),
-        "cities": storage.count("City"),
-        "places": storage.count("Place"),
-        "reviews": storage.count("Review"),
-        "states": storage.count("State"),
-        "users": storage.count("User")
-    }
-    return jsonify(stats)
+    """Return the number of each objects by type."""
+    counts = storage.count()
+    return jsonify(counts)
 
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
 def get_states():

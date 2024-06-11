@@ -55,6 +55,7 @@ class DBStorage:
         print("engine created successfully!")
         if HBNB_ENV == "test":
             Base.metadata.drop_all(self.__engine)
+        self.reload()
 
     def all(self, cls=None):
         """query on the current database session"""
@@ -116,20 +117,13 @@ class DBStorage:
             number of objects in storage matching the given class.
             else count of all objects in storage
         """
-        classes = {
-            "Amenity": Amenity,
-            "City": City,
-            "Place": Place,
-            "Review": Review,
-            "State": State,
-            "User": User
-              
-        }
+        counts = {}
         if cls:
             if cls in classes.values():
                 cls_objs = self.all(cls)
-                return len(cls_objs)
-            else:
-                return None
-            counts = {cls_name: len(self.all(cls)) for cls_name, cls in classes.items()}
-            return counts
+                counts[cls.__name__.lower() + "s"] = len(cls_objs)
+        else:
+            for cls_name, cls in classes.items():
+                cls_objs = self.all(cls)
+                counts[cls_name.lower() + "s"] = len(cls_objs)
+        return counts
