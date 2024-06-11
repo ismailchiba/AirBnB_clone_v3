@@ -11,7 +11,7 @@ app = Flask(__name__)
 # Register the plueprint
 app.register_blueprint(app_views)
 
-CORS(app, resources={"/api/v1/*": {"origins": "*"}})
+CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 
 
 @app.teardown_appcontext
