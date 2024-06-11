@@ -1,12 +1,12 @@
 #!/usr/bin/python3
-"""states api"""
-from flask import Flask
+"""states"""
+from api.v1.views import app_views
 from flask import jsonify, abort, request
 from models import storage
 from models.state import State
 from datetime import datetime
 import uuid
-from api.v1.views import api_views
+
 
 @app_views.route('/states/', methods=['GET'])
 def list_states():
