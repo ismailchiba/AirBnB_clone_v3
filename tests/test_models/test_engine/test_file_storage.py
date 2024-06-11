@@ -153,7 +153,7 @@ class TestFileStorage(unittest.TestCase):
         with unittest.mock.patch.object(storage, 'reload',
                                         wraps=storage.reload) as mock_reload:
             storage.close()
-            mock_reload.assert_called_once()
+            mock_reload.assert_called_once_with()
 
     @unittest.skipIf(storage_t == 'db', "not testing file storage")
     def test_get(self):
