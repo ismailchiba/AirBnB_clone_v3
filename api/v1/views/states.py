@@ -1,6 +1,5 @@
 #!/usr/bin/python3
-"""states api implemtation"""
-
+"""states api"""
 from flask import Flask
 from flask import jsonify, abort, request
 from models import storage
