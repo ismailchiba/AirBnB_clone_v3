@@ -130,7 +130,7 @@ class TestFileStorage(unittest.TestCase):
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_count(self):
-        """test that count returns number of objs in the storage"""
+        # test that count returns number of objs in the storage
         storage = models.storage
         storage.reload()
         state_data = {"name": "London"}

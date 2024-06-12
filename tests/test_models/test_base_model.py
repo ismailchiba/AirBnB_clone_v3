@@ -58,9 +58,10 @@ class TestBaseModelDocs(unittest.TestCase):
 
 class TestBaseModel(unittest.TestCase):
     """Test the BaseModel class"""
+
     def test_instantiation(self):
         """Test that object is correctly created"""
-        inst = BaseModel()  
+        inst = BaseModel()
         self.assertIs(type(inst), BaseModel)
         inst.name = "Holberton"
         inst.number = 89
