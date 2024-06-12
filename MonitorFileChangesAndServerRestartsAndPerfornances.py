@@ -4,6 +4,7 @@ import subprocess
 import time
 import os
 
+
 class ChangeHandler(FileSystemEventHandler):
     def __init__(self, command):
         self.command = command
@@ -15,6 +16,7 @@ class ChangeHandler(FileSystemEventHandler):
         else:
             self.process.terminate()
             self.process = subprocess.Popen(self.command, shell=True)
+
 
 if __name__ == "__main__":
     path = "."
@@ -29,4 +31,3 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         observer.stop()
     observer.join()
-
