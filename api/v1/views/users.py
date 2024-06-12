@@ -41,7 +41,9 @@ def delete_user(user_id):
         abort(404)
     storage.delete(user)
     storage.save()
-    return make_response(jsonify({}), 200)
+    response = make_response(json.dumps({}.to_dict(), indent=2))
+    response.headers['Content-Type'] = 'application/json'
+    return response, 200
 
 
 @app_views.route("/users", methods=["POST"], strict_slashes=False)
