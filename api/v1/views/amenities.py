@@ -78,5 +78,5 @@ def updata_amenity(amenity_id):
         if k not in ["id", "created_at", "updated_at"]:
             setattr(amenity, k, v)
 
-    storage.save()
+    amenity.save()
     return make_response(jsonify(amenity.to_dict()), 200)
