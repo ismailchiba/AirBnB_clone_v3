@@ -60,7 +60,7 @@ class TestBaseModel(unittest.TestCase):
     """Test the BaseModel class"""
     def test_instantiation(self):
         """Test that object is correctly created"""
-        inst = BaseModel()
+        inst = BaseModel()  
         self.assertIs(type(inst), BaseModel)
         inst.name = "Holberton"
         inst.number = 89
@@ -86,7 +86,7 @@ class TestBaseModel(unittest.TestCase):
         inst1 = BaseModel()
         toc = datetime.now()
         self.assertTrue(tic <= inst1.created_at <= toc)
-        time.sleep(1e-4)
+        time.sleep(0.1)
         tic = datetime.now()
         inst2 = BaseModel()
         toc = datetime.now()
