@@ -19,13 +19,13 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
 classes = {
-        "Amenity": Amenity,
-        "City": City,
-        "Place": Place,
-        "Review": Review,
-        "State": State,
-        "User": User
-    }
+    "Amenity": Amenity,
+    "City": City,
+    "Place": Place,
+    "Review": Review,
+    "State": State,
+    "User": User
+}
 
 
 class DBStorage:
@@ -40,24 +40,24 @@ class DBStorage:
             print("MySQLdb is installed successfully!")
         except ImportError as e:
             print("MySQLdb is not installed: {e}")
-            
+
         HBNB_MYSQL_USER = getenv('HBNB_MYSQL_USER')
         HBNB_MYSQL_PWD = getenv('HBNB_MYSQL_PWD')
         HBNB_MYSQL_HOST = getenv('HBNB_MYSQL_HOST')
         HBNB_MYSQL_DB = getenv('HBNB_MYSQL_DB')
         HBNB_ENV = getenv('HBNB_ENV')
-        
+
         print("HBNB_MYSQL_USER: {}".format(HBNB_MYSQL_USER))
         print("HBNB_MYSQL_PWD: {}".format(HBNB_MYSQL_PWD))
         print("HBNB_MYSQL_HOST: {}".format(HBNB_MYSQL_HOST))
         print("HBNB_MYSQL_DB: {}".format(HBNB_MYSQL_DB))
-        
+
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.
                                       format(HBNB_MYSQL_USER,
                                              HBNB_MYSQL_PWD,
                                              HBNB_MYSQL_HOST,
                                              HBNB_MYSQL_DB))
-        
+
         print("engine created successfully!")
         if HBNB_ENV == "test":
             Base.metadata.drop_all(self.__engine)
@@ -124,8 +124,8 @@ class DBStorage:
             else count of all objects in storage
         """
         classes = {"Amenity": Amenity, "City": City, "Place": Place,
-           "Review": Review, "State": State, "User": User}
-    
+                   "Review": Review, "State": State, "User": User}
+
         def pluralize(class_name):
             """Return the plural form of class names."""
             if class_name == "City":
@@ -145,4 +145,3 @@ class DBStorage:
                 cls_objs = self.all(cls)
                 counts[pluralize(cls_name)] = len(cls_objs)
         return counts
-    
