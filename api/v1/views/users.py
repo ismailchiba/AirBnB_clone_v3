@@ -28,7 +28,9 @@ def get_user(user_id):
     user = storage.get(User, user_id)
     if not user:
         abort(404)
-    return jsonify(user.to_dict())
+    response = make_response(json.dumps(user.to_dict(), indent=2))
+    response.headers['Content-Type'] = 'application/json'
+    return response
 
 
 @app_views.route("/users/<user_id>", methods=["DELETE"], strict_slashes=False)
