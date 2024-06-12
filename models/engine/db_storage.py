@@ -123,14 +123,8 @@ class DBStorage:
             number of objects in storage matching the given class.
             else count of all objects in storage
         """
-        classes = {
-        "Amenity": Amenity,
-        "City": City,
-        "Place": Place,
-        "Review": Review,
-        "State": State,
-        "User": User
-        }
+        classes = {"Amenity": Amenity, "City": City, "Place": Place,
+           "Review": Review, "State": State, "User": User}
     
         def pluralize(class_name):
             """Return the plural form of class names."""

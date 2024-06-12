@@ -4,3 +4,4 @@ mysqlclient
 flask_cors
 python-dotenv
 watchdog
+pycodestyle
