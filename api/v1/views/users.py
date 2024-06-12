@@ -41,7 +41,7 @@ def delete_user(user_id):
         abort(404)
     storage.delete(user)
     storage.save()
-    response = make_response(json.dumps({}.to_dict(), indent=2))
+    response = make_response(json.dumps(({}).to_dict(), indent=2))
     response.headers['Content-Type'] = 'application/json'
     return response, 200
 
