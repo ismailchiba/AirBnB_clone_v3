@@ -86,10 +86,12 @@ class DBStorage:
                 - the object based on the class and its ID
                 - or None if not found
         """
+        from models.__init__ import storage
+
         if cls is None or id is None:
             return None
 
-        return storage.all(cls).get(id, None)
+        return storage.all(cls).get(f'{cls.__name__}.{id}', None)
 
     def count(self, cls=None):
         """count the number of objects in storage
@@ -101,6 +103,8 @@ class DBStorage:
                 matching the given class or 
                 - the count of all objects in storage
         """
+        from models.__init__ import storage
+
         if cls is not None:
             count = len(storage.all(cls))
         else:
