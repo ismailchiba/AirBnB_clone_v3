@@ -114,8 +114,38 @@ class TestFileStorage(unittest.TestCase):
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
 
-    def test_get(self):
-        pass
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_get_with_invalid_class(self):
+        """Tests the get method with an invalid class name (None)."""
+        # Call the get method with invalid class (None)
+        result = self.storage.get(None, "1")
 
-    def test_count(sef):
-        pass
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_count(self):
+        """Tests the count method to return the number of objects for a
+        specific class.
+        """
+        # Simulate adding objects of different classes to storage
+        # (same as previous test)
+        previous_amenity = len(self.storage.all(Amenity))
+        print(self.storage.all(Amenity))
+        print(f"prev all {previous_amenity}")
+
+        test_amenity = Amenity()
+        test_amenity.id = "1234"
+        self.storage.new(test_amenity)
+        print(self.storage.all(Amenity))
+
+        # # Call count method specifying the Amenity class
+        amenity_count = self.storage.count(Amenity)
+        print(f"the amenity count {amenity_count}")
+
+        # # Assert that the count matches the number of Amenity objects (1)
+        self.assertEqual(amenity_count, previous_amenity + 1)
+
+        # # Cleanup: remove the added objects (replace with your actual logic)
+        try:
+            self.storage.delete(test_amenity)
+            print("data  deleted succesfully")
+        except Exception:
+            print("data wasnt deleted succesfully")
