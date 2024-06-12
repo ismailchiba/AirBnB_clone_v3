@@ -95,12 +95,12 @@ class DBStorage:
 
     def count(self, cls=None):
         """count the number of objects in storage
-        
+
             Args:
                 - cls: class
             Return:
                 - the number of objects in storage
-                matching the given class or 
+                matching the given class or
                 - the count of all objects in storage
         """
         from models.__init__ import storage
