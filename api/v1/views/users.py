@@ -17,7 +17,9 @@ def get_users():
     """
     all_users = storage.all(User).values()
     user_list = [user.to_dict() for user in all_users]
-    return jsonify(user_list)
+    response = make_response(json.dumps(user_list, indent=2))
+    response.headers['Content-Type'] = 'application/json'
+    return response
 
 
 @app_views.route("/users/<user_id>", methods=["GET"], strict_slashes=False)
