@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" module: users.py
+""" module: 'users.py'
         create route for users
 """
 
@@ -36,7 +36,7 @@ def get_user(user_id=None):
 
 @app_views.route("/users/<string:user_id>", methods=['DELETE'])
 def delete_user(user_id=None):
-    """retrieves a specific user """
+    """Delete a specific user """
     if user_id is None:
         abort(404)
 
@@ -51,7 +51,7 @@ def delete_user(user_id=None):
 
 @app_views.route("/users/", methods=['POST'])
 def create_user():
-    """ Creates a user"""
+    """ Creates a new user"""
     user_dict = None
     try:
         user_dict = request.get_json()
