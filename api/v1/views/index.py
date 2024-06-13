@@ -10,6 +10,7 @@ from models.review import Review
 from models.user import User
 from models import storage
 
+
 @app_views.route("/status")
 def hbnb_status():
     """ return the status of the api """
@@ -21,8 +22,7 @@ def hbnb_stats():
     """ return in a json format the stats
     showing the number of objects in db """
 
-    stats =\
-    {
+    stats = {
         "amenities": storage.count(Amenity),
         "cities": storage.count(City),
         "places": storage.count(Place),
