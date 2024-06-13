@@ -15,10 +15,12 @@ app.register_blueprint(app_views)
 
 @app.teardown_appcontext
 def close_hbnb_storage(exception):
+    """ close sqlalchemy storage """
     storage.close()
 
 @app.errorhandler(404)
 def not_found(error):
+    """ a custom json 404 eror """
     return {"error": "Not found"}, 404
 
 
