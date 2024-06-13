@@ -47,7 +47,7 @@ def delete_state(state_id=None):
     return {}, 200
 
 
-@app_views.route("/states", methods=['POST'])
+@app_views.route("/states/", methods=['POST'])
 def create_state():
     """ Creates a state"""
     state_dict = None
