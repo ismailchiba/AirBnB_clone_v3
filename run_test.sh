@@ -10,5 +10,5 @@ export HBNB_MYSQL_DB=hbnb_dev_db
 export HBNB_TYPE_STORAGE=db
 echo "done!"
 # Run the Python script
-#python3 test_get_count.py
+python3 test_get_count.py
 
