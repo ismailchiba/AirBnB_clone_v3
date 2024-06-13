@@ -1,7 +1,6 @@
 #!/usr/bin/python3
-""" users.py
-    create users
-
+""" module: users.py
+        create route for users
 """
 
 from flask import jsonify
