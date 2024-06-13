@@ -1,5 +1,8 @@
 #!/usr/bin/python3
-"""user.py"""
+""" users.py
+    create users
+
+"""
 
 from flask import jsonify
 from flask import abort
