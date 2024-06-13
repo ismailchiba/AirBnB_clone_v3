@@ -44,10 +44,10 @@ def delete_state(state_id=None):
 
     storage.delete(state)
     storage.save()
-    return jsonify({}), 200
+    return {}, 200
 
 
-@app_views.route("/states", methods=['POST'])
+@app_views.route("/states/", methods=['POST'])
 def create_state():
     """ Creates a state"""
     state_dict = None
