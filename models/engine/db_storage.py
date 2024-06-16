@@ -90,7 +90,7 @@ class DBStorage:
         if cls is None or id is None:
             return None
 
-        return DBStorage.all(self, cls).get(f'{}.{}'.format(cls.__name__, id), None)
+        return DBStorage.all(self, cls).get('{}.{}'.format(cls.__name__, id), None)
 
     def count(self, cls=None):
         """count the number of objects in storage
