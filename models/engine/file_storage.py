@@ -99,7 +99,7 @@ class FileStorage:
         """
 
         if cls is not None:
-            count len(FileStorage.all(self, cls))
+            count = len(FileStorage.all(self, cls))
         else:
             count = len(FileStorage.all(self))
 
