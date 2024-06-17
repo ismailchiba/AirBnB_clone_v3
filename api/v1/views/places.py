@@ -18,15 +18,16 @@ def get_places_of_city(city_id=None):
 
     cities_obj = storage.all(City)
 
-    cities = []
-    for city in cities_obj.values():
-        if city.to_dict().get('city_id') == city_id:
-            cities.append(city.to_dict())
+    places = storage.get(City, city_id).places
+    print(storage.get(City, city_id).places)
+    # for city in cities_obj.values():
+        # if city.to_dict().get('city_id') == city_id:
+            # places.append(city.to_dict())
     # or we can do
     # cities = [city.to_dict() for city in cities_obj.values()
     # if city.to_dict().get('city_id') == city_id]
 
-    return jsonify(cities), 200
+    return jsonify(places), 200
 
 
 @app_views.route("/places/<string:place_id>")
