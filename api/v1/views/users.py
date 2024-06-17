@@ -49,15 +49,16 @@ def delete_user(user_id=None):
     return {}, 200
 
 
-@app_views.route("/users/", methods=['POST'])
+@app_views.route("/users/", methods=['POST'], strict_slashes=False)
 def create_user():
     """ Creates a new user"""
     user_dict = None
     try:
         user_dict = request.get_json()
-    except Exception:
         if not isinstance(user_dict, dict):
-            return jsonify({"error": "Not a JSON"}), 400
+            raise ValueError
+    except Exception:
+        return jsonify({"error": "Not a JSON"}), 400
     if 'email' not in user_dict:
         return jsonify({"error": "Missing name"}), 400
     if 'password' not in user_dict:
@@ -68,7 +69,7 @@ def create_user():
     return jsonify(user.to_dict()), 201
 
 
-@app_views.route("/users/<user_id>", methods=['PUT'])
+@app_views.route("/users/<user_id>", methods=['PUT'], strict_slashes=False)
 def update_user(user_id=None):
     """ updates a user object """
     user = storage.get(User, user_id)
@@ -77,6 +78,8 @@ def update_user(user_id=None):
     user_dict = None
     try:
         user_dict = request.get_json()
+        if not isinstance(user_dict, dict):
+            raise ValueError
     except Exception:
         return jsonify({"error": "Not a JSON"}), 400
 

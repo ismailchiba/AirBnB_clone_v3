@@ -56,7 +56,10 @@ def delete_city(city_id=None):
     return {}, 200
 
 
-@app_views.route("/states/<string:state_id>/cities", methods=['POST'])
+@app_views.route(
+        "/states/<string:state_id>/cities",
+        methods=['POST'],
+        strict_slashes=False)
 def create_city(state_id=None):
     """ Creates a city"""
     if storage.get(State, state_id) is None:
@@ -79,7 +82,7 @@ def create_city(state_id=None):
     return jsonify(city.to_dict()), 201
 
 
-@app_views.route("/cities/<city_id>", methods=['PUT'])
+@app_views.route("/cities/<city_id>", methods=['PUT'], strict_slashes=False)
 def update_city(city_id=None):
     """ updates a city object """
     city = storage.get(City, city_id)
