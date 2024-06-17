@@ -63,7 +63,11 @@ def create_user():
         return jsonify({"error": "Missing name"}), 400
     if 'password' not in user_dict:
         return jsonify({"error": "Missing password"}), 400
-    user = User(name=user_dict['email'], password=user_dict['password'])
+
+    user = User()
+    for key, val in user_dict.items():
+        setattr(user, key, val)
+
     storage.new(user)
     storage.save()
     return jsonify(user.to_dict()), 201
