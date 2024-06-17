@@ -60,14 +60,15 @@ def delete_city(city_id=None):
 def create_city(state_id=None):
     """ Creates a city"""
     if storage.get(State, state_id) is None:
-        abort(404)
+        return jsonify({"error": "Not found"}), 404
 
     city_dict = None
     try:
         city_dict = request.get_json()
-    except Exception:
         if not isinstance(city_dict, dict):
-            return jsonify({"error": "Not a JSON"}), 400
+            raise ValueError
+    except Exception:
+        return jsonify({"error": "Not a JSON"}), 400
     if 'name' not in city_dict:
         return jsonify({"error": "Missing name"}), 400
 
@@ -88,6 +89,8 @@ def update_city(city_id=None):
     city_dict = None
     try:
         city_dict = request.get_json()
+        if not isinstance(city_dict, dict):
+            raise ValueError
     except Exception:
         return jsonify({"error": "Not a JSON"}), 400
 
