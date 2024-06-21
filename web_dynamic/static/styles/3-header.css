@@ -1,0 +1,30 @@
+header {
+    width: 100%;
+    background-color: white;
+    height: 70px;
+    border-bottom: 1px solid #CCCCCC;
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    width: 142px;
+    height: 60px;
+    background: url("../images/logo.png") no-repeat center;
+    padding-left: 20px;
+}
+
+header div {
+    float: right;
+    border-radius: 50%;
+    margin-right: 30px;
+    background-color: #cccccc;
+    border: 1px;
+    height: 40px;
+    width: 40px;
+    margin-top: 15px;
+}
+
+.available {
+    background-color: #ff545f;
+}
