@@ -15,6 +15,7 @@ from os import getenv
 import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy.orm.exc import NoResultFound
 
 classes = {"Amenity": Amenity, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
@@ -39,6 +40,25 @@ class DBStorage:
                                              HBNB_MYSQL_DB))
         if HBNB_ENV == "test":
             Base.metadata.drop_all(self.__engine)
+
+    def get(self, cls, id):
+        """
+        Retrieves a single element based on cls and id
+        it returns this obj
+        """
+        if cls not in classes.values():
+            return None
+        all_cls = models.storage.all(cls)
+        for value in all_cls.values():
+            if (value.id == id):
+                return value
+
+    def count(self, cls=None):
+        """
+        Counts the objects of a class
+        and returns this number
+        """
+        return len(self.all(cls))
 
     def all(self, cls=None):
         """query on the current database session"""

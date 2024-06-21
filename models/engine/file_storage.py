@@ -24,6 +24,51 @@ class FileStorage:
     # dictionary - empty but will store all objects by <class name>.id
     __objects = {}
 
+    def get(self, cls, id):
+        """
+        Retrieves a single element based on cls and id
+        it returns this obj
+        """
+        if cls not in classes.values():
+            return None
+
+        all_cls = models.storage.all(cls)
+        for value in all_cls.values():
+            if (value.id == id):
+                return value
+
+    def count(self, cls=None):
+        """
+        Counts the objects of a class
+        and returns this number
+        """
+        return len(self.all(cls))
+
+    def get(self, cls, id):
+        """Retrieves a single element based on cls and id.
+        Args:
+            cls: the class
+            id: string representation of the object id
+        Returns:
+            object | None
+        """
+        if cls is None or id is None:
+            return None
+
+        cls = str(cls)
+        cls = cls.split('.')[2][:-2]
+
+        for key, value in self.__objects.items():
+            if key == cls + '.' + id:
+                return value
+        return None
+
+    def count(self, cls=None):
+        """ Counts the objects of a certain class. If the class is not specified
+        then the count of total objects in storage is returned """
+        total = len(self.all(cls))
+        return total
+
     def all(self, cls=None):
         """returns the dictionary __objects"""
         if cls is not None:
