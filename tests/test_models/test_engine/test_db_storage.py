@@ -78,11 +78,47 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_all_no_class(self):
         """Test that all returns all rows when no class is passed"""
+        new_dict = {}
+        models.storage.reload()
+        for value in classes.values():
+            for instance in models.storage.all(value).values():
+                key = instance.__class__.__name__ + "." + instance.id
+                new_dict[key] = instance
+        self.assertEqual(models.storage.all(), new_dict)
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_new(self):
         """test that new adds an object to the database"""
+        state = Amenity(name="Microwave_new")
+        state.save()
+        self.assertIn(state, models.storage.all().values())
+        models.storage.delete(state)
+        models.storage.save()
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
-        """Test that save properly saves objects to file.json"""
+        """Test that save properly saves objects to sql database"""
+        state = Amenity(name="Microwave_save")
+        state.save()
+        key = state.__class__.__name__ + "." + state.id
+        self.assertIn(key, models.storage.all().keys())
+        models.storage.delete(state)
+        models.storage.save()
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get(self):
+        """Test that get properly retrieves objects from database"""
+        states = models.storage.all(State).values()
+        getCheck = None
+        if len(states) > 0:
+            getCheck = models.storage.get(State, list(states)[0].id)
+            self.assertIn(getCheck, states)
+        self.assertEqual(getCheck, None)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_count(self):
+        """Test that count properly counts objects in database"""
+        length = len(models.storage.all(State).values())
+        self.assertEqual(models.storage.count(State), length)
+        length = len(models.storage.all().values())
+        self.assertEqual(models.storage.count(), length)
