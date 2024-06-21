@@ -40,6 +40,25 @@ class FileStorage:
             key = obj.__class__.__name__ + "." + obj.id
             self.__objects[key] = obj
 
+    def get(self, cls, id):
+        """fetch by cls name and id"""
+        if cls and id:
+            all_obj = self.all(cls)
+            for key, val in all_obj.items():
+                if val.id == id:
+                    one_obj = {
+                        'name': val.name,
+                        'id': val.id,
+                        'created_at': val.created_at,
+                        'updated_at': val.updated_at
+                    }
+                    return ("[{}] ({}) {}".format(cls.__name__, val.id, one_obj))
+        return None
+
+    def count(self, cls=None):
+        """total number of objects in storage"""
+        return (len(self.all(cls)))
+
     def save(self):
         """serializes __objects to the JSON file (path: __file_path)"""
         json_objects = {}
@@ -59,7 +78,7 @@ class FileStorage:
             pass
 
     def delete(self, obj=None):
-        """delete obj from __objects if it’s inside"""
+        """delete obj from __objects for the object provided"""
         if obj is not None:
             key = obj.__class__.__name__ + '.' + obj.id
             if key in self.__objects:

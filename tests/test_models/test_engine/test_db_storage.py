@@ -14,6 +14,7 @@ from models.place import Place
 from models.review import Review
 from models.state import State
 from models.user import User
+from models import storage
 import json
 import os
 import pep8
@@ -68,21 +69,49 @@ test_db_storage.py'])
                             "{:s} method needs a docstring".format(func[0]))
 
 
-class TestFileStorage(unittest.TestCase):
-    """Test the FileStorage class"""
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    def test_all_returns_dict(self):
-        """Test that all returns a dictionaty"""
-        self.assertIs(type(models.storage.all()), dict)
+class TestDBStorage(unittest.TestCase):
+    """Testing the db storage"""
+    def test_all(self):
+        """Test if all method retrieves all objects"""
+        all_objects = self.storage.all()
+        self.assertIsNotNone(all_objects)
 
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    def test_all_no_class(self):
-        """Test that all returns all rows when no class is passed"""
+    def test_all_with_cls(self):
+        """Test if all method retrieves objects of a specific class"""
+        all_states = self.storage.all(State)
+        self.assertIsNotNone(all_states)
 
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    def test_new(self):
-        """test that new adds an object to the database"""
+    def test_new_and_save(self):
+        """Test if new and save methods add an object to the database"""
+        initial_count = self.storage.count(State)
+        new_state = State(name="California")
+        self.storage.new(new_state)
+        self.storage.save()
+        self.assertEqual(self.storage.count(State), initial_count + 1)
 
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    def test_save(self):
-        """Test that save properly saves objects to file.json"""
+    def test_count(self):
+        """Test if count method returns the correct count"""
+        initial_count = self.storage.count(State)
+        new_state = State(name="California")
+        self.storage.new(new_state)
+        self.storage.save()
+        self.assertEqual(self.storage.count(State), initial_count + 1)
+
+    def test_get(self):
+        """Test if get method retrieves an object by its class and ID"""
+        new_state = State(name="New York")
+        self.storage.new(new_state)
+        self.storage.save()
+        retrieved_state = self.storage.get(State, new_state.id)
+        self.assertIsNotNone(retrieved_state)
+        self.assertEqual(retrieved_state['name'], "New York")
+
+    def test_delete(self):
+        """Test if delete method removes an object from the database"""
+        new_state = State(name="New York")
+        self.storage.new(new_state)
+        self.storage.save()
+        initial_count = self.storage.count(State)
+        self.storage.delete(new_state)
+        self.storage.save()
+        self.assertEqual(self.storage.count(State), initial_count - 1)

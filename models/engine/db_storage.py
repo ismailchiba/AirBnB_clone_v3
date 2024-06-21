@@ -2,10 +2,10 @@
 """
 Contains the class DBStorage
 """
-
 import models
 from models.amenity import Amenity
-from models.base_model import BaseModel, Base
+from models.base_model import BaseModel
+from models.base_model import Base
 from models.city import City
 from models.place import Place
 from models.review import Review
@@ -42,14 +42,17 @@ class DBStorage:
 
     def all(self, cls=None):
         """query on the current database session"""
-        new_dict = {}
-        for clss in classes:
-            if cls is None or cls is classes[clss] or cls is clss:
-                objs = self.__session.query(classes[clss]).all()
-                for obj in objs:
-                    key = obj.__class__.__name__ + '.' + obj.id
-                    new_dict[key] = obj
-        return (new_dict)
+        obj_data = {}
+        if cls:
+            all_obj = self.__session.query(cls).all()
+        else:
+            all_obj = []
+            for cls_name, cls_model in classes.items():
+                all_obj.extend(self.__session.query(cls_model).all())
+        for i in all_obj:
+            obj_ref = "[{}.{}])".format(type(i).__name__, i.id)
+            obj_data[obj_ref] = i
+        return obj_data
 
     def new(self, obj):
         """add the object to the current database session"""
@@ -58,6 +61,23 @@ class DBStorage:
     def save(self):
         """commit all changes of the current database session"""
         self.__session.commit()
+
+    def get(self, cls, id):
+        """returning an objects based on its class and id"""
+        if cls and id:
+            all_obj = self.all(cls)
+            for key, val in all_obj.items():
+                if val.id == id:
+                    return val
+        return None
+
+    def count(self, cls=None):
+        """return the numbero of objects present for given class"""
+        if cls is not None:
+            all_obj = self.all(cls)
+            if cls in all_obj:
+                return len(all_obj.get(cls))
+        return (len(self.all(cls)))
 
     def delete(self, obj=None):
         """delete from the current database session obj if not None"""
