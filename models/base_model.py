@@ -1,75 +1,85 @@
 #!/usr/bin/python3
 """
-Contains class BaseModel
+BaseModel Class of Models Module
 """
 
-from datetime import datetime
+import os
+import json
 import models
-from os import getenv
-import sqlalchemy
-from sqlalchemy import Column, String, DateTime
+from uuid import uuid4, UUID
+from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
-import uuid
+from sqlalchemy import Column, Integer, String, Float, DateTime
 
-time = "%Y-%m-%dT%H:%M:%S.%f"
 
-if models.storage_t == "db":
-    Base = declarative_base()
-else:
-    Base = object
+storage_type = os.environ.get('HBNB_TYPE_STORAGE')
 
 
 class BaseModel:
-    """The BaseModel class from which future classes will be derived"""
-    if models.storage_t == "db":
-        id = Column(String(60), primary_key=True)
-        created_at = Column(DateTime, default=datetime.utcnow)
-        updated_at = Column(DateTime, default=datetime.utcnow)
+    """
+    Attributes and functions for BaseModel class.
+    """
+    if storage_type == 'db':
+        # Define database columns if using SQLAlchemy
+        pass
 
     def __init__(self, *args, **kwargs):
-        """Initialization of the base model"""
+        """Instantiation of new BaseModel class."""
+        self.id = str(uuid4())
+        self.created_at = datetime.now()
         if kwargs:
             for key, value in kwargs.items():
-                if key != "__class__":
-                    setattr(self, key, value)
-            if kwargs.get("created_at", None) and type(self.created_at) is str:
-                self.created_at = datetime.strptime(kwargs["created_at"], time)
-            else:
-                self.created_at = datetime.utcnow()
-            if kwargs.get("updated_at", None) and type(self.updated_at) is str:
-                self.updated_at = datetime.strptime(kwargs["updated_at"], time)
-            else:
-                self.updated_at = datetime.utcnow()
-            if kwargs.get("id", None) is None:
-                self.id = str(uuid.uuid4())
-        else:
-            self.id = str(uuid.uuid4())
-            self.created_at = datetime.utcnow()
-            self.updated_at = self.created_at
+                setattr(self, key, value)
+        # Ensure that updated_at is set when initializing from kwargs
+        self.updated_at = kwargs.get('updated_at', self.created_at)
 
-    def __str__(self):
-        """String representation of the BaseModel class"""
-        return "[{:s}] ({:s}) {}".format(self.__class__.__name__, self.id,
-                                         self.__dict__)
+    def bm_update(self, name, value):
+        """
+        Update the basemodel and sets the correct attributes.
+        """
+        setattr(self, name, value)
+        if self.storage_type != 'db':
+            self.save()
 
     def save(self):
-        """updates the attribute 'updated_at' with the current datetime"""
-        self.updated_at = datetime.utcnow()
+        """Update attribute updated_at to current time."""
+        if storage_type != 'db':
+            self.updated_at = datetime.now()
         models.storage.new(self)
         models.storage.save()
 
     def to_dict(self):
-        """returns a dictionary containing all keys/values of the instance"""
-        new_dict = self.__dict__.copy()
-        if "created_at" in new_dict:
-            new_dict["created_at"] = new_dict["created_at"].strftime(time)
-        if "updated_at" in new_dict:
-            new_dict["updated_at"] = new_dict["updated_at"].strftime(time)
-        new_dict["__class__"] = self.__class__.__name__
-        if "_sa_instance_state" in new_dict:
-            del new_dict["_sa_instance_state"]
-        return new_dict
+        """ Return a dictionary representation of BaseModel """
+        dictionary = self.__dict__.copy()
+        dictionary['__class__'] = self.__class__.__name__
+        dictionary['created_at'] = self.created_at.isoformat()
+        dictionary['updated_at'] = self.updated_at.isoformat()
+        return dictionary
+
+    def to_json(self):
+        """returns json representation of self"""
+        bm_dict = self.to_dict()  # Reuse the existing to_dict method
+        for key, value in bm_dict.items():
+            if isinstance(value, datetime):
+                bm_dict[key] = value.isoformat()  # Convert datetime objects to ISO format
+        return bm_dict
+
+
+    def __str__(self):
+        """returns string type representation of object instance"""
+        class_name = type(self).__name__
+        return '[{}] ({}) {}'.format(class_name, self.id, self.__dict__)
 
     def delete(self):
-        """delete the current instance from the storage"""
-        models.storage.delete(self)
+        """
+            deletes current instance from storage
+        """
+        self.delete()
+
+    def __is_serializable(self, value):
+        """Checks if a value is serializable."""
+        try:
+            json.dumps(value)
+            return True
+        except TypeError:
+            return False

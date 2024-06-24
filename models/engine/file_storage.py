@@ -43,10 +43,10 @@ class FileStorage:
     def save(self):
         """serializes __objects to the JSON file (path: __file_path)"""
         json_objects = {}
-        for key in self.__objects:
-            json_objects[key] = self.__objects[key].to_dict()
-        with open(self.__file_path, 'w') as f:
-            json.dump(json_objects, f)
+        for key, value in self.__objects.items():
+            json_objects[key] = value.to.dict()
+        with open(self.__file_path, 'w', encoding='utf-8') as f:
+            json.dump(json_objects, f, default=lambda o: o.isoformat() if isinstance(o, datetime) else None)
 
     def reload(self):
         """deserializes the JSON file to __objects"""
@@ -55,7 +55,7 @@ class FileStorage:
                 jo = json.load(f)
             for key in jo:
                 self.__objects[key] = classes[jo[key]["__class__"]](**jo[key])
-        except:
+        except Exception:
             pass
 
     def delete(self, obj=None):
@@ -68,3 +68,20 @@ class FileStorage:
     def close(self):
         """call reload() method for deserializing the JSON file to objects"""
         self.reload()
+
+    def get(self, cls, id):
+        """method to retrieve one object based on cls and id"""
+        try:
+            return self.all(cls).get("{}.{}".format(cls, id))
+        except Exception:
+            return None
+
+    def count(self, cls=None):
+        """method to count the number of objects in storage"""
+        if cls:
+            try:
+                return len(self.all(cls))
+            except Exception:
+                return None
+        else:
+            return len(self.all())

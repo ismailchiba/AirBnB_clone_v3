@@ -1,29 +1,50 @@
 #!/usr/bin/python3
-""" holds class User"""
-import models
-from models.base_model import BaseModel, Base
-from os import getenv
-import sqlalchemy
-from sqlalchemy import Column, String
+"""
+User Class from Models Module
+"""
+import os
+from models.base_model import BaseModel
 from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Integer, String, Float
+from hashlib import md5
 
+storage_type = os.environ.get('HBNB_TYPE_STORAGE')
 
-class User(BaseModel, Base):
-    """Representation of a user """
-    if models.storage_t == 'db':
+class User(BaseModel):
+    """User class handles all application users"""
+    if storage_type == "db":
         __tablename__ = 'users'
         email = Column(String(128), nullable=False)
-        password = Column(String(128), nullable=False)
+        password_hash = Column("password", String(128), nullable=False)
         first_name = Column(String(128), nullable=True)
         last_name = Column(String(128), nullable=True)
-        places = relationship("Place", backref="user")
-        reviews = relationship("Review", backref="user")
-    else:
-        email = ""
-        password = ""
-        first_name = ""
-        last_name = ""
 
-    def __init__(self, *args, **kwargs):
-        """initializes user"""
-        super().__init__(*args, **kwargs)
+        places = relationship('Place', backref='user', cascade='delete')
+        reviews = relationship('Review', backref='user', cascade='delete')
+    else:
+        def __init__(self, *args, **kwargs):
+            """
+            Initialize User Model, inherits from BaseModel
+            """
+            super().__init__(*args, **kwargs)
+            self.email = ''
+            self.password_hash = ''
+            self.first_name = ''
+            self.last_name = ''
+
+    @property
+    def password(self):
+        """
+        Getter for password
+        :return: password (hashed)
+        """
+        return self.password_hash
+
+    @password.setter
+    def password(self, password):
+        """
+        Password setter, with md5 hashing
+        :param password: password
+        :return: nothing
+        """
+        self.password_hash = md5(password.encode('utf-8')).hexdigest()
