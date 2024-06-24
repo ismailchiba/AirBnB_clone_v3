@@ -1,6 +1,16 @@
 # AirBnB Clone - The Console
 The console is the first segment of the AirBnB project at Holberton School that will collectively cover fundamental concepts of higher level programming. The goal of AirBnB project is to eventually deploy our server a simple copy of the AirBnB Website(HBnB). A command interpreter is created in this segment to manage objects for the AirBnB(HBnB) website.
 
+## Resources:
+- [REST API Quick Tips](https://www.restapitutorial.com/lessons/restquicktips.html)
+- [Cross-Origin Resource Sharing (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)
+- [Flask Cheat Sheet](https://s3.amazonaws.com/intranet-projects-files/holbertonschool-higher-level_programming+/301/flask_cheatsheet.pdf)
+- [What are Flask Blueprints, exactly?](https://stackoverflow.com/questions/24420857/what-are-flask-blueprints-exactly)
+- [Flask](https://palletsprojects.com/p/flask/)
+- [Modular Applications with Blueprints](https://flask.palletsprojects.com/en/1.1.x/blueprints/#modular-applications-with-blueprints)
+- [Testing Flask Applications](https://flask.palletsprojects.com/en/1.1.x/testing/)
+- [Flask-CORS](https://flask-cors.readthedocs.io/en/latest/)
+
 #### Functionalities of this command interpreter:
 * Create a new object (ex: a new User or a new Place)
 * Retrieve an object from a file, a database etc...
@@ -158,5 +168,9 @@ Alexa Orrico - [Github](https://github.com/alexaorrico) / [Twitter](https://twit
 Jennifer Huang - [Github](https://github.com/jhuang10123) / [Twitter](https://twitter.com/earthtojhuang)
 
 Second part of Airbnb: Joann Vuong
+
+Third part:
+- Rangira David - [Github](https://github.com/RangiraDave) 
+- Masonga Prince - [Github](https://github.com/Masonga222) 
 ## License
 Public Domain. No copy write protection. 
