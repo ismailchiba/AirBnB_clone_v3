@@ -1,6 +1,5 @@
 #!/usr/bin/python3
-"""
-Contains the class DBStorage
+""" Database engine
 """
 
 import models
@@ -74,3 +73,26 @@ class DBStorage:
     def close(self):
         """call remove() method on the private session attribute"""
         self.__session.remove()
+        
+        # task 2 adding a method to retrieve one object
+        
+    def get(self, cls, id):
+        ''' Gets all the objects based on the class name and its id '''
+
+        all_obj = self.all()
+        search_str = "{}.{}".format(str(cls), str(id))
+        result = all_obj.get(search_str)
+        return result
+
+    def count(self, cls=None):
+        ''' Gives the number of objects in
+            storage matching the given cls name. I cls is None count all objs
+        '''
+
+        if cls is None:
+            param = None
+        else:
+            param = str(cls)
+
+        all_obj = self.all(param)
+        return (len(all_obj))
