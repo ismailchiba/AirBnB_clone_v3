@@ -86,3 +86,40 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_count(self):
+        """
+        Test that count method returns an accurate count of objects
+        """
+        models.storage.reload()
+        state_object = State(name="Hell")
+        user_object = User(email="1@2.com", password="123")
+        models.storage.new(state_object)
+        models.storage.new(user_object)
+        models.storage.save()
+        self.assertEqual(models.storage.count(), 2)
+        models.storage.delete(user_object)
+        models.storage.delete(state_object)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get(self):
+        """
+        Test that get method returns object by valid id
+        """
+        models.storage.reload()
+        user_object = User(email="1@2.com", password="123")
+        models.storage.new(user_object)
+        models.storage.save()
+        user_id = user_object.id
+        not_the_correct_id = '666'
+        self.assertTrue(models.storage.get(User, user_id) is user_object)
+        self.assertIsNone(models.storage.get(User, not_the_correct_id))
+        models.storage.delete(user_object)
+        state = State(name='Heaven')
+        models.storage.new(state)
+        models.storage.save()
+        state_id = state.id
+        not_the_correct_id = 'Toast'
+        self.assertTrue(models.storage.get(State, state_id) is state)
+        self.assertIsNone(models.storage.get(State, not_the_correct_id))
