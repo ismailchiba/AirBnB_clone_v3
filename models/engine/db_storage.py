@@ -4,6 +4,7 @@ Contains the class DBStorage
 """
 
 import models
+from sqlalchemy import create_engine, func
 from models.amenity import Amenity
 from models.base_model import BaseModel, Base
 from models.city import City
@@ -58,6 +59,20 @@ class DBStorage:
     def save(self):
         """commit all changes of the current database session"""
         self.__session.commit()
+
+    ###########################################################################
+    ###########################################################################
+    def get(self, cls, id):
+        """Retrieve one object"""
+        key = "{}.{}".format(cls.__name__, id)
+        return self.__session.query(cls).filter_by(id=id).first()
+
+    def count(self, cls=None):
+        """Count the number of objects in storage"""
+        return len(self.all(cls))
+
+    ###########################################################################
+    ###########################################################################
 
     def delete(self, obj=None):
         """delete from the current database session obj if not None"""
