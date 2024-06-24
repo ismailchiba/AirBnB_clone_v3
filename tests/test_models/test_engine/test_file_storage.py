@@ -15,8 +15,8 @@ from models.review import Review
 from models.state import State
 from models.user import User
 import json
-import os
 import pep8
+import os
 import unittest
 FileStorage = file_storage.FileStorage
 classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
@@ -113,3 +113,16 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_count(self):
+        """ Test that count works properly"""
+        storage = FileStorage()
+        count_city = len(storage.all(City))
+        self.assertEqual(storage.count(City), count_city)
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_get(self):
+        """Test get method"""
+        storage = FileStorage()
+        self.assertIs(storage.get('foo', 'bar'), None)
