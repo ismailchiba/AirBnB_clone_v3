@@ -14,6 +14,7 @@ from models.place import Place
 from models.review import Review
 from models.state import State
 from models.user import User
+from models import storage
 import json
 import os
 import pep8
@@ -86,3 +87,36 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
+
+    def test_get_object(self):
+        """Create an object and add it to the storage"""
+        obj = BaseModel()
+        obj_id = "unique_id"
+        self.storage.save(obj)
+
+        """Retrieve the object using the get method"""
+        retrieved_obj = self.storage.get(BaseModel, obj_id)
+
+        """Assert that the retrieved object matches the original one"""
+        self.assertEqual(retrieved_obj, obj)
+
+    def test_count_objects(self):
+        """Create and add multiple objects to the storage"""
+        obj1 = BaseModel()
+        obj2 = BaseModel()
+        obj3 = State()
+        self.storage.save(obj1)
+        self.storage.save(obj2)
+        self.storage.save(obj3)
+
+        """Count the number of objects of SomeClass"""
+        count = self.storage.count(BaseModel)
+        self.assertEqual(count, 2)
+
+        """Count the number of objects of AnotherClass"""
+        count = self.storage.count(State)
+        self.assertEqual(count, 1)
+
+        """Count the total number of objects"""
+        count = self.storage.count()
+        self.assertEqual(count, 3)
