@@ -3,7 +3,6 @@
 Contains the FileStorage class
 """
 
-import json
 from models.amenity import Amenity
 from models.base_model import BaseModel
 from models.city import City
@@ -11,6 +10,8 @@ from models.place import Place
 from models.review import Review
 from models.state import State
 from models.user import User
+import json
+
 
 classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
@@ -48,6 +49,43 @@ class FileStorage:
         with open(self.__file_path, 'w') as f:
             json.dump(json_objects, f)
 
+    def get(self, cls, id):
+        """
+        Retrieve an object based on the class and its ID.
+        
+        Args:
+            cls: Class representing the database table.
+            id: String representing the object ID.
+        
+        Returns:
+            The object based on the class and its ID, or None if not found.
+        """
+        if cls is None or id is None:
+            return None
+        if type(cls) is str:
+            if cls not in classes:
+                return None
+            cls = classes[cls]
+        save = self.all(cls)
+        return save.get("{}.{}".format(cls.__name__, id)) 
+            
+            
+    def count(self, cls=None):
+        """
+        Count the number of objects in storage matching the given class.
+        
+        Args:
+            cls: Class representing the database table (optional).
+        
+        Returns:
+            The number of objects in storage matching the given class.
+            If no class is passed, returns the count of all objects in storage.
+        """
+        if cls is None:
+            return len(self.all())
+        return len(self.all(cls)) 
+
+
     def reload(self):
         """deserializes the JSON file to __objects"""
         try:
@@ -59,7 +97,7 @@ class FileStorage:
             pass
 
     def delete(self, obj=None):
-        """delete obj from __objects if it’s inside"""
+        """delete obj from __objects if its inside"""
         if obj is not None:
             key = obj.__class__.__name__ + '.' + obj.id
             if key in self.__objects:
