@@ -3,19 +3,19 @@
 Contains the TestDBStorageDocs and TestDBStorage classes
 """
 
-from datetime import datetime
+# from datetime import datetime
 import inspect
 import models
 from models.engine import db_storage
 from models.amenity import Amenity
-from models.base_model import BaseModel
+# from models.base_model import BaseModel
 from models.city import City
 from models.place import Place
 from models.review import Review
 from models.state import State
 from models.user import User
-import json
-import os
+# import json
+# import os
 import pep8
 import unittest
 DBStorage = db_storage.DBStorage
@@ -68,6 +68,26 @@ test_db_storage.py'])
                             "{:s} method needs a docstring".format(func[0]))
 
 
+class TestDbStorage(unittest.TestCase):
+    """Testing DB_Storage class"""
+    def test_get(self):
+        """Test get returns object of class & Id passed"""
+        s1 = State(name="Abuja")
+        models.storage.new(s1)
+        result = models.storage.get(State, s1.id)
+        self.assertEqual(result.id, s1.id)
+        self.assertIsInstance(result, State)
+
+    def test_count(self):
+        """Test count returns the right number of objects"""
+        dict1 = models.storage.all()
+        count1 = models.storage.count()
+        self.assertEqual(len(dict1), count1)
+        dict2 = models.storage.all(State)
+        count2 = models.storage.count(State)
+        self.assertEqual(len(dict2), count2)
+
+
 class TestFileStorage(unittest.TestCase):
     """Test the FileStorage class"""
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
@@ -86,3 +106,16 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get(self):
+        """Test that get returns the object based on the class and id"""
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_count_returns_all_objs_number(self):
+        """Test that count returns the total number
+        of all objects in storage"""
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_count_returns_objs_number(self):
+        """Test that count returns the total number of objects in storage"""

@@ -3,7 +3,7 @@
 Contains the TestFileStorageDocs classes
 """
 
-from datetime import datetime
+# from datetime import datetime
 import inspect
 import models
 from models.engine import file_storage
@@ -15,7 +15,7 @@ from models.review import Review
 from models.state import State
 from models.user import User
 import json
-import os
+# import os
 import pep8
 import unittest
 FileStorage = file_storage.FileStorage
@@ -113,3 +113,38 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_get(self):
+        """Test that get returns the object based on the class and id"""
+        storage = FileStorage()
+        save = FileStorage._FileStorage__objects
+        FileStorage._FileStorage__objects = {}
+        state = State(name="Abuja")
+        storage.new(state)
+        result = storage.get(State, state.id)
+        self.assertEqual(result.id, state.id)
+        FileStorage._FileStorage__objects = save
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_count_returns_all_objs_number(self):
+        """Test that count returns the total number
+        of all objects in storage"""
+        storage = FileStorage()
+        new_dict = storage.all()
+        count = storage.count()
+        self.assertEqual(len(new_dict), count)
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_count_returns_objs_number(self):
+        """Test that count returns the total number of objects in storage"""
+        storage = FileStorage()
+        save = FileStorage._FileStorage__objects
+        s1 = State(name="Ogun")
+        storage.new(s1)
+        s2 = State(name="Lagos")
+        storage.new(s2)
+        new_dict = storage.all(State)
+        count = storage.count(State)
+        self.assertEqual(len(new_dict), count)
+        FileStorage._FileStorage__objects = save
