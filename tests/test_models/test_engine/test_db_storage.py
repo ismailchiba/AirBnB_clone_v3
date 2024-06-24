@@ -68,7 +68,7 @@ test_db_storage.py'])
                             "{:s} method needs a docstring".format(func[0]))
 
 
-class TestFileStorage(unittest.TestCase):
+class TestDBStorage(unittest.TestCase):
     """Test the FileStorage class"""
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_all_returns_dict(self):
@@ -78,11 +78,42 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_all_no_class(self):
         """Test that all returns all rows when no class is passed"""
+        pass
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_new(self):
         """test that new adds an object to the database"""
+        pass
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
+        pass
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get(self):
+        """Test that Returns the object based on the class and its ID"""
+        storage = models.storage
+        storage.reload()
+        state_data = {"name": "Alexandria"}
+        state_instance = State(**state_data)
+        storage.new(state_instance)
+
+        retrived_state = storage.get(State, state_instance.id)
+        self.assertEqual(retrived_state, state_instance)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_count(self):
+        """Test that count the objects based on the class"""
+        storage = models.storage
+        storage.reload()
+        state_data = {"name": "Alexandria"}
+        state_instance = State(**state_data)
+
+        storage.new(state_instance)
+        city_data = {"name": "Rocky", "state_id": state_instance.id}
+        city_instance = City(**city_data)
+        storage.new(city_instance)
+        storage.save()
+        occurance = storage.count(State)
+        self.assertEqual(occurance, len(storage.all(State)))
