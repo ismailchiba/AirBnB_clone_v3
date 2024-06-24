@@ -55,6 +55,41 @@ class DBStorage:
         """add the object to the current database session"""
         self.__session.add(obj)
 
+    def get(self, cls, id):
+        """
+        fetches the specific object
+        param cls: class f object as a string
+        param id: id of object as a string
+        return found object or none
+        """
+        # check if id is an instance of a string
+        if cls and id:
+            if cls in classes.values() and isinstance(id, str):
+                all_objects = self.all(cls)
+                for key, value in all_objects.items():
+                    # split the key by the dot, index 0 =classname ,1 = id
+                    if key.split('.')[1] == id:
+                        return value
+            else:
+                return
+        return
+
+    def count(self, cls=None):
+        """
+        counts the number of intances in a class
+        :param cls: class name
+        :return: count of instances in a class
+        """
+        if not cls:
+            inst_of_all_cls = self.all()
+            return len(inst_of_all_cls)
+        if cls in classes.values():
+            all_prov_cls = self.all(cls)
+            return all_prov_cls
+        if cls not in classes.values():
+            return
+        # return len(self.all(cls))
+
     def save(self):
         """commit all changes of the current database session"""
         self.__session.commit()
