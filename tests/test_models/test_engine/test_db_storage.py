@@ -18,6 +18,9 @@ import json
 import os
 import pep8
 import unittest
+from models.engine.db_storage import DBStorage
+from models import storage
+
 DBStorage = db_storage.DBStorage
 classes = {"Amenity": Amenity, "City": City, "Place": Place,
            "Review": Review, "State": State, "User": User}
@@ -86,3 +89,30 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
+
+
+class Test_FileStorage(unittest.TestCase):
+    """Test class"""
+    @unittest.skipIf(models.storage_t != 'db', "no test in db storage")
+    def test_all_returns_dict(self):
+        """Test dictionary"""
+        self.assertIs(type(models.storage.all()), dict)
+
+    @unittest.skipIf(models.storage_t != 'db', "no test in db storage")
+    def test_all_class(self):
+        """Test all"""
+
+    @unittest.skipIf(models.storage_t != 'db', "no test in db storage")
+    def test_new(self):
+        """test new"""
+
+    @unittest.skipIf(models.storage_t != 'db', "no test in db storage")
+    def test_save(self):
+        """Test save file.json"""
+
+    @unittest.skipIf(models.storage_t != 'db', "no test in db storage")
+    def test_counter(self):
+        """Test number of State instances"""
+        first_inst = State()
+        second_inst = State()
+        self.assertEqual(storage.count(State), 0)
