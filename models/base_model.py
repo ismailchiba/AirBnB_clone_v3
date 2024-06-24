@@ -11,6 +11,9 @@ from sqlalchemy import Column, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 import uuid
 
+
+storage_type = getenv('HBNB_TYPE_STORAGE')
+
 time = "%Y-%m-%dT%H:%M:%S.%f"
 
 if models.storage_t == "db":
@@ -69,6 +72,21 @@ class BaseModel:
         if "_sa_instance_state" in new_dict:
             del new_dict["_sa_instance_state"]
         return new_dict
+
+    def to_json(self):
+        """returns json representation of self"""
+        bm_dict = {}
+        for key, value in (self.__dict__).items():
+            if (self.__is_serializable(value)):
+                bm_dict[key] = value
+            else:
+                bm_dict[key] = str(value)
+        bm_dict['__class__'] = type(self).__name__
+        if '_sa_instance_state' in bm_dict:
+            bm_dict.pop('_sa_instance_state')
+        if storage_type == "db" and 'password' in bm_dict:
+            bm_dict.pop('password')
+        return bm_dict
 
     def delete(self):
         """delete the current instance from the storage"""
