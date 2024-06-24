@@ -86,3 +86,38 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
+
+
+class TestDBStorage(unittest.TestCase):
+    """Test for dbstorage for get and count"""
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get_user(self):
+        """test for returning user object"""
+        entered_user = User(email="johndoe@gmail.com", password="pwd")
+        entered_user.save()
+        self.assertEqual(entered_user,
+                         models.storage.get(User, entered_user.id))
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get_state(self):
+        """test for returning state object"""
+        entered_state = State(name="Oklahoma")
+        entered_state.save()
+        self.assertEqual(entered_state,
+                         models.storage.get(State, entered_state.id))
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get_invalid_id(self):
+        """test for class but know id"""
+        self.assertIsNone(models.storage.get(State, ""))
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_count(self):
+        """Test to see if count counts all and a class"""
+        count_a = models.storage.count()
+        count_s = models.storage.count(State)
+        entered_state = State(name="Ohio")
+        entered_state.save()
+        self.assertEqual(count_a + 1, models.storage.count())
+        self.assertEqual(count_s + 1, models.storage.count(State))
