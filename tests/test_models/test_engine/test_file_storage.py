@@ -68,6 +68,7 @@ test_file_storage.py'])
                             "{:s} method needs a docstring".format(func[0]))
 
 
+@unittest.skipIf(models.storage_t == 'db', "not testing file storage")
 class TestFileStorage(unittest.TestCase):
     """Test the FileStorage class"""
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
@@ -113,3 +114,28 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+
+    def test_get_method(self):
+        """Test get method with class argument"""
+        storage = FileStorage()
+        state_obj = State(name='test')
+        state_id = state_obj.id
+        storage.new(state_obj)
+        storage.save()
+        retrieved_state = storage.get(State, state_id)
+
+        self.assertEqual(state_id, retrieved_state.id)
+        fake_id = '12243'
+        retrieved_state = storage.get(State, fake_id)
+        self.assertEqual(retrieved_state, None)
+
+    def test_count_method(self):
+        """Test get method with class argument"""
+        storage = FileStorage()
+        all_states = storage.all(State)
+        state_count = storage.count(State)
+        self.assertEqual(len(all_states), state_count)
+
+        all_obj = storage.all()
+        all_count = storage.count()
+        self.assertEqual(len(all_obj), all_count)
