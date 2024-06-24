@@ -21,7 +21,7 @@ class TestAmenityDocs(unittest.TestCase):
         cls.amenity_f = inspect.getmembers(Amenity, inspect.isfunction)
 
     def test_pep8_conformance_amenity(self):
-        """Test that models/amenity.py conforms to PEP8."""
+        """Test that models/amenity.py conforms to PEP8"""
         pep8s = pep8.StyleGuide(quiet=True)
         result = pep8s.check_files(['models/amenity.py'])
         self.assertEqual(result.total_errors, 0,
@@ -79,7 +79,6 @@ class TestAmenity(unittest.TestCase):
     def test_to_dict_creates_dict(self):
         """test to_dict method creates a dictionary with proper attrs"""
         am = Amenity()
-        print(am.__dict__)
         new_d = am.to_dict()
         self.assertEqual(type(new_d), dict)
         self.assertFalse("_sa_instance_state" in new_d)
