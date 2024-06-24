@@ -1,6 +1,8 @@
 # AirBnB Clone - The Console
 The console is the first segment of the AirBnB project at Holberton School that will collectively cover fundamental concepts of higher level programming. The goal of AirBnB project is to eventually deploy our server a simple copy of the AirBnB Website(HBnB). A command interpreter is created in this segment to manage objects for the AirBnB(HBnB) website.
 
+![GIF](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcHVvODhzZHhpeGNlajV6YnljemxnNW5ncjYxZDJnbXYxaG9ncTd5NSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3oEjHSgx2AsZwMHJPa/giphy.gif)
+
 #### Functionalities of this command interpreter:
 * Create a new object (ex: a new User or a new Place)
 * Retrieve an object from a file, a database etc...
@@ -53,6 +55,7 @@ Classes inherited from Base Model:
 * [review.py](/models/review.py)
 * [state.py](/models/state.py)
 * [user.py](/models/user.py)
+![Console Working](C:\Users\walte\github\holbertonschool-AirBnB_clone_v3-1\web_static\images\2024-02-14 19_06_49-kali [Running] - Oracle VM VirtualBox.png)
 
 #### `/models/engine` directory contains File Storage class that handles JASON serialization and deserialization :
 [file_storage.py](/models/engine/file_storage.py) - serializes instances to a JSON file & deserializes back to instances
@@ -156,7 +159,9 @@ No known bugs at this time.
 ## Authors
 Alexa Orrico - [Github](https://github.com/alexaorrico) / [Twitter](https://twitter.com/alexa_orrico)  
 Jennifer Huang - [Github](https://github.com/jhuang10123) / [Twitter](https://twitter.com/earthtojhuang)
+Juan Rodriguez - [Github](https://github.com/JCRoooD) / [linkedin](https://www.linkedin.com/in/juan-carlos-rodriguez-ocasio-4215661b1/)
+Walter Carrion - [Github](https://github.com/Scopecr)
 
 Second part of Airbnb: Joann Vuong
 ## License
-Public Domain. No copy write protection. 
+Public Domain. No copy write protection.
