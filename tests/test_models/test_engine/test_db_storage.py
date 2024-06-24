@@ -2,7 +2,6 @@
 """
 Contains the TestDBStorageDocs and TestDBStorage classes
 """
-
 from datetime import datetime
 import inspect
 import models
@@ -18,6 +17,8 @@ import json
 import os
 import pep8
 import unittest
+
+
 DBStorage = db_storage.DBStorage
 classes = {"Amenity": Amenity, "City": City, "Place": Place,
            "Review": Review, "State": State, "User": User}
@@ -67,6 +68,13 @@ test_db_storage.py'])
             self.assertTrue(len(func[1].__doc__) >= 1,
                             "{:s} method needs a docstring".format(func[0]))
 
+    def test_doc_new_methods(self):
+        """
+        Test for the presence of docstrings for the new methods in DBStorage
+        """
+        self.assertIsNotNone(DBStorage.get.__doc__)
+        self.assertIsNotNone(DBStorage.count.__doc__)
+
 
 class TestFileStorage(unittest.TestCase):
     """Test the FileStorage class"""
@@ -86,3 +94,7 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
+
+
+if __name__ == '__main__':
+    unittest.main()
