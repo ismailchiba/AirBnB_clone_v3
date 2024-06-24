@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" holds class User"""
+"""Holds class User"""
 import models
 from models.base_model import BaseModel, Base
 from os import getenv
@@ -17,7 +17,7 @@ class User(BaseModel, Base):
         first_name = Column(String(128), nullable=True)
         last_name = Column(String(128), nullable=True)
         places = relationship("Place", backref="user")
-        reviews = relationship("Review", backref="user")
+        reviews = relationship("Review", backref="user", cascade="delete")
     else:
         email = ""
         password = ""
