@@ -19,7 +19,6 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 classes = {"Amenity": Amenity, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
 
-
 class DBStorage:
     """interaacts with the MySQL database"""
     __engine = None
@@ -74,3 +73,16 @@ class DBStorage:
     def close(self):
         """call remove() method on the private session attribute"""
         self.__session.remove()
+        
+    
+    def count(self, cls=None):
+        """eaaaaaa"""
+        return len(self.all(cls))
+
+    def get(self, cls, id):
+        """ssssssss"""
+        dic = self.all(cls)
+        for key, val in dic.items():
+            if id in key:
+                return dic[key]
+    
