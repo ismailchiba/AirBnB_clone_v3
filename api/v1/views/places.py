@@ -19,7 +19,7 @@ def get_places_of_city(city_id=None):
     cities_obj = storage.all(City)
 
     places = storage.get(City, city_id).places
-    print(storage.get(City, city_id).places)
+    # print(storage.get(City, city_id).places)
     # for city in cities_obj.values():
         # if city.to_dict().get('city_id') == city_id:
             # places.append(city.to_dict())
