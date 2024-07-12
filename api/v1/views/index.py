@@ -13,9 +13,9 @@ def status():
 
     return jsonify(status)
 
-@app_views.route('/api/v1/stats')
+@app_views.route('/stats')
 def stats():
-
+    """This should return a JSONIfird stat list"""
     stats = {
   "amenities": storage.count("amenities"), 
   "cities": storage.count("cities"),
