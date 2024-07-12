@@ -5,4 +5,5 @@ import json
 
 @app_views.route('/status')
 def status():
-    return json.dumps({"status": "OK"})
+    status = json.dumps({"status": "OK"})
+    return status, 200
