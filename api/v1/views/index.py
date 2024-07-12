@@ -13,7 +13,7 @@ def status():
 
     return jsonify(status)
 
-@app_views.route('api/v1/stats')
+@app_views.route('/api/v1/stats')
 def stats():
 
     stats = {
