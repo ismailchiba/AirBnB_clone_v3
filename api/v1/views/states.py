@@ -58,11 +58,11 @@ def create_state_id():
 @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
 def update_state_id(state_id):
     """updates a specific state with state_id"""
-    state = storage.get(state.id)
+    state = storage.get(State, state_id)
     if not state:
         abort(404)
 
-    data = request.get_json()
+    data = request.get_json(force=True)
     if not data:
         abort(400, description='Not a JSON')
 
