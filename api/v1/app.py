@@ -20,5 +20,6 @@ def page_not_found(e):
     """returns a 404 response and a json answer"""
     return make_response(jsonify({'error': "Not found"}), 404)
 
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, threaded=True)
