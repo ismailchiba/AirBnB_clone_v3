@@ -49,7 +49,7 @@ def create_state_id():
     if 'name' not in data:
         abort(400, description='Missing name')
 
-    new_state = State(name=data['name'])
+    new_state = State(**data)
     storage.new(new_state)
     storage.save()
     return make_response(jsonify(new_state.to_dict()), 201)
