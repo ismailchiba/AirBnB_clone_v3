@@ -65,3 +65,4 @@ def put_city(city_id):
 
 if __name__ == '__main__':
     app_views.run(debug=True)
+    
