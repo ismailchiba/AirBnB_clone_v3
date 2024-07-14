@@ -46,14 +46,17 @@ def post_city():
     if state is None:
         abort(404)
     if not data:
-        abort(400, 'Not a JSON')
+        abort(400, description='Not a JSON')
     if 'name' not in data:
-        abort(400, 'Missing name')
-    
-    new_city = City(**data)
+        abort(400, description='Missing name')
+
+    new_city = City(name=data['name'], state_id=data['state_id'])
     storage.new(new_city)
     storage.save()
+
     return make_response(jsonify(new_city.to_dict()), 201)
+
+    
 
 @app_views.route('/cities/<city_id>', methods=['PUT'], strict_slashes=False)
 def put_city(city_id):
