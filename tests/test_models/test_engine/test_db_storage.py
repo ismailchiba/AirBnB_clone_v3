@@ -14,6 +14,8 @@ from models.place import Place
 from models.review import Review
 from models.state import State
 from models.user import User
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, Session
 import json
 import os
 import pep8
@@ -21,6 +23,7 @@ import unittest
 DBStorage = db_storage.DBStorage
 classes = {"Amenity": Amenity, "City": City, "Place": Place,
            "Review": Review, "State": State, "User": User}
+
 
 class TestDBStorage(unittest.TestCase):
     """Test cases for DBStorage class"""
@@ -97,12 +100,11 @@ class TestDBStorage(unittest.TestCase):
         self.assertIn(f"User.{user1.id}", users)
         self.assertIn(f"User.{user2.id}", users)
 
-     def test_dbs_get(self):
+    def test_dbs_get(self):
         """Test DBStorage get method finds specified obj in storage"""
         obj = User()
         obj.save()
-        self.assertEqual(DBStorage.get(obj.__class__, obj.id), obj)
-
+        self.assertEqual(self.storage.get(obj.__class__, obj.id), obj)
 
 
 class TestDBStorageDocs(unittest.TestCase):
