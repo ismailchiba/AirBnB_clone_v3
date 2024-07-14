@@ -86,5 +86,5 @@ class DBStorage:
         if not cls:
             objects = sum(len(models.storage.all(c).values()) for c in classes.values())
         else:
-            objects = len(models.storage.all(cls).values)
+            objects = len(models.storage.all(cls).values())
         return objects
