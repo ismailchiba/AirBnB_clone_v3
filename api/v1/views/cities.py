@@ -8,7 +8,8 @@ from models import storage
 from models.state import State
 from models.city import City
 
-@app_views.route('/cities', methods=['GET'], strict_slashes=False)
+@app_views.route(
+        '/states/<state_id>/cities', methods=['GET'], strict_slashes=False)
 def get_cities_by_state(state_id):
     """
     Retrieves a list of all cities in specified state
@@ -16,9 +17,7 @@ def get_cities_by_state(state_id):
     state = storage.get("State", state_id)
     if not state:
         abort(404)
-    cities = []
-    for city in state.cities:
-        cities.append(city.to_dict())
+    cities = [city.to_dict() for city in state.cities]
     return jsonify(cities)
 
 @app_views.route('/cities/<city_id>', methods=['GET'], strict_slashes=False)
