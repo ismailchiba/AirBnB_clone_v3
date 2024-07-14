@@ -6,22 +6,26 @@ from models import storage
 from api.v1.views import app_views
 from flask import Flask, request, jsonify, abort, make_response
 from models.city import City
+from models.state import State
 
-@app_views.route('/cities', methods=['GET'], strict_slashes=False)
-def get_cities():
-    """Gets a List of all city"""
-    cities = storage.all(City).values()
-    cities_list = []
-    for city in cities:
-        cities_list.append(city.to_dict())
-    return jsonify(cities_list)
+
+@app_views.route('/states/<state_id>/cities', methods=['GET'], strict_slashes=False)
+def get_state_cities(state_id):
+    """Gets a list of all cities of a specific state"""
+    state = storage.get(State, state_id)
+    if state is None:
+        abort(404)
+    
+    cities = [city.to_dict() for city in state.cities]
+    return jsonify(cities)
 
 @app_views.route('/cities/<city_id>', methods=['GET'], strict_slashes=False)
 def get_city(city_id):
-    """Gets a specfic city with id"""
+    """Retrieves a City object by its ID"""
     city = storage.get(City, city_id)
     if city is None:
         abort(404)
+    
     return jsonify(city.to_dict())
 
 @app_views.route('/cities/<city_id>', methods=['DELETE'], strict_slashes=False)
