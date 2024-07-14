@@ -42,6 +42,9 @@ def del_city(city_id):
 def post_city():
     """Creates a specfic state with id"""
     data = request.get_json(force=True)
+    state = storage.get(State, data['state_id'])
+    if state is None:
+        abort(404)
     if not data:
         abort(400, 'Not a JSON')
     if 'name' not in data:
