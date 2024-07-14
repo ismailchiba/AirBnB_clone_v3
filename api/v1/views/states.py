@@ -6,7 +6,6 @@ from api.v1.views import app_views
 from flask import jsonify, request, abort
 from models.state import State
 from models import storage
-import json
 
 
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
@@ -21,10 +20,12 @@ def get_state_by_id(state_id):
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
-    return jsonify(state.to_dict())
+    state_json = state.to_dict()
+    return jsonify(state_json)
 
 
-@app_views.route('/states/<state_id>', methods=['DELETE'], strict_slashes=False)
+@app_views.route('/states/<state_id>', methods=['DELETE'],
+                 strict_slashes=False)
 def delete_state(state_id):
     state = storage.get(State, state_id)
     if state is None:
@@ -46,15 +47,13 @@ def post_state():
 
 
 @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
-def update_state(state_id):
+def put_state(state_id):
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
-    data = request.get_json()
-    if not data:
+    if not request.get_json():
         abort(400, 'Not a JSON')
-    name = data.get('name')
-    if name:
-        setattr(state, 'name', name)
-    storage.save()
-    return jsonify(state.to_dict()), 200
+    for key, value in request.get_json().items():
+        setattr(state, key, value)
+    state.save()
+    return jsonify(state.to_dict())
