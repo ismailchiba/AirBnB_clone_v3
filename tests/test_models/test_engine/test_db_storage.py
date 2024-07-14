@@ -6,9 +6,10 @@ Contains the TestDBStorageDocs and TestDBStorage classes
 from datetime import datetime
 import inspect
 import models
+from models import storage
 from models.engine import db_storage
 from models.amenity import Amenity
-from models.base_model import BaseModel
+from models.base_model import BaseModel, Base
 from models.city import City
 from models.place import Place
 from models.review import Review
@@ -18,6 +19,9 @@ import json
 import os
 import pycodestyle
 import unittest
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, Session
+
 DBStorage = db_storage.DBStorage
 classes = {"Amenity": Amenity, "City": City, "Place": Place,
            "Review": Review, "State": State, "User": User}
@@ -66,6 +70,81 @@ test_db_storage.py'])
                              "{:s} method needs a docstring".format(func[0]))
             self.assertTrue(len(func[1].__doc__) >= 1,
                             "{:s} method needs a docstring".format(func[0]))
+
+
+# class TestDBStorageFunc(unittest.TestCase):
+#     """Tests functionality of DBStorage"""
+
+#     @classmethod
+#     def setUpClass(cls):
+#         """Set up for the entire test class"""
+#         os.environ['HBNB_MYSQL_USER'] = 'hbnb_test'
+#         os.environ['HBNB_MYSQL_PWD'] = 'hbnb_test_pwd'
+#         os.environ['HBNB_MYSQL_HOST'] = 'localhost'
+#         os.environ['HBNB_MYSQL_DB'] = 'hbnb_test_db'
+#         os.environ['HBNB_ENV'] = 'test'
+
+#         cls.storage = DBStorage()
+#         cls.storage.reload()
+
+#         cls.state = State(name="TestState")
+#         cls.user = User(email="test@example.com", password="password")
+
+#         print(f"Creating State: {cls.state}")
+#         print(f"Creating User: {cls.user}")
+
+#         cls.storage.new(cls.state)
+#         cls.storage.new(cls.user)
+#         cls.storage.save()
+
+#         print(f"State ID: {cls.state.id}")
+#         print(f"User ID: {cls.user.id}")
+#         print(f"{cls.storage.all()}")
+#         print("State created:", cls.storage.get(State, cls.state.id))
+#         print("User created:", cls.storage.get(User, cls.user.id))
+
+#     @classmethod
+#     def tearDownClass(cls):
+#         """Tear down for the entire test class"""
+#         cls.storage.delete(cls.state)
+#         cls.storage.delete(cls.user)
+#         cls.storage.save()
+#         cls.storage._DBStorage__session.close()
+
+#     def setUp(self):
+#         """Set up for each individual test"""
+#         self.session = self.storage._DBStorage__session
+
+#     def tearDown(self):
+#         """Clean up after each individual test"""
+#         self.session.rollback()
+#         for table in reversed(Base.metadata.sorted_tables):
+#             self.session.execute(table.delete())
+#         self.session.commit()
+
+#     def test_get_existing_state(self):
+#         """Test getting an existing State object"""
+#         obj = self.storage.get('State', self.state.id)
+#         self.assertIsNotNone(obj)
+#         self.assertEqual(obj.id, self.state.id)
+#         self.assertEqual(obj.name, "TestState")
+
+#     def test_get_non_existing_state(self):
+#         """Test getting a non-existing State object"""
+#         obj = self.storage.get('State', 'non-existing-id')
+#         self.assertIsNone(obj)
+
+#     def test_get_existing_user(self):
+#         """Test getting an existing User object"""
+#         obj = self.storage.get('User', self.user.id)
+#         self.assertIsNotNone(obj)
+#         self.assertEqual(obj.id, self.user.id)
+#         self.assertEqual(obj.email, "test@example.com")
+
+#     def test_get_non_existing_user(self):
+#         """Test getting a non-existing User object"""
+#         obj = self.storage.get('User', 'non-existing-id')
+#         self.assertIsNone(obj)
 
 
 class TestFileStorage(unittest.TestCase):

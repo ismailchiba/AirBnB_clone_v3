@@ -81,6 +81,9 @@ class DBStorage:
             return None
 
         all_objs = models.storage.all(cls)
+        if all_objs is None:
+            return None
+
         for obj in all_objs.values():
             if (obj.id == id):
                 return obj
