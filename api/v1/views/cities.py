@@ -14,7 +14,7 @@ def get_cities_by_state(state_id):
     """
     Retrieves a list of all cities in specified state
     """
-    state = storage.get("State", state_id)
+    state = storage.get(State, state_id)
     if not state:
         abort(404)
     cities = state.cities
