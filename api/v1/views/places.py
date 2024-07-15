@@ -19,10 +19,13 @@ def get_place_by_city(city_id):
     city = storage.get(City, city_id)
     if not city:
         abort(404)
-    places = city.places
     places_list = []
-    for place in places:
-        places_list.append(place.to_dict())
+    places = city.places
+    if not places:
+        pass
+    else:
+        for place in places:
+            places_list.append(place.to_dict())
     return jsonify(places_list)
 
 
