@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Creates new view for State obj that handles all the restful API
+Creates new view for User obj that handles all the restful API
 """
 from api.v1.views import app_views
 from flask import jsonify, request, abort
@@ -11,7 +11,7 @@ from models import storage
 @app_views.route('/users', methods=['GET'], strict_slashes=False)
 def get_all_users():
     users = storage.all(User).values()
-    user_json = [state.to_dict() for state in users]
+    user_json = [user.to_dict() for user in users]
     return jsonify(user_json)
 
 
@@ -37,15 +37,17 @@ def delete_user(user_id):
 
 @app_views.route('/users', methods=['POST'], strict_slashes=False)
 def post_user():
+    data = request.get_json()
+    required_fields = ['name', 'email', 'password']
     if not request.get_json:
         abort(400, 'Not a JSON')
-    if 'name' not in request.get_json():
+    if 'name' not in data:
         abort(400, 'Missing name')
-    if 'email' not in request.get_json():
+    if 'email' not in data:
         abort(400, 'Missing email')
-    if 'password' not in request.get_json():
+    if 'password' not in data:
         abort(400, 'Missing password')
-    user = User(**request.get_json())
+    user = User(**data)
     user.save()
     return jsonify(user.to_dict()), 201
 
@@ -56,7 +58,8 @@ def put_user(user_id):
     user = storage.get(User, user_id)
     if user is None:
         abort(404)
-    if not request.get_json():
+    data = request.get_json()
+    if not data:
         abort(400, 'Not a JSON')
     for key, value in request.get_json().items():
         if key not in ['id', 'created_at', 'updated_at']:
