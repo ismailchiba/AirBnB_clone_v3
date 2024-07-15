@@ -64,8 +64,8 @@ def post_place(city_id):
     data = request.get_json()
     if 'user_id' not in data:
         abort(400, 'Missing user_id')
-    if data['user_id'] not in [user.id for user in storage.all
-                               ('User').values()]:
+    user = storage.get(User, data['user_id'])
+    if not user:
         abort(404)  # No valid user
     if 'name' not in data:
         abort(400, 'Missing name')
