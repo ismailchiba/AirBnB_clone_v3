@@ -11,51 +11,55 @@ from models import storage
 @app_views.route('/users', methods=['GET'], strict_slashes=False)
 def get_all_users():
     users = storage.all(User).values()
-    amenity_json = [state.to_dict() for state in amenities]
-    return jsonify(amenity_json)
+    user_json = [state.to_dict() for state in users]
+    return jsonify(user_json)
 
 
-@app_views.route('/amenities/<amenity_id>', methods=['GET'],
+@app_views.route('/users/<user_id>', methods=['GET'],
                  strict_slashes=False)
-def get_amenity_by_id(amenity_id):
-    amenity = storage.get(Amenity, amenity_id)
-    if amenity is None:
+def get_user_by_id(user_id):
+    user = storage.get(User, user_id)
+    if user is None:
         abort(404)
-    return jsonify(amenity.to_dict())
+    return jsonify(user.to_dict())
 
 
-@app_views.route('/amenities/<amenity_id>', methods=['DELETE'],
+@app_views.route('/users/<user_id>', methods=['DELETE'],
                  strict_slashes=False)
-def delete_amenity(amenity_id):
-    amenity = storage.get(Amenity, amenity_id)
-    if amenity is None:
+def delete_user(user_id):
+    user = storage.get(User, user_id)
+    if user is None:
         abort(404)
-    storage.delete(amenity)
+    storage.delete(user)
     storage.save()
     return jsonify({})
 
 
-@app_views.route('/amenities', methods=['POST'], strict_slashes=False)
-def post_amenity():
+@app_views.route('/users', methods=['POST'], strict_slashes=False)
+def post_user():
     if not request.get_json:
         abort(400, 'Not a JSON')
     if 'name' not in request.get_json():
         abort(400, 'Missing name')
-    amenity = Amenity(**request.get_json())
-    amenity.save()
-    return jsonify(amenity.to_dict()), 201
+    if 'email' not in request.get_json():
+        abort(400, 'Missing email')
+    if 'password' not in request.get_json():
+        abort(400, 'Missing password')
+    user = User(**request.get_json())
+    user.save()
+    return jsonify(user.to_dict()), 201
 
 
-@app_views.route('/amenities/<amenity_id>', methods=['PUT'],
+@app_views.route('/users/<user_id>', methods=['PUT'],
                  strict_slashes=False)
-def put_amenity(amenity_id):
-    amenity = storage.get(Amenity, amenity_id)
-    if amenity is None:
+def put_user(user_id):
+    user = storage.get(User, user_id)
+    if user is None:
         abort(404)
     if not request.get_json():
         abort(400, 'Not a JSON')
     for key, value in request.get_json().items():
         if key not in ['id', 'created_at', 'updated_at']:
-            setattr(amenity, key, value)
+            setattr(user, key, value)
     storage.save()
-    return jsonify(amenity.to_dict()), 200
+    return jsonify(user.to_dict()), 200
