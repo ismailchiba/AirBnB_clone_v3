@@ -79,9 +79,12 @@ def put_city(city_id):
     city = storage.get(City, city_id)
     if not city:
         abort(404)
-    if not request.get_json():
+    if not request.is_json: # check for malformed request
         abort(400, 'Not a JSON')
-    for key, value in request.get_json().items():
+    data = request.get_json()
+    if not data:
+        abort(400, 'Not a JSON')
+    for key, value in data.items():
         if key not in ['id', 'state_id', 'created_at', 'updated_at']:
             setattr(city, key, value)
     storage.save()
