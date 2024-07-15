@@ -52,11 +52,12 @@ def post_city(state_id):
     state = storage.get(State, state_id)
     if not state:
         abort(404)
-    if not request.get_json():
+    data = request.get_json(silent=True)
+    if not data:
         abort(400, 'Not a JSON')
-    if 'name' not in request.get_json():
+    if 'name' not in data:
         abort(400, 'Missing name')
-    city = City(**request.get_json())
+    city = City(**data)
     setattr(city, 'state_id', state.id)
     storage.save()
     city_json = city.to_dict()
