@@ -42,7 +42,7 @@ def post_amenity():
     data = request.get_json()
     if 'name' not in data:
         abort(400, 'Missing name')
-    amenity = Amenity(**data())
+    amenity = Amenity(**data)
     amenity.save()
     return jsonify(amenity.to_dict()), 201
 
