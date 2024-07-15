@@ -1,7 +1,8 @@
 #!/usr/bin/python3
-"""Module for Flask"""
-
-
+"""
+Module for Flask application setup & config
+Sets up for Flask web app for CORS and routes
+"""
 from models import storage
 from api.v1.views import app_views
 from flask import Flask
@@ -16,6 +17,12 @@ cors = CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 
 @app.teardown_appcontext
 def remove_session(exception):
+    """
+    Close the storage session after each request.
+
+    This function is called by Flask after each request.
+    It ensures that the storage session is closed.
+    """
     storage.close()
 
 
