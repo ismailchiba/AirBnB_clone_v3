@@ -36,7 +36,8 @@ def get_place_by_id(place_id):
     return jsonify(place.to_dict())
 
 
-@app_views.route('/places/<place_id>', methods=['DELETE'], strict_slashes=False)
+@app_views.route('/places/<place_id>', methods=['DELETE'],
+                 strict_slashes=False)
 def delete_place(place_id):
     """
     Deletes a specific place by ID
@@ -62,8 +63,8 @@ def post_city(state_id):
     data = request.get_json()
     if 'user_id' not in data:
         abort(400, 'Missing user_id')
-    if data['user_id'] not in [
-        user.id for user in storage.all('User').values()]:
+    if data['user_id'] not in [user.id for user in storage.all
+                               ('User').values()]:
         abort(404)  # No valid user
     if 'name' not in data:
         abort(400, 'Missing name')
