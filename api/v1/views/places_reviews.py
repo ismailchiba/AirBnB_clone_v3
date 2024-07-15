@@ -33,7 +33,8 @@ def get_review_by_id(review_id):
     review = storage.get(Review, review_id)
     if not review:
         abort(404)
-    return jsonify(review.to_dict())
+    review_json = review.to_dict()
+    return jsonify(review_json)
 
 
 @app_views.route('/review/<review_id>', methods=['DELETE'],
@@ -88,5 +89,5 @@ def put_review(review_id):
     for key, value in data.items():
         if key not in ['id', 'user_id', 'place_id', 'created_at', 'updated_at']:
             setattr(review, key, value)
-    storage.save()
+    review.save()
     return jsonify(review.to_dict()), 200
