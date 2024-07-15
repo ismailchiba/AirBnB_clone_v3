@@ -7,6 +7,7 @@ from flask import jsonify, abort, request
 from models import storage
 from models.city import City
 from models.place import Place
+from models.user import User
 
 
 @app_views.route(
@@ -51,7 +52,7 @@ def delete_place(place_id):
 
 @app_views.route(
         '/cities/<city_id>/places', methods=['POST'], strict_slashes=False)
-def post_city(state_id):
+def post_place(city_id):
     """
     Creates a new place
     """
