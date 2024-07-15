@@ -22,7 +22,7 @@ def get_place_by_city(city_id):
     places_list = []
     places = city.places
     if not places:
-        pass
+        continue
     else:
         for place in places:
             places_list.append(place.to_dict())
