@@ -98,27 +98,20 @@ class TestFileStorage(unittest.TestCase):
     def test_get(self):
         """Test that get returns the correct object"""
         storage = FileStorage()
-        for key, value in classes.items():
-            with self.subTest(key=key, value=value):
-                instance = value()
-                instance_key = instance.__class__.__name__ + "." + instance.id
-                storage.new(instance)
-                test_dict = storage.all()
-                self.assertEqual(test_dict[instance_key], instance)
+        new_state = State(name="Test")
+        storage.new(new_state)
+        storage.save()
+        state_id = list(storage.all(State).values())[0].id
+        self.assertIsNotNone(storage.get(State, state_id))
+        self.assertIsNone(storage.get(State, '10'))
+
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_count(self):
         """Test that count returns the correct number"""
-        storage = FileStorage()
-        new_dict = {}
-        for key, value in classes.items():
-            instance = value()
-            instance_key = instance.__class__.__name__ + "." + instance.id
-            new_dict[instance_key] = instance
-        save = FileStorage._FileStorage__objects
-        FileStorage._FileStorage__objects = new_dict
-        self.assertEqual(len(new_dict), storage.count())
-        FileStorage._FileStorage__objects = save
+        Fstorage = FileStorage()
+        self.assertEqual(Fstorage.count(), len(Fstorage.all()))
+        self.assertEqual(Fstorage.count(State), len(Fstorage.all(State)))
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_save(self):
