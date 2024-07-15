@@ -87,9 +87,8 @@ def put_review(review_id):
     if not request.is_json:  # check for malformed request
         abort(400, 'Not a JSON')
     data = request.get_json()
-    for key, value in data.items():
-        if key not in [
-            'id', 'user_id', 'place_id', 'created_at', 'updated_at']:
-            setattr(review, key, value)
+    for k, v in data.items():
+        if k not in ['id', 'user_id', 'place_id', 'created_at', 'updated_at']:
+            setattr(review, k, v)
     review.save()
     return jsonify(review.to_dict()), 200
