@@ -70,8 +70,8 @@ def post_place(city_id):
         abort(404)  # No valid user
     if 'name' not in data:
         abort(400, 'Missing name')
+    data['city_id'] = city_id
     place = Place(**data)
-    setattr(place, 'city_id', city.id)
     storage.save()
     place_json = place.to_dict()
     return jsonify(place_json), 201
