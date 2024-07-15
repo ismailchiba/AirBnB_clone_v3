@@ -29,6 +29,6 @@ def stats():
     returns counts of different objects
     """
     stats_dict = {}
-    for obj in classes:
-        stats_dict[obj] = storage.count(obj)
+    for k, v in classes.items():
+        stats_dict[k] = storage.count(v)
     return jsonify(stats_dict)
