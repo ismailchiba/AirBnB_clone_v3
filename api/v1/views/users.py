@@ -4,14 +4,14 @@ Creates new view for State obj that handles all the restful API
 """
 from api.v1.views import app_views
 from flask import jsonify, request, abort
-from models.amenity import Amenity
+from models.user import User
 from models import storage
 
 
-@app_views.route('/amenities', methods=['GET'], strict_slashes=False)
-def get_all_amenities():
-    amenities = storage.all(Amenity).values()
-    amenity_json = [amenity.to_dict() for amenity in amenities]
+@app_views.route('/users', methods=['GET'], strict_slashes=False)
+def get_all_users():
+    users = storage.all(User).values()
+    amenity_json = [state.to_dict() for state in amenities]
     return jsonify(amenity_json)
 
 
