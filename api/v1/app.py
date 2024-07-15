@@ -9,6 +9,7 @@ import sys
 from flask import Flask
 from models import storage
 from api.v1.views import app_views
+from flask_cors import CORS
 
 
 sys.path.append(os.path.abspath(os.path.join(
@@ -17,6 +18,7 @@ sys.path.append(os.path.abspath(os.path.join(
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
+cors = CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 
 
 @app.teardown_appcontext
