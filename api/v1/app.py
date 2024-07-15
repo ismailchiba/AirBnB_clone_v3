@@ -3,6 +3,7 @@
 Module for Flask application setup & config
 """
 
+
 from flask import Flask
 import os
 import sys
