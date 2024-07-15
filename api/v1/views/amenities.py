@@ -11,7 +11,7 @@ from models import storage
 @app_views.route('/amenities', methods=['GET'], strict_slashes=False)
 def get_all_amenities():
     amenities = storage.all(Amenity).values()
-    amenity_json = [state.to_dict() for state in amenities]
+    amenity_json = [amenity.to_dict() for amenity in amenities]
     return jsonify(amenity_json)
 
 
