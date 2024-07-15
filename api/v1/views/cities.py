@@ -60,13 +60,11 @@ def post_city(state_id):
     if not request.is_json:  # check for malformed request
         abort(400, 'Not a JSON')
     data = request.get_json()
-    if not data:
-        abort(400, 'Not a JSON')
     if 'name' not in data:
         abort(400, 'Missing name')
     city = City(**data)
     setattr(city, 'state_id', state.id)
-    city.save()
+    storage.save()
     city_json = city.to_dict()
     return jsonify(city_json), 201
 
