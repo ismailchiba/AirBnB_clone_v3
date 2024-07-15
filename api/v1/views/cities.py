@@ -52,10 +52,7 @@ def post_city(state_id):
     state = storage.get(State, state_id)
     if not state:
         abort(404)
-    try:
-        data = request.get_json()
-    except ValueError:
-        abort(400, 'Not a JSON')
+    data = request.get_json()
     if not data:
         abort(400, 'Not a JSON')
     if 'name' not in data:
