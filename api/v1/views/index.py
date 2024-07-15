@@ -1,20 +1,10 @@
 #!/usr/bin/python3
 """Index for Route Module"""
 
-from flask import jsonify
 from api.v1.views import app_views
-from models import storage
-from models.classes import classes
+from flask import jsonify
 
-@app_views.route('/status', methods=['GET'], strict_slashes=False)
+@app_views.route('/status', methods=['GET'])
 def status():
-    """Returns the status of the API"""
+    """ Returns the status of the API """
     return jsonify({"status": "OK"})
-
-@app_views.route('/stats', methods=['GET'], strict_slashes=False)
-def get_stats():
-    """Returns the number of each object type in the storage"""
-    obj_counts = {}
-    for cls_name, cls in classes.items():
-        obj_counts[cls_name] = storage.count(cls)
-    return jsonify(obj_counts)
