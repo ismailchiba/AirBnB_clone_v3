@@ -70,7 +70,7 @@ def post_place(city_id):
     if 'name' not in data:
         abort(400, 'Missing name')
     place = Place(**data)
-    place.save()
+    storage.save()
     place_json = place.to_dict()
     return jsonify(place_json), 201
 
@@ -89,7 +89,7 @@ def put_place(place_id):
     if not data:
         abort(400, 'Not a JSON')
     for key, value in data.items():
-        if key not in ['id', 'user_id', 'created_at', 'updated_at']:
+        if key not in ['id', 'user_id', 'city_id', 'created_at', 'updated_at']:
             setattr(place, key, value)
     storage.save()
     return jsonify(place.to_dict()), 200
