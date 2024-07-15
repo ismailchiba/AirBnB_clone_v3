@@ -17,14 +17,12 @@ def get_place_by_city(city_id):
     Retrieves a list of all places in specified city
     """
     city = storage.get(City, city_id)
-    print(f'{city}')
     if not city:
         abort(404)
     places_list = []
     places = city.places
     for place in places:
         places_list.append(place.to_dict())
-    print(f'{places_list}')
     return jsonify(places_list)
 
 
