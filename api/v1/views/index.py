@@ -2,7 +2,7 @@
 """Index for Route Module"""
 
 from api.v1.views import app_views
-from flask import jsonify
+from flask import Flask, jsonify
 
 
 @app_views.route('/status', methods=['GET'], strict_slashes=False)

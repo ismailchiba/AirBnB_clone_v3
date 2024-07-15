@@ -12,7 +12,8 @@ from api.v1.views import app_views
 from flask_cors import CORS
 
 
-
+sys.path.append(os.path.abspath(os.path.join(
+    os.path.dirname(__file__), '..', '..')))
 
 
 app = Flask(__name__)
