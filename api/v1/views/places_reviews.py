@@ -25,7 +25,7 @@ def get_review_by_place(place_id):
     return jsonify(reviews_list)
 
 
-@app_views.route('/reviews<review_id>', methods=['GET'], strict_slashes=False)
+@app_views.route('/reviews/<review_id>', methods=['GET'], strict_slashes=False)
 def get_review_by_id(review_id):
     """
     Retrieves a specific review by ID
@@ -33,8 +33,7 @@ def get_review_by_id(review_id):
     review = storage.get(Review, review_id)
     if not review:
         abort(404)
-    review_json = review.to_dict()
-    return jsonify(review_json)
+    return jsonify(review.to_dict())
 
 
 @app_views.route('/review/<review_id>', methods=['DELETE'],
