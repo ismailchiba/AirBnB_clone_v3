@@ -30,5 +30,5 @@ def stats():
     """
     stats_dict = {}
     for obj in classes:
-        stats_dict[obj] = storage.count(classes[obj])
+        stats_dict[obj] = storage.count(obj)
     return jsonify(stats_dict)
