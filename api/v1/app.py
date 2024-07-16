@@ -27,6 +27,7 @@ def teardown(exception):
     """ Close storage session """
     storage.close()
 
+
 @app.errorhandler(404)
 def error_api(exception):
     """ Return 404 error """
