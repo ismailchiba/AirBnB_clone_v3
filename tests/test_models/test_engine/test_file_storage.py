@@ -91,7 +91,7 @@ class TestFileStorage(unittest.TestCase):
         test_dict = {}
         for key, value in classes.items():
             with self.subTest(key=key, value=value):
-                instance = value(id='fixed-id')
+                instance = value()
                 instance_key = instance.__class__.__name__ + "." + instance.id
                 self.storage.new(instance)
                 test_dict[instance_key] = instance
