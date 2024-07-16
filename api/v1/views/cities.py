@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""this file adds HTTP methods for the State model"""
+"""this file adds HTTP methods for the City model"""
 
 import json
 from models import storage
@@ -64,7 +64,7 @@ def post_city(state_id):
     storage.new(new_city)
     storage.save()
 
-    return jsonify(new_city.to_dict()), 201
+    return make_response(jsonify(new_city.to_dict()), 201)
 
 
 @app_views.route('/cities/<city_id>', methods=['PUT'], strict_slashes=False)
