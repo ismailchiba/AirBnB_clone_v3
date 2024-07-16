@@ -36,7 +36,7 @@ def delete_user(user_id):
 @app_views.route('/users', methods=['POST'], strict_slashes=False)
 def post_user():
     """Creates a User"""
-    data = request.get_json()
+    data = request.get_json(force=True)
     if not data:
         return abort(400, description='Not a JSON')
     if 'email' not in data:
@@ -54,7 +54,7 @@ def put_user(user_id):
     user = storage.get(User, user_id)
     if user is None:
         abort(404)
-    data = request.get_json()
+    data = request.get_json(force=True)
     if not data:
         return abort(400, description='Not a JSON')
     for key, value in data.items():
