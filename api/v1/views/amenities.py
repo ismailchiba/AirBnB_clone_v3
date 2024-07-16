@@ -43,7 +43,7 @@ def post_amenity():
     """Creates an amenity"""
     data = request.get_json()
     if 'name' not in data:
-        abort(400, description="Missing name parameter")
+        abort(400, description='Missing name')
     amenity = Amenity(**data)
     amenity.save()
     return jsonify(amenity.to_dict()), 201
@@ -54,7 +54,7 @@ def put_amenity(amenity_id):
     """Updates an amenity"""
     amenity = storage.get(Amenity, amenity_id)
     if amenity is None:
-        abort(404)
+        abort(400, description='Not a JSON')
     data = request.get_json()
     for key, value in data.items():
         if key not in ['id', 'created_at', 'updated_at']:
