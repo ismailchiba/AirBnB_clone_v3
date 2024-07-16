@@ -7,14 +7,17 @@ from api.v1.views import app_views
 from flask import jsonify, request, abort
 
 
-@app_views.route('/api/v1/states', methods=['GET'], strict_slashes=False)
+@app_views.route('/states', methods=['GET'], strict_slashes=False)
 def get_states():
     """Retrieves all state objects from storage"""
     states = storage.all(State).values()
-    return jsonify([state.to_dict() for state in states])
+    states = []
+    for state in states:
+        states.append(state.to_dict())
+    return jsonify(states)
 
 
-@app_views.route('/api/v1/states/<state_id>', methods=['GET'], strict_slashes=False)
+@app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
 def get_state(state_id):
     """Retrieves a state object"""
     state = storage.get(State, state_id)
@@ -23,7 +26,7 @@ def get_state(state_id):
     return jsonify(state.to_dict())
 
 
-@app_views.route('/api/v1/states/<state_id>', methods=['DELETE'], strict_slashes=False)
+@app_views.route('/states/<state_id>', methods=['DELETE'], strict_slashes=False)
 def delete_state(state_id):
     """Deleting a state object"""
     state = storage.get(State, state_id)
@@ -34,7 +37,7 @@ def delete_state(state_id):
     return jsonify({}), 200
 
 
-@app_views.route('/api/v1/states', methods=['POST'], strict_slashes=False)
+@app_views.route('/states', methods=['POST'], strict_slashes=False)
 def create_state():
     """Creates a State object"""
     if not request.json:
@@ -48,7 +51,7 @@ def create_state():
     return jsonify(new_state.to_dict()), 201
 
 
-@app_views.route('/api/v1/states/<state_id>', methods=['PUT'], strict_slashes=False)
+@app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
 def update_state(state_id):
     """Updates a State object"""
     state = storage.get(State, state_id)
@@ -56,8 +59,10 @@ def update_state(state_id):
         abort(404)
     if not request.json:
         abort(400, description="Not a JSON")
-    data = request.get_json()
+
     keys = ['id', 'created_at', 'updated_at']
+    data = request.get_json()
+
     for key, value in data.items():
         if key not in keys:
             setattr(state, key, value)
