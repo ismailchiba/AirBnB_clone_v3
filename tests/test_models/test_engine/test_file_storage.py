@@ -71,6 +71,8 @@ class TestFileStorageDocs(unittest.TestCase):
 
 class TestFileStorage(unittest.TestCase):
     """Test the FileStorage class"""
+    maxDiff = None
+
     def setUp(self):
         """Set up for the tests"""
         self.storage = FileStorage()
@@ -89,7 +91,7 @@ class TestFileStorage(unittest.TestCase):
         test_dict = {}
         for key, value in classes.items():
             with self.subTest(key=key, value=value):
-                instance = value()
+                instance = value(id='fixed-id')
                 instance_key = instance.__class__.__name__ + "." + instance.id
                 self.storage.new(instance)
                 test_dict[instance_key] = instance
