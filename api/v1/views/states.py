@@ -11,10 +11,7 @@ from flask import jsonify, request, abort
 def get_states():
     """Retrieves all state objects from storage"""
     states = storage.all(State).values()
-    states = []
-    for state in states:
-        states.append(state.to_dict())
-    return jsonify(states)
+    return jsonify([state.to_dict() for state in states])
 
 
 @app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
@@ -40,9 +37,9 @@ def delete_state(state_id):
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
 def create_state():
     """Creates a State object"""
-    if not request.json:
-        abort(400, description="Not a JSON")
     data = request.get_json()
+    if not data:
+        abort(400, description="Not a JSON")
     if 'name' not in data:
         abort(400, description="Missing name")
     new_state = State(**data)
@@ -54,15 +51,13 @@ def create_state():
 @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
 def update_state(state_id):
     """Updates a State object"""
+    data = request.get_json()
     state = storage.get(State, state_id)
     if not state:
         abort(404)
-    if not request.json:
+    if not data:
         abort(400, description="Not a JSON")
-
     keys = ['id', 'created_at', 'updated_at']
-    data = request.get_json()
-
     for key, value in data.items():
         if key not in keys:
             setattr(state, key, value)
