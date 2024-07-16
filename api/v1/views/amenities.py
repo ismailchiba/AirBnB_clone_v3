@@ -18,7 +18,8 @@ def amenity_list():
         amenities.append(amenity.to_dict())
     return jsonify(amenities)
 
-@app_views.route('/amenities/<amenity_id>', methods=['GET'], strict_slashes=False)
+@app_views.route('/amenities/<amenity_id>',
+                methods=['GET'], strict_slashes=False)
 def get_amenity(amenity_id):
     """Gets amenity by ID"""
     amenity = storage.get(Amenity, amenity_id)
@@ -26,7 +27,8 @@ def get_amenity(amenity_id):
         abort(404)
     return jsonify(amenity.to_dict())
 
-@app_views.route('/amenities/<amenity_id>', methods=['DELETE'], strict_slashes=False)
+@app_views.route('/amenities/<amenity_id>',
+                methods=['DELETE'], strict_slashes=False)
 def del_amenity(amenity_id):
     """Deletes amenity by ID"""
     amenity = storage.get(Amenity, amenity_id)
@@ -44,9 +46,10 @@ def post_amenity():
         abort(400, description="Missing name parameter")
     amenity = Amenity(**data)
     amenity.save()
-    return make_response(jsonify(amenity.to_dict()), 201)
+    return jsonify(amenity.to_dict()), 201
 
-@app_views.route('/amenities/<amenity_id>', methods=['PUT'], strict_slashes=False)
+@app_views.route('/amenities/<amenity_id>',
+                methods=['PUT'], strict_slashes=False)
 def put_amenity(amenity_id):
     """Updates an amenity"""
     amenity = storage.get(Amenity, amenity_id)
@@ -57,7 +60,7 @@ def put_amenity(amenity_id):
         if key not in ['id', 'created_at', 'updated_at']:
             setattr(amenity, key, value)
     amenity.save()
-    return make_response(jsonify(amenity.to_dict()), 200)
+    return (jsonify(amenity.to_dict()), 200)
 
 if __name__ == "__main__":
     app_views.run(debug=True)
