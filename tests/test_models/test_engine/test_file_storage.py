@@ -71,6 +71,8 @@ class TestFileStorageDocs(unittest.TestCase):
 
 class TestFileStorage(unittest.TestCase):
     """Test the FileStorage class"""
+    maxDiff = None
+
     def setUp(self):
         """Set up for the tests"""
         self.storage = FileStorage()
