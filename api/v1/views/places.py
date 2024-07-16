@@ -84,7 +84,7 @@ def put_place(place_id):
         if key not in ['id', 'created_at', 'updated_at', 'user_id']:
             setattr(place, key, value)
     storage.save()
-    return make_response(jsonify(place.to_dict()), 200)
+    return jsonify(place.to_dict()), 200
 
 if __name__ == '__main__':
     app_views.run(debug=True)

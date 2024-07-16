@@ -21,7 +21,7 @@ def get_users():
 def get_user(user_id):
     """Retrieves a User"""
     user = storage.get(User, user_id)
-    if user is None:
+    if not user:
         abort(404)
     return jsonify(user.to_dict())
 
@@ -29,7 +29,7 @@ def get_user(user_id):
 def delete_user(user_id):
     """Deletes a User"""
     user = storage.get(User, user_id)
-    if user is None:
+    if not user:
         abort(404)
     user.delete()
     storage.save()
