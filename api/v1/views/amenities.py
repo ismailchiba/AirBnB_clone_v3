@@ -44,7 +44,7 @@ def post_amenity():
     data = request.get_json()
     if not data:
         abort(400, description='Not a JSON')
-    if 'name' is not data:
+    if 'name' not in data:
         abort(400, description='Missing name')
 
     amenity = Amenity(**data)
