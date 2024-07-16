@@ -5,16 +5,14 @@ import json
 from models import storage
 from api.v1.views import app_views
 from flask import Flask, request, jsonify, abort, make_response
-from models.user import User 
+from models.user import User
 
 
 @app_views.route('/users', methods=['GET'], strict_slashes=False)
 def get_users():
     """Lists of all User"""
     users = storage.all(User).values()
-    users_list = []
-    for user in users:
-        users_list.append(user.to_dict())
+    users_list = [user.to_dict() for user in users]
     return jsonify(users_list)
 
 @app_views.route('/users/<int:user_id>', methods=['GET'], strict_slashes=False)
@@ -45,7 +43,6 @@ def post_user():
         return abort(400, description='Missing email')
     if 'password' not in data:
         return abort(400, description='Missing password')
-    
     new_user = User(**data)
     storage.new(new_user)
     storage.save()
@@ -61,7 +58,7 @@ def put_user(user_id):
     if not data:
         return abort(400, description='Not a JSON')
     for key, value in data.items():
-        if key not in ['id', 'created_at', 'updated_at']:
+        if key not in ['id', 'email', 'created_at', 'updated_at']:
             setattr(user, key, value)
     storage.save()
     return jsonify(user.to_dict())
