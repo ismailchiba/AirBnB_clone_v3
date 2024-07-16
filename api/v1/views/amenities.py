@@ -43,8 +43,8 @@ def post_amenity():
     """Creates an amenity"""
     data = request.get_json()
     if not data:
-        abort(400)
-    if 'name' not in data:
+        abort(400, description='Not a JSON')
+    if 'name' is None:
         abort(400, description='Missing name')
 
     amenity = Amenity(**data)
