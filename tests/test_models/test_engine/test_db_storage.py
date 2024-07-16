@@ -39,9 +39,11 @@ class TestDBStorageDocs(unittest.TestCase):
                          "Found code style errors (and warnings).")
 
     def test_pep8_conformance_test_db_storage(self):
-        """Test tests/test_models/test_engine/test_db_storage.py conforms to PEP8."""
+        """Test tests/test_models/test_engine/test_db_storage.py
+        conforms to PEP8."""
         pep8s = pycodestyle.StyleGuide(quiet=True)
-        result = pep8s.check_files(['tests/test_models/test_engine/test_db_storage.py'])
+        result = pep8s.check_files([
+            'tests/test_models/test_engine/test_db_storage.py'])
         self.assertEqual(result.total_errors, 0,
                          "Found code style errors (and warnings).")
 
@@ -70,12 +72,6 @@ class TestDBStorageDocs(unittest.TestCase):
 
 class TestDBStorage(unittest.TestCase):
     """Test the DBStorage class"""
-    @classmethod
-    def setUpClass(cls):
-        """Set up for the tests"""
-        cls.storage = DBStorage()
-        cls.storage.reload()
-
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_all_returns_dict(self):
         """Test that all returns a dictionary"""
