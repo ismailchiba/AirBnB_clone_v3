@@ -61,7 +61,7 @@ def put_user(user_id):
         if key not in ['id', 'email', 'created_at', 'updated_at']:
             setattr(user, key, value)
     storage.save()
-    return jsonify(user.to_dict())
+    return jsonify(user.to_dict()), 200
 
 if __name__ == '__main__':
     app_views.run(debug=True)
