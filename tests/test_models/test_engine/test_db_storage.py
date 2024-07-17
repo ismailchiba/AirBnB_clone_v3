@@ -97,6 +97,7 @@ class TestDBStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_all_no_class(self):
         """Test that all returns all rows when no class is passed"""
+        self.storage = DBStorage()
         all_objs = self.storage.all()
         self.assertEqual(type(all_objs), dict)
         self.assertGreater(len(all_objs), 0)
@@ -104,6 +105,7 @@ class TestDBStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_new(self):
         """Test that new adds an object to the database"""
+        self.storage = DBStorage()
         new_state = State(name="California")
         self.storage.new(new_state)
         key = "State." + new_state.id
@@ -112,6 +114,7 @@ class TestDBStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to the database"""
+        self.storage = DBStorage()
         new_state = State(name="Texas")
         self.storage.new(new_state)
         self.storage.save()
