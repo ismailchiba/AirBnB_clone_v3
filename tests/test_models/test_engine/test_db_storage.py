@@ -72,6 +72,10 @@ class TestDBStorageDocs(unittest.TestCase):
 
 class TestDBStorage(unittest.TestCase):
     """Test the DBStorage class"""
+    def setUp(self):
+        """Setting up the environment"""
+        self.storage = DBStorage()
+
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_all_returns_dict(self):
         """Test that all returns a dictionary"""
