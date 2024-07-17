@@ -74,7 +74,7 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_all_returns_dict(self):
         """Test that all returns the FileStorage.__objects attr"""
-        storage = FileStorage()
+        self.storage = FileStorage()
         new_dict = self.storage.all()
         self.assertEqual(type(new_dict), dict)
         self.assertIs(new_dict, self.storage._FileStorage__objects)
