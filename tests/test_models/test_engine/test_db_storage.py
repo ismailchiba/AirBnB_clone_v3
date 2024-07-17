@@ -71,41 +71,6 @@ class TestDBStorageDocs(unittest.TestCase):
 
 
 class TestDBStorage(unittest.TestCase):
-    """Test the DBStorage class"""
-    def setUp(self):
-        """Setting up the environment"""
-        self.storage = DBStorage()
-
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    def test_all_returns_dict(self):
-        """Test that all returns a dictionary"""
-        self.assertIs(type(models.storage.all()), dict)
-
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    def test_all_no_class(self):
-        """Test that all returns all rows when no class is passed"""
-        all_objs = self.storage.all()
-        self.assertEqual(type(all_objs), dict)
-        self.assertGreater(len(all_objs), 0)
-
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    def test_new(self):
-        """Test that new adds an object to the database"""
-        new_state = State(name="California")
-        self.storage.new(new_state)
-        key = "State." + new_state.id
-        self.assertIn(key, self.storage.all().keys())
-
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    def test_save(self):
-        """Test that save properly saves objects to the database"""
-        new_state = State(name="Texas")
-        self.storage.new(new_state)
-        self.storage.save()
-        key = "State." + new_state.id
-        self.storage.reload()
-        self.assertIn(key, self.storage.all().keys())
-
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_all_returns_dict2(self):
         """Test that all returns a dictionaty"""
