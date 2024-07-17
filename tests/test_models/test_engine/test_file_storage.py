@@ -113,6 +113,13 @@ class TestFileStorage(unittest.TestCase):
             js = f.read()
         self.assertEqual(json.loads(json.dumps(new_dict)), json.loads(js))
 
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_count(self):
+        """Tests count method file storage"""
+        storage = FileStorage()
+        i = storage.count()
+        self.assertEqual(len(storage.all()), i)
+
     def tearDown(self):
         """Tear down after the tests"""
         del self.storage
