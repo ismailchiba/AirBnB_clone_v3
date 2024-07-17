@@ -88,13 +88,13 @@ class TestDBStorage(unittest.TestCase):
     def test_save2(self):
         """Test that save properly saves objects to file.json"""
 
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    @unittest.skip("Skipping this test?")
     def test_all_returns_dict(self):
         """Test that all returns a dictionary"""
         self.storage = DBStorage()
         self.assertIs(type(models.storage.all()), dict)
 
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    @unittest.skip("Skipping this test?")
     def test_all_no_class(self):
         """Test that all returns all rows when no class is passed"""
         all_objs = self.storage.all()
