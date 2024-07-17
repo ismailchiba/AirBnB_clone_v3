@@ -90,9 +90,9 @@ class TestFileStorage(unittest.TestCase):
             with self.subTest(key=key, value=value):
                 instance = value()
                 instance_key = instance.__class__.__name__ + "." + instance.id
-                self.storage.new(instance)
+                storage.new(instance)
                 test_dict[instance_key] = instance
-                self.assertEqual(test_dict, self.storage._FileStorage__objects)
+                self.assertEqual(test_dict, storage._FileStorage__objects)
         FileStorage._FileStorage__objects = save
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
@@ -121,11 +121,3 @@ class TestFileStorage(unittest.TestCase):
         storage = FileStorage()
         i = storage.count()
         self.assertEqual(len(storage.all()), i)
-
-    def tearDown(self):
-        """Tear down after the tests"""
-        del self.storage
-
-
-if __name__ == "__main__":
-    unittest.main()
