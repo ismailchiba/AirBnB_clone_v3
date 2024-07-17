@@ -72,12 +72,6 @@ class TestDBStorageDocs(unittest.TestCase):
 
 class TestDBStorage(unittest.TestCase):
     """Test the DBStorage class"""
-    @classmethod
-    def setUpClass(cls):
-        """Set up for the tests"""
-        cls.storage = DBStorage()
-        cls.storage.reload()
-
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_all_returns_dict(self):
         """Test that all returns a dictionary"""
@@ -108,11 +102,19 @@ class TestDBStorage(unittest.TestCase):
         self.storage.reload()
         self.assertIn(key, self.storage.all().keys())
 
-    @classmethod
-    def tearDownClass(cls):
-        """Tear down after the tests"""
-        del cls.storage
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_all_returns_dict2(self):
+        """Test that all returns a dictionaty"""
+        self.assertIs(type(models.storage.all()), dict)
 
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_all_no_class2(self):
+        """Test that all returns all rows when no class is passed"""
 
-if __name__ == "__main__":
-    unittest.main()
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_new2(self):
+        """test that new adds an object to the database"""
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_save2(self):
+        """Test that save properly saves objects to file.json"""
