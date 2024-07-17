@@ -18,7 +18,7 @@ import json
 import os
 import pycodestyle
 import unittest
-
+from models import storage
 DBStorage = db_storage.DBStorage
 classes = {"Amenity": Amenity, "City": City, "Place": Place,
            "Review": Review, "State": State, "User": User}
