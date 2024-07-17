@@ -6,6 +6,7 @@ from models import storage
 from api.v1.views import app_views
 from flask import Flask, request, jsonify, abort, make_response
 from models.place import Place
+<<<<<<< HEAD
 from models.city import City
 from models.user import User
 from models.review import Review
@@ -90,5 +91,20 @@ def put_place(place_id):
     return jsonify(place.to_dict()), 200
 
 
+=======
+from models.user import User
+from models.review import Review
+
+@app_views.route('/places/<place_id>/reviews', methods=['GET'],
+                 strict_slashes=False)
+def get_place_reviews(place_id):
+    """Retrieves a list of all reviews for a specific place"""
+    place = storage.get(Place, place_id)
+    if place is None:
+        abort(404, description="Place not found")
+    reviews = [review.to_dict() for review in place.reviews]
+    return jsonify(reviews)
+
+>>>>>>> e893384 (s)
 if __name__ == '__main__':
     app_views.run(debug=True)
