@@ -121,7 +121,7 @@ class TestDBStorage(unittest.TestCase):
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_get(self):
-        """Tests get for getting an instance"""
+        """Test for getting an instance"""
         state_data = {"name": "California"}
         instance = State(**state_data)
         self.storage.new(instance)
