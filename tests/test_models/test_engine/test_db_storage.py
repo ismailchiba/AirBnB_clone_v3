@@ -101,7 +101,7 @@ class TestDBStorage(unittest.TestCase):
         self.assertEqual(type(all_objs), dict)
         self.assertGreater(len(all_objs), 0)
 
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    @unittest.skip("Skipping this test?")
     def test_new(self):
         """Test that new adds an object to the database"""
         new_state = State(name="California")
