@@ -88,6 +88,9 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_new(self):
         """test that new adds an object to the FileStorage.__objects attr"""
+        storage = FileStorage()
+        save = FileStorage._FileStorage__objects
+        FileStorage._FileStorage__objects = {}
         test_dict = {}
         for key, value in classes.items():
             with self.subTest(key=key, value=value):
@@ -96,6 +99,7 @@ class TestFileStorage(unittest.TestCase):
                 self.storage.new(instance)
                 test_dict[instance_key] = instance
                 self.assertEqual(test_dict, self.storage._FileStorage__objects)
+        FileStorage._FileStorage__objects = save
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_save(self):
