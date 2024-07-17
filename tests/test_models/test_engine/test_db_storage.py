@@ -118,3 +118,25 @@ class TestDBStorage(unittest.TestCase):
         key = "State." + new_state.id
         self.storage.reload()
         self.assertIn(key, self.storage.all().keys())
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get(self):
+        """Tests get for getting an instance"""
+        state_data = {"name": "California"}
+        instance = State(**state_data)
+        self.storage.new(instance)
+        self.storage.save()
+        get_instance = self.storage.get(State, instance.id)
+        self.assertEqual(get_instance, instance)
+
+    def test_count(self):
+        """Test count method in db"""
+        state_data = {"name": "Vecindad"}
+        state = State(**state_data)
+        self.storage.new(state)
+        city_data = {"name": "Texas", "state_id": state.id}
+        city = City(**city_data)
+        self.storage.new(city)
+        self.storage.save()
+        count = self.storage.count()
+        self.assertEqual(len(self.storage.all()), count)
