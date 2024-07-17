@@ -10,7 +10,6 @@ from models.city import City
 from models.user import User
 
 
-
 @app_views.route('/cities/<city_id>/places',
                  methods=['GET'], strict_slashes=False)
 def get_cities_place(city_id):
@@ -24,14 +23,15 @@ def get_cities_place(city_id):
         places.append(place.to_dict()) in city.places
     return jsonify(places)
 
-@app_views.route('/places/<place_id>', methods=['GET'],
-                  strict_slashes=False)
+
+@app_views.route('/places/<place_id>', methods=['GET'], strict_slashes=False)
 def get_place(place_id):
     """Retrieves a specific place"""
     place = storage.get(Place, place_id)
     if place is None:
         abort(404)
     return jsonify(place.to_dict())
+
 
 @app_views.route('/places/<place_id>',
                  methods=['DELETE'], strict_slashes=False)
@@ -43,6 +43,7 @@ def del_place(place_id):
     storage.delete(place)
     storage.save()
     return jsonify({}), 200
+
 
 @app_views.route('/cities/<city_id>/places',
                  methods=['POST'], strict_slashes=False)
@@ -59,7 +60,7 @@ def post_place(city_id):
         abort(400, description="Missing name")
     if 'user_id' not in data:
         abort(400, description="Missing user_id")
-    
+
     user = storage.get(User, data['user_id'])
     if user is None:
         abort(404)
@@ -67,6 +68,7 @@ def post_place(city_id):
     storage.new(new_place)
     storage.save()
     return jsonify(new_place.to_dict()), 201
+
 
 @app_views.route('/places/<place_id>',
                  methods=['PUT'], strict_slashes=False)
@@ -85,6 +87,7 @@ def put_place(place_id):
             setattr(place, key, value)
     storage.save()
     return jsonify(place.to_dict()), 200
+
 
 if __name__ == '__main__':
     app_views.run(debug=True)
