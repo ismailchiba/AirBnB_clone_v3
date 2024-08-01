@@ -159,6 +159,7 @@ Jennifer Huang - [Github](https://github.com/jhuang10123) / [Twitter](https://tw
 
 Part 3:
 Ricardo Sass - [Github](https://github.com/bluegalaxy13)
+
 Patrick Muchiri - [Github](https://github.com/patmuchiri)
 
 ## License
