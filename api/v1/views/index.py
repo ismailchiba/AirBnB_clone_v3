@@ -8,8 +8,8 @@ from api.v1.views import app_views
 
 @app_views.route('/status')
 def api_status():
-  """
-
-  """
-  response = {'status': "OK"}
-  return jsonify(response)
+    """
+    Return the status of the API
+    """
+    response = {'status': "OK"}
+    return jsonify(response)
