@@ -102,7 +102,7 @@ class TestDBStorage(unittest.TestCase):
         # confirm presence of state
         sesh = models.storage.get_session()
 
-        state = sesh.query(State).filter_by(id=new_state).first()
+        state = sesh.query(State).filter_by(id=new_state.id).first()
 
         self.assertEqual(state.id, new_state.id)
         self.assertEqual(state.name, new_state.name)
@@ -119,7 +119,7 @@ class TestDBStorage(unittest.TestCase):
         models.storage.save()
 
         sesh = models.storage.get_session()
-        state = sesh.query(State).filter_by(id=new_state).first()
+        state = sesh.query(State).filter_by(id=new_state.id).first()
 
         self.assertEqual(state.id, new_state.id)
         self.assertEqual(state.name, new_state.name)
