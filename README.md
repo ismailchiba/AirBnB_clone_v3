@@ -69,25 +69,25 @@ Classes inherited from Base Model:
 #### `/models/engine` directory contains File Storage class that handles JASON serialization and deserialization  and the DB_storage class that handles the saving of data in a persistent RDB storage (A MySQL Database):
 [file_storage.py](/models/engine/file_storage.py) - serializes instances to a JSON file & deserializes back to instances
 Class defined here:  
-* `class FileStorage`
+*`class FileStorage`
 Methods defined here:  
-emsp * `def all(self)` - returns the dictionary __objects  
-emsp * `def new(self, obj)` - sets in __objects the obj with key <obj class name>.id  
-emsp * `def save(self)` - serializes __objects to the JSON file (path: __file_path)  
-emsp * ` def reload(self)` -  deserializes the JSON file to __objects  
-emsp * `def delete(self, obj=None)` - delete object `obj` from __objects if it’s inside  
-emsp * `def close(self)` - call the reload(self) method  
+&emsp; * `def all(self)` - returns the dictionary __objects  
+&emsp; * `def new(self, obj)` - sets in __objects the obj with key <obj class name>.id  
+&emsp; * `def save(self)` - serializes __objects to the JSON file (path: __file_path)  
+&emsp; * ` def reload(self)` -  deserializes the JSON file to __objects  
+&emsp; * `def delete(self, obj=None)` - delete object `obj` from __objects if it’s inside  
+&emsp; * `def close(self)` - call the reload(self) method  
 
 [db_storage.py](/models/engine/db_storage.py) - uses object relational mapper to interact with MySQL database to create, modify and store data in RDB  
 Class defined here  
 *`class DBStorage` 
 Methods defined here:  
-emsp * `def all(self, cls=None)` - query on the database to return all objects or the specified object by the argument `cls`  
-emsp * `def new(self, obj)` - adds a new object to the current database session  
-emsp * `def save(self)` - commits and save all changes of the current database session  
-emsp * `def reload(self)` -  loads data from database into runtime  
-emsp * `def delete(self, obj=None)` - delete an object `obj` from the current database session  
-emsp * `def close(self)` - closes current database session and release all existing transaction  
+&emsp; * `def all(self, cls=None)` - query on the database to return all objects or the specified object by the argument `cls`  
+&emsp; * `def new(self, obj)` - adds a new object to the current database session  
+&emsp; * `def save(self)` - commits and save all changes of the current database session  
+&emsp; * `def reload(self)` -  loads data from database into runtime  
+&emsp; * `def delete(self, obj=None)` - delete an object `obj` from the current database session  
+&emsp; * `def close(self)` - closes current database session and release all existing transaction  
 
 #### `/tests` directory contains all unit test cases for this project:
 [/test_models/test_base_model.py](/tests/test_models/test_base_model.py) - Contains the TestBaseModel and TestBaseModelDocs classes
