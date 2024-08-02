@@ -15,6 +15,8 @@ from models.user import User
 classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
 
+classes_list = [User, State, Review, Place, City, Amenity]
+
 
 class FileStorage:
     """serializes instances to a JSON file & deserializes back to instances"""
@@ -68,3 +70,19 @@ class FileStorage:
     def close(self):
         """call reload() method for deserializing the JSON file to objects"""
         self.reload()
+
+    def get(self, cls, id):
+        """Get an object based on its id."""
+        if cls is not None and cls in classes_list and id is not None:
+            for value in self.__objects.values():
+                if cls == value.__class__ and value.id == id:
+                    return value
+        return None
+
+    def count(self, cls=None):
+        if cls is None:
+            return len(self.all())
+        else:
+            return len(self.all(cls))
+
+
