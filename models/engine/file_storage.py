@@ -70,16 +70,16 @@ class FileStorage:
         if cls is None or id is None:
             return (None)
         key = f'{cls.__name__}.{id}'
-        return (self.__objects.get(key, None)
+        return (self.__objects.get(key, None))
 
-    def  count(self, cls=None):
+    def count(self, cls=None):
         """A method to count the number of objects in storage"""
         count = 0
         if cls is None:
             return len(self.__objects)
         for item in self.__objects.values():
             if isinstance(item, cls):
-                count += 1;
+                count += 1
         return (count)
 
     def close(self):
