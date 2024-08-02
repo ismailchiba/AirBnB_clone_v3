@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 """
-Handle all default RESTFul API actions.
+Handle all default RESTful API actions.
 
-for linking Place and Amenity objects
+for linking Place and Amenity objects.
 """
 from flask import Flask, request, jsonify, abort
 from models import storage
@@ -18,8 +18,12 @@ def get_place_amenities(place_id):
     place = storage.get(Place, place_id)
     if place is None:
         abort(404)
-    amenities = place.amenities if storage.__class__.__name__ == 'DBStorage'\
-        else [storage.get(Amenity, aid) for aid in place.amenity_ids]
+
+    if storage.__class__.__name__ == 'DBStorage':
+        amenities = place.amenities
+    else:
+        amenities = [storage.get(Amenity, aid) for aid in place.amenity_ids]
+
     return jsonify([amenity.to_dict() for amenity in amenities])
 
 
@@ -30,6 +34,7 @@ def delete_place_amenity(place_id, amenity_id):
     place = storage.get(Place, place_id)
     if place is None:
         abort(404)
+
     amenity = storage.get(Amenity, amenity_id)
     if amenity is None:
         abort(404)
@@ -44,7 +49,7 @@ def delete_place_amenity(place_id, amenity_id):
         place.amenity_ids.remove(amenity_id)
 
     storage.save()
-    return jsonify({})
+    return jsonify({}), 204
 
 
 @app.route('/api/v1/places/<place_id>/amenities/<amenity_id>',
@@ -54,6 +59,7 @@ def link_place_amenity(place_id, amenity_id):
     place = storage.get(Place, place_id)
     if place is None:
         abort(404)
+
     amenity = storage.get(Amenity, amenity_id)
     if amenity is None:
         abort(404)
