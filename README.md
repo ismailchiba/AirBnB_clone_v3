@@ -67,7 +67,7 @@ Classes inherited from Base Model:
 * [user.py](/models/user.py)
 
 #### `/models/engine` directory contains File Storage class that handles JASON serialization and deserialization  and the DB_storage class that handles the saving of data in a persistent RDB storage (A MySQL Database):
-[file_storage.py](/models/engine/file_storage.py) - serializes instances to a JSON file & deserializes back to instances
+[file_storage.py](/models/engine/file_storage.py) - serializes instances to a JSON file & deserializes back to instances  
 Class defined here:  
 *`class FileStorage`  
 Methods defined here:  
