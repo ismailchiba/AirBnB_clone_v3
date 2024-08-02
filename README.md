@@ -28,16 +28,16 @@ This project is interpreted/tested on Ubuntu 14.04 LTS using python3 (version 3.
 * Run hbnb(non-interactively): `echo "<command>" | ./console.py`
 
 ## File Descriptions
-[console.py](console.py) - the console contains the entry point of the command interpreter. 
+[console.py](console.py) - the console contains the entry point of the command interpreter.
 List of commands this console current supports:
-* `EOF` - exits console 
+* `EOF` - exits console
 * `quit` - exits console
 * `<emptyline>` - overwrites default emptyline method and does nothing
 * `create` - Creates a new instance of`BaseModel`, saves it (to the JSON file) and prints the id
-* `destroy` - Deletes an instance based on the class name and id (save the change into the JSON file). 
+* `destroy` - Deletes an instance based on the class name and id (save the change into the JSON file).
 * `show` - Prints the string representation of an instance based on the class name and id.
-* `all` - Prints all string representation of all instances based or not on the class name. 
-* `update` - Updates an instance based on the class name and id by adding or updating attribute (save the change into the JSON file). 
+* `all` - Prints all string representation of all instances based or not on the class name.
+* `update` - Updates an instance based on the class name and id by adding or updating attribute (save the change into the JSON file).
 
 #### `models/` directory contains classes used for this project:
 [base_model.py](/models/base_model.py) - The BaseModel class from which future classes will be derived
@@ -150,13 +150,58 @@ EOF  all  create  destroy  help  quit  show  update
 (hbnb) quit
 ```
 
+## RESTful API
+
+The AirBnB clone now includes a RESTful API for managing objects. Below are the available endpoints and their functionalities:
+
+### Endpoints
+
+#### 1. Create an Object
+- **URL**: `/api/v1/objects/<class_name>`
+- **Method**: `POST`
+- **Request Body**: JSON object containing the attributes of the object to create.
+- **Response**: JSON representation of the created object.
+
+#### 2. Get All Objects of a Class
+- **URL**: `/api/v1/objects/<class_name>`
+- **Method**: `GET`
+- **Response**: JSON array of all objects of the specified class.
+
+#### 3. Get a Specific Object
+- **URL**: `/api/v1/objects/<class_name>/<object_id>`
+- **Method**: `GET`
+- **Response**: JSON representation of the requested object.
+
+#### 4. Update an Object
+- **URL**: `/api/v1/objects/<class_name>/<object_id>`
+- **Method**: `PUT`
+- **Request Body**: JSON object containing the attributes to update.
+- **Response**: JSON representation of the updated object.
+
+### Example Usage
+You can use tools like `curl` or Postman to interact with the API. Here are a few examples using `curl`:
+
+```bash
+# Create a new BaseModel
+curl -X POST http://localhost:5000/api/v1/objects/BaseModel -H "Content-Type: application/json" -d '{"name": "Sample Name"}'
+
+# Get all BaseModel objects
+curl -X GET http://localhost:5000/api/v1/objects/BaseModel
+
+# Get a specific BaseModel object by ID
+curl -X GET http://localhost:5000/api/v1/objects/BaseModel/<object_id>
+
+# Update a specific BaseModel object by ID
+curl -X PUT http://localhost:5000/api/v1/objects/BaseModel/<object_id> -H "Content-Type: application/json" -d '{"name": "Updated Name"}'
+
+
 ## Bugs
-No known bugs at this time. 
+No known bugs at this time.
 
 ## Authors
-Alexa Orrico - [Github](https://github.com/alexaorrico) / [Twitter](https://twitter.com/alexa_orrico)  
+Alexa Orrico - [Github](https://github.com/alexaorrico) / [Twitter](https://twitter.com/alexa_orrico)
 Jennifer Huang - [Github](https://github.com/jhuang10123) / [Twitter](https://twitter.com/earthtojhuang)
 
 Second part of Airbnb: Joann Vuong
 ## License
-Public Domain. No copy write protection. 
+Public Domain. No copy write protection.
