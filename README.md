@@ -193,6 +193,7 @@ curl -X GET http://localhost:5000/api/v1/objects/BaseModel/<object_id>
 
 # Update a specific BaseModel object by ID
 curl -X PUT http://localhost:5000/api/v1/objects/BaseModel/<object_id> -H "Content-Type: application/json" -d '{"name": "Updated Name"}'
+```
 
 
 ## Bugs
