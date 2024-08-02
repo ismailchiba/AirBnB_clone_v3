@@ -71,6 +71,23 @@ test_db_storage.py'])
 class TestFileStorage(unittest.TestCase):
     """Test the FileStorage class"""
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get(self):
+        """Test get method"""
+        new_instance = BaseModel()
+        new_instance.save()
+        retrieved_instance = models.storage.get(BaseModel, new_instance.id)
+        self.assertEqual(new_instance.id, retrieved_instance.id)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_count(self):
+        """Test count method"""
+        initial_count = models.storage.count()
+        new_instance = BaseModel()
+        new_instance.save()
+        self.assertEqual(models.storage.count(), initial_count + 1)
+        self.assertEqual(models.storage.count(BaseModel), initial_count + 1)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_all_returns_dict(self):
         """Test that all returns a dictionaty"""
         self.assertIs(type(models.storage.all()), dict)
