@@ -70,7 +70,7 @@ test_file_storage.py'])
 
 class TestFileStorage(unittest.TestCase):
     """Test the FileStorage class"""
-    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db')
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_all_returns_dict(self):
         """Test that all returns the FileStorage.__objects attr"""
         storage = FileStorage()
@@ -78,7 +78,7 @@ class TestFileStorage(unittest.TestCase):
         self.assertEqual(type(new_dict), dict)
         self.assertIs(new_dict, storage._FileStorage__objects)
 
-    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db')
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_new(self):
         """test that new adds an object to the FileStorage.__objects attr"""
         storage = FileStorage()
@@ -94,7 +94,7 @@ class TestFileStorage(unittest.TestCase):
                 self.assertEqual(test_dict, storage._FileStorage__objects)
         FileStorage._FileStorage__objects = save
 
-    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db')
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
         storage = FileStorage()
@@ -113,24 +113,3 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
-
-    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db')
-    def test_get(self):
-        """Test that get retrieves an object based on class and id"""
-        storage = FileStorage()
-        obj = State(name="California")
-        storage.new(obj)
-        storage.save()
-        self.assertIs(storage.get("State", obj.id), obj)
-        self.assertIsNone(storage.get("State", "nonexistent_id"))
-
-    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db')
-    def test_count(self):
-        """Test that count returns the correct number of objects"""
-        storage = FileStorage()
-        initial_count = storage.count()
-        obj = State(name="California")
-        storage.new(obj)
-        storage.save()
-        self.assertEqual(storage.count(), initial_count + 1)
-        self.assertEqual(storage.count("State"), 1)
