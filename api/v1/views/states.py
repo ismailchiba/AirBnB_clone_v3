@@ -5,12 +5,11 @@ handles all default RESTFul API actions
 '''
 
 from api.v1.views import app_views
-from 
 from models.state import State
 from models import storage
 from flask import jsonify, abort, request
 
-@app_views.route('/states', methods=['GET'], strict_slashes=False)
+@app_views.get('/states', strict_slashes=False)
 def get_states():
     ''' Retrieves the list of all State objects '''
     states = storage.all(State).values()
@@ -21,9 +20,12 @@ def get_states():
 def get_state(state_id):
     ''' Retrieves a State object '''
     state = storage.get(State, state_id)
-    if state is None:
-        (404)
-    return jsonify(state.to_dict())
+    print(type(state))
+    if state is not None:
+        return jsonify(state.to_dict())
+    else:
+        abort(404)
+    
 
 @app_views.delete('/states/<state_id>', strict_slashes=False)
 def delete_state(state_id):
