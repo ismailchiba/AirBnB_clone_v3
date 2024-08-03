@@ -10,15 +10,11 @@ app = Flask(__name__)
 
 app.register_blueprint(app_views)
 
-@app.route('/api/v1/nop', methods=['GET'], strict_slashes=False)
-def nope():
+@app.errorhandler(404)
+def not_found(error):
     """ Returns a 404 """
-    return {"error": "Not found"}
+    return {"error": "Not found"}, 404
 
-@app.route('/status2', methods=['GET'], strict_slashes=False)
-def status():
-    """ Returns a JSON """
-    return {"status": "OKAY"}
 
 @app.teardown_appcontext
 def close_session(exception):
