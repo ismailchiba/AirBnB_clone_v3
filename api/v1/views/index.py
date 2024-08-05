@@ -20,7 +20,7 @@ def status():
     return response
 
 
-@app_views.route('/stats')
+@app_views.route('/stats', methods=['GET'], strict_slashes=False)
 def number_objects():
     """ Retrieves the number of each objects by type """
     classes = [Amenity, City, Place, Review, State, User]
