@@ -27,7 +27,7 @@ def number_objects():
     names = [
         "amenities", "cities", "places",
         "reviews", "states", "users"
-        ]
+    ]
 
     num_objs = {}
     for i in range(len(classes)):
