@@ -22,7 +22,7 @@ def get_state(state_id):
     """ Retrieves a specific State """
     state = storage.get(State, state_id)
     if not state:
-        abort(404)
+        return abort(404)
 
     return jsonify(state.to_dict())
 
@@ -70,10 +70,10 @@ def put_state(state_id):
     state = storage.get(State, state_id)
 
     if not state:
-        abort(404)
+        return abort(404)
 
     if not request.get_json():
-        abort(400, description="Not a JSON")
+        return abort(400, description="Not a JSON")
 
     ignore = ['id', 'created_at', 'updated_at']
 
