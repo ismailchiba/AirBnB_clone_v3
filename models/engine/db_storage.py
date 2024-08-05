@@ -24,6 +24,14 @@ class DBStorage:
     """interaacts with the MySQL database"""
     __engine = None
     __session = None
+    CNC = {
+        'Amenity': Amenity,
+        'City': City,
+        'Place': Place,
+        'Review': Review,
+        'State': State,
+        'User': User
+    }
 
     def __init__(self):
         """Instantiate a DBStorage object"""
