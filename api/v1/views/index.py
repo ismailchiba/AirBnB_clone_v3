@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """ Index implementation """
 from api.v1.views import app_views
-from flask import jsonify, request
+from flask import jsonify
 from models import storage
 from models.amenity import Amenity
 from models.city import City
@@ -20,7 +20,7 @@ def status():
     return response
 
 
-@app_views.route('/stats', methods=['GET'], strict_slashes=False)
+@app_views.route('/stats', methods=['GET'])
 def number_objects():
     """ Retrieves the number of each objects by type """
     classes = [Amenity, City, Place, Review, State, User]
