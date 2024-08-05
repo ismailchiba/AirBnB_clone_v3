@@ -22,7 +22,7 @@ def get_state(state_id):
     """ Retrieves a specific State """
     state = storage.get(State, state_id)
     if not state:
-        return abort(404)
+        abort(404)
 
     return jsonify(state.to_dict())
 
@@ -37,7 +37,7 @@ def delete_state(state_id):
     state = storage.get(State, state_id)
 
     if not state:
-        return abort(404)
+        abort(404)
 
     storage.delete(state)
     storage.save()
@@ -51,7 +51,7 @@ def post_state():
     Creates a State
     """
     if not request.get_json():
-        return abort(400, description="Not a JSON")
+        abort(400, description="Not a JSON")
 
     if 'name' not in request.get_json():
         abort(400, description="Missing name")
@@ -70,7 +70,7 @@ def put_state(state_id):
     state = storage.get(State, state_id)
 
     if not state:
-        return abort(404)
+        abort(404)
 
     if not request.get_json():
         return abort(400, description="Not a JSON")
