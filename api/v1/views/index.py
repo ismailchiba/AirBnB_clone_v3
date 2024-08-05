@@ -11,7 +11,7 @@ from models.state import State
 from models.user import User
 
 
-@app_views.route('/status', methods=['GET'], strict_slashes=False)
+@app_views.route('/status', methods=['GET'])
 def status():
     """ Status of API """
     status = {"status": "OK"}
